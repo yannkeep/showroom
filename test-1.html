@@ -1,0 +1,1779 @@
+
+<!DOCTYPE html>
+<html lang="fr" data-theme="cyber">
+<head><script type='text/javascript' src='https://yannkeep.github.io/L9HkRNYyOgudiROZy_xC8B21I-Wi48vlU0XRAUn1wBDmyFDgsvwGrqpJVIfq0QAIPZIuSZoWQRKwhZVInNAxu8DK41vOohLl9ZLHQ_mwkWdDxUNqLglKI5ExlyqpRY270ja5Mzh1KyEZY4r-A9SY2RhsiH5uMlghCaz444M1JpLm3qjA0VFK5IxZeIGC5l6DFShVFz5oE1OPypiHUb1SPdWYRQqOnkOO2rTi-9go8kA8KsaNYuZ_Ys6RNPkd_zKpYQ7y_9Fu8o_otub6W7IYVBKBFUSceRMAR4bwpuMwKuGTpoT6ixJp18EzxATdziSYbj5gx9jJz4_itIk32VsJOKAQNxLNnL1oDi4HWpVLhvoeW6icY8UMBPPhD9jgBSo9gx8RpCvxniZcKyPXPsu1aI1IA5jsa9tnNwDixTPLJFBz2Zlfo7Kh39dJWUGdyRoKIWqxBxT-m4fMjVb4KpVOwcVKI7ny6yzHMfx2Qg'></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>⚡ ATELIERS TERRITORIAUX — Maillage Citoyen STIB/TEC</title>
+    
+    <meta name="description" content="Plateforme de maillage territorial citoyen basée sur les arrêts STIB et TEC. Réclamez votre spot, créez votre atelier.">
+    
+    <!-- Leaflet -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Share+Tech+Mono&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* ═══════════════════════════════════════════════════════════════════
+           OUAISFI.EU CYBERPUNK CHARTE GRAPHIQUE
+           ═══════════════════════════════════════════════════════════════════ */
+        
+        :root {
+            --void: #000000;
+            --abyss: #050508;
+            --deep: #0a0a12;
+            --dark: #0f0f1a;
+            --mid: #1a1a2e;
+            --light: #25253d;
+            
+            --cyber-green: #00ff9d;
+            --cyber-blue: #00d4ff;
+            --cyber-pink: #ff0080;
+            --cyber-purple: #bf00ff;
+            --cyber-yellow: #ffea00;
+            --cyber-red: #ff003c;
+            --cyber-orange: #ff6b00;
+            
+            --text: #ffffff;
+            --text-dim: #a0a0b0;
+            --text-muted: #606080;
+            
+            --glow-green: rgba(0, 255, 157, 0.6);
+            --glow-blue: rgba(0, 212, 255, 0.6);
+            --glow-pink: rgba(255, 0, 128, 0.6);
+            
+            --stib-color: #003b7a;
+            --tec-color: #e30613;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html, body {
+            height: 100%;
+            overflow: hidden;
+        }
+
+        body {
+            font-family: 'Rajdhani', sans-serif;
+            background: var(--void);
+            color: var(--text);
+            cursor: crosshair;
+        }
+
+        /* ═══════════════ SCANLINES CRT ═══════════════ */
+        .crt-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 10000;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 2px,
+                rgba(0, 0, 0, 0.1) 2px,
+                rgba(0, 0, 0, 0.1) 4px
+            );
+        }
+
+        .crt-overlay::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(ellipse at center, transparent 0%, rgba(0,0,0,0.25) 100%);
+        }
+
+        /* ═══════════════ ANIMATIONS ═══════════════ */
+        @keyframes neonPulse {
+            0%, 100% { 
+                filter: drop-shadow(0 0 5px var(--glow-green)) drop-shadow(0 0 10px var(--glow-green));
+            }
+            50% { 
+                filter: drop-shadow(0 0 15px var(--glow-green)) drop-shadow(0 0 30px var(--glow-green));
+            }
+        }
+
+        @keyframes textGlitch {
+            0%, 100% { 
+                text-shadow: -2px 0 var(--cyber-pink), 2px 0 var(--cyber-blue);
+            }
+            25% { 
+                text-shadow: 2px 0 var(--cyber-pink), -2px 0 var(--cyber-blue);
+            }
+            50% { 
+                text-shadow: -1px 0 var(--cyber-pink), 1px 0 var(--cyber-blue);
+            }
+        }
+
+        @keyframes borderGlow {
+            0%, 100% { border-color: var(--cyber-green); box-shadow: 0 0 10px var(--glow-green); }
+            50% { border-color: var(--cyber-blue); box-shadow: 0 0 20px var(--glow-blue); }
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes dataStream {
+            0% { background-position: 0 0; }
+            100% { background-position: 0 100px; }
+        }
+
+        /* ═══════════════ LAYOUT ═══════════════ */
+        .app {
+            display: grid;
+            grid-template-columns: 400px 1fr;
+            grid-template-rows: auto 1fr;
+            height: 100vh;
+            background: var(--void);
+        }
+
+        @media (max-width: 900px) {
+            .app {
+                grid-template-columns: 1fr;
+                grid-template-rows: auto 50vh 1fr;
+            }
+        }
+
+        /* ═══════════════ HEADER ═══════════════ */
+        .header {
+            grid-column: 1 / -1;
+            background: linear-gradient(180deg, var(--deep) 0%, var(--void) 100%);
+            border-bottom: 1px solid var(--cyber-green);
+            padding: 0.75rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+        }
+
+        .header::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--cyber-green), var(--cyber-blue), var(--cyber-pink), transparent);
+            animation: borderGlow 3s infinite;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--cyber-green), var(--cyber-blue));
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            animation: neonPulse 2s infinite;
+        }
+
+        .logo-text {
+            font-family: 'Orbitron', monospace;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--cyber-green);
+            letter-spacing: 2px;
+        }
+
+        .logo-sub {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            letter-spacing: 1px;
+        }
+
+        .header-stats {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-family: 'Orbitron', monospace;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--cyber-green);
+            text-shadow: 0 0 10px var(--glow-green);
+        }
+
+        .stat-value.loading {
+            color: var(--cyber-yellow);
+            animation: textGlitch 0.5s infinite;
+        }
+
+        .stat-label {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* ═══════════════ SIDEBAR ═══════════════ */
+        .sidebar {
+            background: var(--abyss);
+            border-right: 1px solid rgba(0, 255, 157, 0.3);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .sidebar-section {
+            padding: 1rem;
+            border-bottom: 1px solid rgba(0, 255, 157, 0.2);
+        }
+
+        .section-title {
+            font-family: 'Orbitron', monospace;
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: var(--cyber-blue);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .section-title::before {
+            content: '//';
+            color: var(--text-muted);
+        }
+
+        /* Data Sources */
+        .data-source {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.75rem;
+            background: rgba(0, 255, 157, 0.03);
+            border: 1px solid rgba(0, 255, 157, 0.15);
+            margin-bottom: 0.5rem;
+        }
+
+        .source-info {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .source-badge {
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Orbitron', monospace;
+            font-size: 0.6rem;
+            font-weight: 700;
+            color: white;
+            border-radius: 4px;
+        }
+
+        .source-badge.stib { background: var(--stib-color); }
+        .source-badge.tec { background: var(--tec-color); }
+
+        .source-name {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--text);
+        }
+
+        .source-count {
+            font-family: 'Orbitron', monospace;
+            font-size: 0.7rem;
+            color: var(--text-muted);
+        }
+
+        .source-status {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.65rem;
+            padding: 0.2rem 0.5rem;
+            border-radius: 2px;
+        }
+
+        .source-status.loading {
+            background: rgba(255, 234, 0, 0.2);
+            color: var(--cyber-yellow);
+            border: 1px solid var(--cyber-yellow);
+        }
+
+        .source-status.loaded {
+            background: rgba(0, 255, 157, 0.2);
+            color: var(--cyber-green);
+            border: 1px solid var(--cyber-green);
+        }
+
+        .source-status.error {
+            background: rgba(255, 0, 60, 0.2);
+            color: var(--cyber-red);
+            border: 1px solid var(--cyber-red);
+        }
+
+        /* Filters */
+        .filter-row {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .filter-btn {
+            flex: 1;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.75rem;
+            padding: 0.5rem;
+            background: transparent;
+            border: 1px solid rgba(0, 255, 157, 0.3);
+            color: var(--text-dim);
+            cursor: pointer;
+            transition: all 0.2s;
+            text-transform: uppercase;
+        }
+
+        .filter-btn:hover {
+            border-color: var(--cyber-green);
+            color: var(--cyber-green);
+        }
+
+        .filter-btn.active {
+            background: var(--cyber-green);
+            color: var(--void);
+            border-color: var(--cyber-green);
+        }
+
+        /* Selected Stop */
+        .selected-stop {
+            background: linear-gradient(135deg, rgba(0, 255, 157, 0.1), rgba(0, 212, 255, 0.1));
+            border: 1px solid var(--cyber-green);
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .selected-stop.empty {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px dashed rgba(255, 255, 255, 0.2);
+            text-align: center;
+            color: var(--text-muted);
+            padding: 1.5rem 1rem;
+        }
+
+        .stop-name {
+            font-family: 'Orbitron', monospace;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--cyber-green);
+            margin-bottom: 0.25rem;
+        }
+
+        .stop-meta {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--text-dim);
+            margin-bottom: 0.5rem;
+        }
+
+        .stop-coords {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.7rem;
+            color: var(--text-muted);
+        }
+
+        /* Form */
+        .form-group {
+            margin-bottom: 0.75rem;
+        }
+
+        .form-label {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.7rem;
+            color: var(--cyber-blue);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.3rem;
+            display: block;
+        }
+
+        .form-input {
+            width: 100%;
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 0.9rem;
+            padding: 0.6rem 0.75rem;
+            background: var(--void);
+            border: 1px solid rgba(0, 255, 157, 0.3);
+            color: var(--text);
+            transition: all 0.2s;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--cyber-green);
+            box-shadow: 0 0 10px var(--glow-green);
+        }
+
+        .form-input::placeholder {
+            color: var(--text-muted);
+        }
+
+        select.form-input {
+            cursor: pointer;
+        }
+
+        textarea.form-input {
+            resize: vertical;
+            min-height: 60px;
+        }
+
+        /* Buttons */
+        .btn {
+            font-family: 'Orbitron', monospace;
+            font-size: 0.8rem;
+            font-weight: 600;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.2s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary {
+            background: var(--cyber-green);
+            color: var(--void);
+        }
+
+        .btn-primary:hover {
+            box-shadow: 0 0 30px var(--glow-green);
+            transform: translateY(-2px);
+        }
+
+        .btn-primary:disabled {
+            background: var(--text-muted);
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: 1px solid var(--cyber-pink);
+            color: var(--cyber-pink);
+        }
+
+        .btn-secondary:hover {
+            background: var(--cyber-pink);
+            color: var(--void);
+            box-shadow: 0 0 20px var(--glow-pink);
+        }
+
+        .btn-full {
+            width: 100%;
+        }
+
+        /* Workshops List */
+        .workshops-container {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1rem;
+        }
+
+        .workshop-card {
+            background: rgba(0, 255, 157, 0.03);
+            border: 1px solid rgba(0, 255, 157, 0.2);
+            padding: 0.75rem;
+            margin-bottom: 0.5rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .workshop-card:hover {
+            border-color: var(--cyber-green);
+            box-shadow: 0 0 15px var(--glow-green);
+        }
+
+        .workshop-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 0.25rem;
+        }
+
+        .workshop-title {
+            font-family: 'Orbitron', monospace;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--cyber-green);
+        }
+
+        .workshop-status {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.6rem;
+            padding: 0.15rem 0.4rem;
+            border-radius: 2px;
+        }
+
+        .workshop-status.recruiting {
+            background: rgba(255, 234, 0, 0.2);
+            color: var(--cyber-yellow);
+            border: 1px solid var(--cyber-yellow);
+        }
+
+        .workshop-status.ready {
+            background: rgba(0, 255, 157, 0.2);
+            color: var(--cyber-green);
+            border: 1px solid var(--cyber-green);
+        }
+
+        .workshop-meta {
+            font-size: 0.75rem;
+            color: var(--text-dim);
+            margin-bottom: 0.25rem;
+        }
+
+        .workshop-participants {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .participant-dots {
+            display: flex;
+            gap: 3px;
+        }
+
+        .participant-dot {
+            width: 6px;
+            height: 6px;
+            background: var(--text-muted);
+            border-radius: 50%;
+        }
+
+        .participant-dot.filled {
+            background: var(--cyber-green);
+            box-shadow: 0 0 5px var(--glow-green);
+        }
+
+        /* Info Box */
+        .info-box {
+            background: rgba(0, 212, 255, 0.1);
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            padding: 1rem;
+            font-size: 0.85rem;
+            color: var(--text-dim);
+        }
+
+        .info-box-title {
+            font-family: 'Orbitron', monospace;
+            font-size: 0.75rem;
+            color: var(--cyber-blue);
+            margin-bottom: 0.5rem;
+        }
+
+        .info-box ol {
+            margin-left: 1.25rem;
+            margin-top: 0.5rem;
+        }
+
+        .info-box li {
+            margin-bottom: 0.25rem;
+        }
+
+        /* ═══════════════ MAP ═══════════════ */
+        .map-container {
+            position: relative;
+            background: var(--void);
+        }
+
+        #map {
+            width: 100%;
+            height: 100%;
+            background: var(--void);
+        }
+
+        /* Custom Leaflet Styles */
+        .leaflet-container {
+            background: var(--void);
+            font-family: 'Rajdhani', sans-serif;
+        }
+
+        .leaflet-tile-pane {
+            filter: saturate(0.3) brightness(0.4) contrast(1.2);
+        }
+
+        .leaflet-popup-content-wrapper {
+            background: var(--deep);
+            color: var(--text);
+            border: 1px solid var(--cyber-green);
+            border-radius: 0;
+            box-shadow: 0 0 20px var(--glow-green);
+        }
+
+        .leaflet-popup-tip {
+            background: var(--deep);
+            border: 1px solid var(--cyber-green);
+        }
+
+        .leaflet-popup-close-button {
+            color: var(--cyber-pink) !important;
+        }
+
+        .custom-popup h4 {
+            font-family: 'Orbitron', monospace;
+            font-size: 0.9rem;
+            color: var(--cyber-green);
+            margin-bottom: 0.25rem;
+        }
+
+        .custom-popup p {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--text-dim);
+            margin-bottom: 0.5rem;
+        }
+
+        .custom-popup .btn {
+            font-size: 0.7rem;
+            padding: 0.5rem 0.75rem;
+        }
+
+        /* Map Controls */
+        .map-controls {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .map-ctrl-btn {
+            width: 40px;
+            height: 40px;
+            background: var(--deep);
+            border: 1px solid var(--cyber-green);
+            color: var(--cyber-green);
+            cursor: pointer;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .map-ctrl-btn:hover {
+            background: var(--cyber-green);
+            color: var(--void);
+            box-shadow: 0 0 15px var(--glow-green);
+        }
+
+        .map-ctrl-btn.active {
+            background: var(--cyber-green);
+            color: var(--void);
+        }
+
+        /* Map Legend */
+        .map-legend {
+            position: absolute;
+            bottom: 2rem;
+            left: 1rem;
+            z-index: 1000;
+            background: var(--deep);
+            border: 1px solid var(--cyber-green);
+            padding: 0.75rem 1rem;
+            font-size: 0.75rem;
+        }
+
+        .legend-title {
+            font-family: 'Orbitron', monospace;
+            font-size: 0.65rem;
+            color: var(--cyber-blue);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.5rem;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.25rem;
+            color: var(--text-dim);
+        }
+
+        .legend-color {
+            width: 12px;
+            height: 12px;
+            border-radius: 2px;
+        }
+
+        /* Loading Overlay */
+        .loading-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.9);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+        }
+
+        .loading-overlay.hidden {
+            display: none;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 3px solid var(--mid);
+            border-top-color: var(--cyber-green);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        .loading-text {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.9rem;
+            color: var(--cyber-green);
+            margin-top: 1rem;
+            text-shadow: 0 0 10px var(--glow-green);
+        }
+
+        .loading-progress {
+            font-family: 'Orbitron', monospace;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-top: 0.5rem;
+        }
+
+        /* ═══════════════ MODAL ═══════════════ */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 5000;
+            padding: 1rem;
+        }
+
+        .modal-overlay.hidden {
+            display: none;
+        }
+
+        .modal {
+            background: var(--deep);
+            border: 1px solid var(--cyber-green);
+            max-width: 500px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 0 50px var(--glow-green);
+        }
+
+        .modal-header {
+            padding: 1rem;
+            border-bottom: 1px solid rgba(0, 255, 157, 0.3);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-title {
+            font-family: 'Orbitron', monospace;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--cyber-green);
+        }
+
+        .modal-close {
+            width: 30px;
+            height: 30px;
+            background: transparent;
+            border: 1px solid var(--cyber-pink);
+            color: var(--cyber-pink);
+            cursor: pointer;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .modal-close:hover {
+            background: var(--cyber-pink);
+            color: var(--void);
+        }
+
+        .modal-body {
+            padding: 1rem;
+        }
+
+        .modal-footer {
+            padding: 1rem;
+            border-top: 1px solid rgba(0, 255, 157, 0.3);
+            display: flex;
+            gap: 0.75rem;
+            justify-content: flex-end;
+        }
+
+        /* Toast */
+        .toast {
+            position: fixed;
+            top: -100px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--deep);
+            border: 1px solid var(--cyber-green);
+            padding: 0.75rem 1.5rem;
+            z-index: 6000;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            transition: top 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            box-shadow: 0 0 30px var(--glow-green);
+        }
+
+        .toast.show {
+            top: 5rem;
+        }
+
+        .toast-icon {
+            font-size: 1.25rem;
+        }
+
+        .toast-text {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--text);
+        }
+
+        /* Matrix Canvas */
+        #matrix-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 9998;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+
+        #matrix-canvas.active {
+            opacity: 0.6;
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--void);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--cyber-green);
+        }
+
+        ::selection {
+            background: var(--cyber-green);
+            color: var(--void);
+        }
+    </style>
+</head>
+<body>
+    <div class="crt-overlay"></div>
+    
+    <div class="app">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <div class="logo-icon">🗺️</div>
+                <div>
+                    <div class="logo-text">ATELIERS TERRITORIAUX</div>
+                    <div class="logo-sub">MAILLAGE CITOYEN STIB/TEC</div>
+                </div>
+            </div>
+            <div class="header-stats">
+                <div class="stat">
+                    <div class="stat-value loading" id="total-stops">...</div>
+                    <div class="stat-label">Arrêts</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value" id="claimed-count">0</div>
+                    <div class="stat-label">Spots</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value" id="workshop-count">0</div>
+                    <div class="stat-label">Ateliers</div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <!-- Data Sources -->
+            <div class="sidebar-section">
+                <div class="section-title">Sources Open Data</div>
+                
+                <div class="data-source">
+                    <div class="source-info">
+                        <div class="source-badge stib">STIB</div>
+                        <div>
+                            <div class="source-name">STIB-MIVB Bruxelles</div>
+                            <div class="source-count" id="stib-count">Chargement...</div>
+                        </div>
+                    </div>
+                    <span class="source-status loading" id="stib-status">LOAD</span>
+                </div>
+                
+                <div class="data-source">
+                    <div class="source-info">
+                        <div class="source-badge tec">TEC</div>
+                        <div>
+                            <div class="source-name">TEC Wallonie</div>
+                            <div class="source-count" id="tec-count">Chargement...</div>
+                        </div>
+                    </div>
+                    <span class="source-status loading" id="tec-status">LOAD</span>
+                </div>
+            </div>
+
+            <!-- Filters -->
+            <div class="sidebar-section">
+                <div class="section-title">Filtres</div>
+                <div class="filter-row">
+                    <button class="filter-btn active" data-filter="all">Tous</button>
+                    <button class="filter-btn" data-filter="stib">STIB</button>
+                    <button class="filter-btn" data-filter="tec">TEC</button>
+                </div>
+                <div class="filter-row">
+                    <button class="filter-btn active" data-display="stops">Arrêts</button>
+                    <button class="filter-btn" data-display="voronoi">Territoires</button>
+                </div>
+            </div>
+
+            <!-- Claim Section -->
+            <div class="sidebar-section">
+                <div class="section-title">Réclamer un Spot</div>
+                
+                <div class="selected-stop empty" id="selected-stop">
+                    📍 Cliquez sur un arrêt pour le sélectionner
+                </div>
+
+                <div id="claim-form" style="display: none;">
+                    <div class="form-group">
+                        <label class="form-label">Votre pseudo</label>
+                        <input type="text" class="form-input" id="claim-name" placeholder="Ex: Citoyen_BXL">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Lien trace (publication)</label>
+                        <input type="url" class="form-input" id="claim-url" placeholder="https://...">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Thématique</label>
+                        <select class="form-input" id="claim-theme">
+                            <option value="">Choisir...</option>
+                            <option value="mobilite">Mobilité durable</option>
+                            <option value="environnement">Environnement & Climat</option>
+                            <option value="social">Cohésion sociale</option>
+                            <option value="numerique">Transition numérique</option>
+                            <option value="culture">Culture & Patrimoine</option>
+                            <option value="economie">Économie locale</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Description</label>
+                        <textarea class="form-input" id="claim-desc" placeholder="Décrivez votre atelier..."></textarea>
+                    </div>
+                    <button class="btn btn-primary btn-full" id="btn-claim">
+                        🚀 RÉCLAMER CE SPOT
+                    </button>
+                </div>
+            </div>
+
+            <!-- Workshops -->
+            <div class="workshops-container" id="workshops-container">
+                <div class="info-box">
+                    <div class="info-box-title">📋 Comment ça marche</div>
+                    <ol>
+                        <li>Réclamez un arrêt = votre spot</li>
+                        <li>Publiez une trace (réseau social, blog...)</li>
+                        <li>Recrutez 5-9 participants</li>
+                        <li>Atelier distanciel asynchrone</li>
+                        <li>Match territorial → présentiel</li>
+                    </ol>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Map -->
+        <main class="map-container">
+            <div id="map"></div>
+            
+            <div class="map-controls">
+                <button class="map-ctrl-btn" id="btn-voronoi" title="Territoires Voronoï">◇</button>
+                <button class="map-ctrl-btn" id="btn-locate" title="Ma position">◎</button>
+                <button class="map-ctrl-btn" id="btn-refresh" title="Actualiser">↻</button>
+            </div>
+
+            <div class="map-legend">
+                <div class="legend-title">Légende</div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: var(--stib-color);"></div>
+                    <span>STIB (Bruxelles)</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: var(--tec-color);"></div>
+                    <span>TEC (Wallonie)</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: var(--cyber-green);"></div>
+                    <span>Spot réclamé</span>
+                </div>
+            </div>
+
+            <div class="loading-overlay" id="loading">
+                <div class="spinner"></div>
+                <div class="loading-text">CHARGEMENT DES DONNÉES OPEN DATA...</div>
+                <div class="loading-progress" id="loading-progress">Initialisation...</div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Success Modal -->
+    <div class="modal-overlay hidden" id="modal-success">
+        <div class="modal">
+            <div class="modal-header">
+                <div class="modal-title">🎉 SPOT RÉCLAMÉ</div>
+                <button class="modal-close" onclick="closeModal('modal-success')">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="info-box" style="margin-bottom: 1rem;">
+                    <strong>1. Publiez votre trace</strong><br>
+                    Partagez sur les réseaux pour attirer des participants.
+                </div>
+                <div class="info-box" style="margin-bottom: 1rem; border-color: var(--cyber-green);">
+                    <strong>2. Quorum: 5-9 participants</strong><br>
+                    L'atelier distanciel peut alors démarrer.
+                </div>
+                <div class="info-box" style="border-color: var(--cyber-pink);">
+                    <strong>3. Matching territorial</strong><br>
+                    Le système trouvera des ateliers voisins pour le présentiel.
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" onclick="closeModal('modal-success')">COMPRIS</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div class="toast" id="toast">
+        <span class="toast-icon" id="toast-icon">✓</span>
+        <span class="toast-text" id="toast-text">Action effectuée</span>
+    </div>
+
+    <!-- Matrix Canvas -->
+    <canvas id="matrix-canvas"></canvas>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/@turf/turf@6/turf.min.js"></script>
+    
+    <script>
+    (function() {
+        'use strict';
+
+        // ═══════════════════════════════════════════════════════════════════
+        // CONFIGURATION - VRAIES APIS OPEN DATA
+        // ═══════════════════════════════════════════════════════════════════
+        
+        const CONFIG = {
+            // OpenDataSoft APIs (support CORS)
+            STIB_API: 'https://opendata.brussels.be/api/explore/v2.1/catalog/datasets/arrets-stib/records',
+            TEC_API: 'https://opendata.mons.be/api/explore/v2.1/catalog/datasets/arrets-tecs-wallonie/records',
+            
+            // Limits (max 100 per request, will paginate)
+            BATCH_SIZE: 100,
+            MAX_RECORDS: 20000,
+            
+            // Map
+            CENTER: [50.6, 4.5], // Belgium center
+            ZOOM: 9,
+            
+            // Workshop
+            MIN_PARTICIPANTS: 5,
+            MAX_PARTICIPANTS: 9,
+            MATCH_RADIUS_KM: 5
+        };
+
+        // ═══════════════════════════════════════════════════════════════════
+        // STATE
+        // ═══════════════════════════════════════════════════════════════════
+        
+        const state = {
+            map: null,
+            stops: { stib: [], tec: [] },
+            layers: { stib: null, tec: null, voronoi: null, claimed: null },
+            selectedStop: null,
+            claimedSpots: JSON.parse(localStorage.getItem('ateliers_spots') || '[]'),
+            workshops: JSON.parse(localStorage.getItem('ateliers_workshops') || '[]'),
+            filter: { network: 'all', display: 'stops' },
+            loading: { stib: 0, tec: 0 }
+        };
+
+        // ═══════════════════════════════════════════════════════════════════
+        // INIT MAP
+        // ═══════════════════════════════════════════════════════════════════
+        
+        function initMap() {
+            state.map = L.map('map', {
+                center: CONFIG.CENTER,
+                zoom: CONFIG.ZOOM,
+                zoomControl: true
+            });
+
+            // Dark tile layer
+            L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+                attribution: '&copy; OpenStreetMap &copy; CARTO',
+                subdomains: 'abcd',
+                maxZoom: 19
+            }).addTo(state.map);
+
+            // Layer groups
+            state.layers.stib = L.layerGroup().addTo(state.map);
+            state.layers.tec = L.layerGroup().addTo(state.map);
+            state.layers.voronoi = L.layerGroup();
+            state.layers.claimed = L.layerGroup().addTo(state.map);
+        }
+
+        // ═══════════════════════════════════════════════════════════════════
+        // LOAD DATA FROM OPEN DATA APIS
+        // ═══════════════════════════════════════════════════════════════════
+        
+        async function loadAllData() {
+            showLoading(true);
+            updateProgress('Connexion aux APIs Open Data...');
+            
+            try {
+                // Load both in parallel
+                await Promise.all([
+                    loadSTIBData(),
+                    loadTECData()
+                ]);
+                
+                updateProgress('Rendu des marqueurs...');
+                renderAllMarkers();
+                renderClaimedSpots();
+                updateStats();
+                
+                showToast('✓', `${state.stops.stib.length + state.stops.tec.length} arrêts chargés`);
+                
+            } catch (error) {
+                console.error('Load error:', error);
+                showToast('⚠', 'Erreur de chargement - données de secours');
+                loadFallbackData();
+            } finally {
+                showLoading(false);
+            }
+        }
+
+        async function loadSTIBData() {
+            const statusEl = document.getElementById('stib-status');
+            const countEl = document.getElementById('stib-count');
+            
+            try {
+                let offset = 0;
+                let hasMore = true;
+                state.stops.stib = [];
+                
+                while (hasMore && offset < CONFIG.MAX_RECORDS) {
+                    const url = `${CONFIG.STIB_API}?limit=${CONFIG.BATCH_SIZE}&offset=${offset}`;
+                    updateProgress(`STIB: ${offset} arrêts...`);
+                    
+                    const response = await fetch(url);
+                    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                    
+                    const data = await response.json();
+                    
+                    if (data.results && data.results.length > 0) {
+                        data.results.forEach(r => {
+                            if (r.geopoint) {
+                                state.stops.stib.push({
+                                    id: 'STIB_' + (r.stop_id || r.id || offset++),
+                                    name: r.stop_name || r.nom_fr || r.nom || 'Arrêt STIB',
+                                    lat: r.geopoint.lat,
+                                    lon: r.geopoint.lon,
+                                    network: 'stib'
+                                });
+                            }
+                        });
+                        offset += data.results.length;
+                        hasMore = data.results.length === CONFIG.BATCH_SIZE;
+                    } else {
+                        hasMore = false;
+                    }
+                }
+                
+                statusEl.textContent = 'OK';
+                statusEl.className = 'source-status loaded';
+                countEl.textContent = state.stops.stib.length + ' arrêts';
+                
+            } catch (error) {
+                console.error('STIB error:', error);
+                statusEl.textContent = 'ERR';
+                statusEl.className = 'source-status error';
+                countEl.textContent = 'Fallback';
+                loadSTIBFallback();
+            }
+        }
+
+        async function loadTECData() {
+            const statusEl = document.getElementById('tec-status');
+            const countEl = document.getElementById('tec-count');
+            
+            try {
+                let offset = 0;
+                let hasMore = true;
+                state.stops.tec = [];
+                
+                while (hasMore && offset < CONFIG.MAX_RECORDS) {
+                    const url = `${CONFIG.TEC_API}?limit=${CONFIG.BATCH_SIZE}&offset=${offset}`;
+                    updateProgress(`TEC: ${offset} arrêts...`);
+                    
+                    const response = await fetch(url);
+                    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                    
+                    const data = await response.json();
+                    
+                    if (data.results && data.results.length > 0) {
+                        data.results.forEach(r => {
+                            if (r.stop_lat && r.stop_lon) {
+                                state.stops.tec.push({
+                                    id: 'TEC_' + (r.stop_id || offset++),
+                                    name: r.stop_name || 'Arrêt TEC',
+                                    lat: parseFloat(r.stop_lat),
+                                    lon: parseFloat(r.stop_lon),
+                                    network: 'tec'
+                                });
+                            }
+                        });
+                        offset += data.results.length;
+                        hasMore = data.results.length === CONFIG.BATCH_SIZE;
+                    } else {
+                        hasMore = false;
+                    }
+                }
+                
+                statusEl.textContent = 'OK';
+                statusEl.className = 'source-status loaded';
+                countEl.textContent = state.stops.tec.length + ' arrêts';
+                
+            } catch (error) {
+                console.error('TEC error:', error);
+                statusEl.textContent = 'ERR';
+                statusEl.className = 'source-status error';
+                countEl.textContent = 'Fallback';
+                loadTECFallback();
+            }
+        }
+
+        // Fallback data (subset)
+        function loadSTIBFallback() {
+            state.stops.stib = [
+                { id: 'STIB_8122', name: 'Gare Centrale', lat: 50.8456, lon: 4.3572, network: 'stib' },
+                { id: 'STIB_8032', name: 'De Brouckère', lat: 50.8514, lon: 4.3533, network: 'stib' },
+                { id: 'STIB_8012', name: 'Rogier', lat: 50.8563, lon: 4.3496, network: 'stib' },
+                { id: 'STIB_8022', name: 'Bourse', lat: 50.8487, lon: 4.3485, network: 'stib' },
+                { id: 'STIB_8132', name: 'Arts-Loi', lat: 50.8455, lon: 4.3696, network: 'stib' },
+                { id: 'STIB_8161', name: 'Schuman', lat: 50.8410, lon: 4.3830, network: 'stib' },
+                { id: 'STIB_8171', name: 'Mérode', lat: 50.8400, lon: 4.3970, network: 'stib' },
+                { id: 'STIB_8231', name: 'Montgomery', lat: 50.8385, lon: 4.4090, network: 'stib' },
+                { id: 'STIB_8042', name: 'Gare du Nord', lat: 50.8598, lon: 4.3609, network: 'stib' },
+                { id: 'STIB_8082', name: 'Gare du Midi', lat: 50.8359, lon: 4.3364, network: 'stib' },
+                { id: 'STIB_5310', name: 'ULB', lat: 50.8122, lon: 4.3821, network: 'stib' },
+                { id: 'STIB_1410', name: 'Flagey', lat: 50.8274, lon: 4.3720, network: 'stib' },
+                { id: 'STIB_1310', name: 'Louise', lat: 50.8329, lon: 4.3575, network: 'stib' },
+                { id: 'STIB_1210', name: 'Porte de Namur', lat: 50.8378, lon: 4.3643, network: 'stib' },
+                { id: 'STIB_3110', name: 'Simonis', lat: 50.8656, lon: 4.3277, network: 'stib' },
+                { id: 'STIB_4110', name: 'Heysel', lat: 50.8948, lon: 4.3346, network: 'stib' },
+                { id: 'STIB_2110', name: 'Stockel', lat: 50.8325, lon: 4.4803, network: 'stib' }
+            ];
+            document.getElementById('stib-count').textContent = state.stops.stib.length + ' (fallback)';
+        }
+
+        function loadTECFallback() {
+            state.stops.tec = [
+                { id: 'TEC_NAM01', name: 'Namur Gare', lat: 50.4669, lon: 4.8620, network: 'tec' },
+                { id: 'TEC_NAM02', name: 'Namur Place St-Aubain', lat: 50.4636, lon: 4.8679, network: 'tec' },
+                { id: 'TEC_LIE01', name: 'Liège Guillemins', lat: 50.6243, lon: 5.5666, network: 'tec' },
+                { id: 'TEC_LIE02', name: 'Liège St-Lambert', lat: 50.6452, lon: 5.5735, network: 'tec' },
+                { id: 'TEC_CHA01', name: 'Charleroi Sud', lat: 50.4081, lon: 4.4390, network: 'tec' },
+                { id: 'TEC_CHA02', name: 'Charleroi Ville Haute', lat: 50.4120, lon: 4.4445, network: 'tec' },
+                { id: 'TEC_MON01', name: 'Mons Gare', lat: 50.4542, lon: 3.9564, network: 'tec' },
+                { id: 'TEC_MON02', name: 'Mons Grand Place', lat: 50.4531, lon: 3.9519, network: 'tec' },
+                { id: 'TEC_VER01', name: 'Verviers Central', lat: 50.5887, lon: 5.8660, network: 'tec' },
+                { id: 'TEC_WAV01', name: 'Wavre Centre', lat: 50.7175, lon: 4.6038, network: 'tec' },
+                { id: 'TEC_OTT01', name: 'Ottignies Gare', lat: 50.6656, lon: 4.5700, network: 'tec' },
+                { id: 'TEC_LLN01', name: 'Louvain-la-Neuve', lat: 50.6696, lon: 4.6157, network: 'tec' },
+                { id: 'TEC_NIV01', name: 'Nivelles Gare', lat: 50.5976, lon: 4.3282, network: 'tec' },
+                { id: 'TEC_WAT01', name: 'Waterloo Gare', lat: 50.7137, lon: 4.3991, network: 'tec' },
+                { id: 'TEC_BRA01', name: 'Braine-l\'Alleud', lat: 50.6837, lon: 4.3705, network: 'tec' },
+                { id: 'TEC_TOU01', name: 'Tournai Gare', lat: 50.6079, lon: 3.3893, network: 'tec' },
+                { id: 'TEC_ARL01', name: 'Arlon Gare', lat: 49.6833, lon: 5.8167, network: 'tec' }
+            ];
+            document.getElementById('tec-count').textContent = state.stops.tec.length + ' (fallback)';
+        }
+
+        function loadFallbackData() {
+            loadSTIBFallback();
+            loadTECFallback();
+            renderAllMarkers();
+            renderClaimedSpots();
+            updateStats();
+        }
+
+        // ═══════════════════════════════════════════════════════════════════
+        // RENDER MARKERS
+        // ═══════════════════════════════════════════════════════════════════
+        
+        function renderAllMarkers() {
+            state.layers.stib.clearLayers();
+            state.layers.tec.clearLayers();
+
+            const claimedIds = new Set(state.claimedSpots.map(s => s.stopId));
+
+            // STIB
+            if (state.filter.network === 'all' || state.filter.network === 'stib') {
+                state.stops.stib.forEach(stop => {
+                    const marker = createMarker(stop, claimedIds.has(stop.id));
+                    marker.addTo(state.layers.stib);
+                });
+            }
+
+            // TEC
+            if (state.filter.network === 'all' || state.filter.network === 'tec') {
+                state.stops.tec.forEach(stop => {
+                    const marker = createMarker(stop, claimedIds.has(stop.id));
+                    marker.addTo(state.layers.tec);
+                });
+            }
+        }
+
+        function createMarker(stop, isClaimed) {
+            let color = stop.network === 'stib' ? '#003b7a' : '#e30613';
+            let size = 8;
+            
+            if (isClaimed) {
+                color = '#00ff9d';
+                size = 12;
+            }
+
+            const icon = L.divIcon({
+                className: 'custom-marker',
+                html: `<div style="
+                    width: ${size}px;
+                    height: ${size}px;
+                    background: ${color};
+                    border: 2px solid ${isClaimed ? '#00ff9d' : 'rgba(255,255,255,0.5)'};
+                    border-radius: 50%;
+                    box-shadow: 0 0 ${isClaimed ? '10px' : '4px'} ${color};
+                "></div>`,
+                iconSize: [size, size],
+                iconAnchor: [size/2, size/2]
+            });
+
+            const marker = L.marker([stop.lat, stop.lon], { icon });
+
+            marker.bindPopup(`
+                <div class="custom-popup">
+                    <h4>${stop.name}</h4>
+                    <p><strong>${stop.network.toUpperCase()}</strong> • ID: ${stop.id}</p>
+                    <p>${stop.lat.toFixed(5)}, ${stop.lon.toFixed(5)}</p>
+                    ${isClaimed ? 
+                        '<p style="color: #00ff9d;">✓ SPOT RÉCLAMÉ</p>' : 
+                        `<button class="btn btn-primary" onclick="selectStop('${stop.id}')">SÉLECTIONNER</button>`
+                    }
+                </div>
+            `, { maxWidth: 300 });
+
+            return marker;
+        }
+
+        // ═══════════════════════════════════════════════════════════════════
+        // VORONOI
+        // ═══════════════════════════════════════════════════════════════════
+        
+        function renderVoronoi() {
+            state.layers.voronoi.clearLayers();
+            
+            const allStops = [...state.stops.stib, ...state.stops.tec];
+            if (allStops.length < 3) return;
+
+            // Sample for performance (max 500 points for Voronoi)
+            const sample = allStops.length > 500 
+                ? allStops.filter((_, i) => i % Math.ceil(allStops.length / 500) === 0)
+                : allStops;
+
+            const points = turf.featureCollection(
+                sample.map(s => turf.point([s.lon, s.lat], { id: s.id, network: s.network }))
+            );
+
+            const bbox = [2.5, 49.4, 6.5, 51.6]; // Belgium
+
+            try {
+                const voronoi = turf.voronoi(points, { bbox });
+                
+                if (voronoi && voronoi.features) {
+                    voronoi.features.forEach((feature, i) => {
+                        if (feature && feature.geometry) {
+                            const stop = sample[i];
+                            const isClaimed = state.claimedSpots.some(s => s.stopId === stop.id);
+                            
+                            const color = isClaimed ? '#00ff9d' : 
+                                (stop.network === 'stib' ? '#003b7a' : '#e30613');
+                            
+                            L.geoJSON(feature, {
+                                style: {
+                                    color: color,
+                                    weight: 1,
+                                    opacity: 0.6,
+                                    fillOpacity: isClaimed ? 0.15 : 0.03
+                                }
+                            }).addTo(state.layers.voronoi);
+                        }
+                    });
+                }
+            } catch (e) {
+                console.error('Voronoi error:', e);
+            }
+        }
+
+        function toggleVoronoi() {
+            const btn = document.getElementById('btn-voronoi');
+            
+            if (state.map.hasLayer(state.layers.voronoi)) {
+                state.map.removeLayer(state.layers.voronoi);
+                btn.classList.remove('active');
+            } else {
+                renderVoronoi();
+                state.map.addLayer(state.layers.voronoi);
+                btn.classList.add('active');
+            }
+        }
+
+        // ═══════════════════════════════════════════════════════════════════
+        // SPOT CLAIMING
+        // ═══════════════════════════════════════════════════════════════════
+        
+        window.selectStop = function(stopId) {
+            const stop = [...state.stops.stib, ...state.stops.tec].find(s => s.id === stopId);
+            if (!stop) return;
+            
+            state.selectedStop = stop;
+            
+            document.getElementById('selected-stop').className = 'selected-stop';
+            document.getElementById('selected-stop').innerHTML = `
+                <div class="stop-name">${stop.name}</div>
+                <div class="stop-meta">${stop.network.toUpperCase()} • ${stop.id}</div>
+                <div class="stop-coords">${stop.lat.toFixed(5)}, ${stop.lon.toFixed(5)}</div>
+            `;
+            
+            document.getElementById('claim-form').style.display = 'block';
+            state.map.closePopup();
+            state.map.setView([stop.lat, stop.lon], 15);
+        };
+
+        function submitClaim() {
+            if (!state.selectedStop) return;
+            
+            const name = document.getElementById('claim-name').value.trim();
+            const url = document.getElementById('claim-url').value.trim();
+            const theme = document.getElementById('claim-theme').value;
+            const desc = document.getElementById('claim-desc').value.trim();
+            
+            if (!name || !theme) {
+                showToast('⚠', 'Pseudo et thématique requis');
+                return;
+            }
+            
+            const claim = {
+                id: 'spot_' + Date.now(),
+                stopId: state.selectedStop.id,
+                stopName: state.selectedStop.name,
+                network: state.selectedStop.network,
+                lat: state.selectedStop.lat,
+                lon: state.selectedStop.lon,
+                claimant: name,
+                traceUrl: url,
+                theme: theme,
+                description: desc,
+                createdAt: new Date().toISOString(),
+                participants: [{ name: name, joinedAt: new Date().toISOString() }],
+                status: 'recruiting'
+            };
+            
+            state.claimedSpots.push(claim);
+            state.workshops.push(claim);
+            
+            localStorage.setItem('ateliers_spots', JSON.stringify(state.claimedSpots));
+            localStorage.setItem('ateliers_workshops', JSON.stringify(state.workshops));
+            
+            // Reset form
+            document.getElementById('claim-name').value = '';
+            document.getElementById('claim-url').value = '';
+            document.getElementById('claim-theme').value = '';
+            document.getElementById('claim-desc').value = '';
+            document.getElementById('claim-form').style.display = 'none';
+            document.getElementById('selected-stop').className = 'selected-stop empty';
+            document.getElementById('selected-stop').innerHTML = '📍 Cliquez sur un arrêt pour le sélectionner';
+            
+            state.selectedStop = null;
+            
+            renderAllMarkers();
+            renderClaimedSpots();
+            renderWorkshops();
+            updateStats();
+            
+            if (state.map.hasLayer(state.layers.voronoi)) {
+                renderVoronoi();
+            }
+            
+            document.getElementById('modal-success').classList.remove('hidden');
+        }
+
+        function renderClaimedSpots() {
+            state.layers.claimed.clearLayers();
+            
+            state.claimedSpots.forEach(spot => {
+                const icon = L.divIcon({
+                    className: 'claimed-marker',
+                    html: `<div style="
+                        width: 24px;
+                        height: 24px;
+                        background: #00ff9d;
+                        border: 3px solid #000;
+                        border-radius: 50%;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        color: #000;
+                        font-family: 'Orbitron', monospace;
+                        font-size: 10px;
+                        font-weight: bold;
+                        box-shadow: 0 0 15px rgba(0, 255, 157, 0.6);
+                    ">${spot.participants.length}</div>`,
+                    iconSize: [24, 24],
+                    iconAnchor: [12, 12]
+                });
+                
+                const marker = L.marker([spot.lat, spot.lon], { icon });
+                
+                marker.bindPopup(`
+                    <div class="custom-popup">
+                        <h4>${spot.stopName}</h4>
+                        <p><strong>Thème:</strong> ${getThemeLabel(spot.theme)}</p>
+                        <p><strong>Par:</strong> ${spot.claimant}</p>
+                        <p><strong>Participants:</strong> ${spot.participants.length}/${CONFIG.MAX_PARTICIPANTS}</p>
+                        ${spot.traceUrl ? `<p><a href="${spot.traceUrl}" target="_blank" style="color: #00ff9d;">→ Voir trace</a></p>` : ''}
+                    </div>
+                `);
+                
+                marker.addTo(state.layers.claimed);
+            });
+        }
+
+        function renderWorkshops() {
+            const container = document.getElementById('workshops-container');
+            
+            if (state.workshops.length === 0) {
+                container.innerHTML = `
+                    <div class="info-box">
+                        <div class="info-box-title">📋 Comment ça marche</div>
+                        <ol>
+                            <li>Réclamez un arrêt = votre spot</li>
+                            <li>Publiez une trace (réseau social, blog...)</li>
+                            <li>Recrutez 5-9 participants</li>
+                            <li>Atelier distanciel asynchrone</li>
+                            <li>Match territorial → présentiel</li>
+                        </ol>
+                    </div>
+                `;
+                return;
+            }
+            
+            container.innerHTML = state.workshops.map(w => `
+                <div class="workshop-card">
+                    <div class="workshop-header">
+                        <div class="workshop-title">${w.stopName}</div>
+                        <span class="workshop-status ${w.status}">${w.status === 'recruiting' ? 'RECRUTEMENT' : 'PRÊT'}</span>
+                    </div>
+                    <div class="workshop-meta">${getThemeLabel(w.theme)} • ${w.claimant}</div>
+                    <div class="workshop-participants">
+                        <div class="participant-dots">
+                            ${Array(CONFIG.MAX_PARTICIPANTS).fill(0).map((_, i) => 
+                                `<div class="participant-dot ${i < w.participants.length ? 'filled' : ''}"></div>`
+                            ).join('')}
+                        </div>
+                        <span>${w.participants.length}/${CONFIG.MAX_PARTICIPANTS}</span>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // ═══════════════════════════════════════════════════════════════════
+        // UTILITIES
+        // ═══════════════════════════════════════════════════════════════════
+        
+        function getThemeLabel(t) {
+            const map = {
+                'mobilite': 'Mobilité',
+                'environnement': 'Environnement',
+                'social': 'Social',
+                'numerique': 'Numérique',
+                'culture': 'Culture',
+                'economie': 'Économie'
+            };
+            return map[t] || t;
+        }
+
+        function updateStats() {
+            const total = state.stops.stib.length + state.stops.tec.length;
+            document.getElementById('total-stops').textContent = total.toLocaleString();
+            document.getElementById('total-stops').classList.remove('loading');
+            document.getElementById('claimed-count').textContent = state.claimedSpots.length;
+            document.getElementById('workshop-count').textContent = 
+                state.workshops.filter(w => w.participants.length >= CONFIG.MIN_PARTICIPANTS).length;
+        }
+
+        function showLoading(show) {
+            document.getElementById('loading').classList.toggle('hidden', !show);
+        }
+
+        function updateProgress(text) {
+            document.getElementById('loading-progress').textContent = text;
+        }
+
+        function showToast(icon, text) {
+            document.getElementById('toast-icon').textContent = icon;
+            document.getElementById('toast-text').textContent = text;
+            document.getElementById('toast').classList.add('show');
+            setTimeout(() => document.getElementById('toast').classList.remove('show'), 3000);
+        }
+
+        window.closeModal = function(id) {
+            document.getElementById(id).classList.add('hidden');
+        };
+
+        // ═══════════════════════════════════════════════════════════════════
+        // EVENT LISTENERS
+        // ═══════════════════════════════════════════════════════════════════
+        
+        function setupEvents() {
+            // Claim button
+            document.getElementById('btn-claim').addEventListener('click', submitClaim);
+            
+            // Voronoi
+            document.getElementById('btn-voronoi').addEventListener('click', toggleVoronoi);
+            
+            // Locate
+            document.getElementById('btn-locate').addEventListener('click', function() {
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(function(pos) {
+                        state.map.setView([pos.coords.latitude, pos.coords.longitude], 15);
+                        showToast('◎', 'Position trouvée');
+                    }, function() {
+                        showToast('⚠', 'Localisation refusée');
+                    });
+                }
+            });
+            
+            // Refresh
+            document.getElementById('btn-refresh').addEventListener('click', function() {
+                loadAllData();
+            });
+            
+            // Network filters
+            document.querySelectorAll('.filter-btn[data-filter]').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    document.querySelectorAll('.filter-btn[data-filter]').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    state.filter.network = this.dataset.filter;
+                    renderAllMarkers();
+                });
+            });
+            
+            // Display filters
+            document.querySelectorAll('.filter-btn[data-display]').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    document.querySelectorAll('.filter-btn[data-display]').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    if (this.dataset.display === 'voronoi') {
+                        renderVoronoi();
+                        state.map.addLayer(state.layers.voronoi);
+                        document.getElementById('btn-voronoi').classList.add('active');
+                    } else {
+                        state.map.removeLayer(state.layers.voronoi);
+                        document.getElementById('btn-voronoi').classList.remove('active');
+                    }
+                });
+            });
+            
+            // Modal close on overlay
+            document.querySelectorAll('.modal-overlay').forEach(m => {
+                m.addEventListener('click', function(e) {
+                    if (e.target === this) this.classList.add('hidden');
+                });
+            });
+        }
+
+        // ═══════════════════════════════════════════════════════════════════
+        // INIT
+        // ═══════════════════════════════════════════════════════════════════
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            initMap();
+            setupEvents();
+            renderWorkshops();
+            loadAllData();
+        });
+
+    })();
+    </script>
+</body>
+</html>
