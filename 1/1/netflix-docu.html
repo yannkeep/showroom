@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>La Grande Arnaque — Documentaire</title>
+<meta name="description" content="Comment un média a manipulé un pays entier. Bientôt disponible.">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&display=swap');
+
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+font-family:'Inter',sans-serif;
+background:#141414;
+color:#fff;
+min-height:100vh;
+overflow-x:hidden;
+}
+
+/* NETFLIX HEADER */
+.nf-header{
+position:fixed;top:0;left:0;right:0;
+padding:1rem 3rem;
+background:linear-gradient(180deg,rgba(0,0,0,.7) 0%,transparent 100%);
+display:flex;justify-content:space-between;align-items:center;
+z-index:100;
+}
+.nf-logo{
+font-family:'Bebas Neue',sans-serif;
+font-size:2rem;
+color:#e50914;
+letter-spacing:2px;
+}
+.nf-nav{display:flex;gap:1.5rem}
+.nf-nav a{color:rgba(255,255,255,.7);text-decoration:none;font-size:.9rem}
+
+/* HERO */
+.hero{
+height:100vh;
+background:linear-gradient(180deg,transparent 0%,#141414 95%),
+linear-gradient(90deg,rgba(0,0,0,.8) 0%,transparent 60%),
+url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect fill="%23e50914" opacity=".1" x="10" y="20" width="30" height="20" rx="2"/><rect fill="%23fff" opacity=".05" x="50" y="30" width="40" height="25" rx="2"/><circle fill="%23e50914" opacity=".1" cx="25" cy="70" r="15"/></svg>') center/cover;
+display:flex;flex-direction:column;
+justify-content:center;
+padding:0 4rem;
+}
+
+.hero-content{max-width:600px}
+
+.badge{
+display:inline-block;
+background:#e50914;
+color:#fff;
+padding:.35rem .75rem;
+font-size:.7rem;
+font-weight:700;
+letter-spacing:.1em;
+text-transform:uppercase;
+margin-bottom:1rem;
+}
+
+.title{
+font-family:'Bebas Neue',sans-serif;
+font-size:clamp(3rem,10vw,6rem);
+line-height:.95;
+margin-bottom:1rem;
+text-shadow:2px 2px 20px rgba(0,0,0,.5);
+}
+
+.meta{
+display:flex;align-items:center;gap:1rem;
+margin-bottom:1.5rem;
+font-size:.9rem;
+}
+.meta .rating{
+border:1px solid rgba(255,255,255,.4);
+padding:.1rem .4rem;
+font-size:.75rem;
+}
+.meta .year{color:#46d369}
+.meta .duration{color:rgba(255,255,255,.6)}
+.meta .match{color:#46d369;font-weight:600}
+
+.synopsis{
+font-size:1.1rem;
+line-height:1.6;
+color:rgba(255,255,255,.9);
+margin-bottom:2rem;
+}
+
+.buttons{display:flex;gap:1rem;flex-wrap:wrap}
+.btn{
+padding:1rem 2rem;
+border:none;
+border-radius:4px;
+font-size:1.1rem;
+font-weight:600;
+cursor:pointer;
+display:flex;align-items:center;gap:.5rem;
+font-family:inherit;
+text-decoration:none;
+}
+.btn-play{background:#fff;color:#000}
+.btn-play:hover{background:#e6e6e6}
+.btn-info{background:rgba(109,109,110,.7);color:#fff}
+.btn-info:hover{background:rgba(109,109,110,.5)}
+
+/* CAST */
+.cast-section{
+padding:0 4rem 2rem;
+}
+.section-title{
+font-size:1.25rem;
+font-weight:600;
+margin-bottom:1rem;
+}
+.cast-list{
+display:flex;flex-wrap:wrap;gap:2rem;
+font-size:.9rem;
+color:rgba(255,255,255,.6);
+}
+.cast-list strong{color:#fff}
+
+/* EPISODES */
+.episodes-section{
+padding:2rem 4rem;
+}
+.episode-grid{
+display:grid;
+grid-template-columns:repeat(auto-fill,minmax(300px,1fr));
+gap:1rem;
+}
+.episode-card{
+background:#2a2a2a;
+border-radius:4px;
+overflow:hidden;
+transition:all .2s;
+cursor:pointer;
+}
+.episode-card:hover{background:#3a3a3a}
+.episode-thumb{
+height:170px;
+background:linear-gradient(135deg,#1a1a1a,#2d2d2d);
+display:flex;align-items:center;justify-content:center;
+font-size:3rem;
+position:relative;
+}
+.episode-thumb::after{
+content:'▶';
+position:absolute;
+width:50px;height:50px;
+background:rgba(255,255,255,.2);
+border:2px solid #fff;
+border-radius:50%;
+display:flex;align-items:center;justify-content:center;
+font-size:1rem;
+opacity:0;
+transition:opacity .2s;
+}
+.episode-card:hover .episode-thumb::after{opacity:1}
+.episode-info{padding:1rem}
+.episode-info h3{font-size:1rem;margin-bottom:.5rem;display:flex;justify-content:space-between}
+.episode-info h3 span{color:rgba(255,255,255,.5);font-weight:400}
+.episode-info p{font-size:.85rem;color:rgba(255,255,255,.6);line-height:1.5}
+
+/* COMING */
+.coming-banner{
+margin:2rem 4rem;
+background:linear-gradient(90deg,#e50914,#b20710);
+border-radius:4px;
+padding:2rem;
+display:flex;align-items:center;justify-content:space-between;
+flex-wrap:wrap;
+gap:1rem;
+}
+.coming-banner h3{font-size:1.25rem}
+.coming-banner p{opacity:.8}
+.coming-banner a{
+background:#fff;
+color:#e50914;
+padding:.75rem 1.5rem;
+border-radius:4px;
+text-decoration:none;
+font-weight:600;
+}
+
+/* FOOTER */
+.nf-footer{
+padding:3rem 4rem;
+color:rgba(255,255,255,.4);
+font-size:.85rem;
+}
+.nf-footer a{color:rgba(255,255,255,.4)}
+
+/* DISCLAIMER */
+.disclaimer{
+position:fixed;
+bottom:0;left:0;right:0;
+background:linear-gradient(90deg,#e50914,#ff4444);
+padding:1rem 2rem;
+text-align:center;
+font-weight:600;
+z-index:200;
+}
+.disclaimer a{color:#fff;margin-left:1rem}
+
+@media(max-width:768px){
+.hero,.cast-section,.episodes-section,.coming-banner,.nf-footer{padding-left:1.5rem;padding-right:1.5rem}
+.nf-header{padding:1rem 1.5rem}
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="nf-header">
+<div class="nf-logo">NETFIX</div>
+<nav class="nf-nav">
+<a href="#">Accueil</a>
+<a href="#">Séries</a>
+<a href="#">Films</a>
+<a href="#">Documentaires</a>
+</nav>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+<div class="hero-content">
+<span class="badge">Documentaire exclusif</span>
+<h1 class="title">LA GRANDE ARNAQUE</h1>
+<div class="meta">
+<span class="match">98% pour vous</span>
+<span class="year">2026</span>
+<span class="rating">16+</span>
+<span class="duration">3 épisodes</span>
+</div>
+<p class="synopsis">
+Comment un média belge a manipulé l'opinion publique en présentant une docu-fiction comme documentaire. 
+400 plaintes, des témoins trahis, et 97% de victimes collatérales. L'enquête qui révèle les coulisses de "Tous Fraudeurs".
+</p>
+<div class="buttons">
+<a href="petition-countdown.html" class="btn btn-play">▶ Agir maintenant</a>
+<a href="hub-deborsu-tous-fraudeurs.html" class="btn btn-info">ⓘ Plus d'infos</a>
+</div>
+</div>
+</div>
+
+<!-- CAST -->
+<div class="cast-section">
+<h2 class="section-title">Distribution</h2>
+<div class="cast-list">
+<div><strong>Réalisateur:</strong> RTL Production</div>
+<div><strong>Victimes:</strong> 500.000 allocataires</div>
+<div><strong>Témoins manipulés:</strong> Gaëlle Denys, et d'autres</div>
+<div><strong>Absents:</strong> Les données officielles</div>
+</div>
+</div>
+
+<!-- EPISODES -->
+<div class="episodes-section">
+<h2 class="section-title">Épisodes</h2>
+<div class="episode-grid">
+<div class="episode-card" onclick="window.location='rtl-docu-fiction-serie-b.html'">
+<div class="episode-thumb">📺</div>
+<div class="episode-info">
+<h3>1. Le montage <span>45 min</span></h3>
+<p>Comment transformer 1h d'interview en 30 secondes accusatrices. Les techniques de manipulation au montage révélées.</p>
+</div>
+</div>
+<div class="episode-card" onclick="window.location='geo-qui-sont-vrais-fraudeurs.html'">
+<div class="episode-thumb">📊</div>
+<div class="episode-info">
+<h3>2. Les vrais chiffres <span>38 min</span></h3>
+<p>&lt;3% de fraude sociale. 30 milliards de fraude fiscale. Pourquoi RTL a choisi de ne montrer qu'un côté.</p>
+</div>
+</div>
+<div class="episode-card" onclick="window.location='petition-countdown.html'">
+<div class="episode-thumb">✊</div>
+<div class="episode-info">
+<h3>3. La riposte <span>En cours</span></h3>
+<p>400 plaintes au CSA, une pétition massive, et une leçon de démocratie. Comment les citoyens ont dit stop.</p>
+</div>
+</div>
+</div>
+</div>
+
+<!-- COMING -->
+<div class="coming-banner">
+<div>
+<h3>Ce documentaire n'existe pas (encore)</h3>
+<p>Mais vous pouvez écrire la fin de l'histoire.</p>
+</div>
+<a href="petition-countdown.html">Signer la pétition →</a>
+</div>
+
+<!-- FOOTER -->
+<div class="nf-footer">
+<p>Ceci est une page parodique créée par <a href="index.html">ouaisfi.eu</a></p>
+<p>Netfix n'est pas affilié à Netflix. "La Grande Arnaque" est un concept satirique.</p>
+</div>
+
+<!-- DISCLAIMER -->
+<div class="disclaimer">
+📺 Ceci est une projection satirique — La vraie histoire se joue maintenant
+<a href="petition-countdown.html">→ Participer</a>
+</div>
+
+</body>
+</html>

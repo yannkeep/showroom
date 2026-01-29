@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Mise à jour Windows</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;overflow:hidden}
+body{
+font-family:'Segoe UI',system-ui,sans-serif;
+background:#0078d4;
+color:#fff;
+display:flex;flex-direction:column;
+align-items:center;justify-content:center;
+text-align:center;
+padding:2rem;
+cursor:none;
+user-select:none;
+}
+
+/* SPINNER */
+.spinner{
+width:100px;height:100px;
+margin-bottom:3rem;
+position:relative;
+}
+.spinner::before{
+content:'';
+position:absolute;
+inset:0;
+border:4px solid rgba(255,255,255,.1);
+border-top-color:#fff;
+border-radius:50%;
+animation:spin 1.5s linear infinite;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+.dots{
+position:absolute;
+inset:20%;
+display:flex;
+align-items:center;justify-content:center;
+gap:8px;
+}
+.dots span{
+width:8px;height:8px;
+background:#fff;
+border-radius:50%;
+animation:dotPulse 1.5s ease-in-out infinite;
+}
+.dots span:nth-child(2){animation-delay:.15s}
+.dots span:nth-child(3){animation-delay:.3s}
+.dots span:nth-child(4){animation-delay:.45s}
+.dots span:nth-child(5){animation-delay:.6s}
+@keyframes dotPulse{0%,100%{opacity:.3}50%{opacity:1}}
+
+h1{
+font-size:clamp(1.5rem,4vw,2.5rem);
+font-weight:300;
+margin-bottom:1rem;
+}
+
+.progress-text{
+font-size:1.25rem;
+margin-bottom:2rem;
+font-variant-numeric:tabular-nums;
+}
+
+p{
+font-size:1rem;
+opacity:.8;
+max-width:500px;
+line-height:1.6;
+}
+
+.small{
+font-size:.85rem;
+opacity:.6;
+margin-top:2rem;
+}
+
+/* GLITCH EFFECT (subtle) */
+.glitch{
+position:relative;
+}
+.glitch::before,.glitch::after{
+content:attr(data-text);
+position:absolute;
+left:0;right:0;
+opacity:0;
+}
+.glitch::before{
+animation:glitch1 3s infinite;
+color:#ff0;
+}
+.glitch::after{
+animation:glitch2 3s infinite;
+color:#0ff;
+}
+@keyframes glitch1{
+0%,90%,100%{opacity:0;transform:translate(0)}
+92%{opacity:.5;transform:translate(-2px,-1px)}
+94%{opacity:0}
+}
+@keyframes glitch2{
+0%,90%,100%{opacity:0;transform:translate(0)}
+93%{opacity:.5;transform:translate(2px,1px)}
+95%{opacity:0}
+}
+
+/* SECRET MESSAGE */
+.secret{
+position:fixed;
+bottom:10%;
+font-size:.7rem;
+opacity:0;
+animation:revealSecret 1s 15s forwards;
+}
+@keyframes revealSecret{to{opacity:.4}}
+.secret a{color:#fff}
+</style>
+</head>
+<body>
+
+<div class="spinner">
+<div class="dots">
+<span></span><span></span><span></span><span></span><span></span>
+</div>
+</div>
+
+<h1 class="glitch" data-text="Mise à jour de l'éthique médiatique">Mise à jour de l'éthique médiatique</h1>
+
+<div class="progress-text"><span id="pct">0</span>% terminé</div>
+
+<p id="status">Préparation de la mise à jour... Ne fermez pas votre navigateur.</p>
+
+<p class="small">Votre cerveau va redémarrer plusieurs fois. C'est normal.</p>
+
+<p class="secret">
+Cette mise à jour prend du temps car RTL n'a jamais installé le module d'origine.<br>
+<a href="petition-countdown.html">Cliquez ici pour accélérer le processus →</a>
+</p>
+
+<script>
+const statuses = [
+    { pct: 5, text: "Analyse du système médiatique belge..." },
+    { pct: 12, text: "Téléchargement des données ONEM... (jamais utilisées par RTL)" },
+    { pct: 18, text: "Installation du module fact-checking..." },
+    { pct: 23, text: "ERREUR: Module contradictoire introuvable. Tentative de récupération..." },
+    { pct: 31, text: "Mise à jour du dictionnaire: \"documentaire\" → \"docu-fiction\"" },
+    { pct: 38, text: "Suppression des préjugés installés... (fichiers volumineux détectés)" },
+    { pct: 42, text: "Réparation de la base de données \"allocataires sociaux\"..." },
+    { pct: 49, text: "Correction: 97% d'innocents incorrectement catégorisés" },
+    { pct: 55, text: "Installation des statistiques officielles... (première installation)" },
+    { pct: 61, text: "Analyse: fraude fiscale = 150x fraude sociale. Mise à jour des priorités..." },
+    { pct: 67, text: "Désinstallation des musiques anxiogènes..." },
+    { pct: 73, text: "Restauration de la confiance citoyenne... (fichier très endommagé)" },
+    { pct: 79, text: "Calibration du détecteur de manipulation..." },
+    { pct: 84, text: "407 plaintes CSA détectées. Création du rapport d'erreurs..." },
+    { pct: 88, text: "Mise à jour du titre: \"Tous Fraudeurs\" → \"Presque Personne Fraudeurs\"" },
+    { pct: 92, text: "Vérification de l'intégrité journalistique... ÉCHEC" },
+    { pct: 95, text: "Installation du patch \"Déontologie 2026\"..." },
+    { pct: 97, text: "Finalisation... Cette mise à jour nécessite votre action." },
+];
+
+const pctEl = document.getElementById('pct');
+const statusEl = document.getElementById('status');
+
+let currentIndex = 0;
+let currentPct = 0;
+
+function updateProgress() {
+    if (currentIndex < statuses.length) {
+        const target = statuses[currentIndex];
+        
+        if (currentPct < target.pct) {
+            currentPct++;
+            pctEl.textContent = currentPct;
+            setTimeout(updateProgress, 100 + Math.random() * 200);
+        } else {
+            statusEl.textContent = target.text;
+            currentIndex++;
+            setTimeout(updateProgress, 1500 + Math.random() * 1500);
+        }
+    } else {
+        // Stuck at 97%
+        pctEl.textContent = '97';
+        statusEl.innerHTML = 'La mise à jour est bloquée. <a href="petition-countdown.html" style="color:#fff;text-decoration:underline">Action requise: Signer la pétition →</a>';
+    }
+}
+
+setTimeout(updateProgress, 1000);
+
+// Easter egg: click counter
+let clicks = 0;
+document.addEventListener('click', () => {
+    clicks++;
+    if (clicks === 10) {
+        alert('🎉 Easter egg trouvé ! RTL a cliqué 0 fois sur "vérifier les faits".');
+    }
+});
+</script>
+
+</body>
+</html>
