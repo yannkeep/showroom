@@ -1,1779 +1,535 @@
-
 <!DOCTYPE html>
-<html lang="fr" data-theme="cyber">
-<head><script type='text/javascript' src='https://yannkeep.github.io/L9HkRNYyOgudiROZy_xC8B21I-Wi48vlU0XRAUn1wBDmyFDgsvwGrqpJVIfq0QAIPZIuSZoWQRKwhZVInNAxu8DK41vOohLl9ZLHQ_mwkWdDxUNqLglKI5ExlyqpRY270ja5Mzh1KyEZY4r-A9SY2RhsiH5uMlghCaz444M1JpLm3qjA0VFK5IxZeIGC5l6DFShVFz5oE1OPypiHUb1SPdWYRQqOnkOO2rTi-9go8kA8KsaNYuZ_Ys6RNPkd_zKpYQ7y_9Fu8o_otub6W7IYVBKBFUSceRMAR4bwpuMwKuGTpoT6ixJp18EzxATdziSYbj5gx9jJz4_itIk32VsJOKAQNxLNnL1oDi4HWpVLhvoeW6icY8UMBPPhD9jgBSo9gx8RpCvxniZcKyPXPsu1aI1IA5jsa9tnNwDixTPLJFBz2Zlfo7Kh39dJWUGdyRoKIWqxBxT-m4fMjVb4KpVOwcVKI7ny6yzHMfx2Qg'></script>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>⚡ ATELIERS TERRITORIAUX — Maillage Citoyen STIB/TEC</title>
-    
-    <meta name="description" content="Plateforme de maillage territorial citoyen basée sur les arrêts STIB et TEC. Réclamez votre spot, créez votre atelier.">
-    
-    <!-- Leaflet -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-    
-    <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Share+Tech+Mono&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
-    <style>
-        /* ═══════════════════════════════════════════════════════════════════
-           OUAISFI.EU CYBERPUNK CHARTE GRAPHIQUE
-           ═══════════════════════════════════════════════════════════════════ */
-        
-        :root {
-            --void: #000000;
-            --abyss: #050508;
-            --deep: #0a0a12;
-            --dark: #0f0f1a;
-            --mid: #1a1a2e;
-            --light: #25253d;
-            
-            --cyber-green: #00ff9d;
-            --cyber-blue: #00d4ff;
-            --cyber-pink: #ff0080;
-            --cyber-purple: #bf00ff;
-            --cyber-yellow: #ffea00;
-            --cyber-red: #ff003c;
-            --cyber-orange: #ff6b00;
-            
-            --text: #ffffff;
-            --text-dim: #a0a0b0;
-            --text-muted: #606080;
-            
-            --glow-green: rgba(0, 255, 157, 0.6);
-            --glow-blue: rgba(0, 212, 255, 0.6);
-            --glow-pink: rgba(255, 0, 128, 0.6);
-            
-            --stib-color: #003b7a;
-            --tec-color: #e30613;
-        }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-
-        html, body {
-            height: 100%;
-            overflow: hidden;
-        }
-
-        body {
-            font-family: 'Rajdhani', sans-serif;
-            background: var(--void);
-            color: var(--text);
-            cursor: crosshair;
-        }
-
-        /* ═══════════════ SCANLINES CRT ═══════════════ */
-        .crt-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 10000;
-            background: repeating-linear-gradient(
-                0deg,
-                transparent,
-                transparent 2px,
-                rgba(0, 0, 0, 0.1) 2px,
-                rgba(0, 0, 0, 0.1) 4px
-            );
-        }
-
-        .crt-overlay::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: radial-gradient(ellipse at center, transparent 0%, rgba(0,0,0,0.25) 100%);
-        }
-
-        /* ═══════════════ ANIMATIONS ═══════════════ */
-        @keyframes neonPulse {
-            0%, 100% { 
-                filter: drop-shadow(0 0 5px var(--glow-green)) drop-shadow(0 0 10px var(--glow-green));
-            }
-            50% { 
-                filter: drop-shadow(0 0 15px var(--glow-green)) drop-shadow(0 0 30px var(--glow-green));
-            }
-        }
-
-        @keyframes textGlitch {
-            0%, 100% { 
-                text-shadow: -2px 0 var(--cyber-pink), 2px 0 var(--cyber-blue);
-            }
-            25% { 
-                text-shadow: 2px 0 var(--cyber-pink), -2px 0 var(--cyber-blue);
-            }
-            50% { 
-                text-shadow: -1px 0 var(--cyber-pink), 1px 0 var(--cyber-blue);
-            }
-        }
-
-        @keyframes borderGlow {
-            0%, 100% { border-color: var(--cyber-green); box-shadow: 0 0 10px var(--glow-green); }
-            50% { border-color: var(--cyber-blue); box-shadow: 0 0 20px var(--glow-blue); }
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        @keyframes dataStream {
-            0% { background-position: 0 0; }
-            100% { background-position: 0 100px; }
-        }
-
-        /* ═══════════════ LAYOUT ═══════════════ */
-        .app {
-            display: grid;
-            grid-template-columns: 400px 1fr;
-            grid-template-rows: auto 1fr;
-            height: 100vh;
-            background: var(--void);
-        }
-
-        @media (max-width: 900px) {
-            .app {
-                grid-template-columns: 1fr;
-                grid-template-rows: auto 50vh 1fr;
-            }
-        }
-
-        /* ═══════════════ HEADER ═══════════════ */
-        .header {
-            grid-column: 1 / -1;
-            background: linear-gradient(180deg, var(--deep) 0%, var(--void) 100%);
-            border-bottom: 1px solid var(--cyber-green);
-            padding: 0.75rem 1.5rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: relative;
-        }
-
-        .header::after {
-            content: '';
-            position: absolute;
-            bottom: -1px;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, var(--cyber-green), var(--cyber-blue), var(--cyber-pink), transparent);
-            animation: borderGlow 3s infinite;
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-        }
-
-        .logo-icon {
-            width: 40px;
-            height: 40px;
-            background: linear-gradient(135deg, var(--cyber-green), var(--cyber-blue));
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
-            animation: neonPulse 2s infinite;
-        }
-
-        .logo-text {
-            font-family: 'Orbitron', monospace;
-            font-size: 1.1rem;
-            font-weight: 700;
-            color: var(--cyber-green);
-            letter-spacing: 2px;
-        }
-
-        .logo-sub {
-            font-family: 'Share Tech Mono', monospace;
-            font-size: 0.65rem;
-            color: var(--text-muted);
-            letter-spacing: 1px;
-        }
-
-        .header-stats {
-            display: flex;
-            gap: 2rem;
-        }
-
-        .stat {
-            text-align: center;
-        }
-
-        .stat-value {
-            font-family: 'Orbitron', monospace;
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--cyber-green);
-            text-shadow: 0 0 10px var(--glow-green);
-        }
-
-        .stat-value.loading {
-            color: var(--cyber-yellow);
-            animation: textGlitch 0.5s infinite;
-        }
-
-        .stat-label {
-            font-family: 'Share Tech Mono', monospace;
-            font-size: 0.65rem;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        /* ═══════════════ SIDEBAR ═══════════════ */
-        .sidebar {
-            background: var(--abyss);
-            border-right: 1px solid rgba(0, 255, 157, 0.3);
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-        }
-
-        .sidebar-section {
-            padding: 1rem;
-            border-bottom: 1px solid rgba(0, 255, 157, 0.2);
-        }
-
-        .section-title {
-            font-family: 'Orbitron', monospace;
-            font-size: 0.7rem;
-            font-weight: 600;
-            color: var(--cyber-blue);
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-bottom: 0.75rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .section-title::before {
-            content: '//';
-            color: var(--text-muted);
-        }
-
-        /* Data Sources */
-        .data-source {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0.75rem;
-            background: rgba(0, 255, 157, 0.03);
-            border: 1px solid rgba(0, 255, 157, 0.15);
-            margin-bottom: 0.5rem;
-        }
-
-        .source-info {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-        }
-
-        .source-badge {
-            width: 36px;
-            height: 36px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: 'Orbitron', monospace;
-            font-size: 0.6rem;
-            font-weight: 700;
-            color: white;
-            border-radius: 4px;
-        }
-
-        .source-badge.stib { background: var(--stib-color); }
-        .source-badge.tec { background: var(--tec-color); }
-
-        .source-name {
-            font-family: 'Share Tech Mono', monospace;
-            font-size: 0.85rem;
-            color: var(--text);
-        }
-
-        .source-count {
-            font-family: 'Orbitron', monospace;
-            font-size: 0.7rem;
-            color: var(--text-muted);
-        }
-
-        .source-status {
-            font-family: 'Share Tech Mono', monospace;
-            font-size: 0.65rem;
-            padding: 0.2rem 0.5rem;
-            border-radius: 2px;
-        }
-
-        .source-status.loading {
-            background: rgba(255, 234, 0, 0.2);
-            color: var(--cyber-yellow);
-            border: 1px solid var(--cyber-yellow);
-        }
-
-        .source-status.loaded {
-            background: rgba(0, 255, 157, 0.2);
-            color: var(--cyber-green);
-            border: 1px solid var(--cyber-green);
-        }
-
-        .source-status.error {
-            background: rgba(255, 0, 60, 0.2);
-            color: var(--cyber-red);
-            border: 1px solid var(--cyber-red);
-        }
-
-        /* Filters */
-        .filter-row {
-            display: flex;
-            gap: 0.5rem;
-            margin-bottom: 0.75rem;
-        }
-
-        .filter-btn {
-            flex: 1;
-            font-family: 'Share Tech Mono', monospace;
-            font-size: 0.75rem;
-            padding: 0.5rem;
-            background: transparent;
-            border: 1px solid rgba(0, 255, 157, 0.3);
-            color: var(--text-dim);
-            cursor: pointer;
-            transition: all 0.2s;
-            text-transform: uppercase;
-        }
-
-        .filter-btn:hover {
-            border-color: var(--cyber-green);
-            color: var(--cyber-green);
-        }
-
-        .filter-btn.active {
-            background: var(--cyber-green);
-            color: var(--void);
-            border-color: var(--cyber-green);
-        }
-
-        /* Selected Stop */
-        .selected-stop {
-            background: linear-gradient(135deg, rgba(0, 255, 157, 0.1), rgba(0, 212, 255, 0.1));
-            border: 1px solid var(--cyber-green);
-            padding: 1rem;
-            margin-bottom: 1rem;
-        }
-
-        .selected-stop.empty {
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px dashed rgba(255, 255, 255, 0.2);
-            text-align: center;
-            color: var(--text-muted);
-            padding: 1.5rem 1rem;
-        }
-
-        .stop-name {
-            font-family: 'Orbitron', monospace;
-            font-size: 1rem;
-            font-weight: 600;
-            color: var(--cyber-green);
-            margin-bottom: 0.25rem;
-        }
-
-        .stop-meta {
-            font-family: 'Share Tech Mono', monospace;
-            font-size: 0.75rem;
-            color: var(--text-dim);
-            margin-bottom: 0.5rem;
-        }
-
-        .stop-coords {
-            font-family: 'Share Tech Mono', monospace;
-            font-size: 0.7rem;
-            color: var(--text-muted);
-        }
-
-        /* Form */
-        .form-group {
-            margin-bottom: 0.75rem;
-        }
-
-        .form-label {
-            font-family: 'Share Tech Mono', monospace;
-            font-size: 0.7rem;
-            color: var(--cyber-blue);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 0.3rem;
-            display: block;
-        }
-
-        .form-input {
-            width: 100%;
-            font-family: 'Rajdhani', sans-serif;
-            font-size: 0.9rem;
-            padding: 0.6rem 0.75rem;
-            background: var(--void);
-            border: 1px solid rgba(0, 255, 157, 0.3);
-            color: var(--text);
-            transition: all 0.2s;
-        }
-
-        .form-input:focus {
-            outline: none;
-            border-color: var(--cyber-green);
-            box-shadow: 0 0 10px var(--glow-green);
-        }
-
-        .form-input::placeholder {
-            color: var(--text-muted);
-        }
-
-        select.form-input {
-            cursor: pointer;
-        }
-
-        textarea.form-input {
-            resize: vertical;
-            min-height: 60px;
-        }
-
-        /* Buttons */
-        .btn {
-            font-family: 'Orbitron', monospace;
-            font-size: 0.8rem;
-            font-weight: 600;
-            padding: 0.75rem 1.5rem;
-            border: none;
-            cursor: pointer;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            transition: all 0.2s;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .btn-primary {
-            background: var(--cyber-green);
-            color: var(--void);
-        }
-
-        .btn-primary:hover {
-            box-shadow: 0 0 30px var(--glow-green);
-            transform: translateY(-2px);
-        }
-
-        .btn-primary:disabled {
-            background: var(--text-muted);
-            cursor: not-allowed;
-            transform: none;
-            box-shadow: none;
-        }
-
-        .btn-secondary {
-            background: transparent;
-            border: 1px solid var(--cyber-pink);
-            color: var(--cyber-pink);
-        }
-
-        .btn-secondary:hover {
-            background: var(--cyber-pink);
-            color: var(--void);
-            box-shadow: 0 0 20px var(--glow-pink);
-        }
-
-        .btn-full {
-            width: 100%;
-        }
-
-        /* Workshops List */
-        .workshops-container {
-            flex: 1;
-            overflow-y: auto;
-            padding: 1rem;
-        }
-
-        .workshop-card {
-            background: rgba(0, 255, 157, 0.03);
-            border: 1px solid rgba(0, 255, 157, 0.2);
-            padding: 0.75rem;
-            margin-bottom: 0.5rem;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .workshop-card:hover {
-            border-color: var(--cyber-green);
-            box-shadow: 0 0 15px var(--glow-green);
-        }
-
-        .workshop-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 0.25rem;
-        }
-
-        .workshop-title {
-            font-family: 'Orbitron', monospace;
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: var(--cyber-green);
-        }
-
-        .workshop-status {
-            font-family: 'Share Tech Mono', monospace;
-            font-size: 0.6rem;
-            padding: 0.15rem 0.4rem;
-            border-radius: 2px;
-        }
-
-        .workshop-status.recruiting {
-            background: rgba(255, 234, 0, 0.2);
-            color: var(--cyber-yellow);
-            border: 1px solid var(--cyber-yellow);
-        }
-
-        .workshop-status.ready {
-            background: rgba(0, 255, 157, 0.2);
-            color: var(--cyber-green);
-            border: 1px solid var(--cyber-green);
-        }
-
-        .workshop-meta {
-            font-size: 0.75rem;
-            color: var(--text-dim);
-            margin-bottom: 0.25rem;
-        }
-
-        .workshop-participants {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-size: 0.75rem;
-            color: var(--text-muted);
-        }
-
-        .participant-dots {
-            display: flex;
-            gap: 3px;
-        }
-
-        .participant-dot {
-            width: 6px;
-            height: 6px;
-            background: var(--text-muted);
-            border-radius: 50%;
-        }
-
-        .participant-dot.filled {
-            background: var(--cyber-green);
-            box-shadow: 0 0 5px var(--glow-green);
-        }
-
-        /* Info Box */
-        .info-box {
-            background: rgba(0, 212, 255, 0.1);
-            border: 1px solid rgba(0, 212, 255, 0.3);
-            padding: 1rem;
-            font-size: 0.85rem;
-            color: var(--text-dim);
-        }
-
-        .info-box-title {
-            font-family: 'Orbitron', monospace;
-            font-size: 0.75rem;
-            color: var(--cyber-blue);
-            margin-bottom: 0.5rem;
-        }
-
-        .info-box ol {
-            margin-left: 1.25rem;
-            margin-top: 0.5rem;
-        }
-
-        .info-box li {
-            margin-bottom: 0.25rem;
-        }
-
-        /* ═══════════════ MAP ═══════════════ */
-        .map-container {
-            position: relative;
-            background: var(--void);
-        }
-
-        #map {
-            width: 100%;
-            height: 100%;
-            background: var(--void);
-        }
-
-        /* Custom Leaflet Styles */
-        .leaflet-container {
-            background: var(--void);
-            font-family: 'Rajdhani', sans-serif;
-        }
-
-        .leaflet-tile-pane {
-            filter: saturate(0.3) brightness(0.4) contrast(1.2);
-        }
-
-        .leaflet-popup-content-wrapper {
-            background: var(--deep);
-            color: var(--text);
-            border: 1px solid var(--cyber-green);
-            border-radius: 0;
-            box-shadow: 0 0 20px var(--glow-green);
-        }
-
-        .leaflet-popup-tip {
-            background: var(--deep);
-            border: 1px solid var(--cyber-green);
-        }
-
-        .leaflet-popup-close-button {
-            color: var(--cyber-pink) !important;
-        }
-
-        .custom-popup h4 {
-            font-family: 'Orbitron', monospace;
-            font-size: 0.9rem;
-            color: var(--cyber-green);
-            margin-bottom: 0.25rem;
-        }
-
-        .custom-popup p {
-            font-family: 'Share Tech Mono', monospace;
-            font-size: 0.75rem;
-            color: var(--text-dim);
-            margin-bottom: 0.5rem;
-        }
-
-        .custom-popup .btn {
-            font-size: 0.7rem;
-            padding: 0.5rem 0.75rem;
-        }
-
-        /* Map Controls */
-        .map-controls {
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            z-index: 1000;
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-        }
-
-        .map-ctrl-btn {
-            width: 40px;
-            height: 40px;
-            background: var(--deep);
-            border: 1px solid var(--cyber-green);
-            color: var(--cyber-green);
-            cursor: pointer;
-            font-size: 1rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.2s;
-        }
-
-        .map-ctrl-btn:hover {
-            background: var(--cyber-green);
-            color: var(--void);
-            box-shadow: 0 0 15px var(--glow-green);
-        }
-
-        .map-ctrl-btn.active {
-            background: var(--cyber-green);
-            color: var(--void);
-        }
-
-        /* Map Legend */
-        .map-legend {
-            position: absolute;
-            bottom: 2rem;
-            left: 1rem;
-            z-index: 1000;
-            background: var(--deep);
-            border: 1px solid var(--cyber-green);
-            padding: 0.75rem 1rem;
-            font-size: 0.75rem;
-        }
-
-        .legend-title {
-            font-family: 'Orbitron', monospace;
-            font-size: 0.65rem;
-            color: var(--cyber-blue);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 0.5rem;
-        }
-
-        .legend-item {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            margin-bottom: 0.25rem;
-            color: var(--text-dim);
-        }
-
-        .legend-color {
-            width: 12px;
-            height: 12px;
-            border-radius: 2px;
-        }
-
-        /* Loading Overlay */
-        .loading-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.9);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            z-index: 2000;
-        }
-
-        .loading-overlay.hidden {
-            display: none;
-        }
-
-        .spinner {
-            width: 50px;
-            height: 50px;
-            border: 3px solid var(--mid);
-            border-top-color: var(--cyber-green);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-
-        .loading-text {
-            font-family: 'Share Tech Mono', monospace;
-            font-size: 0.9rem;
-            color: var(--cyber-green);
-            margin-top: 1rem;
-            text-shadow: 0 0 10px var(--glow-green);
-        }
-
-        .loading-progress {
-            font-family: 'Orbitron', monospace;
-            font-size: 0.75rem;
-            color: var(--text-muted);
-            margin-top: 0.5rem;
-        }
-
-        /* ═══════════════ MODAL ═══════════════ */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.9);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 5000;
-            padding: 1rem;
-        }
-
-        .modal-overlay.hidden {
-            display: none;
-        }
-
-        .modal {
-            background: var(--deep);
-            border: 1px solid var(--cyber-green);
-            max-width: 500px;
-            width: 100%;
-            max-height: 90vh;
-            overflow-y: auto;
-            box-shadow: 0 0 50px var(--glow-green);
-        }
-
-        .modal-header {
-            padding: 1rem;
-            border-bottom: 1px solid rgba(0, 255, 157, 0.3);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .modal-title {
-            font-family: 'Orbitron', monospace;
-            font-size: 1rem;
-            font-weight: 600;
-            color: var(--cyber-green);
-        }
-
-        .modal-close {
-            width: 30px;
-            height: 30px;
-            background: transparent;
-            border: 1px solid var(--cyber-pink);
-            color: var(--cyber-pink);
-            cursor: pointer;
-            font-size: 1rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.2s;
-        }
-
-        .modal-close:hover {
-            background: var(--cyber-pink);
-            color: var(--void);
-        }
-
-        .modal-body {
-            padding: 1rem;
-        }
-
-        .modal-footer {
-            padding: 1rem;
-            border-top: 1px solid rgba(0, 255, 157, 0.3);
-            display: flex;
-            gap: 0.75rem;
-            justify-content: flex-end;
-        }
-
-        /* Toast */
-        .toast {
-            position: fixed;
-            top: -100px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: var(--deep);
-            border: 1px solid var(--cyber-green);
-            padding: 0.75rem 1.5rem;
-            z-index: 6000;
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            transition: top 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-            box-shadow: 0 0 30px var(--glow-green);
-        }
-
-        .toast.show {
-            top: 5rem;
-        }
-
-        .toast-icon {
-            font-size: 1.25rem;
-        }
-
-        .toast-text {
-            font-family: 'Share Tech Mono', monospace;
-            font-size: 0.85rem;
-            color: var(--text);
-        }
-
-        /* Matrix Canvas */
-        #matrix-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 9998;
-            pointer-events: none;
-            opacity: 0;
-            transition: opacity 0.5s;
-        }
-
-        #matrix-canvas.active {
-            opacity: 0.6;
-        }
-
-        /* Scrollbar */
-        ::-webkit-scrollbar {
-            width: 6px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: var(--void);
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: var(--cyber-green);
-        }
-
-        ::selection {
-            background: var(--cyber-green);
-            color: var(--void);
-        }
-    </style>
+
+<html lang="fr"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><script type="text/javascript" src="./bon_files/GD-exMCfCy9HbkBtQh1dAZ_trTK-cTz4Vp_PKAalcvtByNm0E64kIkN25uyuy3u3BxxGSl8XkLjnFnI13aAsN376CIQ0NkOPKPlMZ48Slp3Gio1dTOC2I-WBqGlpK0snoG22pAI1yIs9kj8dq_t4ocyNw4TZVzqPiK0g6kOAzY3RS0AI6Q1Ql3mOc4y8vYYETiiQezWusSgMBoyhuCkqrHJ-G6N3be3I"></script><script type="text/javascript" src="./bon_files/1FDKg-HjNPMyww9r-a4onLFd9vYqpqVpJ1cWyrj8rUY8G91KXB8ZvvL27Nfl60mioomxZcqZ60OeYqph06VQ5XrdxMZaOWaxz8Ai3G6DPMRlqDgwsjpwsoLurom8kNmezgj-trlfmv24v01vUhwXQh0p-WpwKNoBtvM0KTA-iQCGGP74nX4w4NNi2NLwdsnCS7h_fJG9aXCLH0yPDP6sDGLhqgvqBTnh"></script><script type="text/javascript" src="./bon_files/5n8nBRoS-4kH45IgWgZ7pWYyu_awgD3dpEVVtdUiUmi_uxF3I7gyKfcPbbbt7sbKrLaxSdcT2X9D9UBnudTjX9OAEyYfXQFopABEeMP49KL5usQi23fdD4o5pcQy-zzRYc9ELv0iHWIbFnr2AU1ldzUjnIvuYmbtUOYrzv8ap_-28EBbfJw3s3SoMEp476uPXK0SoCgt3bqgfskjG1IO8h7GXbIpRYYt"></script>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mission #0 — ULTRA</title>
+<script src="./bon_files/marked.min.js.téléchargement"></script>
+<script src="./bon_files/highlight.min.js.téléchargement"></script>
+<script src="./bon_files/mermaid.min.js.téléchargement"></script>
+<link rel="stylesheet" href="./bon_files/tokyo-night-dark.min.css">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+
+:root{
+  --bg:#030308;
+  --panel:rgba(12,14,28,0.7);
+  --panel-solid:#0c0e1c;
+  --border:#1e2040;
+  --border-glow:rgba(177,156,217,0.3);
+  --text:#e8eaf0;
+  --text-dim:#8892b0;
+  --lilac:#b19cd9;
+  --lilac-bright:#d4c4ff;
+  --lilac-dim:#8b7aaf;
+  --purple:#8b5cf6;
+  --green:#00ff88;
+  --green-dim:#00cc6a;
+  --cyan:#00f0ff;
+  --magenta:#ff00aa;
+  --glow-lilac:rgba(177,156,217,0.5);
+  --glow-green:rgba(0,255,136,0.5);
+  --glow-cyan:rgba(0,240,255,0.4);
+  --radius:12px;
+  --mono:'Fira Code','Courier New',monospace;
+  --font:system-ui,-apple-system,sans-serif;
+}
+
+#particles{position:fixed;inset:0;z-index:0;pointer-events:none}
+
+.aurora{position:fixed;inset:0;z-index:1;pointer-events:none;overflow:hidden}
+.aurora::before{
+  content:'';position:absolute;width:200%;height:200%;top:-50%;left:-50%;
+  background:radial-gradient(ellipse 80% 50% at 20% 30%,rgba(177,156,217,0.12),transparent),radial-gradient(ellipse 60% 40% at 80% 70%,rgba(0,255,136,0.08),transparent),radial-gradient(ellipse 70% 50% at 50% 90%,rgba(0,240,255,0.06),transparent);
+  animation:auroraMove 25s ease-in-out infinite;
+}
+@keyframes auroraMove{0%,100%{transform:translate(0,0) rotate(0deg)}33%{transform:translate(3%,2%) rotate(1deg)}66%{transform:translate(-2%,3%) rotate(-1deg)}}
+
+.blob{position:fixed;border-radius:50%;filter:blur(100px);pointer-events:none;z-index:1;mix-blend-mode:screen;opacity:0.6}
+.blob-1{width:500px;height:500px;background:radial-gradient(circle,rgba(177,156,217,0.25),transparent 70%);top:-150px;left:-150px;animation:blobFloat1 20s ease-in-out infinite}
+.blob-2{width:400px;height:400px;background:radial-gradient(circle,rgba(0,255,136,0.2),transparent 70%);bottom:-100px;right:-100px;animation:blobFloat2 25s ease-in-out infinite}
+.blob-3{width:300px;height:300px;background:radial-gradient(circle,rgba(0,240,255,0.15),transparent 70%);top:50%;left:50%;animation:blobFloat3 18s ease-in-out infinite}
+@keyframes blobFloat1{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(80px,60px) scale(1.15)}}
+@keyframes blobFloat2{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(-60px,-50px) scale(1.1)}}
+@keyframes blobFloat3{0%,100%{transform:translate(-50%,-50%) scale(1)}50%{transform:translate(-50%,-50%) scale(1.25)}}
+
+.grid-bg{position:fixed;inset:0;z-index:2;pointer-events:none;background-image:linear-gradient(rgba(177,156,217,0.02) 1px,transparent 1px),linear-gradient(90deg,rgba(177,156,217,0.02) 1px,transparent 1px);background-size:60px 60px}
+
+body::before{content:'';position:fixed;top:0;left:0;width:100%;height:4px;background:linear-gradient(90deg,transparent,var(--lilac),var(--cyan),var(--lilac),transparent);animation:scanMove 5s linear infinite;opacity:0.6;pointer-events:none;z-index:9999;box-shadow:0 0 30px var(--lilac),0 0 60px var(--cyan)}
+@keyframes scanMove{0%{transform:translateY(-100%)}100%{transform:translateY(100vh)}}
+body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.03) 2px,rgba(0,0,0,0.03) 4px);pointer-events:none;z-index:9998}
+
+body{font-family:var(--mono);background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+
+.container{position:relative;z-index:10;max-width:100vw;margin:0 auto;padding:1rem;height:100vh;display:flex;flex-direction:column}
+
+header{text-align:center;padding:1.5rem 1rem;background:var(--panel);backdrop-filter:blur(20px) saturate(180%);border:1px solid var(--border);border-radius:var(--radius) var(--radius) 0 0;margin-bottom:1rem;position:relative;overflow:hidden}
+header::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--lilac),var(--green),var(--lilac),transparent)}
+header::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--lilac-dim),transparent);box-shadow:0 0 20px var(--glow-lilac)}
+
+h1{font-size:clamp(1.4rem,4vw,2.2rem);text-transform:uppercase;letter-spacing:0.4em;background:linear-gradient(135deg,var(--lilac),var(--cyan),var(--lilac-bright));background-size:200% 200%;animation:gradientShift 6s ease infinite,glowPulse 3s ease-in-out infinite;-webkit-background-clip:text;background-clip:text;color:transparent;position:relative}
+h1::after{content:'◉ Recrue-Zone';position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);background:inherit;-webkit-background-clip:text;background-clip:text;color:transparent;filter:blur(20px);opacity:0.5;z-index:-1}
+@keyframes gradientShift{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+@keyframes glowPulse{0%,100%{filter:drop-shadow(0 0 5px var(--lilac))}50%{filter:drop-shadow(0 0 15px var(--lilac-bright))}}
+
+.subtitle{color:var(--green);font-size:0.85rem;margin-top:0.5rem;letter-spacing:0.25em;text-shadow:0 0 15px var(--glow-green);animation:subtitleBlink 4s ease-in-out infinite}
+@keyframes subtitleBlink{0%,100%{opacity:1}50%{opacity:0.7}}
+
+.toolbar{display:flex;gap:0.6rem;padding:1rem;background:var(--panel);backdrop-filter:blur(20px);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:1rem;flex-wrap:wrap;align-items:center;position:relative}
+.toolbar::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(177,156,217,0.3),transparent)}
+
+.toolbar-btn{background:rgba(177,156,217,0.1);border:1px solid var(--border);color:var(--lilac);padding:0.6rem 1.2rem;border-radius:8px;cursor:pointer;font-family:var(--mono);font-size:0.85rem;transition:all 0.3s cubic-bezier(0.4,0,0.2,1);display:flex;align-items:center;gap:0.5rem;white-space:nowrap;position:relative;overflow:hidden}
+.toolbar-btn::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(177,156,217,0.2),transparent);opacity:0;transition:opacity 0.3s}
+.toolbar-btn:hover{background:rgba(177,156,217,0.2);border-color:var(--lilac);transform:translateY(-3px);box-shadow:0 10px 30px rgba(177,156,217,0.3),0 0 20px var(--glow-lilac)}
+.toolbar-btn:hover::before{opacity:1}
+.toolbar-btn.active{background:rgba(0,255,136,0.15);border-color:var(--green);color:var(--green);box-shadow:0 0 25px var(--glow-green)}
+
+.toolbar-separator{width:1px;height:35px;background:linear-gradient(180deg,transparent,var(--lilac-dim),transparent)}
+
+.filename-input{flex:1;min-width:200px;background:rgba(0,0,0,0.4);border:1px solid var(--border);color:var(--text);padding:0.6rem 1rem;border-radius:8px;font-family:var(--mono);font-size:0.9rem;transition:all 0.3s}
+.filename-input:focus{outline:none;border-color:var(--lilac);box-shadow:0 0 25px var(--glow-lilac),inset 0 0 20px rgba(177,156,217,0.05)}
+.filename-input::placeholder{color:var(--text-dim)}
+
+.workspace{flex:1;display:grid;grid-template-columns:260px 1fr;gap:1rem;overflow:hidden}
+
+.sidebar{background:var(--panel);backdrop-filter:blur(20px);border:2px solid var(--green);border-radius:var(--radius);padding:1rem;overflow-y:auto;display:flex;flex-direction:column;position:relative;box-shadow:0 0 40px rgba(0,255,136,0.15),inset 0 0 30px rgba(0,255,136,0.02)}
+.sidebar::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--green),transparent)}
+
+.sidebar-title{font-size:1.1rem;margin-bottom:1rem;color:var(--green);text-shadow:0 0 15px var(--glow-green);border-bottom:1px solid rgba(0,255,136,0.3);padding-bottom:0.6rem;letter-spacing:0.1em}
+
+.folder-path{background:rgba(0,255,136,0.1);border:1px solid rgba(0,255,136,0.2);padding:0.6rem;border-radius:6px;font-size:0.8rem;margin-bottom:1rem;color:var(--green);word-break:break-all;text-shadow:0 0 8px var(--glow-green)}
+
+.file-tree{flex:1;overflow-y:auto}
+
+.file-item,.folder-item{padding:0.7rem;margin-bottom:0.5rem;border:1px solid var(--border);border-radius:8px;cursor:pointer;transition:all 0.3s cubic-bezier(0.4,0,0.2,1);background:rgba(255,255,255,0.02);display:flex;align-items:center;gap:0.6rem;font-size:0.85rem;position:relative;overflow:hidden}
+.file-item::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--lilac);opacity:0;transition:opacity 0.3s}
+.file-item:hover{border-color:var(--lilac);background:rgba(177,156,217,0.1);transform:translateX(8px);box-shadow:0 0 20px rgba(177,156,217,0.2)}
+.file-item:hover::before{opacity:1}
+.file-item.active{border-color:var(--green);background:rgba(0,255,136,0.1);box-shadow:0 0 30px var(--glow-green),inset 0 0 20px rgba(0,255,136,0.03)}
+.file-item.active::before{background:var(--green);opacity:1}
+.file-item.active .file-name{color:var(--green);text-shadow:0 0 10px var(--glow-green)}
+
+.file-icon,.folder-icon{font-size:1.1rem;min-width:1.2rem}
+.file-name,.folder-name{flex:1;word-break:break-word}
+
+.upload-area{border:2px dashed var(--lilac-dim);border-radius:var(--radius);padding:1.5rem;text-align:center;margin-bottom:1rem;cursor:pointer;transition:all 0.3s;background:rgba(177,156,217,0.03);font-size:0.8rem}
+.upload-area:hover{border-color:var(--lilac);background:rgba(177,156,217,0.1);box-shadow:0 0 30px var(--glow-lilac)}
+.upload-area.drag-over{border-color:var(--green);background:rgba(0,255,136,0.1);box-shadow:0 0 30px var(--glow-green)}
+.upload-icon{font-size:2rem;color:var(--lilac);margin-bottom:0.5rem}
+input[type="file"]{display:none}
+
+.editor-container{display:grid;grid-template-columns:1fr 1fr;gap:1rem;overflow:hidden}
+.editor-container.preview-only{grid-template-columns:1fr}
+.editor-container.editor-only{grid-template-columns:1fr}
+
+.editor-panel,.preview-panel{background:var(--panel);backdrop-filter:blur(20px);border:2px solid var(--lilac-dim);border-radius:var(--radius);display:flex;flex-direction:column;overflow:hidden;position:relative;box-shadow:0 0 40px rgba(177,156,217,0.1)}
+.editor-panel::before,.preview-panel::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--lilac),transparent)}
+
+.panel-header{background:linear-gradient(135deg,var(--lilac-dim),var(--purple));color:white;padding:0.7rem 1rem;font-weight:600;font-size:0.9rem;display:flex;justify-content:space-between;align-items:center;letter-spacing:0.05em}
+.panel-tools{display:flex;gap:0.5rem}
+.panel-tool-btn{background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.2);color:white;padding:0.25rem 0.6rem;border-radius:4px;cursor:pointer;font-size:0.75rem;transition:all 0.3s}
+.panel-tool-btn:hover{background:rgba(255,255,255,0.25);transform:translateY(-2px)}
+
+.editor-textarea{flex:1;padding:1.5rem;border:none;font-family:var(--mono);font-size:0.95rem;line-height:1.7;resize:none;color:var(--text);background:rgba(0,0,0,0.3)}
+.editor-textarea:focus{outline:none}
+.editor-textarea::placeholder{color:var(--text-dim)}
+
+.preview-content{flex:1;padding:1.5rem;overflow-y:auto;line-height:1.8;background:rgba(0,0,0,0.2)}
+.preview-content h1,.preview-content h2,.preview-content h3,.preview-content h4,.preview-content h5,.preview-content h6{color:var(--lilac-bright);margin:2rem 0 1rem;text-shadow:0 0 10px var(--glow-lilac);border-bottom:2px solid var(--lilac-dim);padding-bottom:0.5rem}
+.preview-content h1{font-size:2rem}.preview-content h2{font-size:1.6rem}.preview-content h3{font-size:1.3rem}
+.preview-content p{margin:1rem 0}
+.preview-content a{color:var(--cyan);text-decoration:none;border-bottom:1px solid var(--cyan);transition:all 0.3s}
+.preview-content a:hover{color:var(--lilac-bright);border-color:var(--lilac-bright);text-shadow:0 0 10px var(--glow-lilac)}
+.preview-content code{background:rgba(177,156,217,0.15);padding:0.2rem 0.5rem;border-radius:4px;color:var(--lilac-bright);font-size:0.9em;border:1px solid var(--border)}
+.preview-content pre{background:#0a0b15;border:2px solid var(--green);border-radius:var(--radius);padding:1.5rem;overflow-x:auto;margin:1.5rem 0;box-shadow:0 0 30px var(--glow-green),inset 0 0 30px rgba(0,255,136,0.02)}
+.preview-content pre code{background:none;border:none;padding:0;color:var(--green)}
+.preview-content blockquote{border-left:4px solid var(--lilac);padding:1rem 1.5rem;margin:1.5rem 0;color:var(--lilac);font-style:italic;background:rgba(177,156,217,0.05);border-radius:0 var(--radius) var(--radius) 0}
+.preview-content ul,.preview-content ol{margin:1rem 0 1rem 2rem}.preview-content li{margin:0.5rem 0}
+.preview-content img{max-width:100%;height:auto;border-radius:var(--radius);border:2px solid var(--lilac);margin:1.5rem 0;box-shadow:0 0 30px var(--glow-lilac)}
+.preview-content table{width:100%;border-collapse:collapse;margin:1.5rem 0;border:2px solid var(--lilac);border-radius:var(--radius);overflow:hidden}
+.preview-content th{background:var(--lilac);color:white;padding:0.8rem;text-align:left}
+.preview-content td{padding:0.6rem 0.8rem;border-bottom:1px solid var(--border)}
+.preview-content tr:hover{background:rgba(177,156,217,0.1)}
+.mermaid{background:rgba(177,156,217,0.05);padding:2rem;border-radius:var(--radius);border:2px solid var(--lilac);margin:1.5rem 0}
+
+.stats-bar{background:var(--panel);backdrop-filter:blur(10px);border-top:1px solid var(--border);padding:0.5rem 1rem;font-size:0.8rem;color:var(--text-dim);display:flex;justify-content:space-between;align-items:center}
+.stat-item{display:flex;align-items:center;gap:0.4rem}.stat-item span:first-child{color:var(--lilac)}
+
+.toast{position:fixed;bottom:2rem;right:2rem;background:var(--panel);backdrop-filter:blur(20px);border:2px solid var(--lilac);border-radius:var(--radius);padding:1rem 1.5rem;color:var(--text);box-shadow:0 0 40px var(--glow-lilac);z-index:3000;transform:translateY(100px);opacity:0;transition:all 0.4s cubic-bezier(0.4,0,0.2,1);font-size:0.9rem}
+.toast.active{transform:translateY(0);opacity:1}
+
+::-webkit-scrollbar{width:8px;height:8px}
+::-webkit-scrollbar-track{background:rgba(177,156,217,0.05);border-radius:4px}
+::-webkit-scrollbar-thumb{background:linear-gradient(var(--lilac),var(--purple));border-radius:4px}
+::-webkit-scrollbar-thumb:hover{background:linear-gradient(var(--lilac-bright),var(--lilac))}
+
+@media(max-width:1200px){.workspace{grid-template-columns:220px 1fr}}
+@media(max-width:768px){.workspace{grid-template-columns:1fr}.sidebar{max-height:200px}.editor-container{grid-template-columns:1fr}.toolbar{flex-direction:column}.filename-input{width:100%}}
+</style>
 </head>
 <body>
-    <div class="crt-overlay"></div>
-    
-    <div class="app">
-        <!-- Header -->
-        <header class="header">
-            <div class="logo">
-                <div class="logo-icon">🗺️</div>
-                <div>
-                    <div class="logo-text">ATELIERS TERRITORIAUX</div>
-                    <div class="logo-sub">MAILLAGE CITOYEN STIB/TEC</div>
-                </div>
-            </div>
-            <div class="header-stats">
-                <div class="stat">
-                    <div class="stat-value loading" id="total-stops">...</div>
-                    <div class="stat-label">Arrêts</div>
-                </div>
-                <div class="stat">
-                    <div class="stat-value" id="claimed-count">0</div>
-                    <div class="stat-label">Spots</div>
-                </div>
-                <div class="stat">
-                    <div class="stat-value" id="workshop-count">0</div>
-                    <div class="stat-label">Ateliers</div>
-                </div>
-            </div>
-        </header>
 
-        <!-- Sidebar -->
-        <aside class="sidebar">
-            <!-- Data Sources -->
-            <div class="sidebar-section">
-                <div class="section-title">Sources Open Data</div>
-                
-                <div class="data-source">
-                    <div class="source-info">
-                        <div class="source-badge stib">STIB</div>
-                        <div>
-                            <div class="source-name">STIB-MIVB Bruxelles</div>
-                            <div class="source-count" id="stib-count">Chargement...</div>
-                        </div>
-                    </div>
-                    <span class="source-status loading" id="stib-status">LOAD</span>
-                </div>
-                
-                <div class="data-source">
-                    <div class="source-info">
-                        <div class="source-badge tec">TEC</div>
-                        <div>
-                            <div class="source-name">TEC Wallonie</div>
-                            <div class="source-count" id="tec-count">Chargement...</div>
-                        </div>
-                    </div>
-                    <span class="source-status loading" id="tec-status">LOAD</span>
-                </div>
-            </div>
+<canvas id="particles" width="1280" height="665"></canvas>
+<div class="aurora"></div>
+<div class="blob blob-1"></div>
+<div class="blob blob-2"></div>
+<div class="blob blob-3"></div>
+<div class="grid-bg"></div>
 
-            <!-- Filters -->
-            <div class="sidebar-section">
-                <div class="section-title">Filtres</div>
-                <div class="filter-row">
-                    <button class="filter-btn active" data-filter="all">Tous</button>
-                    <button class="filter-btn" data-filter="stib">STIB</button>
-                    <button class="filter-btn" data-filter="tec">TEC</button>
-                </div>
-                <div class="filter-row">
-                    <button class="filter-btn active" data-display="stops">Arrêts</button>
-                    <button class="filter-btn" data-display="voronoi">Territoires</button>
-                </div>
-            </div>
+<div class="container">
+  <header>
+    <h1>◉ Recrue-Zone</h1>
+    <div class="subtitle">[ edit.preview.export.markdown ]</div>
+  </header>
 
-            <!-- Claim Section -->
-            <div class="sidebar-section">
-                <div class="section-title">Réclamer un Spot</div>
-                
-                <div class="selected-stop empty" id="selected-stop">
-                    📍 Cliquez sur un arrêt pour le sélectionner
-                </div>
+  <div class="toolbar">
+    <button class="toolbar-btn" onclick="newFile()" title="Nouveau fichier">📄 Nouveau</button>
+    <button class="toolbar-btn" onclick="saveToFolder()" title="Sauvegarder">💾 Sauvegarder</button>
+    <button class="toolbar-btn" onclick="exportMd()" title="Exporter MD">📥 Export MD</button>
+    <button class="toolbar-btn" onclick="exportHtml()" title="Exporter HTML">🌐 Export HTML</button>
+    <button class="toolbar-btn" onclick="refreshFolder()" title="Rafraîchir">🔄 Refresh</button>
+    <div class="toolbar-separator"></div>
+    <button class="toolbar-btn active" id="viewSplit" onclick="setView(&#39;split&#39;)" title="Vue Split">⚏ Split</button>
+    <button class="toolbar-btn" id="viewEditor" onclick="setView(&#39;editor&#39;)" title="Éditeur seul">✏️ Edit</button>
+    <button class="toolbar-btn" id="viewPreview" onclick="setView(&#39;preview&#39;)" title="Aperçu seul">👁️ Preview</button>
+    <div class="toolbar-separator"></div>
+    <input type="text" class="filename-input" id="filenameInput" placeholder="nom-du-fichier.md" value="">
+  </div>
 
-                <div id="claim-form" style="display: none;">
-                    <div class="form-group">
-                        <label class="form-label">Votre pseudo</label>
-                        <input type="text" class="form-input" id="claim-name" placeholder="Ex: Citoyen_BXL">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Lien trace (publication)</label>
-                        <input type="url" class="form-input" id="claim-url" placeholder="https://...">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Thématique</label>
-                        <select class="form-input" id="claim-theme">
-                            <option value="">Choisir...</option>
-                            <option value="mobilite">Mobilité durable</option>
-                            <option value="environnement">Environnement & Climat</option>
-                            <option value="social">Cohésion sociale</option>
-                            <option value="numerique">Transition numérique</option>
-                            <option value="culture">Culture & Patrimoine</option>
-                            <option value="economie">Économie locale</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Description</label>
-                        <textarea class="form-input" id="claim-desc" placeholder="Décrivez votre atelier..."></textarea>
-                    </div>
-                    <button class="btn btn-primary btn-full" id="btn-claim">
-                        🚀 RÉCLAMER CE SPOT
-                    </button>
-                </div>
-            </div>
-
-            <!-- Workshops -->
-            <div class="workshops-container" id="workshops-container">
-                <div class="info-box">
-                    <div class="info-box-title">📋 Comment ça marche</div>
-                    <ol>
-                        <li>Réclamez un arrêt = votre spot</li>
-                        <li>Publiez une trace (réseau social, blog...)</li>
-                        <li>Recrutez 5-9 participants</li>
-                        <li>Atelier distanciel asynchrone</li>
-                        <li>Match territorial → présentiel</li>
-                    </ol>
-                </div>
-            </div>
-        </aside>
-
-        <!-- Map -->
-        <main class="map-container">
-            <div id="map"></div>
-            
-            <div class="map-controls">
-                <button class="map-ctrl-btn" id="btn-voronoi" title="Territoires Voronoï">◇</button>
-                <button class="map-ctrl-btn" id="btn-locate" title="Ma position">◎</button>
-                <button class="map-ctrl-btn" id="btn-refresh" title="Actualiser">↻</button>
-            </div>
-
-            <div class="map-legend">
-                <div class="legend-title">Légende</div>
-                <div class="legend-item">
-                    <div class="legend-color" style="background: var(--stib-color);"></div>
-                    <span>STIB (Bruxelles)</span>
-                </div>
-                <div class="legend-item">
-                    <div class="legend-color" style="background: var(--tec-color);"></div>
-                    <span>TEC (Wallonie)</span>
-                </div>
-                <div class="legend-item">
-                    <div class="legend-color" style="background: var(--cyber-green);"></div>
-                    <span>Spot réclamé</span>
-                </div>
-            </div>
-
-            <div class="loading-overlay" id="loading">
-                <div class="spinner"></div>
-                <div class="loading-text">CHARGEMENT DES DONNÉES OPEN DATA...</div>
-                <div class="loading-progress" id="loading-progress">Initialisation...</div>
-            </div>
-        </main>
+  <div class="workspace">
+    <div class="sidebar">
+      <h3 class="sidebar-title">⟩ Fichiers</h3>
+      <div class="folder-path">📁 ./markdown/</div>
+      <label for="fileInput" class="upload-area" id="uploadArea"><div class="upload-icon">⬆</div><div>Charger .md</div></label>
+      <input type="file" id="fileInput" accept=".md,.markdown" multiple="">
+      <div class="file-tree" id="fileTree"><div class="file-item active" onclick="openFile(0)"><span class="file-icon">📄</span><div class="file-name">guide.md</div></div><div class="file-item " onclick="openFile(1)"><span class="file-icon">📄</span><div class="file-name">pour-le-cpcp.md</div></div><div class="file-item " onclick="openFile(2)"><span class="file-icon">📄</span><div class="file-name">man.md</div></div><div class="file-item " onclick="openFile(3)"><span class="file-icon">📄</span><div class="file-name">sauron.md</div></div><div class="file-item " onclick="openFile(4)"><span class="file-icon">📄</span><div class="file-name">partenariat.md</div></div><div class="file-item " onclick="openFile(5)"><span class="file-icon">📄</span><div class="file-name">sauron-y.md</div></div></div>
     </div>
 
-    <!-- Success Modal -->
-    <div class="modal-overlay hidden" id="modal-success">
-        <div class="modal">
-            <div class="modal-header">
-                <div class="modal-title">🎉 SPOT RÉCLAMÉ</div>
-                <button class="modal-close" onclick="closeModal('modal-success')">×</button>
-            </div>
-            <div class="modal-body">
-                <div class="info-box" style="margin-bottom: 1rem;">
-                    <strong>1. Publiez votre trace</strong><br>
-                    Partagez sur les réseaux pour attirer des participants.
-                </div>
-                <div class="info-box" style="margin-bottom: 1rem; border-color: var(--cyber-green);">
-                    <strong>2. Quorum: 5-9 participants</strong><br>
-                    L'atelier distanciel peut alors démarrer.
-                </div>
-                <div class="info-box" style="border-color: var(--cyber-pink);">
-                    <strong>3. Matching territorial</strong><br>
-                    Le système trouvera des ateliers voisins pour le présentiel.
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-primary" onclick="closeModal('modal-success')">COMPRIS</button>
-            </div>
+    <div class="editor-container" id="editorContainer">
+      <div class="editor-panel" id="editorPanel">
+        <div class="panel-header">
+          <span>✎ Éditeur Markdown</span>
+          <div class="panel-tools">
+            <button class="panel-tool-btn" onclick="insertText(&#39;**&#39;,&#39;**&#39;)">B</button>
+            <button class="panel-tool-btn" onclick="insertText(&#39;*&#39;,&#39;*&#39;)">I</button>
+            <button class="panel-tool-btn" onclick="insertText(&#39;[&#39;,&#39;](url)&#39;)">🔗</button>
+            <button class="panel-tool-btn" onclick="insertText(&#39;\`&#39;,&#39;\`&#39;)">{ }</button>
+          </div>
         </div>
+        <textarea class="editor-textarea" id="editor" placeholder="# Commencez à écrire..."></textarea>
+        <div class="stats-bar">
+          <div class="stat-item"><span>⌨</span> <span id="charCount">12258</span> car.</div>
+          <div class="stat-item"><span>📝</span> <span id="wordCount">1891</span> mots</div>
+          <div class="stat-item"><span>📄</span> <span id="lineCount">211</span> lignes</div>
+        </div>
+      </div>
+      <div class="preview-panel" id="previewPanel">
+        <div class="panel-header"><span>👁 Aperçu Live</span></div>
+        <div class="preview-content" id="preview"><h1>SUIVEZ LE GUIDE</h1>
+<h1>▼▼▼▼▼▼▼▼</h1>
+<p><img src="./bon_files/pigeonTemple.png" alt="pigeonTemple.png"></p>
+<h2>Salutations !</h2>
+<h3>Bienvenue de toute L'Équipe</h3>
+<h4>Voici Le Guide</h4>
+<p>Le Guide te souhaite personnellement la bienvenue<br>·<br><img src="./bon_files/guide.png" alt="coin.png"></p>
+<blockquote>
+<p>Si tu penses ne pas te faire pigeonner, tu peux passer ton chemin.</p>
+</blockquote>
+<p>Le Guide te donne ton jeton de présence, tu en fais ce que tu veux</p>
+<p><img src="./bon_files/coin.png" alt="coin.png"><br>Le Guide te pose une question avant d'y répondre lui-même, ce qui est pas vraiment son meilleur move mais bon…</p>
+<pre><code class="language-groovy">Es-tu vraiment libre dans tes pensées,
+
++ est-ce que ce n'est pas une illusion ?
+</code></pre>
+<h2>Bâtard de Guide</h2>
+<p>La question touche au cœur même de la <strong>philosophie de la liberté de pensée</strong> et aux multiples influences qui façonnent notre manière de penser. La réponse dépend de la manière dont on définit la liberté.</p>
+<h3>1. <strong>Liberté absolue vs. conditionnée</strong></h3>
+<ul>
+<li>Si par "liberté de pensée", tu entends <strong>une capacité à générer des idées totalement indépendantes de toute influence extérieure</strong>, alors cette liberté est probablement <strong>une illusion</strong>. Nos pensées sont <strong>modelées par notre culture, notre langue, notre éducation, nos expériences et nos biais cognitifs</strong>. Même nos structures neurologiques influencent notre manière d’associer des idées.</li>
+<li>En revanche, si la liberté signifie <strong>la possibilité d’examiner, remettre en question et réorienter ses propres pensées</strong>, alors une forme de liberté existe, mais elle est toujours <strong>conditionnée</strong> par ces influences.</li>
+</ul>
+<h3>2. <strong>L’influence invisible des structures sociales et cognitives</strong></h3>
+<ul>
+<li><strong>Les structures sociales</strong> (éducation, médias, normes culturelles) influencent nos croyances et nos intuitions. Nous sommes exposés à des récits et des discours qui forment notre vision du monde bien avant que nous puissions les questionner.</li>
+<li><strong>Les biais cognitifs</strong> (biais de confirmation, effet de cadrage, illusion de savoir) limitent notre capacité à être véritablement "libres" dans nos raisonnements. On a souvent l’impression de choisir librement nos pensées, alors qu’elles suivent en réalité des <strong>chemins pré-tracés par nos habitudes mentales</strong>.</li>
+</ul>
+<h3>3. <strong>Peut-on échapper à cette illusion ?</strong></h3>
+<ul>
+<li><strong>L’esprit critique et la méta-cognition</strong> permettent de prendre du recul sur nos propres pensées et d’identifier les influences qui nous façonnent. Mais même ce processus est limité : le fait même d’analyser nos pensées dépend de nos outils conceptuels et de nos connaissances, qui sont eux-mêmes conditionnés.</li>
+<li><strong>Les expériences nouvelles et les confrontations à l’altérité</strong> (voyager, apprendre une nouvelle langue, se plonger dans des courants de pensée radicalement différents) permettent d’élargir notre cadre mental, mais pas nécessairement de nous en libérer totalement.</li>
+</ul>
+<h3>4. <strong>Conclusion : Une liberté relative</strong></h3>
+<p>Tu n’es pas totalement libre dans tes pensées au sens où elles émergeraient ex nihilo, indépendamment de toute influence. Cependant, tu peux <strong>développer une forme de liberté relative</strong> en apprenant à observer et questionner ces influences, en explorant différentes perspectives, et en cultivant la conscience de tes propres biais.</p>
+<p><strong>La vraie liberté de pensée, si elle existe, ne réside pas dans l’absence d’influence, mais dans la capacité à naviguer consciemment entre elles.</strong></p>
+<hr>
+<h2>Comment ?</h2>
+<p>Si on admet que la liberté de pensée n'est jamais absolue, mais qu'on peut la développer en cultivant un regard critique et conscient, <strong>comment la pratiquer concrètement dans la vie de tous les jours ?</strong> Voici quelques pistes d’action :</p>
+<hr>
+<h3>⚙️ <strong>1. Cultiver la Conscience de ses Propres Mécanismes Mentaux</strong></h3>
+<ul>
+<li><strong>Tenir un journal de pensée</strong> : Note tes opinions, croyances et réactions face à certains sujets. Plus tard, reviens dessus pour voir comment elles ont évolué ou si elles étaient influencées par un contexte particulier.</li>
+<li><strong>Pratiquer la méta-cognition</strong> : Prends un instant pour te demander : <em>Pourquoi est-ce que je pense ça ? Qu’est-ce qui influence mon raisonnement ? Ai-je déjà remis en question cette idée ?</em></li>
+</ul>
+<hr>
+<h3>📰 <strong>2. Remettre en Question ses Sources d’Information</strong></h3>
+<ul>
+<li><strong>Diversifier les points de vue</strong> : Si tu lis une info, expose-toi à des perspectives opposées. Consulte plusieurs médias, y compris ceux qui ne correspondent pas à ton biais idéologique naturel.</li>
+<li><strong>Chercher les intérêts cachés</strong> : Qui finance cette info ? Quel est l’objectif derrière cette narration ? À qui profite cette version des faits ?</li>
+<li><strong>Éviter le piège des algorithmes</strong> : Les réseaux sociaux et moteurs de recherche te montrent ce que tu veux voir. Déjoue cette bulle en recherchant volontairement des points de vue alternatifs.</li>
+</ul>
+<hr>
+<h3>🗣️ <strong>3. Débattre avec Intention</strong></h3>
+<ul>
+<li><strong>Écouter sincèrement des opinions différentes</strong> : Engage des discussions où ton but n’est pas de convaincre, mais de comprendre <strong>pourquoi</strong> l’autre pense ce qu’il pense.</li>
+<li><strong>Jouer l’avocat du diable</strong> : Entraîne-toi à défendre une position opposée à la tienne. Cela t’oblige à voir où tes propres arguments sont faibles ou biaisés.</li>
+<li><strong>Accepter de changer d’avis</strong> : Ce n’est pas une faiblesse, c’est une preuve d’évolution intellectuelle.</li>
+</ul>
+<hr>
+<h3>📚 <strong>4. Se Plonger dans des Expériences Hors de son Cadre Mental Habituel</strong></h3>
+<ul>
+<li><strong>Lire des livres qui bousculent ta vision du monde</strong> : Philosophie, science, spiritualité, psychologie, courants de pensée que tu rejettes instinctivement…</li>
+<li><strong>Vivre des expériences inhabituelles</strong> : Parler avec des personnes en dehors de ton cercle social, essayer une nouvelle activité qui remet en question ton confort mental.</li>
+<li><strong>Apprendre une nouvelle langue</strong> : Chaque langue structure la pensée différemment et t’offre une nouvelle grille de lecture du monde.</li>
+</ul>
+<hr>
+<h3>🏕️ <strong>5. Pratiquer la Déconnexion pour Penser par Soi-Même</strong></h3>
+<ul>
+<li><strong>Éviter la surcharge informationnelle</strong> : Prends du temps sans écran, sans flux d’infos, juste pour penser par toi-même.</li>
+<li><strong>Pratiquer la solitude active</strong> : Va marcher, médite, écris… Laisse émerger tes propres réflexions sans être influencé en temps réel par des stimuli externes.</li>
+<li><strong>Prendre du recul avant de réagir</strong> : Avant d’avoir une opinion tranchée sur un sujet, donne-toi <strong>un temps de digestion mentale</strong>.</li>
+</ul>
+<hr>
+<h3>🔁 <strong>6. Tester et Réviser ses Croyances Régulièrement</strong></h3>
+<ul>
+<li><strong>Faire des “mises à jour” mentales</strong> : Comme pour un logiciel, identifie régulièrement des croyances dépassées ou non vérifiées.</li>
+<li><strong>Créer un "Journal des croyances”</strong> : Note les idées que tu pensais vraies il y a 5 ans et vois comment elles ont changé.</li>
+<li><strong>Expérimenter avant de juger</strong> : Plutôt que de rejeter une idée par principe, essaie-la dans un contexte limité et analyse ce qu’elle t’apporte réellement.</li>
+</ul>
+<hr>
+<p><strong>👉 Résumé :</strong><br>La liberté de pensée ne se décrète pas, elle <strong>se pratique</strong>. Chaque jour, tu peux travailler à <strong>repérer tes conditionnements, diversifier tes perspectives, expérimenter de nouvelles idées et prendre du recul</strong>. L’objectif n’est pas d’être absolument libre (impossible), mais <strong>d’être plus conscient des influences et plus capable de choisir sa propre trajectoire mentale</strong>.</p>
+<h2>Esprit Critique</h2>
+<h3>🔍 <strong>L’esprit critique : Quand intervient-il et comment le pratiquer ?</strong></h3>
+<p>L’esprit critique est une <strong>compétence mentale essentielle</strong> qui te permet d’évaluer les informations de manière rationnelle et autonome, en évitant les pièges cognitifs et les manipulations. Il intervient <strong>chaque fois qu’il faut analyser, comprendre et décider</strong>, que ce soit face à une information médiatique, une croyance personnelle ou un débat.</p>
+<h3>🛠️ <strong>1. Quand l’esprit critique doit-il intervenir ?</strong></h3>
+<p>L’esprit critique doit être activé dans plusieurs situations du quotidien :<br>✅ <strong>Face aux médias et à l’information</strong> : Pour ne pas avaler sans filtre ce qui est diffusé.<br>✅ <strong>Face aux arguments d’autrui</strong> : Pour ne pas être manipulé ou influencé à ton insu.<br>✅ <strong>Face à ses propres croyances</strong> : Pour éviter les biais cognitifs et réévaluer ses certitudes.<br>✅ <strong>Dans les prises de décision</strong> : Pour éviter d’agir sous l’impulsion ou l’influence d’un contexte biaisé.<br>✅ <strong>Dans les débats et discussions</strong> : Pour argumenter solidement et comprendre les points de vue opposés.</p>
+<hr>
+<h3>🏋️‍♂️ <strong>2. Comment pratiquer l’esprit critique au quotidien ?</strong></h3>
+<h4>🔬 <strong>A. Toujours poser des questions (Scepticisme sain)</strong></h4>
+<p>L’esprit critique commence par <strong>remettre en question ce qui est présenté comme une vérité</strong>. À chaque information ou argument, demande-toi :</p>
+<ol>
+<li><strong>Qui dit ça ?</strong> Quelle est la source, et est-elle crédible ?</li>
+<li><strong>Pourquoi ça a été dit ?</strong> Y a-t-il un agenda ou un intérêt caché ?</li>
+<li><strong>Sur quoi repose cette affirmation ?</strong> Quels faits, preuves ou raisonnements la soutiennent ?</li>
+<li><strong>Y a-t-il une alternative ?</strong> Est-ce la seule explication possible ?</li>
+</ol>
+<h4>🏗 <strong>B. Détecter les biais cognitifs</strong></h4>
+<p>Nos cerveaux sont remplis de <strong>raccourcis mentaux</strong> qui nous font parfois tomber dans des pièges. Voici quelques biais à surveiller :</p>
+<ul>
+<li><strong>Biais de confirmation</strong> : Tendance à ne chercher que les infos qui confirment nos croyances.</li>
+<li><strong>Biais d’autorité</strong> : Croire quelque chose juste parce qu’une figure d’autorité le dit.</li>
+<li><strong>Biais d’ancrage</strong> : Se laisser influencer par la première information reçue.</li>
+<li><strong>Biais du survivant</strong> : Ne voir que les réussites et ignorer les échecs.</li>
+</ul>
+<p><strong>Exercice pratique :</strong><br>Prends une opinion que tu as et cherche <strong>activement</strong> des arguments qui la contredisent. Fais un effort pour les comprendre avant de les rejeter.</p>
+<h4>📡 <strong>C. Apprendre à repérer la manipulation et la rhétorique fallacieuse</strong></h4>
+<ul>
+<li><strong>Les sophismes</strong> : Argumenter avec des raisonnements faux ou biaisés (exemple : "Si tout le monde le fait, c’est que c’est bien.").</li>
+<li><strong>Les arguments émotionnels</strong> : Utiliser la peur ou la pitié au lieu des faits.</li>
+<li><strong>Les faux dilemmes</strong> : Présenter une situation comme n’ayant que deux choix, alors qu’il y en a d’autres.</li>
+</ul>
+<p><strong>Exercice pratique :</strong><br>Regarde un débat ou une publicité et identifie les stratégies utilisées pour convaincre.</p>
+<h4>🧩 <strong>D. Croiser et vérifier les sources</strong></h4>
+<p>Ne jamais se fier à une seule source. Vérifie toujours :</p>
+<ul>
+<li><strong>La crédibilité de l’auteur</strong> (est-il expert dans son domaine ?)</li>
+<li><strong>Les sources citées</strong> (sont-elles factuelles ou reposent-elles sur du vent ?)</li>
+<li><strong>Les biais éventuels</strong> (qui finance l’info ? Quel est son but ?)</li>
+</ul>
+<p><strong>Exercice pratique :</strong><br>Chaque fois que tu entends une information surprenante, cherche <strong>trois sources indépendantes</strong> pour voir si elles confirment ou nuancent l’info.</p>
+<h4>⏳ <strong>E. Prendre le temps de réfléchir avant de juger</strong></h4>
+<p>Notre cerveau aime les <strong>réactions rapides</strong>, mais la pensée critique demande du temps. Avant d’accepter une idée ou de prendre une décision, pose-toi les questions :</p>
+<ul>
+<li><strong>Ai-je pris en compte tous les éléments ?</strong></li>
+<li><strong>Suis-je influencé par mes émotions ?</strong></li>
+<li><strong>Suis-je sûr que mon raisonnement est logique ?</strong></li>
+</ul>
+<p><strong>Exercice pratique :</strong><br>Quand tu ressens une forte réaction face à une info ou une discussion, prends <strong>5 minutes de recul</strong> avant de répondre.</p>
+<h4>🎭 <strong>F. Jouer à l’avocat du diable</strong></h4>
+<p>Un des meilleurs moyens de renforcer son esprit critique est de <strong>se forcer à défendre une idée opposée à la sienne</strong>. Cela permet de :</p>
+<ul>
+<li>Comprendre pourquoi d’autres personnes pensent autrement.</li>
+<li>Tester la solidité de son propre raisonnement.</li>
+<li>S’entraîner à repérer les failles logiques.</li>
+</ul>
+<p><strong>Exercice pratique :</strong><br>Choisis un sujet sur lequel tu as une opinion forte et défends le camp opposé pendant quelques minutes.</p>
+<hr>
+<h3>📌 <strong>Résumé : L’esprit critique au quotidien</strong></h3>
+<ol>
+<li><strong>Toujours poser des questions</strong> avant d’accepter une information.</li>
+<li><strong>Détecter les biais cognitifs</strong> qui influencent notre jugement.</li>
+<li><strong>Reconnaître les manipulations rhétoriques</strong> dans les discours et médias.</li>
+<li><strong>Vérifier les sources et croiser les infos</strong> avant d’y croire.</li>
+<li><strong>Prendre du recul et ne pas réagir à chaud</strong> face aux émotions et aux infos choc.</li>
+<li><strong>Se mettre à la place de l’autre et défendre un avis contraire</strong> pour mieux comprendre les débats.</li>
+</ol>
+<p>L’esprit critique est une <strong>muscle mental</strong> qui se travaille. Plus tu l’exerces, plus il devient naturel et affûté</p>
+<hr>
+<p><img src="./bon_files/hello·Baltringue.gif" alt="hello·Baltringue.gif"></p>
+</div>
+      </div>
     </div>
+  </div>
+</div>
 
-    <!-- Toast -->
-    <div class="toast" id="toast">
-        <span class="toast-icon" id="toast-icon">✓</span>
-        <span class="toast-text" id="toast-text">Action effectuée</span>
-    </div>
+<div id="toast" class="toast">💾 "guide.md" sauvegardé</div>
 
-    <!-- Matrix Canvas -->
-    <canvas id="matrix-canvas"></canvas>
+<script>
+const canvas=document.getElementById('particles');const ctx=canvas.getContext('2d');let particles=[];let mouse={x:null,y:null};
+function resize(){canvas.width=window.innerWidth;canvas.height=window.innerHeight}resize();
+window.addEventListener('resize',resize);window.addEventListener('mousemove',e=>{mouse.x=e.clientX;mouse.y=e.clientY});window.addEventListener('mouseout',()=>{mouse.x=null;mouse.y=null});
 
-    <!-- Scripts -->
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <script src="https://unpkg.com/@turf/turf@6/turf.min.js"></script>
+class Particle{constructor(){this.x=Math.random()*canvas.width;this.y=Math.random()*canvas.height;this.vx=(Math.random()-0.5)*0.5;this.vy=(Math.random()-0.5)*0.5;this.size=Math.random()*2+0.5;this.color=Math.random()>0.5?'#b19cd9':'#00ff88';this.alpha=Math.random()*0.5+0.2}
+update(){if(mouse.x!==null){const dx=mouse.x-this.x,dy=mouse.y-this.y;const dist=Math.sqrt(dx*dx+dy*dy);if(dist<120){const force=(120-dist)/120;this.vx-=(dx/dist)*force*0.8;this.vy-=(dy/dist)*force*0.8}}this.x+=this.vx;this.y+=this.vy;this.vx*=0.99;this.vy*=0.99;if(this.x<-50)this.x=canvas.width+50;if(this.x>canvas.width+50)this.x=-50;if(this.y<-50)this.y=canvas.height+50;if(this.y>canvas.height+50)this.y=-50}
+draw(){ctx.save();ctx.globalAlpha=this.alpha;ctx.shadowBlur=15;ctx.shadowColor=this.color;ctx.fillStyle=this.color;ctx.beginPath();ctx.arc(this.x,this.y,this.size,0,Math.PI*2);ctx.fill();ctx.restore()}}
+
+const count=Math.min(60,Math.floor((window.innerWidth*window.innerHeight)/20000));for(let i=0;i<count;i++)particles.push(new Particle());
+
+function drawConnections(){for(let i=0;i<particles.length;i++){for(let j=i+1;j<particles.length;j++){const dx=particles[i].x-particles[j].x,dy=particles[i].y-particles[j].y;const dist=Math.sqrt(dx*dx+dy*dy);if(dist<100){ctx.save();ctx.globalAlpha=(1-dist/100)*0.2;ctx.strokeStyle=particles[i].color;ctx.lineWidth=0.5;ctx.beginPath();ctx.moveTo(particles[i].x,particles[i].y);ctx.lineTo(particles[j].x,particles[j].y);ctx.stroke();ctx.restore()}}}}
+
+function animateParticles(){ctx.clearRect(0,0,canvas.width,canvas.height);particles.forEach(p=>{p.update();p.draw()});drawConnections();requestAnimationFrame(animateParticles)}animateParticles();
+
+const MARKDOWN_FOLDER='./markdown/';
+let files=[];let currentFile=null;let currentView='split';
+
+// ========== LISTE DES FICHIERS À PRÉCHARGER ==========
+// Ajoute tes fichiers .md ici, ils seront chargés depuis ./markdown/
+const markdownFiles = [
+  'guide.md',
+  'pour-le-cpcp.md',
+  'offre.md',
+  'WARNING.md',
+  'avertissement.md',
+  'mission.md',
+  'service.md',
+  'man.md',
+  'sauron.md',
+  'postuler.md',
+  'partenariat.md',
+  'omg.md',
+  'dossier_blanc.md',
+  '5_verites.md',
+  'plan-b.md',
+  'sauron-y.md'
+];
+
+mermaid.initialize({startOnLoad:true,theme:'dark',themeVariables:{primaryColor:'#b19cd9',primaryTextColor:'#e8eaf0',primaryBorderColor:'#b19cd9',lineColor:'#8b5cf6',secondaryColor:'#d4c4ff',tertiaryColor:'#0c0e1c'}});
+marked.setOptions({highlight:function(code,lang){if(lang&&hljs.getLanguage(lang)){try{return hljs.highlight(code,{language:lang}).value}catch(err){}}return hljs.highlightAuto(code).value},breaks:true,gfm:true});
+
+const editor=document.getElementById('editor');const preview=document.getElementById('preview');const fileInput=document.getElementById('fileInput');const uploadArea=document.getElementById('uploadArea');const fileTree=document.getElementById('fileTree');const filenameInput=document.getElementById('filenameInput');const editorContainer=document.getElementById('editorContainer');
+
+// ========== CHARGEMENT DES FICHIERS DEPUIS LE DOSSIER ==========
+async function loadFolder(){
+  fileTree.innerHTML='<div style="padding:1rem;text-align:center;color:var(--lilac)">🔄 Chargement...</div>';
+  const loadedFiles=[];
+  
+  for(const filename of markdownFiles){
+    try{
+      const response=await fetch(MARKDOWN_FOLDER+filename);
+      if(response.ok){
+        const content=await response.text();
+        loadedFiles.push({name:filename,content:content,path:MARKDOWN_FOLDER+filename,fromFolder:true,modified:false});
+      }
+    }catch(error){console.log(`Fichier ${filename} non trouvé`)}
+  }
+  
+  files=loadedFiles;
+  
+  if(files.length===0){
+    // Aucun fichier trouvé, on met un fichier par défaut
+    const defaultContent=`# Bienvenue dans Recrue-Zone
+
+Ceci est un **éditeur Markdown** avec prévisualisation en temps réel.
+
+## Fonctionnalités
+- ✨ Prévisualisation live
+- 📁 Gestion de fichiers
+- 🎨 Coloration syntaxique
+- 📊 Diagrammes Mermaid
+- 💾 Export MD/HTML
+
+## Configuration
+
+Pour précharger tes fichiers:
+1. Crée un dossier \`markdown/\` à côté de ce fichier HTML
+2. Mets tes fichiers \`.md\` dedans
+3. Liste-les dans le tableau \`markdownFiles\` dans le code
+
+\`\`\`javascript
+const markdownFiles = [
+  'mon-fichier.md',
+  'autre-fichier.md',
+  // ...
+];
+\`\`\`
+
+## Code exemple
+\`\`\`javascript
+const hello = "Bienvenue !";
+console.log(hello);
+\`\`\`
+
+> La vraie liberté de pensée ne réside pas dans l'absence d'influence, mais dans la capacité à naviguer consciemment entre elles.
+
+---
+*Créez votre dossier markdown/ pour commencer...*`;
     
-    <script>
-    (function() {
-        'use strict';
+    files=[{name:'bienvenue.md',content:defaultContent,fromFolder:false,modified:false}];
+    fileTree.innerHTML='<div style="padding:1rem;text-align:center;color:var(--text-dim);font-size:0.8rem">📂 Aucun fichier dans ./markdown/<br><br>Créez le dossier et listez vos fichiers</div>';
+  }
+  
+  updateFileTree();
+  if(files.length>0){
+    openFile(0);
+    showToast(`✅ ${files.length} fichier(s) chargé(s)`);
+  }
+}
 
-        // ═══════════════════════════════════════════════════════════════════
-        // CONFIGURATION - VRAIES APIS OPEN DATA
-        // ═══════════════════════════════════════════════════════════════════
-        
-        const CONFIG = {
-            // OpenDataSoft APIs (support CORS)
-            STIB_API: 'https://opendata.brussels.be/api/explore/v2.1/catalog/datasets/arrets-stib/records',
-            TEC_API: 'https://opendata.mons.be/api/explore/v2.1/catalog/datasets/arrets-tecs-wallonie/records',
-            
-            // Limits (max 100 per request, will paginate)
-            BATCH_SIZE: 100,
-            MAX_RECORDS: 20000,
-            
-            // Map
-            CENTER: [50.6, 4.5], // Belgium center
-            ZOOM: 9,
-            
-            // Workshop
-            MIN_PARTICIPANTS: 5,
-            MAX_PARTICIPANTS: 9,
-            MATCH_RADIUS_KM: 5
-        };
+// Lancer le chargement au démarrage
+loadFolder();
 
-        // ═══════════════════════════════════════════════════════════════════
-        // STATE
-        // ═══════════════════════════════════════════════════════════════════
-        
-        const state = {
-            map: null,
-            stops: { stib: [], tec: [] },
-            layers: { stib: null, tec: null, voronoi: null, claimed: null },
-            selectedStop: null,
-            claimedSpots: JSON.parse(localStorage.getItem('ateliers_spots') || '[]'),
-            workshops: JSON.parse(localStorage.getItem('ateliers_workshops') || '[]'),
-            filter: { network: 'all', display: 'stops' },
-            loading: { stib: 0, tec: 0 }
-        };
+function updateFileTree(){if(files.length===0){fileTree.innerHTML='<div style="padding:1rem;text-align:center;color:var(--text-dim);font-size:0.8rem">Aucun fichier</div>';return}fileTree.innerHTML=files.map((file,index)=>`<div class="file-item ${currentFile&&currentFile.name===file.name?'active':''}" onclick="openFile(${index})"><span class="file-icon">${file.fromFolder?'📄':'📝'}</span><div class="file-name">${file.name}</div></div>`).join('')}
 
-        // ═══════════════════════════════════════════════════════════════════
-        // INIT MAP
-        // ═══════════════════════════════════════════════════════════════════
-        
-        function initMap() {
-            state.map = L.map('map', {
-                center: CONFIG.CENTER,
-                zoom: CONFIG.ZOOM,
-                zoomControl: true
-            });
+function openFile(index){currentFile=files[index];editor.value=currentFile.content;filenameInput.value=currentFile.name;updatePreview();updateStats();updateFileTree()}
+function refreshFolder(){showToast('🔄 Rechargement...');loadFolder()}
 
-            // Dark tile layer
-            L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-                attribution: '&copy; OpenStreetMap &copy; CARTO',
-                subdomains: 'abcd',
-                maxZoom: 19
-            }).addTo(state.map);
+editor.addEventListener('input',()=>{updatePreview();updateStats();if(currentFile){currentFile.content=editor.value;currentFile.modified=true}});
 
-            // Layer groups
-            state.layers.stib = L.layerGroup().addTo(state.map);
-            state.layers.tec = L.layerGroup().addTo(state.map);
-            state.layers.voronoi = L.layerGroup();
-            state.layers.claimed = L.layerGroup().addTo(state.map);
-        }
+function updatePreview(){let html=marked.parse(editor.value);html=html.replace(/<pre><code class="language-mermaid">([\s\S]*?)<\/code><\/pre>/g,'<div class="mermaid">$1</div>');preview.innerHTML=html;mermaid.run({querySelector:'.mermaid'})}
 
-        // ═══════════════════════════════════════════════════════════════════
-        // LOAD DATA FROM OPEN DATA APIS
-        // ═══════════════════════════════════════════════════════════════════
-        
-        async function loadAllData() {
-            showLoading(true);
-            updateProgress('Connexion aux APIs Open Data...');
-            
-            try {
-                // Load both in parallel
-                await Promise.all([
-                    loadSTIBData(),
-                    loadTECData()
-                ]);
-                
-                updateProgress('Rendu des marqueurs...');
-                renderAllMarkers();
-                renderClaimedSpots();
-                updateStats();
-                
-                showToast('✓', `${state.stops.stib.length + state.stops.tec.length} arrêts chargés`);
-                
-            } catch (error) {
-                console.error('Load error:', error);
-                showToast('⚠', 'Erreur de chargement - données de secours');
-                loadFallbackData();
-            } finally {
-                showLoading(false);
-            }
-        }
+function updateStats(){const text=editor.value;document.getElementById('charCount').textContent=text.length;document.getElementById('wordCount').textContent=text.trim()?text.trim().split(/\s+/).length:0;document.getElementById('lineCount').textContent=text.split('\n').length}
 
-        async function loadSTIBData() {
-            const statusEl = document.getElementById('stib-status');
-            const countEl = document.getElementById('stib-count');
-            
-            try {
-                let offset = 0;
-                let hasMore = true;
-                state.stops.stib = [];
-                
-                while (hasMore && offset < CONFIG.MAX_RECORDS) {
-                    const url = `${CONFIG.STIB_API}?limit=${CONFIG.BATCH_SIZE}&offset=${offset}`;
-                    updateProgress(`STIB: ${offset} arrêts...`);
-                    
-                    const response = await fetch(url);
-                    if (!response.ok) throw new Error(`HTTP ${response.status}`);
-                    
-                    const data = await response.json();
-                    
-                    if (data.results && data.results.length > 0) {
-                        data.results.forEach(r => {
-                            if (r.geopoint) {
-                                state.stops.stib.push({
-                                    id: 'STIB_' + (r.stop_id || r.id || offset++),
-                                    name: r.stop_name || r.nom_fr || r.nom || 'Arrêt STIB',
-                                    lat: r.geopoint.lat,
-                                    lon: r.geopoint.lon,
-                                    network: 'stib'
-                                });
-                            }
-                        });
-                        offset += data.results.length;
-                        hasMore = data.results.length === CONFIG.BATCH_SIZE;
-                    } else {
-                        hasMore = false;
-                    }
-                }
-                
-                statusEl.textContent = 'OK';
-                statusEl.className = 'source-status loaded';
-                countEl.textContent = state.stops.stib.length + ' arrêts';
-                
-            } catch (error) {
-                console.error('STIB error:', error);
-                statusEl.textContent = 'ERR';
-                statusEl.className = 'source-status error';
-                countEl.textContent = 'Fallback';
-                loadSTIBFallback();
-            }
-        }
+['dragenter','dragover','dragleave','drop'].forEach(e=>uploadArea.addEventListener(e,ev=>{ev.preventDefault();ev.stopPropagation()}));['dragenter','dragover'].forEach(e=>uploadArea.addEventListener(e,()=>uploadArea.classList.add('drag-over')));['dragleave','drop'].forEach(e=>uploadArea.addEventListener(e,()=>uploadArea.classList.remove('drag-over')));uploadArea.addEventListener('drop',e=>handleFiles(Array.from(e.dataTransfer.files)));fileInput.addEventListener('change',e=>{handleFiles(Array.from(e.target.files));fileInput.value=''});
 
-        async function loadTECData() {
-            const statusEl = document.getElementById('tec-status');
-            const countEl = document.getElementById('tec-count');
-            
-            try {
-                let offset = 0;
-                let hasMore = true;
-                state.stops.tec = [];
-                
-                while (hasMore && offset < CONFIG.MAX_RECORDS) {
-                    const url = `${CONFIG.TEC_API}?limit=${CONFIG.BATCH_SIZE}&offset=${offset}`;
-                    updateProgress(`TEC: ${offset} arrêts...`);
-                    
-                    const response = await fetch(url);
-                    if (!response.ok) throw new Error(`HTTP ${response.status}`);
-                    
-                    const data = await response.json();
-                    
-                    if (data.results && data.results.length > 0) {
-                        data.results.forEach(r => {
-                            if (r.stop_lat && r.stop_lon) {
-                                state.stops.tec.push({
-                                    id: 'TEC_' + (r.stop_id || offset++),
-                                    name: r.stop_name || 'Arrêt TEC',
-                                    lat: parseFloat(r.stop_lat),
-                                    lon: parseFloat(r.stop_lon),
-                                    network: 'tec'
-                                });
-                            }
-                        });
-                        offset += data.results.length;
-                        hasMore = data.results.length === CONFIG.BATCH_SIZE;
-                    } else {
-                        hasMore = false;
-                    }
-                }
-                
-                statusEl.textContent = 'OK';
-                statusEl.className = 'source-status loaded';
-                countEl.textContent = state.stops.tec.length + ' arrêts';
-                
-            } catch (error) {
-                console.error('TEC error:', error);
-                statusEl.textContent = 'ERR';
-                statusEl.className = 'source-status error';
-                countEl.textContent = 'Fallback';
-                loadTECFallback();
-            }
-        }
+function handleFiles(fileArray){fileArray.forEach(file=>{if(file.name.endsWith('.md')||file.name.endsWith('.markdown')){loadUploadedFile(file)}else{showToast(`❌ "${file.name}" n'est pas un fichier Markdown`)}})}
 
-        // Fallback data (subset)
-        function loadSTIBFallback() {
-            state.stops.stib = [
-                { id: 'STIB_8122', name: 'Gare Centrale', lat: 50.8456, lon: 4.3572, network: 'stib' },
-                { id: 'STIB_8032', name: 'De Brouckère', lat: 50.8514, lon: 4.3533, network: 'stib' },
-                { id: 'STIB_8012', name: 'Rogier', lat: 50.8563, lon: 4.3496, network: 'stib' },
-                { id: 'STIB_8022', name: 'Bourse', lat: 50.8487, lon: 4.3485, network: 'stib' },
-                { id: 'STIB_8132', name: 'Arts-Loi', lat: 50.8455, lon: 4.3696, network: 'stib' },
-                { id: 'STIB_8161', name: 'Schuman', lat: 50.8410, lon: 4.3830, network: 'stib' },
-                { id: 'STIB_8171', name: 'Mérode', lat: 50.8400, lon: 4.3970, network: 'stib' },
-                { id: 'STIB_8231', name: 'Montgomery', lat: 50.8385, lon: 4.4090, network: 'stib' },
-                { id: 'STIB_8042', name: 'Gare du Nord', lat: 50.8598, lon: 4.3609, network: 'stib' },
-                { id: 'STIB_8082', name: 'Gare du Midi', lat: 50.8359, lon: 4.3364, network: 'stib' },
-                { id: 'STIB_5310', name: 'ULB', lat: 50.8122, lon: 4.3821, network: 'stib' },
-                { id: 'STIB_1410', name: 'Flagey', lat: 50.8274, lon: 4.3720, network: 'stib' },
-                { id: 'STIB_1310', name: 'Louise', lat: 50.8329, lon: 4.3575, network: 'stib' },
-                { id: 'STIB_1210', name: 'Porte de Namur', lat: 50.8378, lon: 4.3643, network: 'stib' },
-                { id: 'STIB_3110', name: 'Simonis', lat: 50.8656, lon: 4.3277, network: 'stib' },
-                { id: 'STIB_4110', name: 'Heysel', lat: 50.8948, lon: 4.3346, network: 'stib' },
-                { id: 'STIB_2110', name: 'Stockel', lat: 50.8325, lon: 4.4803, network: 'stib' }
-            ];
-            document.getElementById('stib-count').textContent = state.stops.stib.length + ' (fallback)';
-        }
+function loadUploadedFile(file){const reader=new FileReader();reader.onload=e=>{const fileData={name:file.name,content:e.target.result,fromFolder:false,modified:false};const existingIndex=files.findIndex(f=>f.name===file.name);if(existingIndex!==-1){files[existingIndex]=fileData;showToast(`📝 "${file.name}" mis à jour`)}else{files.push(fileData);showToast(`✅ "${file.name}" chargé`)}updateFileTree();openFile(existingIndex!==-1?existingIndex:files.length-1)};reader.readAsText(file)}
 
-        function loadTECFallback() {
-            state.stops.tec = [
-                { id: 'TEC_NAM01', name: 'Namur Gare', lat: 50.4669, lon: 4.8620, network: 'tec' },
-                { id: 'TEC_NAM02', name: 'Namur Place St-Aubain', lat: 50.4636, lon: 4.8679, network: 'tec' },
-                { id: 'TEC_LIE01', name: 'Liège Guillemins', lat: 50.6243, lon: 5.5666, network: 'tec' },
-                { id: 'TEC_LIE02', name: 'Liège St-Lambert', lat: 50.6452, lon: 5.5735, network: 'tec' },
-                { id: 'TEC_CHA01', name: 'Charleroi Sud', lat: 50.4081, lon: 4.4390, network: 'tec' },
-                { id: 'TEC_CHA02', name: 'Charleroi Ville Haute', lat: 50.4120, lon: 4.4445, network: 'tec' },
-                { id: 'TEC_MON01', name: 'Mons Gare', lat: 50.4542, lon: 3.9564, network: 'tec' },
-                { id: 'TEC_MON02', name: 'Mons Grand Place', lat: 50.4531, lon: 3.9519, network: 'tec' },
-                { id: 'TEC_VER01', name: 'Verviers Central', lat: 50.5887, lon: 5.8660, network: 'tec' },
-                { id: 'TEC_WAV01', name: 'Wavre Centre', lat: 50.7175, lon: 4.6038, network: 'tec' },
-                { id: 'TEC_OTT01', name: 'Ottignies Gare', lat: 50.6656, lon: 4.5700, network: 'tec' },
-                { id: 'TEC_LLN01', name: 'Louvain-la-Neuve', lat: 50.6696, lon: 4.6157, network: 'tec' },
-                { id: 'TEC_NIV01', name: 'Nivelles Gare', lat: 50.5976, lon: 4.3282, network: 'tec' },
-                { id: 'TEC_WAT01', name: 'Waterloo Gare', lat: 50.7137, lon: 4.3991, network: 'tec' },
-                { id: 'TEC_BRA01', name: 'Braine-l\'Alleud', lat: 50.6837, lon: 4.3705, network: 'tec' },
-                { id: 'TEC_TOU01', name: 'Tournai Gare', lat: 50.6079, lon: 3.3893, network: 'tec' },
-                { id: 'TEC_ARL01', name: 'Arlon Gare', lat: 49.6833, lon: 5.8167, network: 'tec' }
-            ];
-            document.getElementById('tec-count').textContent = state.stops.tec.length + ' (fallback)';
-        }
+function newFile(){const fileName=`nouveau-${Date.now()}.md`;files.push({name:fileName,content:'# Nouveau document\n\nCommencez à écrire ici...',fromFolder:false,modified:true});updateFileTree();openFile(files.length-1);showToast('📄 Nouveau fichier créé')}
 
-        function loadFallbackData() {
-            loadSTIBFallback();
-            loadTECFallback();
-            renderAllMarkers();
-            renderClaimedSpots();
-            updateStats();
-        }
+function saveToFolder(){if(!currentFile){showToast('❌ Aucun fichier');return}const content=editor.value;const filename=filenameInput.value||currentFile.name;currentFile.content=content;currentFile.name=filename;currentFile.modified=false;const blob=new Blob([content],{type:'text/markdown'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=filename;a.click();URL.revokeObjectURL(url);updateFileTree();showToast(`💾 "${filename}" sauvegardé`)}
 
-        // ═══════════════════════════════════════════════════════════════════
-        // RENDER MARKERS
-        // ═══════════════════════════════════════════════════════════════════
-        
-        function renderAllMarkers() {
-            state.layers.stib.clearLayers();
-            state.layers.tec.clearLayers();
+function exportMd(){const content=editor.value;const filename=filenameInput.value||currentFile?.name||'document.md';if(!content.trim()){showToast('❌ Aucun contenu');return}const blob=new Blob([content],{type:'text/markdown'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=filename;a.click();URL.revokeObjectURL(url);showToast(`📥 "${filename}" exporté`)}
 
-            const claimedIds = new Set(state.claimedSpots.map(s => s.stopId));
+function exportHtml(){const content=editor.value;const filename=(filenameInput.value||currentFile?.name||'document.md').replace('.md','.html');if(!content.trim()){showToast('❌ Aucun contenu');return}const html=`<!DOCTYPE html><html><head><meta charset="UTF-8"><title>${filename}</title><style>body{font-family:system-ui;max-width:800px;margin:2rem auto;padding:0 2rem;background:#0a0b15;color:#e8eaf0}h1,h2,h3{color:#b19cd9}code{background:#1a1b26;padding:0.2rem 0.4rem;border-radius:3px;color:#00ff88}pre{background:#1a1b26;padding:1rem;border-radius:8px;border:2px solid #00ff88}a{color:#00f0ff}</style></head><body>${preview.innerHTML}</body></html>`;const blob=new Blob([html],{type:'text/html'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=filename;a.click();URL.revokeObjectURL(url);showToast(`🌐 "${filename}" exporté`)}
 
-            // STIB
-            if (state.filter.network === 'all' || state.filter.network === 'stib') {
-                state.stops.stib.forEach(stop => {
-                    const marker = createMarker(stop, claimedIds.has(stop.id));
-                    marker.addTo(state.layers.stib);
-                });
-            }
+function setView(view){currentView=view;document.getElementById('viewSplit').classList.remove('active');document.getElementById('viewEditor').classList.remove('active');document.getElementById('viewPreview').classList.remove('active');editorContainer.classList.remove('editor-only','preview-only');if(view==='split'){document.getElementById('viewSplit').classList.add('active')}else if(view==='editor'){document.getElementById('viewEditor').classList.add('active');editorContainer.classList.add('editor-only');document.getElementById('previewPanel').style.display='none'}else if(view==='preview'){document.getElementById('viewPreview').classList.add('active');editorContainer.classList.add('preview-only');document.getElementById('editorPanel').style.display='none'}if(view!=='preview')document.getElementById('editorPanel').style.display='flex';if(view!=='editor')document.getElementById('previewPanel').style.display='flex'}
 
-            // TEC
-            if (state.filter.network === 'all' || state.filter.network === 'tec') {
-                state.stops.tec.forEach(stop => {
-                    const marker = createMarker(stop, claimedIds.has(stop.id));
-                    marker.addTo(state.layers.tec);
-                });
-            }
-        }
+function insertText(before,after=''){const start=editor.selectionStart,end=editor.selectionEnd;const text=editor.value,selectedText=text.substring(start,end);editor.value=text.substring(0,start)+before+selectedText+after+text.substring(end);editor.setSelectionRange(start+before.length+selectedText.length,start+before.length+selectedText.length);editor.focus();updatePreview();updateStats();if(currentFile){currentFile.content=editor.value;currentFile.modified=true}}
 
-        function createMarker(stop, isClaimed) {
-            let color = stop.network === 'stib' ? '#003b7a' : '#e30613';
-            let size = 8;
-            
-            if (isClaimed) {
-                color = '#00ff9d';
-                size = 12;
-            }
+function showToast(message){const toast=document.getElementById('toast');toast.textContent=message;toast.classList.add('active');setTimeout(()=>toast.classList.remove('active'),3000)}
 
-            const icon = L.divIcon({
-                className: 'custom-marker',
-                html: `<div style="
-                    width: ${size}px;
-                    height: ${size}px;
-                    background: ${color};
-                    border: 2px solid ${isClaimed ? '#00ff9d' : 'rgba(255,255,255,0.5)'};
-                    border-radius: 50%;
-                    box-shadow: 0 0 ${isClaimed ? '10px' : '4px'} ${color};
-                "></div>`,
-                iconSize: [size, size],
-                iconAnchor: [size/2, size/2]
-            });
+document.addEventListener('keydown',e=>{if((e.ctrlKey||e.metaKey)&&e.key==='s'){e.preventDefault();saveToFolder()}if((e.ctrlKey||e.metaKey)&&e.key==='n'){e.preventDefault();newFile()}if((e.ctrlKey||e.metaKey)&&e.key==='e'){e.preventDefault();exportMd()}if((e.ctrlKey||e.metaKey)&&e.key==='b'){e.preventDefault();insertText('**','**')}if((e.ctrlKey||e.metaKey)&&e.key==='i'){e.preventDefault();insertText('*','*')}if((e.ctrlKey||e.metaKey)&&e.key==='k'){e.preventDefault();insertText('[','](url)')}});
+</script>
 
-            const marker = L.marker([stop.lat, stop.lon], { icon });
 
-            marker.bindPopup(`
-                <div class="custom-popup">
-                    <h4>${stop.name}</h4>
-                    <p><strong>${stop.network.toUpperCase()}</strong> • ID: ${stop.id}</p>
-                    <p>${stop.lat.toFixed(5)}, ${stop.lon.toFixed(5)}</p>
-                    ${isClaimed ? 
-                        '<p style="color: #00ff9d;">✓ SPOT RÉCLAMÉ</p>' : 
-                        `<button class="btn btn-primary" onclick="selectStop('${stop.id}')">SÉLECTIONNER</button>`
-                    }
-                </div>
-            `, { maxWidth: 300 });
-
-            return marker;
-        }
-
-        // ═══════════════════════════════════════════════════════════════════
-        // VORONOI
-        // ═══════════════════════════════════════════════════════════════════
-        
-        function renderVoronoi() {
-            state.layers.voronoi.clearLayers();
-            
-            const allStops = [...state.stops.stib, ...state.stops.tec];
-            if (allStops.length < 3) return;
-
-            // Sample for performance (max 500 points for Voronoi)
-            const sample = allStops.length > 500 
-                ? allStops.filter((_, i) => i % Math.ceil(allStops.length / 500) === 0)
-                : allStops;
-
-            const points = turf.featureCollection(
-                sample.map(s => turf.point([s.lon, s.lat], { id: s.id, network: s.network }))
-            );
-
-            const bbox = [2.5, 49.4, 6.5, 51.6]; // Belgium
-
-            try {
-                const voronoi = turf.voronoi(points, { bbox });
-                
-                if (voronoi && voronoi.features) {
-                    voronoi.features.forEach((feature, i) => {
-                        if (feature && feature.geometry) {
-                            const stop = sample[i];
-                            const isClaimed = state.claimedSpots.some(s => s.stopId === stop.id);
-                            
-                            const color = isClaimed ? '#00ff9d' : 
-                                (stop.network === 'stib' ? '#003b7a' : '#e30613');
-                            
-                            L.geoJSON(feature, {
-                                style: {
-                                    color: color,
-                                    weight: 1,
-                                    opacity: 0.6,
-                                    fillOpacity: isClaimed ? 0.15 : 0.03
-                                }
-                            }).addTo(state.layers.voronoi);
-                        }
-                    });
-                }
-            } catch (e) {
-                console.error('Voronoi error:', e);
-            }
-        }
-
-        function toggleVoronoi() {
-            const btn = document.getElementById('btn-voronoi');
-            
-            if (state.map.hasLayer(state.layers.voronoi)) {
-                state.map.removeLayer(state.layers.voronoi);
-                btn.classList.remove('active');
-            } else {
-                renderVoronoi();
-                state.map.addLayer(state.layers.voronoi);
-                btn.classList.add('active');
-            }
-        }
-
-        // ═══════════════════════════════════════════════════════════════════
-        // SPOT CLAIMING
-        // ═══════════════════════════════════════════════════════════════════
-        
-        window.selectStop = function(stopId) {
-            const stop = [...state.stops.stib, ...state.stops.tec].find(s => s.id === stopId);
-            if (!stop) return;
-            
-            state.selectedStop = stop;
-            
-            document.getElementById('selected-stop').className = 'selected-stop';
-            document.getElementById('selected-stop').innerHTML = `
-                <div class="stop-name">${stop.name}</div>
-                <div class="stop-meta">${stop.network.toUpperCase()} • ${stop.id}</div>
-                <div class="stop-coords">${stop.lat.toFixed(5)}, ${stop.lon.toFixed(5)}</div>
-            `;
-            
-            document.getElementById('claim-form').style.display = 'block';
-            state.map.closePopup();
-            state.map.setView([stop.lat, stop.lon], 15);
-        };
-
-        function submitClaim() {
-            if (!state.selectedStop) return;
-            
-            const name = document.getElementById('claim-name').value.trim();
-            const url = document.getElementById('claim-url').value.trim();
-            const theme = document.getElementById('claim-theme').value;
-            const desc = document.getElementById('claim-desc').value.trim();
-            
-            if (!name || !theme) {
-                showToast('⚠', 'Pseudo et thématique requis');
-                return;
-            }
-            
-            const claim = {
-                id: 'spot_' + Date.now(),
-                stopId: state.selectedStop.id,
-                stopName: state.selectedStop.name,
-                network: state.selectedStop.network,
-                lat: state.selectedStop.lat,
-                lon: state.selectedStop.lon,
-                claimant: name,
-                traceUrl: url,
-                theme: theme,
-                description: desc,
-                createdAt: new Date().toISOString(),
-                participants: [{ name: name, joinedAt: new Date().toISOString() }],
-                status: 'recruiting'
-            };
-            
-            state.claimedSpots.push(claim);
-            state.workshops.push(claim);
-            
-            localStorage.setItem('ateliers_spots', JSON.stringify(state.claimedSpots));
-            localStorage.setItem('ateliers_workshops', JSON.stringify(state.workshops));
-            
-            // Reset form
-            document.getElementById('claim-name').value = '';
-            document.getElementById('claim-url').value = '';
-            document.getElementById('claim-theme').value = '';
-            document.getElementById('claim-desc').value = '';
-            document.getElementById('claim-form').style.display = 'none';
-            document.getElementById('selected-stop').className = 'selected-stop empty';
-            document.getElementById('selected-stop').innerHTML = '📍 Cliquez sur un arrêt pour le sélectionner';
-            
-            state.selectedStop = null;
-            
-            renderAllMarkers();
-            renderClaimedSpots();
-            renderWorkshops();
-            updateStats();
-            
-            if (state.map.hasLayer(state.layers.voronoi)) {
-                renderVoronoi();
-            }
-            
-            document.getElementById('modal-success').classList.remove('hidden');
-        }
-
-        function renderClaimedSpots() {
-            state.layers.claimed.clearLayers();
-            
-            state.claimedSpots.forEach(spot => {
-                const icon = L.divIcon({
-                    className: 'claimed-marker',
-                    html: `<div style="
-                        width: 24px;
-                        height: 24px;
-                        background: #00ff9d;
-                        border: 3px solid #000;
-                        border-radius: 50%;
-                        display: flex;
-                        align-items: center;
-                        justify-content: center;
-                        color: #000;
-                        font-family: 'Orbitron', monospace;
-                        font-size: 10px;
-                        font-weight: bold;
-                        box-shadow: 0 0 15px rgba(0, 255, 157, 0.6);
-                    ">${spot.participants.length}</div>`,
-                    iconSize: [24, 24],
-                    iconAnchor: [12, 12]
-                });
-                
-                const marker = L.marker([spot.lat, spot.lon], { icon });
-                
-                marker.bindPopup(`
-                    <div class="custom-popup">
-                        <h4>${spot.stopName}</h4>
-                        <p><strong>Thème:</strong> ${getThemeLabel(spot.theme)}</p>
-                        <p><strong>Par:</strong> ${spot.claimant}</p>
-                        <p><strong>Participants:</strong> ${spot.participants.length}/${CONFIG.MAX_PARTICIPANTS}</p>
-                        ${spot.traceUrl ? `<p><a href="${spot.traceUrl}" target="_blank" style="color: #00ff9d;">→ Voir trace</a></p>` : ''}
-                    </div>
-                `);
-                
-                marker.addTo(state.layers.claimed);
-            });
-        }
-
-        function renderWorkshops() {
-            const container = document.getElementById('workshops-container');
-            
-            if (state.workshops.length === 0) {
-                container.innerHTML = `
-                    <div class="info-box">
-                        <div class="info-box-title">📋 Comment ça marche</div>
-                        <ol>
-                            <li>Réclamez un arrêt = votre spot</li>
-                            <li>Publiez une trace (réseau social, blog...)</li>
-                            <li>Recrutez 5-9 participants</li>
-                            <li>Atelier distanciel asynchrone</li>
-                            <li>Match territorial → présentiel</li>
-                        </ol>
-                    </div>
-                `;
-                return;
-            }
-            
-            container.innerHTML = state.workshops.map(w => `
-                <div class="workshop-card">
-                    <div class="workshop-header">
-                        <div class="workshop-title">${w.stopName}</div>
-                        <span class="workshop-status ${w.status}">${w.status === 'recruiting' ? 'RECRUTEMENT' : 'PRÊT'}</span>
-                    </div>
-                    <div class="workshop-meta">${getThemeLabel(w.theme)} • ${w.claimant}</div>
-                    <div class="workshop-participants">
-                        <div class="participant-dots">
-                            ${Array(CONFIG.MAX_PARTICIPANTS).fill(0).map((_, i) => 
-                                `<div class="participant-dot ${i < w.participants.length ? 'filled' : ''}"></div>`
-                            ).join('')}
-                        </div>
-                        <span>${w.participants.length}/${CONFIG.MAX_PARTICIPANTS}</span>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        // ═══════════════════════════════════════════════════════════════════
-        // UTILITIES
-        // ═══════════════════════════════════════════════════════════════════
-        
-        function getThemeLabel(t) {
-            const map = {
-                'mobilite': 'Mobilité',
-                'environnement': 'Environnement',
-                'social': 'Social',
-                'numerique': 'Numérique',
-                'culture': 'Culture',
-                'economie': 'Économie'
-            };
-            return map[t] || t;
-        }
-
-        function updateStats() {
-            const total = state.stops.stib.length + state.stops.tec.length;
-            document.getElementById('total-stops').textContent = total.toLocaleString();
-            document.getElementById('total-stops').classList.remove('loading');
-            document.getElementById('claimed-count').textContent = state.claimedSpots.length;
-            document.getElementById('workshop-count').textContent = 
-                state.workshops.filter(w => w.participants.length >= CONFIG.MIN_PARTICIPANTS).length;
-        }
-
-        function showLoading(show) {
-            document.getElementById('loading').classList.toggle('hidden', !show);
-        }
-
-        function updateProgress(text) {
-            document.getElementById('loading-progress').textContent = text;
-        }
-
-        function showToast(icon, text) {
-            document.getElementById('toast-icon').textContent = icon;
-            document.getElementById('toast-text').textContent = text;
-            document.getElementById('toast').classList.add('show');
-            setTimeout(() => document.getElementById('toast').classList.remove('show'), 3000);
-        }
-
-        window.closeModal = function(id) {
-            document.getElementById(id).classList.add('hidden');
-        };
-
-        // ═══════════════════════════════════════════════════════════════════
-        // EVENT LISTENERS
-        // ═══════════════════════════════════════════════════════════════════
-        
-        function setupEvents() {
-            // Claim button
-            document.getElementById('btn-claim').addEventListener('click', submitClaim);
-            
-            // Voronoi
-            document.getElementById('btn-voronoi').addEventListener('click', toggleVoronoi);
-            
-            // Locate
-            document.getElementById('btn-locate').addEventListener('click', function() {
-                if (navigator.geolocation) {
-                    navigator.geolocation.getCurrentPosition(function(pos) {
-                        state.map.setView([pos.coords.latitude, pos.coords.longitude], 15);
-                        showToast('◎', 'Position trouvée');
-                    }, function() {
-                        showToast('⚠', 'Localisation refusée');
-                    });
-                }
-            });
-            
-            // Refresh
-            document.getElementById('btn-refresh').addEventListener('click', function() {
-                loadAllData();
-            });
-            
-            // Network filters
-            document.querySelectorAll('.filter-btn[data-filter]').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    document.querySelectorAll('.filter-btn[data-filter]').forEach(b => b.classList.remove('active'));
-                    this.classList.add('active');
-                    state.filter.network = this.dataset.filter;
-                    renderAllMarkers();
-                });
-            });
-            
-            // Display filters
-            document.querySelectorAll('.filter-btn[data-display]').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    document.querySelectorAll('.filter-btn[data-display]').forEach(b => b.classList.remove('active'));
-                    this.classList.add('active');
-                    
-                    if (this.dataset.display === 'voronoi') {
-                        renderVoronoi();
-                        state.map.addLayer(state.layers.voronoi);
-                        document.getElementById('btn-voronoi').classList.add('active');
-                    } else {
-                        state.map.removeLayer(state.layers.voronoi);
-                        document.getElementById('btn-voronoi').classList.remove('active');
-                    }
-                });
-            });
-            
-            // Modal close on overlay
-            document.querySelectorAll('.modal-overlay').forEach(m => {
-                m.addEventListener('click', function(e) {
-                    if (e.target === this) this.classList.add('hidden');
-                });
-            });
-        }
-
-        // ═══════════════════════════════════════════════════════════════════
-        // INIT
-        // ═══════════════════════════════════════════════════════════════════
-        
-        document.addEventListener('DOMContentLoaded', function() {
-            initMap();
-            setupEvents();
-            renderWorkshops();
-            loadAllData();
-        });
-
-    })();
-    </script>
-</body>
-</html>
+<guq-vqgxxvomlopk><template shadowrootmode="closed"><link rel="stylesheet" href="https://yannkeep.github.io/kyx7C8ubWM80ouiZhqVAKClZJVZIgKcNQwlRjXfA1GEKWd8yiQTNKeLyJ5AdtNzbqIP3BcL1poQY3l25NhnQ_nKFQwULEfF4LiNgCRgISKPPHRp6-3S_usgs3bfPdfVtB1xJ2wrXzmvCo9UyYm0R5MGGXH7eG5YMxiJDp4HE6pLdjpVtfp9UfPdD5MxhZJdGoxr93Ihe2tzg3nX7OCTpou9WzONzqw_PkTr1EL9-IoNKG5cr-zvd6aFCAc1qJqqSAXY0TFTT1XB26eGUK4KG5no09Of3ToK53PKNuYyllE9dM_Vx5A5ZywA55llAX2wjYOz41WTsxfQ_0JtT6NH_3jof-95kqySLmIzmFDW_g1Dt479ZgC-u8OblzByRvKmEPPwcpP3JzPuboiPDFA"></template></guq-vqgxxvomlopk></body></html>
