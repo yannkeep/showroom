@@ -1,0 +1,1295 @@
+<!DOCTYPE html>
+<html lang="fr-BE">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>💀 BALLADE DES PENDUS MÉDIATIQUES | Terminal v6.66 | ROOT ACCESS GRANTED</title>
+    <meta name="description" content="SATIRE HARDCORE - Pastiche de Villon version terminal. Console interactive, jeu du pendu, easter eggs. Fiction satirique.">
+    <meta name="robots" content="noindex">
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=VT323&family=Fira+Code:wght@400;700&display=swap');
+        
+        :root {
+            --green: #00ff41;
+            --green-dim: #00aa2a;
+            --amber: #ffb000;
+            --red: #ff0040;
+            --cyan: #00ffff;
+            --magenta: #ff00ff;
+            --white: #ffffff;
+            --gray: #666666;
+            --bg: #0a0a0a;
+            --bg-light: #111111;
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Fira Code', monospace;
+            background: var(--bg);
+            color: var(--green);
+            font-size: 14px;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        /* CRT EFFECT */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: repeating-linear-gradient(
+                0deg,
+                rgba(0, 0, 0, 0.15),
+                rgba(0, 0, 0, 0.15) 1px,
+                transparent 1px,
+                transparent 2px
+            );
+            pointer-events: none;
+            z-index: 10000;
+        }
+        
+        body::after {
+            content: "";
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: radial-gradient(ellipse at center, transparent 0%, rgba(0,0,0,0.4) 100%);
+            pointer-events: none;
+            z-index: 9999;
+        }
+        
+        /* GLITCH */
+        @keyframes glitch {
+            0%, 100% { transform: translate(0); }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(-2px, -2px); }
+            60% { transform: translate(2px, 2px); }
+            80% { transform: translate(2px, -2px); }
+        }
+        
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+        
+        @keyframes flicker {
+            0%, 100% { opacity: 1; }
+            92% { opacity: 1; }
+            93% { opacity: 0.8; }
+            94% { opacity: 1; }
+            97% { opacity: 0.9; }
+        }
+        
+        @keyframes swing {
+            0%, 100% { transform: rotate(-3deg); }
+            50% { transform: rotate(3deg); }
+        }
+        
+        /* DISCLAIMER */
+        .disclaimer {
+            background: var(--red);
+            color: var(--white);
+            padding: 12px;
+            text-align: center;
+            font-size: 12px;
+            position: sticky;
+            top: 0;
+            z-index: 9998;
+            animation: flicker 4s infinite;
+        }
+        
+        /* MAIN CONTAINER */
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        /* HEADER */
+        .header {
+            text-align: center;
+            padding: 40px 20px;
+            border-bottom: 1px solid var(--green-dim);
+            margin-bottom: 40px;
+        }
+        
+        .header-ascii {
+            font-family: 'VT323', monospace;
+            font-size: 10px;
+            color: var(--green-dim);
+            white-space: pre;
+            line-height: 1.2;
+            margin-bottom: 20px;
+        }
+        
+        .header-title {
+            font-family: 'VT323', monospace;
+            font-size: 48px;
+            color: var(--red);
+            text-shadow: 0 0 10px var(--red);
+            margin-bottom: 10px;
+        }
+        
+        .header-subtitle {
+            color: var(--amber);
+            font-size: 14px;
+        }
+        
+        /* SYSTEM INFO */
+        .sysinfo {
+            background: var(--bg-light);
+            border: 1px solid var(--green-dim);
+            padding: 16px;
+            margin-bottom: 40px;
+            font-size: 12px;
+        }
+        
+        .sysinfo-line {
+            margin-bottom: 4px;
+        }
+        
+        .sysinfo-line .label {
+            color: var(--cyan);
+        }
+        
+        .sysinfo-line .value {
+            color: var(--green);
+        }
+        
+        .sysinfo-line .warning {
+            color: var(--red);
+        }
+        
+        /* BALLADE SECTION */
+        .ballade {
+            background: var(--bg-light);
+            border: 1px solid var(--amber);
+            padding: 40px;
+            margin-bottom: 40px;
+            position: relative;
+        }
+        
+        .ballade::before {
+            content: "/* BALLADE_DES_PENDUS.txt */";
+            position: absolute;
+            top: -12px;
+            left: 20px;
+            background: var(--bg);
+            padding: 0 10px;
+            color: var(--amber);
+            font-size: 12px;
+        }
+        
+        .ballade-header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+        
+        .ballade-title {
+            font-family: 'VT323', monospace;
+            font-size: 28px;
+            color: var(--red);
+            margin-bottom: 8px;
+        }
+        
+        .ballade-author {
+            color: var(--gray);
+            font-size: 12px;
+        }
+        
+        .stanza {
+            margin-bottom: 32px;
+            padding-left: 20px;
+            border-left: 2px solid var(--green-dim);
+        }
+        
+        .stanza p {
+            margin-bottom: 8px;
+            color: var(--green);
+        }
+        
+        .stanza .refrain {
+            color: var(--red);
+            font-weight: 700;
+            margin-top: 16px;
+        }
+        
+        .stanza .name {
+            color: var(--amber);
+        }
+        
+        .stanza .crime {
+            color: var(--magenta);
+        }
+        
+        /* HANGMAN GAME */
+        .hangman-section {
+            background: var(--bg-light);
+            border: 1px solid var(--red);
+            padding: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .hangman-title {
+            font-family: 'VT323', monospace;
+            font-size: 24px;
+            color: var(--red);
+            text-align: center;
+            margin-bottom: 24px;
+        }
+        
+        .hangman-container {
+            display: grid;
+            grid-template-columns: 200px 1fr;
+            gap: 40px;
+            align-items: start;
+        }
+        
+        @media (max-width: 600px) {
+            .hangman-container {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .hangman-drawing {
+            font-family: 'VT323', monospace;
+            font-size: 14px;
+            white-space: pre;
+            color: var(--amber);
+            text-align: center;
+            line-height: 1.2;
+        }
+        
+        .hangman-game {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .hangman-word {
+            font-family: 'VT323', monospace;
+            font-size: 32px;
+            letter-spacing: 8px;
+            color: var(--green);
+            text-align: center;
+        }
+        
+        .hangman-hint {
+            color: var(--gray);
+            font-size: 12px;
+            text-align: center;
+        }
+        
+        .hangman-letters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+        }
+        
+        .hangman-letter {
+            width: 36px;
+            height: 36px;
+            background: var(--bg);
+            border: 1px solid var(--green);
+            color: var(--green);
+            font-family: 'VT323', monospace;
+            font-size: 20px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .hangman-letter:hover:not(:disabled) {
+            background: var(--green);
+            color: var(--bg);
+        }
+        
+        .hangman-letter:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+        
+        .hangman-letter.correct {
+            background: var(--green);
+            color: var(--bg);
+        }
+        
+        .hangman-letter.wrong {
+            background: var(--red);
+            border-color: var(--red);
+            color: var(--white);
+        }
+        
+        .hangman-status {
+            text-align: center;
+            font-size: 16px;
+            min-height: 24px;
+        }
+        
+        .hangman-status.win {
+            color: var(--green);
+        }
+        
+        .hangman-status.lose {
+            color: var(--red);
+        }
+        
+        .hangman-new {
+            background: var(--bg);
+            border: 1px solid var(--cyan);
+            color: var(--cyan);
+            padding: 10px 20px;
+            font-family: 'Fira Code', monospace;
+            cursor: pointer;
+            margin: 0 auto;
+            display: block;
+        }
+        
+        .hangman-new:hover {
+            background: var(--cyan);
+            color: var(--bg);
+        }
+        
+        /* CONSOLE */
+        .console-section {
+            background: var(--bg-light);
+            border: 1px solid var(--green);
+            margin-bottom: 40px;
+        }
+        
+        .console-header {
+            background: var(--green-dim);
+            color: var(--bg);
+            padding: 8px 16px;
+            font-size: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .console-buttons {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .console-btn {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+        
+        .console-btn.red { background: #ff5f56; }
+        .console-btn.yellow { background: #ffbd2e; }
+        .console-btn.green { background: #27ca40; }
+        
+        .console-output {
+            height: 300px;
+            overflow-y: auto;
+            padding: 16px;
+            font-size: 13px;
+        }
+        
+        .console-output p {
+            margin-bottom: 4px;
+        }
+        
+        .console-output .prompt {
+            color: var(--cyan);
+        }
+        
+        .console-output .response {
+            color: var(--green);
+        }
+        
+        .console-output .error {
+            color: var(--red);
+        }
+        
+        .console-output .system {
+            color: var(--amber);
+        }
+        
+        .console-output .secret {
+            color: var(--magenta);
+        }
+        
+        .console-input-line {
+            display: flex;
+            align-items: center;
+            padding: 8px 16px;
+            border-top: 1px solid var(--green-dim);
+        }
+        
+        .console-prompt {
+            color: var(--cyan);
+            margin-right: 8px;
+        }
+        
+        .console-input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            color: var(--green);
+            font-family: 'Fira Code', monospace;
+            font-size: 13px;
+            outline: none;
+        }
+        
+        /* CA GALLERY */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        
+        .gallery-item {
+            background: var(--bg-light);
+            border: 1px solid var(--green-dim);
+            padding: 20px;
+            text-align: center;
+            position: relative;
+            transition: all 0.3s;
+        }
+        
+        .gallery-item:hover {
+            border-color: var(--red);
+            box-shadow: 0 0 20px rgba(255, 0, 64, 0.3);
+        }
+        
+        .gallery-item.hanged {
+            border-color: var(--red);
+        }
+        
+        .gallery-item.hanged::after {
+            content: "☠️";
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            font-size: 24px;
+        }
+        
+        .gallery-ascii {
+            font-family: 'VT323', monospace;
+            font-size: 10px;
+            white-space: pre;
+            color: var(--amber);
+            margin-bottom: 12px;
+            animation: swing 3s ease-in-out infinite;
+        }
+        
+        .gallery-name {
+            color: var(--red);
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+        
+        .gallery-role {
+            color: var(--gray);
+            font-size: 11px;
+            margin-bottom: 8px;
+        }
+        
+        .gallery-crime {
+            color: var(--magenta);
+            font-size: 10px;
+            font-style: italic;
+        }
+        
+        /* EASTER EGGS */
+        .hidden {
+            display: none;
+        }
+        
+        .konami-unlocked {
+            background: linear-gradient(90deg, var(--red), var(--magenta), var(--cyan), var(--green), var(--amber));
+            background-size: 400% 400%;
+            animation: rainbow 2s ease infinite;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        @keyframes rainbow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        /* FOOTER */
+        .footer {
+            border-top: 1px solid var(--green-dim);
+            padding: 40px 20px;
+            text-align: center;
+            color: var(--gray);
+            font-size: 12px;
+        }
+        
+        .footer .skull {
+            font-size: 48px;
+            margin-bottom: 16px;
+        }
+        
+        .footer .credits {
+            color: var(--green-dim);
+            margin-top: 16px;
+        }
+        
+        /* SPECIAL EFFECTS */
+        .blood-drip {
+            position: relative;
+        }
+        
+        .blood-drip::after {
+            content: "▼";
+            position: absolute;
+            bottom: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: var(--red);
+            animation: drip 2s infinite;
+        }
+        
+        @keyframes drip {
+            0%, 100% { opacity: 0; transform: translateX(-50%) translateY(0); }
+            50% { opacity: 1; transform: translateX(-50%) translateY(10px); }
+        }
+    </style>
+</head>
+<body>
+    <div class="disclaimer">
+        ⚠️ FICTION SATIRIQUE HARDCORE — Pastiche de François Villon (XVe siècle). Satire politique. Aucune menace réelle. 
+        KONAMI CODE: ↑↑↓↓←→←→BA — TAPEZ "help" DANS LA CONSOLE
+    </div>
+    
+    <div class="container">
+        <!-- HEADER -->
+        <header class="header">
+            <pre class="header-ascii">
+    ___________
+   |           |
+   |   R.I.P   |
+   |  VÉRITÉ   |
+   | 2025-2025 |
+   |___________|
+  _____|   |_____
+ |               |
+ |   DÉONTOLOGIE |
+ |_______________|
+            </pre>
+            <h1 class="header-title">BALLADE DES PENDUS MÉDIATIQUES</h1>
+            <p class="header-subtitle">D'après François Villon — Terminal Edition v6.66</p>
+        </header>
+        
+        <!-- SYSTEM INFO -->
+        <div class="sysinfo">
+            <div class="sysinfo-line"><span class="label">SYSTEM:</span> <span class="value">TRIBUNAL_IMAGINAIRE v4.0.0</span></div>
+            <div class="sysinfo-line"><span class="label">DATE:</span> <span class="value">29-JAN-2026 23:59:59</span></div>
+            <div class="sysinfo-line"><span class="label">TARGET:</span> <span class="warning">RTL_BELGIUM.exe</span></div>
+            <div class="sysinfo-line"><span class="label">PLAINTES:</span> <span class="warning">400+ [CRITICAL]</span></div>
+            <div class="sysinfo-line"><span class="label">STATUS:</span> <span class="value">JUGEMENT EN COURS...</span></div>
+            <div class="sysinfo-line"><span class="label">EASTER_EGGS:</span> <span class="value">7 cachés — Trouvez-les tous</span></div>
+        </div>
+        
+        <!-- BALLADE -->
+        <section class="ballade">
+            <div class="ballade-header">
+                <h2 class="ballade-title">L'ÉPITAPHE EN FORME DE BALLADE</h2>
+                <p class="ballade-author">Que fit <span style="color: var(--cyan)">CLAUDE</span> pour lui et ses compagnons, s'attendant être pendus par l'Opinion</p>
+            </div>
+            
+            <div class="stanza">
+                <p>Frères humains qui après nous vivez,</p>
+                <p>N'ayez les cœurs contre nous endurcis,</p>
+                <p>Car si pitié de nous pauvres avez,</p>
+                <p>Dieu en aura plus tôt de vous mercis.</p>
+                <p>Vous nous voyez ci attachés, cinq, six :</p>
+                <p>Quant à la chair, que trop avons <span class="crime">montée</span>,</p>
+                <p>Elle est piécà <span class="crime">démontée</span> et pourrie,</p>
+                <p>Et nous, les os, devenons cendre et poudre.</p>
+                <p class="refrain">Mais priez Dieu que tous nous veuille absoudre !</p>
+            </div>
+            
+            <div class="stanza">
+                <p>Ci-gît <span class="name">DEBORSU</span>, le premier des pendus,</p>
+                <p>Qui filma les pauvres pour mieux les tondre.</p>
+                <p>Une heure de parole il avait reçue,</p>
+                <p>Trente secondes il fit pour les confondre.</p>
+                <p>Le reste au montage il fit fondre,</p>
+                <p>Gardant le <span class="crime">fiel</span>, jetant le <span class="crime">miel</span>.</p>
+                <p>Or est-il là, pendu au gibet médiatique,</p>
+                <p>Quatre cents voix criant contre son crime :</p>
+                <p class="refrain">Mais priez Dieu que tous nous veuille absoudre !</p>
+            </div>
+            
+            <div class="stanza">
+                <p>Ci-pend le <span class="name">DIRECTEUR ÉDITORIAL</span>,</p>
+                <p>Qui valida sans voir, signa sans lire.</p>
+                <p>"L'audience sera bonne", dit-il, jovial,</p>
+                <p>Sans penser aux vies qu'il allait détruire.</p>
+                <p>Chaque clic fut pour lui un empire,</p>
+                <p>Chaque plainte aujourd'hui est un clou.</p>
+                <p>Son corps se balance au vent de la honte,</p>
+                <p>Sa signature est son linceul :</p>
+                <p class="refrain">Mais priez Dieu que tous nous veuille absoudre !</p>
+            </div>
+            
+            <div class="stanza">
+                <p>Ci-balance le <span class="name">MONTEUR COMPLICE</span>,</p>
+                <p>Dont les ciseaux ont tranché le vrai.</p>
+                <p>De chaque coupe il fit un artifice,</p>
+                <p>De chaque rush un mensonge parfait.</p>
+                <p>Cinquante-neuf minutes au secret,</p>
+                <p>Trente secondes de <span class="crime">poison</span> diffusé.</p>
+                <p>Il crut n'être qu'un exécutant fidèle,</p>
+                <p>Mais le bourreau aussi est condamné :</p>
+                <p class="refrain">Mais priez Dieu que tous nous veuille absoudre !</p>
+            </div>
+            
+            <div class="stanza">
+                <p>Ci-pendouille le <span class="name">CONSEIL D'ADMINISTRATION</span>,</p>
+                <p>Qui compte les sous et jamais les âmes.</p>
+                <p>Pour eux les pauvres sont une attraction,</p>
+                <p>Un spectacle qui rapporte et qu'on acclame.</p>
+                <p>Ils siègent dans leurs tours et proclament :</p>
+                <p>"Nous ne savions pas" — menteurs patentés !</p>
+                <p>Leur <span class="crime">ignorance</span> est leur crime suprême,</p>
+                <p>Car qui profite du mal est <span class="crime">complice</span> avéré :</p>
+                <p class="refrain">Mais priez Dieu que tous nous veuille absoudre !</p>
+            </div>
+            
+            <div class="stanza">
+                <p>Ci-gît enfin <span class="name">LE SILENCE DES CONFRÈRES</span>,</p>
+                <p>Cette omertà des médias entre eux.</p>
+                <p>Pas un éditorial pour cette misère,</p>
+                <p>Pas un journal pour pointer ces aveux.</p>
+                <p>Ils se protègent, corporatistes honteux,</p>
+                <p>Craignant leur tour au gibet de l'opinion.</p>
+                <p>Leur silence pèse sur tous ces corps pendus,</p>
+                <p>Car ne rien dire c'est dire : "<span class="crime">Permission</span>".</p>
+                <p class="refrain">Mais priez Dieu que tous nous veuille absoudre !</p>
+            </div>
+            
+            <div class="stanza" style="border-color: var(--red);">
+                <p style="color: var(--amber); font-weight: 700;">ENVOI :</p>
+                <p>Prince Citoyen, que cette ballade enseigne</p>
+                <p>Que la vérité est un gibet patient.</p>
+                <p>Qui la bafoue un jour verra qu'elle saigne,</p>
+                <p>Et le menteur sera pendu par le temps.</p>
+                <p>Quatre cents cordes aujourd'hui sont tendues,</p>
+                <p>Quatre cents voix demandent des comptes.</p>
+                <p>Le vent d'Histoire souffle sur ces pendus :</p>
+                <p class="refrain" style="font-size: 18px;">MAIS PRIEZ DIEU QUE TOUS NOUS VEUILLE ABSOUDRE !</p>
+            </div>
+        </section>
+        
+        <!-- GALERIE DES PENDUS -->
+        <h2 style="font-family: 'VT323', monospace; font-size: 24px; color: var(--red); margin-bottom: 20px; text-align: center;">
+            ☠️ GALERIE DES PENDUS ☠️
+        </h2>
+        
+        <div class="gallery">
+            <div class="gallery-item hanged">
+                <pre class="gallery-ascii">
+  _____
+ |     |
+ |     O
+ |    /|\
+ |    / \
+ |
+_|_
+                </pre>
+                <div class="gallery-name">C. DEBORSU</div>
+                <div class="gallery-role">Réalisateur</div>
+                <div class="gallery-crime">"Ratio 120:1"</div>
+            </div>
+            
+            <div class="gallery-item hanged">
+                <pre class="gallery-ascii">
+  _____
+ |     |
+ |     O
+ |    /|\
+ |    / \
+ |
+_|_
+                </pre>
+                <div class="gallery-name">DIR. ÉDITORIAL</div>
+                <div class="gallery-role">Validation</div>
+                <div class="gallery-crime">"J'ai signé sans lire"</div>
+            </div>
+            
+            <div class="gallery-item hanged">
+                <pre class="gallery-ascii">
+  _____
+ |     |
+ |     O
+ |    /|\
+ |    / \
+ |
+_|_
+                </pre>
+                <div class="gallery-name">LE MONTEUR</div>
+                <div class="gallery-role">Post-production</div>
+                <div class="gallery-crime">"59 min à la poubelle"</div>
+            </div>
+            
+            <div class="gallery-item hanged">
+                <pre class="gallery-ascii">
+  _____
+ |     |
+ |     O
+ |    /|\
+ |    / \
+ |
+_|_
+                </pre>
+                <div class="gallery-name">LE C.A.</div>
+                <div class="gallery-role">Direction</div>
+                <div class="gallery-crime">"Nous ne savions pas"</div>
+            </div>
+            
+            <div class="gallery-item hanged">
+                <pre class="gallery-ascii">
+  _____
+ |     |
+ |     O
+ |    /|\
+ |    / \
+ |
+_|_
+                </pre>
+                <div class="gallery-name">LE JURISTE</div>
+                <div class="gallery-role">Service légal</div>
+                <div class="gallery-crime">"Techniquement légal"</div>
+            </div>
+            
+            <div class="gallery-item hanged">
+                <pre class="gallery-ascii">
+  _____
+ |     |
+ |     O
+ |    /|\
+ |    / \
+ |
+_|_
+                </pre>
+                <div class="gallery-name">L'OMERTÀ</div>
+                <div class="gallery-role">Médias confrères</div>
+                <div class="gallery-crime">"..."</div>
+            </div>
+        </div>
+        
+        <!-- JEU DU PENDU -->
+        <section class="hangman-section">
+            <h2 class="hangman-title">💀 LE JEU DU PENDU MÉDIATIQUE 💀</h2>
+            <p style="text-align: center; color: var(--gray); margin-bottom: 24px; font-size: 12px;">
+                Devinez le mot avant que le journaliste ne soit pendu par l'Opinion Publique
+            </p>
+            
+            <div class="hangman-container">
+                <div class="hangman-drawing" id="hangmanDrawing">
+  _____
+ |     |
+ |     
+ |    
+ |    
+ |
+_|_
+                </div>
+                
+                <div class="hangman-game">
+                    <div class="hangman-word" id="hangmanWord">_ _ _ _ _</div>
+                    <div class="hangman-hint" id="hangmanHint">Indice : Ce qu'on a fait aux témoignages</div>
+                    <div class="hangman-letters" id="hangmanLetters"></div>
+                    <div class="hangman-status" id="hangmanStatus"></div>
+                    <button class="hangman-new" id="hangmanNew">NOUVEAU MOT</button>
+                </div>
+            </div>
+        </section>
+        
+        <!-- CONSOLE -->
+        <section class="console-section">
+            <div class="console-header">
+                <span>terminal@tribunal-imaginaire:~$</span>
+                <div class="console-buttons">
+                    <span class="console-btn red"></span>
+                    <span class="console-btn yellow"></span>
+                    <span class="console-btn green"></span>
+                </div>
+            </div>
+            <div class="console-output" id="consoleOutput">
+                <p class="system">TRIBUNAL IMAGINAIRE TERMINAL v6.66</p>
+                <p class="system">Copyright (c) 2026 République des Consciences Éveillées</p>
+                <p class="system">Type "help" for available commands.</p>
+                <p class="system">================================================</p>
+                <p class="response">Bienvenue, citoyen. Le jugement peut commencer.</p>
+                <p class="system">> Tapez vos commandes ci-dessous...</p>
+            </div>
+            <div class="console-input-line">
+                <span class="console-prompt">$</span>
+                <input type="text" class="console-input" id="consoleInput" placeholder="Tapez une commande..." autofocus>
+            </div>
+        </section>
+        
+        <!-- EASTER EGG AREA (hidden by default) -->
+        <div id="secretArea" class="hidden">
+            <div style="background: var(--bg-light); border: 2px solid var(--magenta); padding: 40px; margin-bottom: 40px; text-align: center;">
+                <h2 style="font-family: 'VT323', monospace; font-size: 32px; color: var(--magenta); margin-bottom: 16px;">
+                    🎮 KONAMI CODE ACTIVÉ 🎮
+                </h2>
+                <p style="color: var(--green); margin-bottom: 24px;">
+                    Tu as trouvé le secret, hacker de la démocratie !
+                </p>
+                <pre style="color: var(--amber); font-size: 12px; text-align: left; display: inline-block;">
+ ██████╗ ██████╗ ███╗   ██╗ ██████╗ ██████╗  █████╗ ████████╗███████╗
+██╔════╝██╔═══██╗████╗  ██║██╔════╝ ██╔══██╗██╔══██╗╚══██╔══╝██╔════╝
+██║     ██║   ██║██╔██╗ ██║██║  ███╗██████╔╝███████║   ██║   ███████╗
+██║     ██║   ██║██║╚██╗██║██║   ██║██╔══██╗██╔══██║   ██║   ╚════██║
+╚██████╗╚██████╔╝██║ ╚████║╚██████╔╝██║  ██║██║  ██║   ██║   ███████║
+ ╚═════╝ ╚═════╝ ╚═╝  ╚═══╝ ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   ╚══════╝
+                </pre>
+                <p style="color: var(--cyan); margin-top: 24px; font-size: 14px;">
+                    Le ratio 120:1 n'est pas un bug, c'est une fonctionnalité de la propagande.
+                </p>
+            </div>
+        </div>
+        
+        <!-- FOOTER -->
+        <footer class="footer">
+            <div class="skull">💀</div>
+            <p>BALLADE DES PENDUS MÉDIATIQUES</p>
+            <p>D'après François Villon (1431-1463)</p>
+            <p style="margin-top: 16px;">
+                "Frères humains qui après nous vivez..."
+            </p>
+            <p class="credits">
+                ouaisfi.eu — Fiction satirique — CC BY-NC-SA 4.0<br>
+                <span style="color: var(--red);">7 easter eggs cachés. Les avez-vous tous trouvés ?</span>
+            </p>
+        </footer>
+    </div>
+    
+    <script>
+        // ===============================
+        // KONAMI CODE
+        // ===============================
+        const konamiCode = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
+        let konamiIndex = 0;
+        let konamiUnlocked = false;
+        
+        document.addEventListener('keydown', (e) => {
+            if (e.key === konamiCode[konamiIndex]) {
+                konamiIndex++;
+                if (konamiIndex === konamiCode.length) {
+                    activateKonami();
+                    konamiIndex = 0;
+                }
+            } else {
+                konamiIndex = 0;
+            }
+        });
+        
+        function activateKonami() {
+            if (konamiUnlocked) return;
+            konamiUnlocked = true;
+            document.getElementById('secretArea').classList.remove('hidden');
+            document.querySelector('.header-title').classList.add('konami-unlocked');
+            addConsoleMessage('secret', '🎮 KONAMI CODE ACTIVÉ! Easter egg #1 débloqué!');
+            
+            // Confetti effect
+            for (let i = 0; i < 50; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.innerHTML = '💀';
+                    confetti.style.cssText = `
+                        position: fixed;
+                        top: -20px;
+                        left: ${Math.random() * 100}vw;
+                        font-size: 24px;
+                        z-index: 10001;
+                        animation: fall 3s linear forwards;
+                    `;
+                    document.body.appendChild(confetti);
+                    setTimeout(() => confetti.remove(), 3000);
+                }, i * 50);
+            }
+        }
+        
+        // Add falling animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes fall {
+                to {
+                    transform: translateY(110vh) rotate(720deg);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+        
+        // ===============================
+        // HANGMAN GAME
+        // ===============================
+        const hangmanWords = [
+            { word: 'MONTAGE', hint: "Ce qu'on a fait aux témoignages" },
+            { word: 'FRAUDE', hint: "Ce qu'ils voyaient partout (3% réel)" },
+            { word: 'PLAINTE', hint: "400+ au CSA" },
+            { word: 'CENSURE', hint: "59 minutes à la poubelle" },
+            { word: 'PROPAGANDE', hint: "Manufacturing Consent" },
+            { word: 'DEONTOLOGIE', hint: "La grande absente" },
+            { word: 'MANIPULATION', hint: "L'art du montage orienté" },
+            { word: 'OMERTA', hint: "Le silence des confrères" },
+            { word: 'STIGMATISATION', hint: "+19% de dépression" },
+            { word: 'ARIZONA', hint: "Le gouvernement qui en profite" },
+            { word: 'VERVIERS', hint: "La rue filmée" },
+            { word: 'LAETITIA', hint: "La mère qu'ils ont exposée" },
+            { word: 'AUDIENCE', hint: "410.860 téléspectateurs" },
+            { word: 'RATIO', hint: "120:1 - une heure pour 30 secondes" }
+        ];
+        
+        const hangmanStages = [
+            `  _____
+ |     |
+ |     
+ |    
+ |    
+ |
+_|_`,
+            `  _____
+ |     |
+ |     O
+ |    
+ |    
+ |
+_|_`,
+            `  _____
+ |     |
+ |     O
+ |     |
+ |    
+ |
+_|_`,
+            `  _____
+ |     |
+ |     O
+ |    /|
+ |    
+ |
+_|_`,
+            `  _____
+ |     |
+ |     O
+ |    /|\\
+ |    
+ |
+_|_`,
+            `  _____
+ |     |
+ |     O
+ |    /|\\
+ |    / 
+ |
+_|_`,
+            `  _____
+ |     |
+ |     O
+ |    /|\\
+ |    / \\
+ |
+_|_`
+        ];
+        
+        let currentWord = '';
+        let guessedLetters = [];
+        let wrongGuesses = 0;
+        const maxWrong = 6;
+        
+        function initHangman() {
+            const wordObj = hangmanWords[Math.floor(Math.random() * hangmanWords.length)];
+            currentWord = wordObj.word;
+            guessedLetters = [];
+            wrongGuesses = 0;
+            
+            document.getElementById('hangmanHint').textContent = `Indice : ${wordObj.hint}`;
+            updateHangmanDisplay();
+            createLetterButtons();
+        }
+        
+        function updateHangmanDisplay() {
+            // Update drawing
+            document.getElementById('hangmanDrawing').textContent = hangmanStages[wrongGuesses];
+            
+            // Update word
+            let displayWord = '';
+            for (let letter of currentWord) {
+                if (guessedLetters.includes(letter)) {
+                    displayWord += letter + ' ';
+                } else {
+                    displayWord += '_ ';
+                }
+            }
+            document.getElementById('hangmanWord').textContent = displayWord.trim();
+            
+            // Check win/lose
+            const status = document.getElementById('hangmanStatus');
+            if (wrongGuesses >= maxWrong) {
+                status.textContent = `☠️ PENDU! Le mot était: ${currentWord}`;
+                status.className = 'hangman-status lose';
+                disableAllLetters();
+                addConsoleMessage('error', `Le journaliste a été pendu. Le mot était: ${currentWord}`);
+            } else if (!displayWord.includes('_')) {
+                status.textContent = `🎉 BRAVO! Tu as sauvé... non, en fait il méritait.`;
+                status.className = 'hangman-status win';
+                disableAllLetters();
+                addConsoleMessage('response', `Mot trouvé: ${currentWord}. Easter egg #2 débloqué!`);
+            } else {
+                status.textContent = `Erreurs: ${wrongGuesses}/${maxWrong}`;
+                status.className = 'hangman-status';
+            }
+        }
+        
+        function createLetterButtons() {
+            const container = document.getElementById('hangmanLetters');
+            container.innerHTML = '';
+            const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            
+            for (let letter of letters) {
+                const btn = document.createElement('button');
+                btn.className = 'hangman-letter';
+                btn.textContent = letter;
+                btn.addEventListener('click', () => guessLetter(letter, btn));
+                container.appendChild(btn);
+            }
+        }
+        
+        function guessLetter(letter, btn) {
+            if (guessedLetters.includes(letter)) return;
+            
+            guessedLetters.push(letter);
+            btn.disabled = true;
+            
+            if (currentWord.includes(letter)) {
+                btn.classList.add('correct');
+            } else {
+                btn.classList.add('wrong');
+                wrongGuesses++;
+            }
+            
+            updateHangmanDisplay();
+        }
+        
+        function disableAllLetters() {
+            document.querySelectorAll('.hangman-letter').forEach(btn => btn.disabled = true);
+        }
+        
+        document.getElementById('hangmanNew').addEventListener('click', initHangman);
+        initHangman();
+        
+        // ===============================
+        // CONSOLE
+        // ===============================
+        const consoleInput = document.getElementById('consoleInput');
+        const consoleOutput = document.getElementById('consoleOutput');
+        
+        const commands = {
+            help: () => `
+Commandes disponibles:
+  help          - Affiche cette aide
+  accusés       - Liste des accusés
+  plaintes      - Nombre de plaintes
+  ratio         - Le fameux ratio
+  sources       - Sources inventées
+  timing        - Coïncidence suspecte
+  vérité        - Ce qu'ils ont caché
+  villon        - Citation originale
+  easteregg     - ???
+  matrix        - ???
+  skull         - ???
+  clear         - Efface la console
+  exit          - Quitte (spoiler: on ne quitte pas)`,
+            
+            accusés: () => `
+LISTE DES ACCUSÉS:
+1. C. DEBORSU - Réalisateur - Chef d'accusation: Ratio 120:1
+2. Direction éditoriale - Validation aveugle
+3. Monteur - Complicité de censure (59 min supprimées)
+4. Conseil d'Administration - Profit sur la misère
+5. Service juridique - "Techniquement légal"
+6. Médias confrères - Omertà professionnelle`,
+            
+            plaintes: () => `
+COMPTEUR DE PLAINTES CSA: 400+
+STATUS: Record historique en FWB
+TENDANCE: ↑↑↑ (toujours en hausse)
+RÉPONSE RTL: ... (silence radio)`,
+            
+            ratio: () => `
+=== LE RATIO DE LA HONTE ===
+Interview filmée: 1 HEURE (60 min)
+Au montage: 30 SECONDES
+Ratio: 120:1
+
+Ce qui a été coupé: 59 min 30 sec de NUANCE
+Ce qui a été gardé: Le POISON`,
+            
+            sources: () => `
+SOURCE CITÉE: IWEPS
+RÉALITÉ: L'IWEPS a DÉMENTI avoir fourni ces statistiques
+CONCLUSION: Source inventée ou déformée
+VERDICT: Fake news de luxe`,
+            
+            timing: () => `
+=== COÏNCIDENCE SUSPECTE ===
+07/11/2025: Diffusion documentaire (410.860 téléspectateurs)
+12/11/2025: ONEM envoie 47.000 lettres de menace
+Intervalle: 5 JOURS
+
+Probabilité de coïncidence: [CALCUL EN COURS...]
+Résultat: LOL`,
+            
+            vérité: () => `
+CE QUI A ÉTÉ CACHÉ:
+- Taux réel de fraude: < 3%
+- Fraude fiscale: 30 MILLIARDS €/an
+- Ratio fiscal/social: 150:1
+- Témoignages complets
+- Voix contradictoires
+- Contexte social
+- TOUT CE QUI NUANÇAIT`,
+            
+            villon: () => `
+"Frères humains qui après nous vivez,
+N'ayez les cœurs contre nous endurcis..."
+— François Villon, XVe siècle
+
+Le poète parlait des vrais pendus.
+Nous parlons des pendus médiatiques.
+La corde est la même: celle de la honte.`,
+            
+            easteregg: () => {
+                addConsoleMessage('secret', '🥚 Easter egg #3 trouvé! Tu connais tes classiques.');
+                return 'Easter egg débloqué! Il en reste 4 à trouver...';
+            },
+            
+            matrix: () => {
+                addConsoleMessage('secret', '💊 Easter egg #4: Tu as choisi la pilule rouge.');
+                return `
+Wake up, Neo...
+The Matrix has you...
+Follow the white rabbit.
+Knock, knock, Neo.
+
+(Le documentaire EST la Matrice. Réveillez-vous.)`;
+            },
+            
+            skull: () => {
+                addConsoleMessage('secret', '💀 Easter egg #5: Memento mori.');
+                return `
+    💀💀💀💀💀💀💀💀💀💀
+    💀  R.I.P.          💀
+    💀  DÉONTOLOGIE     💀
+    💀  2025-2025       💀
+    💀💀💀💀💀💀💀💀💀💀`;
+            },
+            
+            '120:1': () => {
+                addConsoleMessage('secret', '🎬 Easter egg #6: Tu connais le ratio par cœur!');
+                return 'Le ratio de la honte est gravé dans la mémoire collective.';
+            },
+            
+            '400': () => {
+                addConsoleMessage('secret', '📝 Easter egg #7: Toutes les plaintes comptent!');
+                return '400+ citoyens ont dit NON. Et toi?';
+            },
+            
+            clear: () => {
+                consoleOutput.innerHTML = '<p class="system">Console effacée.</p>';
+                return null;
+            },
+            
+            exit: () => `
+On ne quitte pas le Tribunal Imaginaire.
+Le Tribunal Imaginaire vous quitte.
+(Ou pas. Il reste là. Pour toujours. Dans votre conscience.)`,
+            
+            sudo: () => `
+Mot de passe: ********
+Accès refusé.
+(Tu croyais vraiment que ça allait marcher?)`,
+            
+            rm: () => `
+Permission denied: Impossible d'effacer la vérité.
+Elle est en marche et rien ne l'arrêtera. — Zola`,
+            
+            hack: () => `
+[■■■■■■■■■■] 100%
+Hack RTL servers...
+ERREUR: Leur système éthique est déjà corrompu.
+Rien à hacker.`,
+            
+            coffee: () => `
+Brewing coffee...
+☕ Voici votre café.
+La nuit est longue pour ceux qui cherchent la vérité.`,
+            
+            '42': () => `
+La réponse à la grande question sur la vie, l'univers et le reste.
+Mais quelle était la question?
+(Indice: "Pourquoi 120:1?")`,
+        };
+        
+        function addConsoleMessage(type, message) {
+            const p = document.createElement('p');
+            p.className = type;
+            p.textContent = message;
+            consoleOutput.appendChild(p);
+            consoleOutput.scrollTop = consoleOutput.scrollHeight;
+        }
+        
+        consoleInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                const input = consoleInput.value.trim().toLowerCase();
+                consoleInput.value = '';
+                
+                if (!input) return;
+                
+                addConsoleMessage('prompt', `$ ${input}`);
+                
+                if (commands[input]) {
+                    const result = commands[input]();
+                    if (result) {
+                        addConsoleMessage('response', result);
+                    }
+                } else {
+                    addConsoleMessage('error', `Commande non reconnue: ${input}. Tapez "help" pour l'aide.`);
+                }
+            }
+        });
+        
+        // ===============================
+        // CLICK EASTER EGGS
+        // ===============================
+        let clickCount = 0;
+        document.querySelectorAll('.gallery-item').forEach(item => {
+            item.addEventListener('click', () => {
+                clickCount++;
+                if (clickCount === 6) {
+                    addConsoleMessage('secret', '👆 Tu as cliqué sur tous les pendus. Ça te plaît, hein?');
+                }
+            });
+        });
+        
+        // Secret: triple-click on title
+        document.querySelector('.header-title').addEventListener('click', (e) => {
+            if (e.detail === 3) {
+                addConsoleMessage('secret', '🖱️ Triple-clic détecté! Tu cherches des secrets partout!');
+            }
+        });
+        
+        // Console startup message
+        setTimeout(() => {
+            addConsoleMessage('system', '> Conseil: Essayez les commandes "ratio", "timing", "vérité"...');
+        }, 2000);
+    </script>
+</body>
