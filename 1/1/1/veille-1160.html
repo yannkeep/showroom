@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="fr-BE">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>On t'a menti à la télé | L'affaire que personne ne t'explique</title>
+    <meta name="description" content="410.000 personnes ont regardé un docu. 400 ont porté plainte. Voici ce qui s'est vraiment passé — et ce que tu peux faire.">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --black: #0a0a0a;
+            --white: #ffffff;
+            --gray: #888;
+            --accent: #ff3366;
+            --accent2: #00d4ff;
+            --green: #00ff88;
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background: var(--black);
+            color: var(--white);
+            font-size: 18px;
+            line-height: 1.6;
+        }
+        
+        /* HERO */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 40px 24px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 30% 70%, rgba(255,51,102,0.15) 0%, transparent 50%),
+                        radial-gradient(circle at 70% 30%, rgba(0,212,255,0.15) 0%, transparent 50%);
+            animation: pulse 10s ease-in-out infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        
+        .hero-content {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .hero-tag {
+            display: inline-block;
+            background: var(--accent);
+            color: white;
+            padding: 8px 16px;
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 24px;
+        }
+        
+        h1 {
+            font-size: clamp(36px, 8vw, 72px);
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 24px;
+        }
+        
+        h1 span {
+            color: var(--accent);
+        }
+        
+        .hero-intro {
+            font-size: 20px;
+            color: var(--gray);
+            max-width: 600px;
+            margin-bottom: 40px;
+        }
+        
+        .scroll-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            color: var(--accent2);
+            font-weight: 500;
+            animation: bounce 2s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(8px); }
+        }
+        
+        /* SECTIONS */
+        section {
+            padding: 80px 24px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        h2 {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 32px;
+        }
+        
+        h2 span {
+            color: var(--accent2);
+        }
+        
+        p {
+            margin-bottom: 20px;
+            color: #ccc;
+        }
+        
+        .highlight {
+            color: var(--white);
+            font-weight: 600;
+        }
+        
+        /* STAT BLOCKS */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 24px;
+            margin: 40px 0;
+        }
+        
+        .stat {
+            background: #111;
+            border: 1px solid #222;
+            padding: 32px 24px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+        
+        .stat:hover {
+            border-color: var(--accent);
+            transform: translateY(-4px);
+        }
+        
+        .stat-value {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        
+        .stat-value.pink { color: var(--accent); }
+        .stat-value.blue { color: var(--accent2); }
+        .stat-value.green { color: var(--green); }
+        
+        .stat-label {
+            font-size: 14px;
+            color: var(--gray);
+        }
+        
+        .stat-source {
+            font-size: 11px;
+            color: #555;
+            margin-top: 8px;
+        }
+        
+        /* BLOCKS */
+        .block {
+            background: #111;
+            border-left: 4px solid var(--accent);
+            padding: 24px;
+            margin: 32px 0;
+        }
+        
+        .block.blue {
+            border-color: var(--accent2);
+        }
+        
+        .block.green {
+            border-color: var(--green);
+        }
+        
+        .block-title {
+            font-weight: 600;
+            margin-bottom: 12px;
+            font-size: 18px;
+        }
+        
+        .block p {
+            margin-bottom: 0;
+            color: #aaa;
+        }
+        
+        /* COMPARISON */
+        .versus {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            gap: 16px;
+            align-items: center;
+            margin: 40px 0;
+            text-align: center;
+        }
+        
+        @media (max-width: 600px) {
+            .versus {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .versus-item {
+            background: #111;
+            padding: 32px 24px;
+        }
+        
+        .versus-value {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        
+        .versus-label {
+            font-size: 14px;
+            color: var(--gray);
+        }
+        
+        .versus-vs {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--gray);
+        }
+        
+        /* TIMELINE */
+        .timeline {
+            position: relative;
+            padding-left: 32px;
+            margin: 40px 0;
+        }
+        
+        .timeline::before {
+            content: "";
+            position: absolute;
+            left: 8px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: #333;
+        }
+        
+        .timeline-item {
+            position: relative;
+            margin-bottom: 32px;
+        }
+        
+        .timeline-item::before {
+            content: "";
+            position: absolute;
+            left: -28px;
+            top: 4px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--accent2);
+        }
+        
+        .timeline-item.alert::before {
+            background: var(--accent);
+            box-shadow: 0 0 12px var(--accent);
+        }
+        
+        .timeline-date {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--accent2);
+            margin-bottom: 4px;
+        }
+        
+        .timeline-item.alert .timeline-date {
+            color: var(--accent);
+        }
+        
+        /* ACTIONS */
+        .actions {
+            display: grid;
+            gap: 16px;
+            margin: 40px 0;
+        }
+        
+        .action {
+            background: #111;
+            border: 1px solid #222;
+            padding: 24px;
+            display: flex;
+            gap: 16px;
+            align-items: flex-start;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        
+        .action:hover {
+            border-color: var(--green);
+            background: #0a0a0a;
+        }
+        
+        .action-icon {
+            font-size: 32px;
+            flex-shrink: 0;
+        }
+        
+        .action-title {
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        
+        .action-desc {
+            font-size: 15px;
+            color: var(--gray);
+            margin: 0;
+        }
+        
+        .action-link {
+            color: var(--green);
+            font-size: 14px;
+            margin-top: 8px;
+            display: inline-block;
+        }
+        
+        /* FINAL */
+        .final {
+            text-align: center;
+            padding: 100px 24px;
+            background: linear-gradient(180deg, var(--black) 0%, #111 100%);
+        }
+        
+        .final h2 {
+            font-size: 40px;
+            margin-bottom: 24px;
+        }
+        
+        .final p {
+            max-width: 500px;
+            margin: 0 auto 32px;
+            color: var(--gray);
+        }
+        
+        .final-cta {
+            display: inline-block;
+            background: var(--accent);
+            color: white;
+            padding: 16px 40px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        
+        .final-cta:hover {
+            background: var(--white);
+            color: var(--black);
+        }
+        
+        /* QUIZ */
+        .quiz {
+            background: #111;
+            padding: 40px;
+            margin: 40px 0;
+            text-align: center;
+        }
+        
+        .quiz-question {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 32px;
+        }
+        
+        .quiz-options {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .quiz-btn {
+            background: #222;
+            border: 2px solid #333;
+            color: white;
+            padding: 16px 32px;
+            font-family: inherit;
+            font-size: 18px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .quiz-btn:hover {
+            border-color: var(--accent2);
+        }
+        
+        .quiz-btn.selected {
+            border-color: var(--green);
+            background: rgba(0,255,136,0.1);
+        }
+        
+        .quiz-result {
+            margin-top: 24px;
+            padding: 24px;
+            display: none;
+        }
+        
+        .quiz-result.show {
+            display: block;
+        }
+        
+        .quiz-result.correct {
+            background: rgba(0,255,136,0.1);
+            border: 1px solid var(--green);
+        }
+        
+        .quiz-result.wrong {
+            background: rgba(255,51,102,0.1);
+            border: 1px solid var(--accent);
+        }
+        
+        /* FOOTER */
+        footer {
+            text-align: center;
+            padding: 48px 24px;
+            font-size: 14px;
+            color: #555;
+            border-top: 1px solid #222;
+        }
+        
+        footer a {
+            color: var(--gray);
+        }
+    </style>
+</head>
+<body>
+    <!-- HERO -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-tag">Ça te concerne</div>
+            <h1>On t'a menti<br><span>à la télé.</span></h1>
+            <p class="hero-intro">410.000 personnes ont regardé un documentaire. 400 ont porté plainte. Et personne ne t'en a parlé. Jusqu'à maintenant.</p>
+            <div class="scroll-cta">
+                ↓ Scroll pour comprendre
+            </div>
+        </div>
+    </section>
+    
+    <!-- WHAT HAPPENED -->
+    <section>
+        <h2>C'est quoi <span>le problème ?</span></h2>
+        
+        <p>Le 7 novembre 2025, RTL diffuse un documentaire : "Sans boulot : tous fraudeurs ?". Le pitch : montrer que les gens au chômage ou au CPAS abusent du système.</p>
+        
+        <p><span class="highlight">410.860 personnes regardent.</span> Le lendemain, des gens qui apparaissaient dans le docu se font insulter dans la rue. Les semaines suivantes, plus de 400 personnes portent plainte.</p>
+        
+        <p>Pourquoi ? Parce que le documentaire a présenté l'exception comme si c'était la règle. Et ça, ça a des conséquences.</p>
+        
+        <div class="stats">
+            <div class="stat">
+                <div class="stat-value pink">410.860</div>
+                <div class="stat-label">téléspectateurs</div>
+                <div class="stat-source">Source : CIM</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value pink">400+</div>
+                <div class="stat-label">plaintes déposées</div>
+                <div class="stat-source">Record en Belgique francophone</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value green">&lt;3%</div>
+                <div class="stat-label">de fraude réelle</div>
+                <div class="stat-source">Chiffres officiels</div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- QUIZ 1 -->
+    <section>
+        <div class="quiz" id="quiz1">
+            <div class="quiz-question">Selon toi, quel est le vrai taux de fraude sociale en Belgique ?</div>
+            <div class="quiz-options">
+                <button class="quiz-btn" data-answer="wrong" onclick="checkQuiz('quiz1', this, 'wrong')">50%</button>
+                <button class="quiz-btn" data-answer="wrong" onclick="checkQuiz('quiz1', this, 'wrong')">25%</button>
+                <button class="quiz-btn" data-answer="correct" onclick="checkQuiz('quiz1', this, 'correct')">Moins de 3%</button>
+                <button class="quiz-btn" data-answer="wrong" onclick="checkQuiz('quiz1', this, 'wrong')">10%</button>
+            </div>
+            <div class="quiz-result" id="quiz1-result"></div>
+        </div>
+    </section>
+    
+    <!-- THE TRICK -->
+    <section>
+        <h2>Comment ils <span>t'ont eu</span></h2>
+        
+        <p>Le truc, c'est pas forcément de mentir. C'est de choisir ce qu'on te montre.</p>
+        
+        <div class="block">
+            <div class="block-title">🎬 Le ratio du montage</div>
+            <p>Une présidente de CPAS a été interviewée pendant <strong>1 heure</strong>. Au final, ils ont gardé <strong>30 secondes</strong>. Tout ce qui nuançait son propos ? Coupé.</p>
+        </div>
+        
+        <div class="versus">
+            <div class="versus-item">
+                <div class="versus-value" style="color: var(--accent2)">60 min</div>
+                <div class="versus-label">filmées</div>
+            </div>
+            <div class="versus-vs">→</div>
+            <div class="versus-item">
+                <div class="versus-value" style="color: var(--accent)">30 sec</div>
+                <div class="versus-label">diffusées</div>
+            </div>
+        </div>
+        
+        <div class="block blue">
+            <div class="block-title">🔇 Les absents</div>
+            <p>Qui n'était PAS dans le documentaire ? Les syndicats. Les associations d'aide. Les sociologues. Les économistes. Bref, tous ceux qui auraient pu donner un autre point de vue.</p>
+        </div>
+        
+        <div class="block">
+            <div class="block-title">📅 Le timing</div>
+            <p>Le docu passe le 7 novembre. Le 12 novembre, l'ONEM envoie 47.000 lettres de contrôle aux chômeurs. 5 jours d'écart. Coïncidence ?</p>
+        </div>
+    </section>
+    
+    <!-- PERSPECTIVE -->
+    <section>
+        <h2>Un truc qu'on te dit <span>jamais</span></h2>
+        
+        <p>On te parle de la fraude sociale comme si c'était LE problème. Mais regarde les chiffres :</p>
+        
+        <div class="stats">
+            <div class="stat">
+                <div class="stat-value blue">~200 M€</div>
+                <div class="stat-label">Fraude sociale / an</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value pink">~30 Mds€</div>
+                <div class="stat-label">Fraude fiscale / an</div>
+            </div>
+        </div>
+        
+        <div class="block green">
+            <div class="block-title">🧮 Fais le calcul</div>
+            <p>La fraude fiscale (celle des riches et des entreprises), c'est <strong>150 fois plus</strong> que la fraude sociale. Mais t'as vu combien de documentaires dessus ?</p>
+        </div>
+        
+        <p>C'est pas que la fraude sociale n'existe pas. C'est qu'on te montre un truc et pas l'autre. Et ça, c'est un choix éditorial. Un choix politique.</p>
+    </section>
+    
+    <!-- WHY IT MATTERS -->
+    <section>
+        <h2>Pourquoi tu devrais <span>t'en soucier</span></h2>
+        
+        <p>Peut-être que t'es pas au CPAS. Peut-être que tes parents bossent. Mais ça te concerne quand même.</p>
+        
+        <div class="block">
+            <div class="block-title">🎯 Aujourd'hui les chômeurs, demain qui ?</div>
+            <p>Quand on accepte qu'un groupe soit stigmatisé sans réagir, on ouvre la porte. Les étudiants qui "coûtent trop cher" ? Les jeunes qui "ne veulent pas bosser" ? C'est le même mécanisme.</p>
+        </div>
+        
+        <div class="block blue">
+            <div class="block-title">🧠 Ton cerveau est une cible</div>
+            <p>Les médias façonnent ce que tu penses être "normal" ou "vrai". Si tu comprends comment ça marche, t'es moins manipulable. Pour toute ta vie.</p>
+        </div>
+        
+        <div class="block green">
+            <div class="block-title">💪 400 personnes ont agi</div>
+            <p>Des gens lambda ont vu le docu, ont compris l'arnaque, et ont porté plainte. C'est possible. Ça marche. Le CSA a ouvert une enquête.</p>
+        </div>
+    </section>
+    
+    <!-- WHAT YOU CAN DO -->
+    <section>
+        <h2>Ce que tu peux <span>faire</span></h2>
+        
+        <p>T'as pas besoin d'avoir 18 ans, un diplôme ou de l'argent. Voilà des trucs concrets :</p>
+        
+        <div class="actions">
+            <div class="action">
+                <div class="action-icon">🔍</div>
+                <div>
+                    <div class="action-title">Vérifie avant de croire</div>
+                    <p class="action-desc">Quand tu vois un chiffre choc, cherche la source. "Selon qui ?" C'est LA question qui change tout.</p>
+                </div>
+            </div>
+            
+            <div class="action">
+                <div class="action-icon">💬</div>
+                <div>
+                    <div class="action-title">Parles-en</div>
+                    <p class="action-desc">À ta famille, tes potes. Pas besoin de faire un exposé. Juste : "T'as vu que 400 personnes ont porté plainte contre un docu RTL ?"</p>
+                </div>
+            </div>
+            
+            <div class="action">
+                <div class="action-icon">📱</div>
+                <div>
+                    <div class="action-title">Partage les vrais chiffres</div>
+                    <p class="action-desc">Moins de 3% de fraude. 150× plus de fraude fiscale. Ces chiffres, la plupart des gens les ignorent.</p>
+                </div>
+            </div>
+            
+            <div class="action">
+                <div class="action-icon">📝</div>
+                <div>
+                    <div class="action-title">Porte plainte (même mineur)</div>
+                    <p class="action-desc">Tu peux écrire au CSA même sans être majeur. C'est gratuit, en ligne, et ça compte vraiment.</p>
+                    <span class="action-link">→ csa.be</span>
+                </div>
+            </div>
+            
+            <div class="action">
+                <div class="action-icon">🎓</div>
+                <div>
+                    <div class="action-title">Apprends comment ça marche</div>
+                    <p class="action-desc">L'éducation aux médias, c'est pas un cours chiant. C'est une compétence de survie dans un monde où tout le monde veut ton attention.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- SKILLS -->
+    <section>
+        <h2>Les skills que personne <span>t'enseigne</span></h2>
+        
+        <p>Tu veux "changer le monde" mais tu sais pas par où commencer ? Commence par là :</p>
+        
+        <div class="block">
+            <div class="block-title">1. Apprends à lire un article</div>
+            <p>Qui écrit ? Quelle est la source ? Y a-t-il un autre point de vue ? Ces questions, pose-les SYSTÉMATIQUEMENT.</p>
+        </div>
+        
+        <div class="block blue">
+            <div class="block-title">2. Comprends qui possède quoi</div>
+            <p>RTL appartient à un groupe allemand. Les autres médias aussi ont des propriétaires. Savoir qui te parle, c'est comprendre pourquoi il te parle.</p>
+        </div>
+        
+        <div class="block green">
+            <div class="block-title">3. Suis l'argent</div>
+            <p>"À qui profite le crime ?" Quand un média tape sur les chômeurs juste avant des réformes qui vont leur faire mal, pose-toi la question.</p>
+        </div>
+        
+        <div class="block">
+            <div class="block-title">4. Fais confiance aux chiffres, pas aux impressions</div>
+            <p>Le documentaire te MONTRE plein de cas de fraude. Mais le taux RÉEL est de 3%. L'image ment, les stats non.</p>
+        </div>
+        
+        <div class="block blue">
+            <div class="block-title">5. Agis petit, mais agis</div>
+            <p>Une plainte, un partage, une conversation. Ça a l'air de rien. Mais 400 "rien" = un record historique et une enquête ouverte.</p>
+        </div>
+    </section>
+    
+    <!-- FINAL -->
+    <section class="final">
+        <h2>La vérité, c'est pas compliqué.</h2>
+        <p>C'est juste qu'on préfère te montrer autre chose. Maintenant tu sais. Et savoir, c'est déjà résister.</p>
+        <a href="comprendre-affaire-tous-fraudeurs.html" class="final-cta">Voir toutes les sources</a>
+    </section>
+    
+    <!-- FOOTER -->
+    <footer>
+        <p>Fait par des citoyens. Pas de pub. Pas de parti. Juste des faits.</p>
+        <p style="margin-top: 8px;"><a href="index.html">ouaisfi.eu</a> — CC BY-NC-SA 4.0</p>
+    </footer>
+    
+    <script>
+        function checkQuiz(quizId, btn, answer) {
+            const quiz = document.getElementById(quizId);
+            const result = document.getElementById(quizId + '-result');
+            const buttons = quiz.querySelectorAll('.quiz-btn');
+            
+            buttons.forEach(b => {
+                b.classList.remove('selected');
+                b.disabled = true;
+            });
+            btn.classList.add('selected');
+            
+            if (answer === 'correct') {
+                result.className = 'quiz-result show correct';
+                result.innerHTML = '<strong>✓ Exact.</strong> Moins de 3% des allocataires fraudent. Plus de 97% touchent leurs aides légitimement. Mais le documentaire ne t\'a jamais dit ça.';
+            } else {
+                result.className = 'quiz-result show wrong';
+                result.innerHTML = '<strong>✗ Non.</strong> Le vrai chiffre est moins de 3%. C\'est normal de se tromper — c\'est exactement l\'effet que ces documentaires veulent produire. Créer une impression fausse.';
+            }
+        }
+    </script>
+</body>
+</html>
