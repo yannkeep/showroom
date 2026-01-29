@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="fr-BE">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Générateur de Plainte CSA | Créez votre plainte en 2 minutes | ouaisfi.eu</title>
+    <meta name="description" content="Générez automatiquement votre plainte personnalisée au Conseil Supérieur de l'Audiovisuel contre le documentaire RTL. Modèle juridique + envoi direct.">
+    <link rel="canonical" href="https://ouaisfi.eu/generateur-plainte-csa">
+    
+    <meta property="og:title" content="Générateur de Plainte CSA - Créez votre plainte en 2 minutes">
+    <meta property="og:description" content="Modèle juridique personnalisé pour porter plainte contre 'Tous Fraudeurs'. Gratuit.">
+    
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Générateur de Plainte CSA",
+        "description": "Outil de génération de plainte personnalisée au Conseil Supérieur de l'Audiovisuel",
+        "applicationCategory": "UtilityApplication",
+        "operatingSystem": "Web",
+        "offers": {"@type": "Offer", "price": "0", "priceCurrency": "EUR"}
+    }
+    </script>
+    
+    <style>
+        :root {
+            --mint: #4ade80; --mint-dark: #22c55e;
+            --lilac: #c084fc; --red: #f87171;
+            --bg: #0a0a0f; --bg-alt: #12121a; --card: #1a1a24;
+            --text: #e2e8f0; --text-muted: #94a3b8; --border: #2d2d3a;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+        .container { max-width: 1000px; margin: 0 auto; padding: 24px; }
+        a { color: var(--mint); }
+        
+        header { padding: 60px 0 40px; text-align: center; }
+        h1 { font-size: 36px; font-weight: 900; margin-bottom: 16px; }
+        h1 .mint { color: var(--mint); }
+        .subtitle { color: var(--text-muted); max-width: 600px; margin: 0 auto; }
+        
+        .steps { display: flex; justify-content: center; gap: 8px; margin: 32px 0; flex-wrap: wrap; }
+        .step {
+            display: flex; align-items: center; gap: 8px;
+            padding: 10px 16px; background: var(--card);
+            border-radius: 50px; font-size: 14px;
+        }
+        .step.active { background: var(--mint); color: var(--bg); }
+        .step-num { width: 24px; height: 24px; border-radius: 50%; background: var(--bg); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 12px; }
+        .step.active .step-num { background: var(--bg); color: var(--mint); }
+        
+        .generator { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; margin-top: 32px; }
+        @media (max-width: 900px) { .generator { grid-template-columns: 1fr; } }
+        
+        .form-panel { background: var(--card); border-radius: 16px; padding: 32px; }
+        .form-panel h2 { font-size: 22px; margin-bottom: 24px; color: var(--lilac); }
+        
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; font-size: 14px; color: var(--text-muted); margin-bottom: 6px; }
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%; padding: 12px; background: var(--bg);
+            border: 2px solid var(--border); border-radius: 8px;
+            color: var(--text); font-size: 15px;
+        }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            outline: none; border-color: var(--mint);
+        }
+        .form-group textarea { min-height: 100px; resize: vertical; }
+        .form-group small { display: block; font-size: 12px; color: var(--text-muted); margin-top: 4px; }
+        
+        .checkbox-list { display: flex; flex-direction: column; gap: 12px; }
+        .checkbox-item {
+            display: flex; align-items: flex-start; gap: 12px;
+            padding: 12px; background: var(--bg); border-radius: 8px;
+            cursor: pointer; border: 2px solid transparent;
+            transition: all 0.3s;
+        }
+        .checkbox-item:hover { border-color: var(--border); }
+        .checkbox-item.selected { border-color: var(--mint); background: rgba(74,222,128,0.05); }
+        .checkbox-item input { margin-top: 2px; accent-color: var(--mint); }
+        .checkbox-item label { cursor: pointer; font-size: 14px; }
+        .checkbox-item label strong { color: var(--text); display: block; margin-bottom: 2px; }
+        
+        .preview-panel { background: var(--bg-alt); border-radius: 16px; padding: 32px; }
+        .preview-panel h2 { font-size: 22px; margin-bottom: 24px; color: var(--mint); }
+        
+        .letter-preview {
+            background: white; color: #1a1a1a; padding: 32px;
+            border-radius: 8px; font-family: 'Times New Roman', serif;
+            font-size: 14px; line-height: 1.8; max-height: 600px;
+            overflow-y: auto;
+        }
+        .letter-preview .header { text-align: right; margin-bottom: 24px; }
+        .letter-preview .recipient { margin-bottom: 24px; }
+        .letter-preview .object { margin-bottom: 16px; }
+        .letter-preview .object strong { text-decoration: underline; }
+        .letter-preview .body p { margin-bottom: 12px; text-align: justify; }
+        .letter-preview .signature { margin-top: 32px; }
+        .letter-preview .highlight { background: #fff3cd; padding: 0 4px; }
+        
+        .actions { display: flex; gap: 12px; margin-top: 24px; flex-wrap: wrap; }
+        .btn {
+            flex: 1; min-width: 150px; padding: 14px 20px;
+            border: none; border-radius: 8px; font-size: 14px;
+            font-weight: 700; cursor: pointer; transition: all 0.3s;
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+        }
+        .btn-primary { background: var(--mint); color: var(--bg); }
+        .btn-primary:hover { background: var(--mint-dark); }
+        .btn-secondary { background: var(--card); color: var(--lilac); border: 2px solid var(--lilac); }
+        .btn-secondary:hover { background: var(--lilac); color: var(--bg); }
+        
+        .info-box {
+            margin-top: 24px; padding: 16px;
+            background: rgba(192,132,252,0.1); border-left: 4px solid var(--lilac);
+            border-radius: 0 8px 8px 0; font-size: 13px;
+        }
+        .info-box h4 { color: var(--lilac); margin-bottom: 8px; }
+        .info-box ul { padding-left: 20px; color: var(--text-muted); }
+        .info-box li { margin-bottom: 4px; }
+        
+        .legal-refs {
+            margin-top: 32px; padding: 20px;
+            background: var(--card); border-radius: 12px;
+        }
+        .legal-refs h3 { margin-bottom: 16px; font-size: 16px; }
+        .legal-refs .ref {
+            padding: 12px; margin-bottom: 8px;
+            background: var(--bg); border-radius: 8px;
+            font-size: 13px;
+        }
+        .legal-refs .ref strong { color: var(--mint); }
+        
+        footer { margin-top: 64px; padding: 32px 0; border-top: 1px solid var(--border); text-align: center; color: var(--text-muted); font-size: 14px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Générateur de <span class="mint">Plainte CSA</span></h1>
+            <p class="subtitle">Créez votre plainte personnalisée contre le documentaire "Tous Fraudeurs" en 2 minutes. Modèle juridiquement solide.</p>
+        </header>
+        
+        <div class="steps">
+            <div class="step active"><span class="step-num">1</span> Vos infos</div>
+            <div class="step"><span class="step-num">2</span> Motifs</div>
+            <div class="step"><span class="step-num">3</span> Prévisualiser</div>
+            <div class="step"><span class="step-num">4</span> Envoyer</div>
+        </div>
+        
+        <div class="generator">
+            <!-- FORMULAIRE -->
+            <div class="form-panel">
+                <h2>📝 Vos informations</h2>
+                
+                <div class="form-group">
+                    <label>Prénom et Nom *</label>
+                    <input type="text" id="nom" placeholder="Jean Dupont" required>
+                </div>
+                
+                <div class="form-group">
+                    <label>Adresse complète *</label>
+                    <textarea id="adresse" placeholder="Rue de la Loi 16&#10;1000 Bruxelles" required></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label>Email *</label>
+                    <input type="email" id="email" placeholder="votre@email.be" required>
+                </div>
+                
+                <h2 style="margin-top: 32px;">⚖️ Motifs de la plainte</h2>
+                <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 16px;">Sélectionnez au moins un motif (vous pouvez en cocher plusieurs)</p>
+                
+                <div class="checkbox-list">
+                    <div class="checkbox-item selected">
+                        <input type="checkbox" id="motif1" checked>
+                        <label for="motif1">
+                            <strong>Atteinte à la dignité humaine</strong>
+                            Stigmatisation des allocataires sociaux, présentation dégradante de personnes vulnérables
+                        </label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="motif2">
+                        <label for="motif2">
+                            <strong>Incitation à la discrimination</strong>
+                            Renforcement des préjugés contre un groupe social (chômeurs, bénéficiaires du CPAS)
+                        </label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="motif3">
+                        <label for="motif3">
+                            <strong>Manquement à l'objectivité journalistique</strong>
+                            Absence de chiffres officiels, montage orienté, pas de droit de réponse
+                        </label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="motif4">
+                        <label for="motif4">
+                            <strong>Désinformation</strong>
+                            Omission délibérée du taux réel de fraude sociale (moins de 3%)
+                        </label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="motif5">
+                        <label for="motif5">
+                            <strong>Manipulation éditoriale</strong>
+                            Témoignages tronqués (1h d'interview → 30s de montage)
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="form-group" style="margin-top: 24px;">
+                    <label>Témoignage personnel (optionnel)</label>
+                    <textarea id="temoignage" placeholder="Vous pouvez ajouter un témoignage personnel sur l'impact de ce documentaire (sur vous, votre entourage, ou le débat public)..."></textarea>
+                    <small>Votre témoignage renforcera votre plainte</small>
+                </div>
+            </div>
+            
+            <!-- PRÉVISUALISATION -->
+            <div class="preview-panel">
+                <h2>👁️ Prévisualisation de votre plainte</h2>
+                
+                <div class="letter-preview" id="preview">
+                    <div class="header">
+                        <span class="highlight" id="prev-nom">[Votre nom]</span><br>
+                        <span class="highlight" id="prev-adresse">[Votre adresse]</span><br>
+                        <span id="prev-email">[Votre email]</span><br><br>
+                        Bruxelles, le <span id="prev-date">29 janvier 2026</span>
+                    </div>
+                    
+                    <div class="recipient">
+                        <strong>Conseil Supérieur de l'Audiovisuel</strong><br>
+                        Service des plaintes<br>
+                        Rue Royale 89<br>
+                        1000 Bruxelles
+                    </div>
+                    
+                    <div class="object">
+                        <strong>Objet : Plainte contre le programme « Sans boulot : tous fraudeurs ? »</strong><br>
+                        <em>Diffusé le 7 novembre 2025 sur RTL-TVI</em>
+                    </div>
+                    
+                    <div class="body">
+                        <p>Madame, Monsieur,</p>
+                        
+                        <p>Par la présente, je souhaite porter plainte contre le programme intitulé « Sans boulot : tous fraudeurs ? », réalisé par Christophe Deborsu et diffusé le 7 novembre 2025 sur RTL-TVI à 20h25.</p>
+                        
+                        <p><strong>Motifs de la plainte :</strong></p>
+                        
+                        <p id="prev-motifs">
+                            • Atteinte à la dignité humaine (article 9 du décret SMA)<br>
+                        </p>
+                        
+                        <p><strong>Faits reprochés :</strong></p>
+                        
+                        <p>Ce programme, présenté comme un documentaire journalistique, présente de graves manquements :</p>
+                        
+                        <p>1. <strong>Omission des données officielles</strong> : Le taux réel de fraude sociale en Belgique est inférieur à 3% selon l'ONEM. Cette information essentielle n'apparaît à aucun moment dans les 37 minutes du programme.</p>
+                        
+                        <p>2. <strong>Témoignages manipulés</strong> : Mme Gaëlle Denys, présidente du CPAS de Verviers, a été interviewée pendant près d'une heure. Au montage, seules quelques phrases ont été conservées, hors de leur contexte, déformant son propos.</p>
+                        
+                        <p>3. <strong>Timing politique troublant</strong> : La diffusion a eu lieu 5 jours avant l'envoi par l'ONEM de 47.000 lettres menaçant des chômeurs d'exclusion, dans un contexte de réformes gouvernementales visant les allocataires.</p>
+                        
+                        <p id="prev-temoignage"></p>
+                        
+                        <p><strong>Base juridique :</strong></p>
+                        
+                        <p>Cette plainte se fonde sur les articles 9 (dignité humaine), 10 (non-discrimination) et 36 (déontologie journalistique) du décret coordonné sur les services de médias audiovisuels.</p>
+                        
+                        <p>Je vous demande d'ouvrir une instruction et de prendre les mesures appropriées à l'encontre de l'éditeur RTL Belgium.</p>
+                        
+                        <p>Je reste à votre disposition pour tout complément d'information.</p>
+                    </div>
+                    
+                    <div class="signature">
+                        <p>Veuillez agréer, Madame, Monsieur, l'expression de mes salutations distinguées.</p>
+                        <br><br>
+                        <span class="highlight" id="prev-signature">[Votre nom]</span>
+                    </div>
+                </div>
+                
+                <div class="actions">
+                    <button class="btn btn-primary" onclick="copyLetter()">📋 Copier le texte</button>
+                    <button class="btn btn-secondary" onclick="downloadLetter()">📥 Télécharger PDF</button>
+                    <a href="https://www.csa.be/formulaire-de-plainte/" target="_blank" rel="noopener" class="btn btn-secondary">🌐 Envoyer au CSA</a>
+                </div>
+                
+                <div class="info-box">
+                    <h4>📬 Comment envoyer votre plainte ?</h4>
+                    <ul>
+                        <li><strong>En ligne</strong> : Via le formulaire officiel csa.be (bouton ci-dessus)</li>
+                        <li><strong>Par email</strong> : plainte@csa.be</li>
+                        <li><strong>Par courrier</strong> : CSA, Rue Royale 89, 1000 Bruxelles</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="legal-refs">
+            <h3>📚 Références juridiques utilisées</h3>
+            <div class="ref">
+                <strong>Article 9 - Décret SMA</strong> : « Les éditeurs de services veillent à ne pas diffuser de programmes susceptibles de nuire gravement à l'épanouissement des mineurs ou portant atteinte à la dignité humaine. »
+            </div>
+            <div class="ref">
+                <strong>Article 10 - Décret SMA</strong> : « Les programmes ne peuvent contenir aucune incitation à la discrimination, à la haine ou à la violence, notamment pour des raisons [...] d'origine sociale. »
+            </div>
+            <div class="ref">
+                <strong>Article 36 - Décret SMA</strong> : « L'information est traitée dans le respect des principes d'indépendance, de pluralisme, d'honnêteté et d'équilibre. »
+            </div>
+        </div>
+        
+        <footer>
+            <p><a href="index.html">ouaisfi.eu</a> — Outil citoyen gratuit</p>
+            <p style="margin-top: 8px;">Ce générateur utilise uniquement les références juridiques officielles du CSA.</p>
+        </footer>
+    </div>
+    
+    <script>
+        // Mise à jour en temps réel
+        const updatePreview = () => {
+            const nom = document.getElementById('nom').value || '[Votre nom]';
+            const adresse = document.getElementById('adresse').value.replace(/\n/g, '<br>') || '[Votre adresse]';
+            const email = document.getElementById('email').value || '[Votre email]';
+            const temoignage = document.getElementById('temoignage').value;
+            
+            document.getElementById('prev-nom').innerHTML = nom;
+            document.getElementById('prev-adresse').innerHTML = adresse;
+            document.getElementById('prev-email').textContent = email;
+            document.getElementById('prev-signature').innerHTML = nom;
+            
+            // Date
+            const today = new Date();
+            const options = { day: 'numeric', month: 'long', year: 'numeric' };
+            document.getElementById('prev-date').textContent = today.toLocaleDateString('fr-BE', options);
+            
+            // Motifs
+            let motifs = '';
+            if (document.getElementById('motif1').checked) motifs += '• Atteinte à la dignité humaine (article 9 du décret SMA)<br>';
+            if (document.getElementById('motif2').checked) motifs += '• Incitation à la discrimination (article 10 du décret SMA)<br>';
+            if (document.getElementById('motif3').checked) motifs += '• Manquement à l\'objectivité journalistique (article 36 du décret SMA)<br>';
+            if (document.getElementById('motif4').checked) motifs += '• Désinformation par omission délibérée<br>';
+            if (document.getElementById('motif5').checked) motifs += '• Manipulation éditoriale des témoignages<br>';
+            document.getElementById('prev-motifs').innerHTML = motifs || '• [Sélectionnez au moins un motif]';
+            
+            // Témoignage
+            if (temoignage) {
+                document.getElementById('prev-temoignage').innerHTML = '<strong>Témoignage personnel :</strong><br>' + temoignage.replace(/\n/g, '<br>');
+            } else {
+                document.getElementById('prev-temoignage').innerHTML = '';
+            }
+        };
+        
+        // Event listeners
+        document.querySelectorAll('input, textarea').forEach(el => {
+            el.addEventListener('input', updatePreview);
+        });
+        
+        document.querySelectorAll('.checkbox-item').forEach(item => {
+            item.addEventListener('click', function(e) {
+                if (e.target.tagName !== 'INPUT') {
+                    const checkbox = this.querySelector('input');
+                    checkbox.checked = !checkbox.checked;
+                }
+                this.classList.toggle('selected', this.querySelector('input').checked);
+                updatePreview();
+            });
+        });
+        
+        // Copy letter
+        function copyLetter() {
+            const preview = document.getElementById('preview');
+            const text = preview.innerText;
+            navigator.clipboard.writeText(text).then(() => {
+                alert('Texte copié dans le presse-papiers !');
+            });
+        }
+        
+        // Download as text (PDF nécessiterait une lib externe)
+        function downloadLetter() {
+            const preview = document.getElementById('preview');
+            const text = preview.innerText;
+            const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'plainte-csa-rtl-tous-fraudeurs.txt';
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+        
+        // Initial update
+        updatePreview();
+    </script>
+</body>
+</html>

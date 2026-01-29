@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="fr-BE">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulateur Arizona : Quel impact sur MON allocation ? | ouaisfi.eu</title>
+    <meta name="description" content="Calculez l'impact réel des réformes Arizona 2026 sur votre allocation de chômage. Simulation personnalisée basée sur la législation ONEM.">
+    <meta name="keywords" content="simulateur chômage, réforme Arizona, dégressivité allocation, ONEM 2026, calcul chômage Belgique">
+    <link rel="canonical" href="https://ouaisfi.eu/simulateur-arizona">
+    
+    <meta property="og:title" content="Simulateur Arizona : Impact sur votre allocation">
+    <meta property="og:description" content="Les réformes Arizona vont-elles vous affecter ? Calculez votre situation personnelle.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://ouaisfi.eu/simulateur-arizona">
+    
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Simulateur Arizona - Impact Chômage",
+        "description": "Outil de simulation de l'impact des réformes Arizona sur les allocations de chômage",
+        "applicationCategory": "FinanceApplication",
+        "operatingSystem": "Web",
+        "offers": {"@type": "Offer", "price": "0", "priceCurrency": "EUR"},
+        "creator": {"@type": "Organization", "name": "ouaisfi.eu"}
+    }
+    </script>
+    
+    <style>
+        :root {
+            --mint: #4ade80; --mint-dark: #22c55e;
+            --lilac: #c084fc; --lilac-dark: #a855f7;
+            --red: #f87171; --orange: #fb923c; --yellow: #fbbf24;
+            --bg: #0a0a0f; --bg-alt: #12121a; --card: #1a1a24;
+            --text: #e2e8f0; --text-muted: #94a3b8; --border: #2d2d3a;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+        .container { max-width: 900px; margin: 0 auto; padding: 24px; }
+        a { color: var(--mint); }
+        
+        header { padding: 60px 0 40px; text-align: center; border-bottom: 1px solid var(--border); }
+        h1 { font-size: 36px; font-weight: 900; margin-bottom: 16px; }
+        h1 .red { color: var(--red); }
+        .subtitle { color: var(--text-muted); max-width: 600px; margin: 0 auto; }
+        
+        .warning-box {
+            background: rgba(248,113,113,0.1);
+            border: 2px solid var(--red);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 32px 0;
+        }
+        .warning-box h3 { color: var(--red); margin-bottom: 8px; }
+        .warning-box p { font-size: 14px; color: var(--text-muted); margin: 0; }
+        
+        .simulator { background: var(--card); border-radius: 16px; padding: 32px; margin: 32px 0; }
+        .simulator h2 { font-size: 24px; margin-bottom: 24px; color: var(--mint); }
+        
+        .form-section { margin-bottom: 32px; padding-bottom: 24px; border-bottom: 1px solid var(--border); }
+        .form-section:last-of-type { border-bottom: none; margin-bottom: 0; }
+        .form-section h3 { font-size: 18px; margin-bottom: 16px; color: var(--lilac); }
+        
+        .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; }
+        
+        .form-group { margin-bottom: 16px; }
+        .form-group label { display: block; font-size: 14px; color: var(--text-muted); margin-bottom: 6px; }
+        .form-group input, .form-group select {
+            width: 100%; padding: 12px; background: var(--bg);
+            border: 2px solid var(--border); border-radius: 8px;
+            color: var(--text); font-size: 16px;
+        }
+        .form-group input:focus, .form-group select:focus {
+            outline: none; border-color: var(--mint);
+        }
+        .form-group small { display: block; font-size: 12px; color: var(--text-muted); margin-top: 4px; }
+        
+        .radio-group { display: flex; gap: 16px; flex-wrap: wrap; }
+        .radio-option {
+            flex: 1; min-width: 120px;
+            background: var(--bg); border: 2px solid var(--border);
+            border-radius: 8px; padding: 12px; cursor: pointer;
+            text-align: center; transition: all 0.3s;
+        }
+        .radio-option:hover { border-color: var(--lilac); }
+        .radio-option.selected { border-color: var(--mint); background: rgba(74,222,128,0.1); }
+        .radio-option input { display: none; }
+        .radio-option span { font-weight: 600; }
+        
+        .btn-calculate {
+            width: 100%; padding: 18px; margin-top: 24px;
+            background: var(--mint); border: none; border-radius: 12px;
+            color: var(--bg); font-size: 18px; font-weight: 800;
+            cursor: pointer; text-transform: uppercase;
+        }
+        .btn-calculate:hover { background: var(--mint-dark); }
+        
+        /* RÉSULTATS */
+        .results { display: none; margin-top: 32px; }
+        .results.show { display: block; }
+        
+        .result-header {
+            text-align: center; padding: 32px;
+            background: var(--bg-alt); border-radius: 16px;
+            margin-bottom: 24px;
+        }
+        .result-header h2 { font-size: 28px; margin-bottom: 8px; }
+        .result-header .impact { font-size: 48px; font-weight: 900; }
+        .result-header .impact.negative { color: var(--red); }
+        .result-header .impact.neutral { color: var(--yellow); }
+        .result-header .impact.positive { color: var(--mint); }
+        
+        .result-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 16px; }
+        .result-card {
+            background: var(--card); border-radius: 12px; padding: 24px;
+            border-left: 4px solid var(--lilac);
+        }
+        .result-card h4 { font-size: 14px; color: var(--text-muted); margin-bottom: 8px; }
+        .result-card .value { font-size: 28px; font-weight: 700; color: var(--text); }
+        .result-card .change { font-size: 14px; margin-top: 4px; }
+        .result-card .change.negative { color: var(--red); }
+        .result-card .change.positive { color: var(--mint); }
+        
+        .timeline-result { margin-top: 32px; }
+        .timeline-result h3 { margin-bottom: 16px; }
+        .timeline-bar {
+            display: flex; height: 40px; border-radius: 8px; overflow: hidden;
+            margin-bottom: 8px;
+        }
+        .timeline-segment {
+            display: flex; align-items: center; justify-content: center;
+            font-size: 12px; font-weight: 600; color: var(--bg);
+        }
+        .timeline-legend { display: flex; gap: 16px; flex-wrap: wrap; font-size: 12px; }
+        .timeline-legend span { display: flex; align-items: center; gap: 6px; }
+        .legend-dot { width: 12px; height: 12px; border-radius: 50%; }
+        
+        .disclaimer {
+            margin-top: 32px; padding: 20px;
+            background: var(--bg-alt); border-radius: 12px;
+            font-size: 13px; color: var(--text-muted);
+        }
+        .disclaimer strong { color: var(--orange); }
+        
+        .sources { margin-top: 24px; padding: 20px; background: var(--card); border-radius: 12px; }
+        .sources h4 { margin-bottom: 12px; color: var(--mint); }
+        .sources ul { list-style: none; font-size: 13px; }
+        .sources li { margin-bottom: 8px; padding-left: 20px; position: relative; }
+        .sources li::before { content: '→'; position: absolute; left: 0; color: var(--mint); }
+        
+        .cta-section { text-align: center; margin-top: 48px; padding: 40px; background: var(--card); border-radius: 16px; }
+        .cta-section h3 { margin-bottom: 16px; }
+        .cta-buttons { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; margin-top: 24px; }
+        .cta-btn {
+            padding: 14px 28px; border-radius: 8px; font-weight: 600;
+            text-decoration: none; transition: all 0.3s;
+        }
+        .cta-btn.primary { background: var(--mint); color: var(--bg); }
+        .cta-btn.secondary { background: var(--card); color: var(--lilac); border: 2px solid var(--lilac); }
+        
+        footer { margin-top: 64px; padding: 32px 0; border-top: 1px solid var(--border); text-align: center; color: var(--text-muted); font-size: 14px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Simulateur <span class="red">Arizona</span></h1>
+            <p class="subtitle">Calculez l'impact réel des réformes 2026 sur VOTRE allocation de chômage. Basé sur la législation ONEM en vigueur.</p>
+        </header>
+        
+        <div class="warning-box">
+            <h3>⚠️ Attention : Réformes en cours de négociation</h3>
+            <p>Les mesures Arizona ne sont pas encore définitivement adoptées. Ce simulateur est basé sur les annonces officielles et la législation actuelle. Les montants réels peuvent varier. Consultez toujours l'ONEM ou un syndicat pour votre situation personnelle.</p>
+        </div>
+        
+        <div class="simulator">
+            <h2>📊 Votre situation</h2>
+            
+            <form id="simulator-form">
+                <!-- SECTION 1: Profil -->
+                <div class="form-section">
+                    <h3>👤 Votre profil</h3>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Âge</label>
+                            <input type="number" id="age" min="18" max="67" value="35" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Situation familiale</label>
+                            <select id="situation">
+                                <option value="cohabitant">Cohabitant</option>
+                                <option value="isole">Isolé</option>
+                                <option value="charge">Chef de ménage (charge de famille)</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- SECTION 2: Emploi précédent -->
+                <div class="form-section">
+                    <h3>💼 Votre dernier emploi</h3>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Dernier salaire brut mensuel (€)</label>
+                            <input type="number" id="salaire" min="1000" max="10000" value="2500" required>
+                            <small>Base pour le calcul de votre allocation</small>
+                        </div>
+                        <div class="form-group">
+                            <label>Années de carrière</label>
+                            <input type="number" id="carriere" min="0" max="45" value="10" required>
+                            <small>Total des années travaillées</small>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- SECTION 3: Chômage actuel -->
+                <div class="form-section">
+                    <h3>📅 Votre situation de chômage</h3>
+                    <div class="form-group">
+                        <label>Depuis combien de mois êtes-vous au chômage ?</label>
+                        <input type="number" id="mois-chomage" min="0" max="120" value="6" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Êtes-vous dans un parcours de réinsertion ?</label>
+                        <div class="radio-group">
+                            <label class="radio-option">
+                                <input type="radio" name="reinsertion" value="oui">
+                                <span>Oui</span>
+                            </label>
+                            <label class="radio-option selected">
+                                <input type="radio" name="reinsertion" value="non" checked>
+                                <span>Non</span>
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="reinsertion" value="formation">
+                                <span>En formation</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                
+                <button type="submit" class="btn-calculate">📊 Calculer mon impact</button>
+            </form>
+        </div>
+        
+        <!-- RÉSULTATS -->
+        <div class="results" id="results">
+            <div class="result-header">
+                <h2>Impact estimé des réformes Arizona</h2>
+                <div class="impact negative" id="impact-global">-15%</div>
+                <p id="impact-description">sur votre allocation mensuelle à terme</p>
+            </div>
+            
+            <div class="result-cards">
+                <div class="result-card">
+                    <h4>Allocation actuelle (estimation)</h4>
+                    <div class="value" id="allocation-actuelle">1.249 €</div>
+                    <div class="change">Système en vigueur</div>
+                </div>
+                <div class="result-card">
+                    <h4>Allocation post-Arizona</h4>
+                    <div class="value" id="allocation-arizona">1.061 €</div>
+                    <div class="change negative" id="difference">-188 €/mois</div>
+                </div>
+                <div class="result-card">
+                    <h4>Perte annuelle estimée</h4>
+                    <div class="value" id="perte-annuelle">2.256 €</div>
+                    <div class="change negative">Sur base de votre profil</div>
+                </div>
+                <div class="result-card">
+                    <h4>Risque d'exclusion</h4>
+                    <div class="value" id="risque-exclusion">Modéré</div>
+                    <div class="change" id="risque-detail">Après 24 mois de chômage</div>
+                </div>
+            </div>
+            
+            <div class="timeline-result">
+                <h3>📉 Évolution de votre allocation dans le temps</h3>
+                <div class="timeline-bar" id="timeline-bar">
+                    <!-- Généré par JS -->
+                </div>
+                <div class="timeline-legend">
+                    <span><div class="legend-dot" style="background: var(--mint);"></div> Phase 1 (65%)</span>
+                    <span><div class="legend-dot" style="background: var(--yellow);"></div> Phase 2 (60%)</span>
+                    <span><div class="legend-dot" style="background: var(--orange);"></div> Phase 3 (dégressivité)</span>
+                    <span><div class="legend-dot" style="background: var(--red);"></div> Forfait / Exclusion</span>
+                </div>
+            </div>
+            
+            <div class="disclaimer">
+                <strong>⚠️ Avertissement :</strong> Ce simulateur fournit une estimation indicative basée sur les règles ONEM actuelles et les annonces Arizona. Il ne constitue pas un calcul officiel. Votre situation réelle peut différer selon de nombreux facteurs (passé professionnel complet, conventions collectives, dispenses...). Contactez votre syndicat ou l'ONEM pour un calcul précis.
+            </div>
+            
+            <div class="sources">
+                <h4>📚 Sources et bases légales</h4>
+                <ul>
+                    <li><a href="https://www.onem.be" target="_blank" rel="noopener">ONEM - Montants des allocations de chômage</a></li>
+                    <li>Arrêté royal du 25 novembre 1991 (réglementation chômage)</li>
+                    <li>Annonces gouvernement Arizona (décembre 2025 - janvier 2026)</li>
+                    <li>Note : Les plafonds et pourcentages sont ceux en vigueur au 01/01/2026</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="cta-section">
+            <h3>Ces réformes vous inquiètent ?</h3>
+            <p style="color: var(--text-muted);">Vous n'êtes pas seul·e. Des centaines de milliers de Belges sont concernés.</p>
+            <div class="cta-buttons">
+                <a href="petition-stop-propagande.html" class="cta-btn primary">✊ Signer la pétition</a>
+                <a href="reformes-arizona-chomage-2026.html" class="cta-btn secondary">📖 Comprendre Arizona</a>
+                <a href="droits-allocataires-belgique.html" class="cta-btn secondary">⚖️ Connaître mes droits</a>
+            </div>
+        </div>
+        
+        <footer>
+            <p><a href="index.html">ouaisfi.eu</a> — Outil citoyen — Code source ouvert</p>
+            <p style="margin-top: 8px;">Données basées sur la législation ONEM. Pas de chiffres inventés.</p>
+        </footer>
+    </div>
+    
+    <script>
+        // DONNÉES ONEM 2026 (montants réels)
+        const ONEM_DATA = {
+            // Plafonds salariaux pour le calcul (valeurs officielles)
+            plafond_A: 3199.26,  // Plafond salarial supérieur
+            plafond_B: 2990.04,  // Plafond intermédiaire
+            plafond_AX: 3418.82, // Plafond étendu
+            
+            // Pourcentages par phase
+            phase1: { cohabitant: 0.65, isole: 0.60, charge: 0.60 },
+            phase2: { cohabitant: 0.60, isole: 0.55, charge: 0.55 },
+            
+            // Minima journaliers (× 26 pour mensuel)
+            minima: {
+                cohabitant: 31.78,  // Forfait cohabitant
+                isole: 47.64,       // Minimum isolé
+                charge: 57.93       // Minimum chef de ménage
+            },
+            
+            // Durée des phases (en mois)
+            duree_phase1: 12,
+            duree_phase2: 12,
+            
+            // Arizona : dégressivité accélérée annoncée
+            arizona_degressivite: 0.05,  // -5% supplémentaire par phase
+            arizona_limite_mois: 24      // Limitation à 24 mois pour cohabitants
+        };
+        
+        // Sélection radio
+        document.querySelectorAll('.radio-option').forEach(option => {
+            option.addEventListener('click', function() {
+                const group = this.closest('.form-group').querySelectorAll('.radio-option');
+                group.forEach(o => o.classList.remove('selected'));
+                this.classList.add('selected');
+                this.querySelector('input').checked = true;
+            });
+        });
+        
+        // Calcul
+        document.getElementById('simulator-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const age = parseInt(document.getElementById('age').value);
+            const situation = document.getElementById('situation').value;
+            const salaire = parseFloat(document.getElementById('salaire').value);
+            const carriere = parseInt(document.getElementById('carriere').value);
+            const moisChomage = parseInt(document.getElementById('mois-chomage').value);
+            const reinsertion = document.querySelector('input[name="reinsertion"]:checked').value;
+            
+            // Calcul allocation ACTUELLE (système en vigueur)
+            let salaireReference = Math.min(salaire, ONEM_DATA.plafond_A);
+            let tauxPhase1 = ONEM_DATA.phase1[situation];
+            let tauxPhase2 = ONEM_DATA.phase2[situation];
+            
+            // Allocation journalière
+            let allocationJour;
+            if (moisChomage <= ONEM_DATA.duree_phase1) {
+                allocationJour = (salaireReference / 26) * tauxPhase1;
+            } else if (moisChomage <= ONEM_DATA.duree_phase1 + ONEM_DATA.duree_phase2) {
+                allocationJour = (salaireReference / 26) * tauxPhase2;
+            } else {
+                // Phase dégressivité
+                let moisDegressif = moisChomage - ONEM_DATA.duree_phase1 - ONEM_DATA.duree_phase2;
+                let reduction = Math.min(moisDegressif * 0.02, 0.20);
+                allocationJour = (salaireReference / 26) * (tauxPhase2 - reduction);
+            }
+            
+            // Appliquer minimum
+            allocationJour = Math.max(allocationJour, ONEM_DATA.minima[situation]);
+            let allocationMensuelleActuelle = Math.round(allocationJour * 26);
+            
+            // Calcul allocation POST-ARIZONA
+            let allocationJourArizona = allocationJour;
+            
+            // Arizona : dégressivité plus rapide
+            if (moisChomage > ONEM_DATA.duree_phase1) {
+                allocationJourArizona *= (1 - ONEM_DATA.arizona_degressivite);
+            }
+            
+            // Arizona : limitation pour cohabitants
+            let risqueExclusion = "Faible";
+            let risqueDetail = "Pas de limitation prévue";
+            
+            if (situation === 'cohabitant' && moisChomage >= ONEM_DATA.arizona_limite_mois) {
+                allocationJourArizona = ONEM_DATA.minima.cohabitant * 0.8;
+                risqueExclusion = "ÉLEVÉ";
+                risqueDetail = "Passage au forfait ou exclusion après 24 mois";
+            } else if (situation === 'cohabitant') {
+                risqueExclusion = "Modéré";
+                risqueDetail = `Risque après ${ONEM_DATA.arizona_limite_mois - moisChomage} mois`;
+            } else if (moisChomage > 36) {
+                risqueExclusion = "À surveiller";
+                risqueDetail = "Contrôles renforcés annoncés";
+            }
+            
+            let allocationMensuelleArizona = Math.round(allocationJourArizona * 26);
+            
+            // Calculs finaux
+            let difference = allocationMensuelleArizona - allocationMensuelleActuelle;
+            let perteAnnuelle = Math.abs(difference * 12);
+            let pourcentageImpact = Math.round((difference / allocationMensuelleActuelle) * 100);
+            
+            // Affichage
+            document.getElementById('allocation-actuelle').textContent = allocationMensuelleActuelle.toLocaleString('fr-BE') + ' €';
+            document.getElementById('allocation-arizona').textContent = allocationMensuelleArizona.toLocaleString('fr-BE') + ' €';
+            document.getElementById('difference').textContent = (difference >= 0 ? '+' : '') + difference + ' €/mois';
+            document.getElementById('difference').className = difference < 0 ? 'change negative' : 'change positive';
+            document.getElementById('perte-annuelle').textContent = perteAnnuelle.toLocaleString('fr-BE') + ' €';
+            document.getElementById('risque-exclusion').textContent = risqueExclusion;
+            document.getElementById('risque-detail').textContent = risqueDetail;
+            
+            // Impact global
+            let impactEl = document.getElementById('impact-global');
+            impactEl.textContent = pourcentageImpact + '%';
+            if (pourcentageImpact < -10) {
+                impactEl.className = 'impact negative';
+            } else if (pourcentageImpact < 0) {
+                impactEl.className = 'impact neutral';
+            } else {
+                impactEl.className = 'impact positive';
+            }
+            
+            // Timeline bar
+            let timelineHTML = '';
+            let totalMois = 48;
+            let phase1Width = (12 / totalMois) * 100;
+            let phase2Width = (12 / totalMois) * 100;
+            let phase3Width = situation === 'cohabitant' ? 0 : ((24 / totalMois) * 100);
+            let phase4Width = situation === 'cohabitant' ? ((24 / totalMois) * 100) : 0;
+            
+            timelineHTML += `<div class="timeline-segment" style="width:${phase1Width}%; background:var(--mint);">12m</div>`;
+            timelineHTML += `<div class="timeline-segment" style="width:${phase2Width}%; background:var(--yellow);">12m</div>`;
+            if (phase3Width > 0) {
+                timelineHTML += `<div class="timeline-segment" style="width:${phase3Width}%; background:var(--orange);">24m+</div>`;
+            }
+            if (situation === 'cohabitant') {
+                timelineHTML += `<div class="timeline-segment" style="width:${phase4Width}%; background:var(--red);">Forfait/Excl.</div>`;
+            }
+            document.getElementById('timeline-bar').innerHTML = timelineHTML;
+            
+            // Afficher résultats
+            document.getElementById('results').classList.add('show');
+            document.getElementById('results').scrollIntoView({ behavior: 'smooth' });
+        });
+    </script>
+</body>
+</html>

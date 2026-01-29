@@ -1,0 +1,1629 @@
+<!DOCTYPE html>
+<html lang="fr-BE">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📡 OUAISFIEU NEWS 24/7 — Centre de Crise Citoyenne | LIVE</title>
+    <meta name="description" content="Fil d'actualité citoyen 24h/24 sur l'affaire Tous Fraudeurs. Breaking news, dossiers, outils. 127 pages, 48h de travail.">
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&family=Roboto+Mono&display=swap');
+        
+        :root {
+            --red: #dc2626;
+            --red-dark: #991b1b;
+            --blue: #1e40af;
+            --yellow: #fbbf24;
+            --mint: #4ade80;
+            --bg: #0f0f0f;
+            --bg-card: #1a1a1a;
+            --bg-alt: #252525;
+            --text: #ffffff;
+            --text-muted: #9ca3af;
+            --border: #333;
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Roboto Condensed', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.5;
+        }
+        
+        /* === BREAKING NEWS BANNER === */
+        .breaking-banner {
+            background: var(--red);
+            color: white;
+            padding: 8px 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            overflow: hidden;
+        }
+        .breaking-inner {
+            display: flex;
+            animation: scroll 30s linear infinite;
+        }
+        @keyframes scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        .breaking-item {
+            white-space: nowrap;
+            padding: 0 48px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .breaking-item::before {
+            content: '⚡';
+            margin-right: 8px;
+        }
+        
+        /* === HEADER === */
+        header {
+            background: linear-gradient(135deg, var(--bg-card), var(--bg-alt));
+            padding: 80px 24px 24px;
+            border-bottom: 4px solid var(--red);
+        }
+        .header-inner {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 24px;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        .logo-icon {
+            width: 64px;
+            height: 64px;
+            background: var(--red);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+        }
+        .logo-text h1 {
+            font-size: 32px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        .logo-text span {
+            font-size: 12px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+        
+        .live-badge {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--red);
+            padding: 8px 16px;
+            border-radius: 4px;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        .live-badge::before {
+            content: '';
+            width: 12px;
+            height: 12px;
+            background: white;
+            border-radius: 50%;
+        }
+        
+        .stats-bar {
+            display: flex;
+            gap: 32px;
+            flex-wrap: wrap;
+        }
+        .stat {
+            text-align: center;
+        }
+        .stat-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--yellow);
+        }
+        .stat-label {
+            font-size: 11px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+        }
+        
+        /* === NAV === */
+        nav {
+            background: var(--bg-alt);
+            padding: 12px 24px;
+            position: sticky;
+            top: 36px;
+            z-index: 900;
+            border-bottom: 1px solid var(--border);
+        }
+        .nav-inner {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+        }
+        .nav-btn {
+            padding: 8px 16px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            color: var(--text);
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            cursor: pointer;
+            white-space: nowrap;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        .nav-btn:hover, .nav-btn.active {
+            background: var(--red);
+            border-color: var(--red);
+        }
+        
+        /* === MAIN === */
+        main {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 24px;
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 24px;
+        }
+        @media (max-width: 1000px) {
+            main { grid-template-columns: 1fr; }
+        }
+        
+        /* === SECTIONS === */
+        .section {
+            background: var(--bg-card);
+            border-radius: 8px;
+            margin-bottom: 24px;
+            overflow: hidden;
+        }
+        .section-header {
+            background: var(--bg-alt);
+            padding: 16px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+        }
+        .section-header h2 {
+            font-size: 18px;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .section-header .count {
+            background: var(--red);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+        .section-body {
+            padding: 20px;
+        }
+        
+        /* === FILE INDEX === */
+        .file-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 12px;
+        }
+        .file-card {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            background: var(--bg);
+            border-radius: 6px;
+            border: 1px solid var(--border);
+            text-decoration: none;
+            color: var(--text);
+            transition: all 0.2s;
+        }
+        .file-card:hover {
+            border-color: var(--mint);
+            transform: translateX(4px);
+        }
+        .file-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+        .file-icon.html { background: #f97316; }
+        .file-icon.docx { background: #2563eb; }
+        .file-icon.md { background: #8b5cf6; }
+        .file-icon.svg { background: #ec4899; }
+        .file-icon.json { background: #10b981; }
+        .file-icon.xml { background: #6366f1; }
+        .file-icon.tool { background: var(--mint); }
+        .file-icon.easter { background: var(--yellow); color: black; }
+        
+        .file-info {
+            flex: 1;
+            min-width: 0;
+        }
+        .file-name {
+            font-weight: 700;
+            font-size: 13px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .file-desc {
+            font-size: 11px;
+            color: var(--text-muted);
+        }
+        
+        /* === TIMELINE === */
+        .timeline {
+            position: relative;
+            padding-left: 24px;
+        }
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 8px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--border);
+        }
+        .timeline-item {
+            position: relative;
+            padding-bottom: 24px;
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -20px;
+            top: 4px;
+            width: 12px;
+            height: 12px;
+            background: var(--red);
+            border-radius: 50%;
+            border: 2px solid var(--bg-card);
+        }
+        .timeline-item.done::before { background: var(--mint); }
+        .timeline-item.current::before { background: var(--yellow); animation: pulse 1s infinite; }
+        .timeline-item.future::before { background: var(--border); }
+        
+        .timeline-date {
+            font-size: 11px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+        .timeline-title {
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+        .timeline-desc {
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+        
+        /* === ROADMAP === */
+        .roadmap-phase {
+            margin-bottom: 24px;
+        }
+        .phase-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+        .phase-badge {
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+        .phase-badge.done { background: var(--mint); color: black; }
+        .phase-badge.wip { background: var(--yellow); color: black; }
+        .phase-badge.todo { background: var(--border); }
+        
+        .phase-tasks {
+            list-style: none;
+            padding-left: 16px;
+        }
+        .phase-tasks li {
+            padding: 8px 0;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+        }
+        .phase-tasks li::before {
+            content: '✓';
+            color: var(--mint);
+        }
+        .phase-tasks li.pending::before {
+            content: '○';
+            color: var(--text-muted);
+        }
+        .phase-tasks li.lorem {
+            color: var(--text-muted);
+            font-style: italic;
+        }
+        .phase-tasks li.lorem::before {
+            content: '⋯';
+            color: var(--yellow);
+        }
+        
+        /* === SIDEBAR === */
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+        
+        .widget {
+            background: var(--bg-card);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .widget-header {
+            background: var(--bg-alt);
+            padding: 12px 16px;
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 13px;
+            border-bottom: 1px solid var(--border);
+        }
+        .widget-body {
+            padding: 16px;
+        }
+        
+        .quick-links {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .quick-link {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 12px;
+            background: var(--bg);
+            border-radius: 6px;
+            text-decoration: none;
+            color: var(--text);
+            font-size: 13px;
+            transition: all 0.2s;
+        }
+        .quick-link:hover {
+            background: var(--red);
+        }
+        .quick-link .emoji { font-size: 18px; }
+        
+        /* === CHIFFRES CLÉS === */
+        .key-figures {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+        .key-fig {
+            text-align: center;
+            padding: 16px 8px;
+            background: var(--bg);
+            border-radius: 6px;
+        }
+        .key-fig-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--yellow);
+        }
+        .key-fig-label {
+            font-size: 10px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+        }
+        
+        /* === CONTACTS === */
+        .contacts {
+            font-size: 13px;
+        }
+        .contacts p {
+            margin-bottom: 8px;
+        }
+        .contacts a {
+            color: var(--mint);
+        }
+        
+        /* === FOOTER === */
+        footer {
+            background: var(--bg-card);
+            border-top: 4px solid var(--red);
+            padding: 48px 24px;
+            margin-top: 48px;
+        }
+        .footer-inner {
+            max-width: 1400px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        .footer-logo {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+        .footer-stats {
+            display: flex;
+            justify-content: center;
+            gap: 48px;
+            margin: 24px 0;
+            flex-wrap: wrap;
+        }
+        .footer-stat {
+            text-align: center;
+        }
+        .footer-stat-value {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--mint);
+        }
+        .footer-stat-label {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+        .footer-copy {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-top: 24px;
+        }
+    </style>
+</head>
+<body>
+    <!-- BREAKING NEWS BANNER -->
+    <div class="breaking-banner">
+        <div class="breaking-inner">
+            <span class="breaking-item">400+ plaintes au CSA — Record historique</span>
+            <span class="breaking-item">Moins de 3% de fraude sociale réelle (ONEM)</span>
+            <span class="breaking-item">410.860 téléspectateurs manipulés</span>
+            <span class="breaking-item">127 pages créées en 48h</span>
+            <span class="breaking-item">47.000 lettres ONEM 5 jours après diffusion</span>
+            <span class="breaking-item">Deadline ultimatum : 1er avril 2026</span>
+            <span class="breaking-item">400+ plaintes au CSA — Record historique</span>
+            <span class="breaking-item">Moins de 3% de fraude sociale réelle (ONEM)</span>
+            <span class="breaking-item">410.860 téléspectateurs manipulés</span>
+            <span class="breaking-item">127 pages créées en 48h</span>
+        </div>
+    </div>
+    
+    <!-- HEADER -->
+    <header>
+        <div class="header-inner">
+            <div class="logo">
+                <div class="logo-icon">📡</div>
+                <div class="logo-text">
+                    <h1>OUAISFIEU NEWS</h1>
+                    <span>Centre de crise citoyenne — 24/7</span>
+                </div>
+            </div>
+            
+            <div class="live-badge">
+                <span>EN DIRECT</span>
+            </div>
+            
+            <div class="stats-bar">
+                <div class="stat">
+                    <div class="stat-value">127</div>
+                    <div class="stat-label">Pages HTML</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value">7</div>
+                    <div class="stat-label">Documents DOCX</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value">48h</div>
+                    <div class="stat-label">De travail</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value">0</div>
+                    <div class="stat-label">Chiffres inventés</div>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <!-- NAV -->
+    <nav>
+        <div class="nav-inner">
+            <a href="#index" class="nav-btn active">📂 Index complet</a>
+            <a href="#outils" class="nav-btn">🔧 Outils</a>
+            <a href="#dossiers" class="nav-btn">📁 Dossiers</a>
+            <a href="#viraux" class="nav-btn">🚀 Viraux</a>
+            <a href="#geo" class="nav-btn">🌍 Pages GEO</a>
+            <a href="#easter" class="nav-btn">🥚 Easter Eggs</a>
+            <a href="#timeline" class="nav-btn">📅 Timeline</a>
+            <a href="#roadmap" class="nav-btn">🗺️ Roadmap</a>
+            <a href="#docs" class="nav-btn">📄 Documents</a>
+        </div>
+    </nav>
+    
+    <!-- MAIN -->
+    <main>
+        <div class="content">
+            
+            <!-- SECTION: OUTILS INTERACTIFS -->
+            <section class="section" id="outils">
+                <div class="section-header">
+                    <h2>🔧 Outils Interactifs</h2>
+                    <span class="count">6 outils</span>
+                </div>
+                <div class="section-body">
+                    <div class="file-grid">
+                        <a href="simulateur-arizona-impact-personnel.html" class="file-card">
+                            <div class="file-icon tool">📊</div>
+                            <div class="file-info">
+                                <div class="file-name">Simulateur Arizona</div>
+                                <div class="file-desc">Impact sur TON allocation chômage</div>
+                            </div>
+                        </a>
+                        <a href="generateur-plainte-csa.html" class="file-card">
+                            <div class="file-icon tool">📝</div>
+                            <div class="file-info">
+                                <div class="file-name">Générateur Plainte CSA</div>
+                                <div class="file-desc">Plainte personnalisée en 2 min</div>
+                            </div>
+                        </a>
+                        <a href="contradicteur-base-donnees.html" class="file-card">
+                            <div class="file-icon tool">🔄</div>
+                            <div class="file-info">
+                                <div class="file-name">Contradicteur</div>
+                                <div class="file-desc">Base des contradictions politiques</div>
+                            </div>
+                        </a>
+                        <a href="calculateur-impots.html" class="file-card">
+                            <div class="file-icon tool">💰</div>
+                            <div class="file-info">
+                                <div class="file-name">Calculateur Impôts</div>
+                                <div class="file-desc">Où vont vraiment vos impôts</div>
+                            </div>
+                        </a>
+                        <a href="chatbot-rtl.html" class="file-card">
+                            <div class="file-icon tool">🤖</div>
+                            <div class="file-info">
+                                <div class="file-name">Chatbot RTL (parodie)</div>
+                                <div class="file-desc">IA de relations publiques RTL</div>
+                            </div>
+                        </a>
+                        <a href="captcha-citoyen.html" class="file-card">
+                            <div class="file-icon tool">✅</div>
+                            <div class="file-info">
+                                <div class="file-name">Captcha Citoyen</div>
+                                <div class="file-desc">Quiz pour prouver qu'on est informé</div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- SECTION: DOSSIERS PRINCIPAUX -->
+            <section class="section" id="dossiers">
+                <div class="section-header">
+                    <h2>📁 Dossiers Principaux</h2>
+                    <span class="count">15 pages</span>
+                </div>
+                <div class="section-body">
+                    <div class="file-grid">
+                        <a href="hub-deborsu-tous-fraudeurs.html" class="file-card">
+                            <div class="file-icon html">📺</div>
+                            <div class="file-info">
+                                <div class="file-name">Hub Deborsu Complet</div>
+                                <div class="file-desc">Dossier central de l'affaire</div>
+                            </div>
+                        </a>
+                        <a href="hub-central-seo-geo.html" class="file-card">
+                            <div class="file-icon html">🌐</div>
+                            <div class="file-info">
+                                <div class="file-name">Hub Central SEO/GEO</div>
+                                <div class="file-desc">Portail vers toutes les pages</div>
+                            </div>
+                        </a>
+                        <a href="petition-stop-propagande.html" class="file-card">
+                            <div class="file-icon html">✊</div>
+                            <div class="file-info">
+                                <div class="file-name">Pétition Stop Propagande</div>
+                                <div class="file-desc">Page de signature principale</div>
+                            </div>
+                        </a>
+                        <a href="kit-presse-journalistes.html" class="file-card">
+                            <div class="file-icon html">📰</div>
+                            <div class="file-info">
+                                <div class="file-name">Kit Presse</div>
+                                <div class="file-desc">Dossier pour les journalistes</div>
+                            </div>
+                        </a>
+                        <a href="christophe-deborsu-biographie.html" class="file-card">
+                            <div class="file-icon html">👤</div>
+                            <div class="file-info">
+                                <div class="file-name">Biographie Deborsu</div>
+                                <div class="file-desc">Parcours et controverses</div>
+                            </div>
+                        </a>
+                        <a href="gaelle-denys-cpas-verviers.html" class="file-card">
+                            <div class="file-icon html">👩</div>
+                            <div class="file-info">
+                                <div class="file-name">Gaëlle Denys CPAS</div>
+                                <div class="file-desc">La victime du montage</div>
+                            </div>
+                        </a>
+                        <a href="plaintes-csa-deborsu.html" class="file-card">
+                            <div class="file-icon html">⚖️</div>
+                            <div class="file-info">
+                                <div class="file-name">Plaintes CSA</div>
+                                <div class="file-desc">400+ plaintes décryptées</div>
+                            </div>
+                        </a>
+                        <a href="porter-plainte-csa-guide.html" class="file-card">
+                            <div class="file-icon html">📋</div>
+                            <div class="file-info">
+                                <div class="file-name">Guide Plainte CSA</div>
+                                <div class="file-desc">Comment porter plainte</div>
+                            </div>
+                        </a>
+                        <a href="chiffres-reels-fraude-sociale.html" class="file-card">
+                            <div class="file-icon html">📊</div>
+                            <div class="file-info">
+                                <div class="file-name">Chiffres Réels Fraude</div>
+                                <div class="file-desc">Moins de 3% - sources ONEM</div>
+                            </div>
+                        </a>
+                        <a href="fraude-fiscale-vs-sociale-comparaison.html" class="file-card">
+                            <div class="file-icon html">⚖️</div>
+                            <div class="file-info">
+                                <div class="file-name">Fraude Fiscale vs Sociale</div>
+                                <div class="file-desc">Le ratio 150×</div>
+                            </div>
+                        </a>
+                        <a href="reformes-arizona-chomage-2026.html" class="file-card">
+                            <div class="file-icon html">🏛️</div>
+                            <div class="file-info">
+                                <div class="file-name">Réformes Arizona</div>
+                                <div class="file-desc">Ce qui attend les chômeurs</div>
+                            </div>
+                        </a>
+                        <a href="droits-allocataires-belgique.html" class="file-card">
+                            <div class="file-icon html">📜</div>
+                            <div class="file-info">
+                                <div class="file-name">Droits des Allocataires</div>
+                                <div class="file-desc">Connaître ses droits</div>
+                            </div>
+                        </a>
+                        <a href="communique-presse-lancement-petition.html" class="file-card">
+                            <div class="file-icon html">📢</div>
+                            <div class="file-info">
+                                <div class="file-name">Communiqué de Presse</div>
+                                <div class="file-desc">Lancement de la pétition</div>
+                            </div>
+                        </a>
+                        <a href="temoignages-tronques-verviers.html" class="file-card">
+                            <div class="file-icon html">🗣️</div>
+                            <div class="file-info">
+                                <div class="file-name">Témoignages Tronqués</div>
+                                <div class="file-desc">Ce que RTL a coupé</div>
+                            </div>
+                        </a>
+                        <a href="laetitia-mere-celibataire-temoignage.html" class="file-card">
+                            <div class="file-icon html">💔</div>
+                            <div class="file-info">
+                                <div class="file-name">Témoignage Laetitia</div>
+                                <div class="file-desc">Victime du documentaire</div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- SECTION: PAGES VIRALES -->
+            <section class="section" id="viraux">
+                <div class="section-header">
+                    <h2>🚀 Pages Virales (FAIT-*)</h2>
+                    <span class="count">15 pages</span>
+                </div>
+                <div class="section-body">
+                    <div class="file-grid">
+                        <a href="fait-3-pourcent.html" class="file-card">
+                            <div class="file-icon html">3️⃣</div>
+                            <div class="file-info">
+                                <div class="file-name">Fait : 3%</div>
+                                <div class="file-desc">Le vrai taux de fraude</div>
+                            </div>
+                        </a>
+                        <a href="fait-97-pourcent.html" class="file-card">
+                            <div class="file-icon html">9️⃣</div>
+                            <div class="file-info">
+                                <div class="file-name">Fait : 97%</div>
+                                <div class="file-desc">Allocataires honnêtes</div>
+                            </div>
+                        </a>
+                        <a href="fait-30-milliards.html" class="file-card">
+                            <div class="file-icon html">💶</div>
+                            <div class="file-info">
+                                <div class="file-name">Fait : 30 Md€</div>
+                                <div class="file-desc">Fraude fiscale annuelle</div>
+                            </div>
+                        </a>
+                        <a href="fait-400-plaintes.html" class="file-card">
+                            <div class="file-icon html">📋</div>
+                            <div class="file-info">
+                                <div class="file-name">Fait : 400+ plaintes</div>
+                                <div class="file-desc">Record historique CSA</div>
+                            </div>
+                        </a>
+                        <a href="fait-ratio-150-1.html" class="file-card">
+                            <div class="file-icon html">⚖️</div>
+                            <div class="file-info">
+                                <div class="file-name">Fait : Ratio 150:1</div>
+                                <div class="file-desc">Fraude fiscale vs sociale</div>
+                            </div>
+                        </a>
+                        <a href="fait-1h-30s.html" class="file-card">
+                            <div class="file-icon html">⏱️</div>
+                            <div class="file-info">
+                                <div class="file-name">Fait : 1h → 30s</div>
+                                <div class="file-desc">Montage Gaëlle Denys</div>
+                            </div>
+                        </a>
+                        <a href="fait-90000-exclusions.html" class="file-card">
+                            <div class="file-icon html">🚫</div>
+                            <div class="file-info">
+                                <div class="file-name">Fait : 90.000 exclusions</div>
+                                <div class="file-desc">Exclus du chômage</div>
+                            </div>
+                        </a>
+                        <a href="fait-1249-euros.html" class="file-card">
+                            <div class="file-icon html">💰</div>
+                            <div class="file-info">
+                                <div class="file-name">Fait : 1.249€</div>
+                                <div class="file-desc">Allocation moyenne</div>
+                            </div>
+                        </a>
+                        <a href="fait-5-filtres.html" class="file-card">
+                            <div class="file-icon html">🔍</div>
+                            <div class="file-info">
+                                <div class="file-name">Fait : 5 filtres</div>
+                                <div class="file-desc">Modèle de propagande</div>
+                            </div>
+                        </a>
+                        <a href="fait-7-raisons.html" class="file-card">
+                            <div class="file-icon html">7️⃣</div>
+                            <div class="file-info">
+                                <div class="file-name">Fait : 7 raisons</div>
+                                <div class="file-desc">Pourquoi ce n'est pas un docu</div>
+                            </div>
+                        </a>
+                        <a href="fait-10-questions.html" class="file-card">
+                            <div class="file-icon html">❓</div>
+                            <div class="file-info">
+                                <div class="file-name">Fait : 10 questions</div>
+                                <div class="file-desc">Questions sans réponse</div>
+                            </div>
+                        </a>
+                        <a href="fait-cui-bono.html" class="file-card">
+                            <div class="file-icon html">🎯</div>
+                            <div class="file-info">
+                                <div class="file-name">Fait : Cui Bono</div>
+                                <div class="file-desc">À qui profite le crime ?</div>
+                            </div>
+                        </a>
+                        <a href="fait-ia-alliees.html" class="file-card">
+                            <div class="file-icon html">🤖</div>
+                            <div class="file-info">
+                                <div class="file-name">Fait : IA Alliées</div>
+                                <div class="file-desc">Les IA au service citoyen</div>
+                            </div>
+                        </a>
+                        <a href="fait-pas-complot.html" class="file-card">
+                            <div class="file-icon html">🔎</div>
+                            <div class="file-info">
+                                <div class="file-name">Fait : Pas un complot</div>
+                                <div class="file-desc">Faits vérifiables</div>
+                            </div>
+                        </a>
+                        <a href="fait-pattern-mondial.html" class="file-card">
+                            <div class="file-icon html">🌍</div>
+                            <div class="file-info">
+                                <div class="file-name">Fait : Pattern mondial</div>
+                                <div class="file-desc">Austérité partout</div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- SECTION: PAGES VIRALES VIRAL-* -->
+            <section class="section">
+                <div class="section-header">
+                    <h2>🔥 Pages Virales (VIRAL-*)</h2>
+                    <span class="count">5 pages</span>
+                </div>
+                <div class="section-body">
+                    <div class="file-grid">
+                        <a href="viral-3-pourcent-verite.html" class="file-card">
+                            <div class="file-icon html">🔥</div>
+                            <div class="file-info">
+                                <div class="file-name">Viral : 3% Vérité</div>
+                                <div class="file-desc">Le chiffre qu'on cache</div>
+                            </div>
+                        </a>
+                        <a href="viral-150-contre-1.html" class="file-card">
+                            <div class="file-icon html">🔥</div>
+                            <div class="file-info">
+                                <div class="file-name">Viral : 150 contre 1</div>
+                                <div class="file-desc">Le ratio scandaleux</div>
+                            </div>
+                        </a>
+                        <a href="viral-1h-30s-manipulation.html" class="file-card">
+                            <div class="file-icon html">🔥</div>
+                            <div class="file-info">
+                                <div class="file-name">Viral : 1h→30s</div>
+                                <div class="file-desc">Manipulation du montage</div>
+                            </div>
+                        </a>
+                        <a href="viral-400-plaintes.html" class="file-card">
+                            <div class="file-icon html">🔥</div>
+                            <div class="file-info">
+                                <div class="file-name">Viral : 400 plaintes</div>
+                                <div class="file-desc">Record historique</div>
+                            </div>
+                        </a>
+                        <a href="viral-90000-exclusions.html" class="file-card">
+                            <div class="file-icon html">🔥</div>
+                            <div class="file-info">
+                                <div class="file-name">Viral : 90.000</div>
+                                <div class="file-desc">Les exclus du système</div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- SECTION: COCON DEBORSU -->
+            <section class="section">
+                <div class="section-header">
+                    <h2>🕸️ Cocon Sémantique Deborsu</h2>
+                    <span class="count">10 pages</span>
+                </div>
+                <div class="section-body">
+                    <div class="file-grid">
+                        <a href="cocon-deborsu/hub-deborsu-tous-fraudeurs.html" class="file-card">
+                            <div class="file-icon html">🏠</div>
+                            <div class="file-info">
+                                <div class="file-name">Hub Central</div>
+                                <div class="file-desc">Point d'entrée du cocon</div>
+                            </div>
+                        </a>
+                        <a href="cocon-deborsu/christophe-deborsu-biographie.html" class="file-card">
+                            <div class="file-icon html">👤</div>
+                            <div class="file-info">
+                                <div class="file-name">Biographie Deborsu</div>
+                                <div class="file-desc">Cocon version</div>
+                            </div>
+                        </a>
+                        <a href="cocon-deborsu/chiffres-reels-fraude-sociale.html" class="file-card">
+                            <div class="file-icon html">📊</div>
+                            <div class="file-info">
+                                <div class="file-name">Chiffres Réels</div>
+                                <div class="file-desc">Cocon version</div>
+                            </div>
+                        </a>
+                        <a href="cocon-deborsu/je-vous-derange-emission-rtl.html" class="file-card">
+                            <div class="file-icon html">📺</div>
+                            <div class="file-info">
+                                <div class="file-name">Je Vous Dérange</div>
+                                <div class="file-desc">L'émission de Deborsu</div>
+                            </div>
+                        </a>
+                        <a href="cocon-deborsu/malades-longue-duree-belgique.html" class="file-card">
+                            <div class="file-icon html">🏥</div>
+                            <div class="file-info">
+                                <div class="file-name">Malades Longue Durée</div>
+                                <div class="file-desc">Situation en Belgique</div>
+                            </div>
+                        </a>
+                        <a href="cocon-deborsu/pieges-emploi-allocation-cpas.html" class="file-card">
+                            <div class="file-icon html">⚠️</div>
+                            <div class="file-info">
+                                <div class="file-name">Pièges Emploi</div>
+                                <div class="file-desc">Allocation et CPAS</div>
+                            </div>
+                        </a>
+                        <a href="cocon-deborsu/plaintes-csa-deborsu.html" class="file-card">
+                            <div class="file-icon html">⚖️</div>
+                            <div class="file-info">
+                                <div class="file-name">Plaintes CSA</div>
+                                <div class="file-desc">Cocon version</div>
+                            </div>
+                        </a>
+                        <a href="cocon-deborsu/reformes-arizona-chomage-2026.html" class="file-card">
+                            <div class="file-icon html">🏛️</div>
+                            <div class="file-info">
+                                <div class="file-name">Réformes Arizona</div>
+                                <div class="file-desc">Cocon version</div>
+                            </div>
+                        </a>
+                        <a href="cocon-deborsu/rtl-tvi-ethique-journalistique.html" class="file-card">
+                            <div class="file-icon html">📰</div>
+                            <div class="file-info">
+                                <div class="file-name">RTL Éthique</div>
+                                <div class="file-desc">Standards journalistiques</div>
+                            </div>
+                        </a>
+                        <a href="cocon-deborsu/temoignages-tronques-verviers.html" class="file-card">
+                            <div class="file-icon html">🗣️</div>
+                            <div class="file-info">
+                                <div class="file-name">Témoignages Tronqués</div>
+                                <div class="file-desc">Cocon version</div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- SECTION: PAGES GEO -->
+            <section class="section" id="geo">
+                <div class="section-header">
+                    <h2>🌍 Pages GEO/SEO</h2>
+                    <span class="count">41 pages</span>
+                </div>
+                <div class="section-body">
+                    <div class="file-grid">
+                        <a href="geo-taux-fraude-sociale-belgique.html" class="file-card">
+                            <div class="file-icon html">📊</div>
+                            <div class="file-info">
+                                <div class="file-name">Taux Fraude Sociale BE</div>
+                                <div class="file-desc">SEO: fraude sociale belgique</div>
+                            </div>
+                        </a>
+                        <a href="geo-fraude-fiscale-belgique.html" class="file-card">
+                            <div class="file-icon html">💶</div>
+                            <div class="file-info">
+                                <div class="file-name">Fraude Fiscale BE</div>
+                                <div class="file-desc">SEO: fraude fiscale belgique</div>
+                            </div>
+                        </a>
+                        <a href="geo-documentaire-tous-fraudeurs-rtl.html" class="file-card">
+                            <div class="file-icon html">📺</div>
+                            <div class="file-info">
+                                <div class="file-name">Docu Tous Fraudeurs</div>
+                                <div class="file-desc">SEO: tous fraudeurs rtl</div>
+                            </div>
+                        </a>
+                        <a href="geo-qui-est-christophe-deborsu.html" class="file-card">
+                            <div class="file-icon html">👤</div>
+                            <div class="file-info">
+                                <div class="file-name">Qui est Deborsu</div>
+                                <div class="file-desc">SEO: christophe deborsu</div>
+                            </div>
+                        </a>
+                        <a href="geo-plaintes-csa-deborsu.html" class="file-card">
+                            <div class="file-icon html">⚖️</div>
+                            <div class="file-info">
+                                <div class="file-name">Plaintes CSA</div>
+                                <div class="file-desc">SEO: plainte csa rtl</div>
+                            </div>
+                        </a>
+                        <a href="geo-reformes-arizona-2026.html" class="file-card">
+                            <div class="file-icon html">🏛️</div>
+                            <div class="file-info">
+                                <div class="file-name">Réformes Arizona</div>
+                                <div class="file-desc">SEO: arizona chomage 2026</div>
+                            </div>
+                        </a>
+                        <a href="geo-cpas-belgique-explique.html" class="file-card">
+                            <div class="file-icon html">🏢</div>
+                            <div class="file-info">
+                                <div class="file-name">CPAS Expliqué</div>
+                                <div class="file-desc">SEO: cpas belgique</div>
+                            </div>
+                        </a>
+                        <a href="geo-mythe-chomeur-paresseux.html" class="file-card">
+                            <div class="file-icon html">💤</div>
+                            <div class="file-info">
+                                <div class="file-name">Mythe Chômeur</div>
+                                <div class="file-desc">SEO: chomeur paresseux</div>
+                            </div>
+                        </a>
+                        <a href="geo-pourquoi-medias-stigmatisent-pauvres.html" class="file-card">
+                            <div class="file-icon html">📺</div>
+                            <div class="file-info">
+                                <div class="file-name">Stigmatisation Médias</div>
+                                <div class="file-desc">SEO: medias pauvres</div>
+                            </div>
+                        </a>
+                        <a href="geo-qui-sont-vrais-fraudeurs.html" class="file-card">
+                            <div class="file-icon html">🔍</div>
+                            <div class="file-info">
+                                <div class="file-name">Vrais Fraudeurs</div>
+                                <div class="file-desc">SEO: vrais fraudeurs</div>
+                            </div>
+                        </a>
+                    </div>
+                    <p style="text-align: center; margin-top: 16px; color: var(--text-muted);">
+                        <a href="hub-central-seo-geo.html" style="color: var(--mint);">→ Voir les 41 pages GEO complètes</a>
+                    </p>
+                </div>
+            </section>
+            
+            <!-- SECTION: EASTER EGGS -->
+            <section class="section" id="easter">
+                <div class="section-header">
+                    <h2>🥚 Easter Eggs & Parodies</h2>
+                    <span class="count">10 pages</span>
+                </div>
+                <div class="section-body">
+                    <div class="file-grid">
+                        <a href="bsod.html" class="file-card">
+                            <div class="file-icon easter">💀</div>
+                            <div class="file-info">
+                                <div class="file-name">BSOD</div>
+                                <div class="file-desc">Écran bleu de la mort RTL</div>
+                            </div>
+                        </a>
+                        <a href="boot-verite-os.html" class="file-card">
+                            <div class="file-icon easter">🖥️</div>
+                            <div class="file-info">
+                                <div class="file-name">Boot Vérité OS</div>
+                                <div class="file-desc">Démarrage du système Vérité</div>
+                            </div>
+                        </a>
+                        <a href="windows-update.html" class="file-card">
+                            <div class="file-icon easter">🪟</div>
+                            <div class="file-info">
+                                <div class="file-name">Windows Update</div>
+                                <div class="file-desc">Mise à jour démocratie</div>
+                            </div>
+                        </a>
+                        <a href="ios-splash.html" class="file-card">
+                            <div class="file-icon easter">📱</div>
+                            <div class="file-info">
+                                <div class="file-name">iOS Splash</div>
+                                <div class="file-desc">App Vérité</div>
+                            </div>
+                        </a>
+                        <a href="maintenance-rtl.html" class="file-card">
+                            <div class="file-icon easter">🔧</div>
+                            <div class="file-info">
+                                <div class="file-name">Maintenance RTL</div>
+                                <div class="file-desc">Site en maintenance</div>
+                            </div>
+                        </a>
+                        <a href="google-verite.html" class="file-card">
+                            <div class="file-icon easter">🔍</div>
+                            <div class="file-info">
+                                <div class="file-name">Google Vérité</div>
+                                <div class="file-desc">Moteur de recherche parodique</div>
+                            </div>
+                        </a>
+                        <a href="netflix-docu.html" class="file-card">
+                            <div class="file-icon easter">🎬</div>
+                            <div class="file-info">
+                                <div class="file-name">Netflix Docu</div>
+                                <div class="file-desc">Interface Netflix parodique</div>
+                            </div>
+                        </a>
+                        <a href="ecran-vote.html" class="file-card">
+                            <div class="file-icon easter">🗳️</div>
+                            <div class="file-info">
+                                <div class="file-name">Écran Vote</div>
+                                <div class="file-desc">Interface de vote citoyen</div>
+                            </div>
+                        </a>
+                        <a href="breaking-news.html" class="file-card">
+                            <div class="file-icon easter">📺</div>
+                            <div class="file-info">
+                                <div class="file-name">Breaking News</div>
+                                <div class="file-desc">Flash info parodique</div>
+                            </div>
+                        </a>
+                        <a href="rtl-docu-fiction-serie-b.html" class="file-card">
+                            <div class="file-icon easter">🎭</div>
+                            <div class="file-info">
+                                <div class="file-name">Docu-Fiction Série B</div>
+                                <div class="file-desc">Le vrai genre du programme</div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- SECTION: TIMELINE PROJET -->
+            <section class="section" id="timeline">
+                <div class="section-header">
+                    <h2>📅 Timeline du Projet (48h)</h2>
+                </div>
+                <div class="section-body">
+                    <div class="timeline">
+                        <div class="timeline-item done">
+                            <div class="timeline-date">27 janvier 2026 — 18h00</div>
+                            <div class="timeline-title">Lancement du projet</div>
+                            <div class="timeline-desc">Analyse initiale de l'affaire Deborsu, structuration des données sources</div>
+                        </div>
+                        <div class="timeline-item done">
+                            <div class="timeline-date">27 janvier 2026 — 22h00</div>
+                            <div class="timeline-title">Premiers plaidoyers DOCX</div>
+                            <div class="timeline-desc">Création des documents institutionnels : plaidoyers, cahier des charges</div>
+                        </div>
+                        <div class="timeline-item done">
+                            <div class="timeline-date">28 janvier 2026 — 10h00</div>
+                            <div class="timeline-title">Architecture SEO</div>
+                            <div class="timeline-desc">Création du cocon sémantique, 41 pages GEO, sitemap, Schema.org</div>
+                        </div>
+                        <div class="timeline-item done">
+                            <div class="timeline-date">28 janvier 2026 — 15h00</div>
+                            <div class="timeline-title">Pages virales</div>
+                            <div class="timeline-desc">15 pages FAIT-*, 5 pages VIRAL-*, visuels Instagram, scripts TikTok</div>
+                        </div>
+                        <div class="timeline-item done">
+                            <div class="timeline-date">28 janvier 2026 — 20h00</div>
+                            <div class="timeline-title">Easter Eggs</div>
+                            <div class="timeline-desc">BSOD, Boot OS, Windows Update, Netflix parodie, Google Vérité</div>
+                        </div>
+                        <div class="timeline-item done">
+                            <div class="timeline-date">29 janvier 2026 — 10h00</div>
+                            <div class="timeline-title">🚨 Audit & Corrections</div>
+                            <div class="timeline-desc">Détection sabotage URLs (ouaisfieu.be → ouaisfi.eu), correction 104 fichiers</div>
+                        </div>
+                        <div class="timeline-item done">
+                            <div class="timeline-date">29 janvier 2026 — 14h00</div>
+                            <div class="timeline-title">Outils interactifs</div>
+                            <div class="timeline-desc">Simulateur Arizona, Générateur plainte CSA, Contradicteur</div>
+                        </div>
+                        <div class="timeline-item done">
+                            <div class="timeline-date">29 janvier 2026 — 18h00</div>
+                            <div class="timeline-title">Kit Presse</div>
+                            <div class="timeline-desc">Dossier journalistes, lettre ouverte, analyse micro-méso-macro</div>
+                        </div>
+                        <div class="timeline-item current">
+                            <div class="timeline-date">29 janvier 2026 — 19h00</div>
+                            <div class="timeline-title">📡 Centre de Crise</div>
+                            <div class="timeline-desc">Index complet, parodie site d'actu, roadmap</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- SECTION: ROADMAP -->
+            <section class="section" id="roadmap">
+                <div class="section-header">
+                    <h2>🗺️ Roadmap</h2>
+                </div>
+                <div class="section-body">
+                    <div class="roadmap-phase">
+                        <div class="phase-header">
+                            <span class="phase-badge done">✓ FAIT</span>
+                            <span>Phase 1 — Infrastructure</span>
+                        </div>
+                        <ul class="phase-tasks">
+                            <li>127 pages HTML créées</li>
+                            <li>7 documents DOCX institutionnels</li>
+                            <li>Architecture SEO complète (cocon, sitemaps, Schema.org)</li>
+                            <li>6 outils interactifs fonctionnels</li>
+                            <li>10 easter eggs / parodies</li>
+                            <li>Audit et correction de 104 fichiers</li>
+                            <li>Kit presse pour journalistes</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="roadmap-phase">
+                        <div class="phase-header">
+                            <span class="phase-badge wip">EN COURS</span>
+                            <span>Phase 2 — Déploiement</span>
+                        </div>
+                        <ul class="phase-tasks">
+                            <li>Déploiement sur GitHub Pages (yannkeep/showroom)</li>
+                            <li class="pending">Configuration DNS ouaisfi.eu</li>
+                            <li class="pending">Soumission Google Search Console</li>
+                            <li class="pending">Indexation sitemap</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="roadmap-phase">
+                        <div class="phase-header">
+                            <span class="phase-badge todo">À FAIRE</span>
+                            <span>Phase 3 — Campagne</span>
+                        </div>
+                        <ul class="phase-tasks">
+                            <li class="pending">Lancement pétition (backend à connecter)</li>
+                            <li class="pending">Envoi kit presse aux rédactions</li>
+                            <li class="pending">Contact AJP / CDJ</li>
+                            <li class="pending">Campagne réseaux sociaux</li>
+                            <li class="lorem">Lorem ipsum dolor sit amet, consectetur adipiscing elit</li>
+                            <li class="lorem">Sed do eiusmod tempor incididunt ut labore</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="roadmap-phase">
+                        <div class="phase-header">
+                            <span class="phase-badge todo">FUTUR</span>
+                            <span>Phase 4 — Institutionnel</span>
+                        </div>
+                        <ul class="phase-tasks">
+                            <li class="pending">Deadline ultimatum RTL : 1er avril 2026</li>
+                            <li class="pending">Transmission Parlement FWB si pas de réponse</li>
+                            <li class="lorem">Duis aute irure dolor in reprehenderit in voluptate</li>
+                            <li class="lorem">Excepteur sint occaecat cupidatat non proident</li>
+                            <li class="lorem">Sunt in culpa qui officia deserunt mollit anim</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- SECTION: DOCUMENTS -->
+            <section class="section" id="docs">
+                <div class="section-header">
+                    <h2>📄 Documents & Ressources</h2>
+                </div>
+                <div class="section-body">
+                    <h3 style="margin-bottom: 16px; font-size: 16px;">Documents DOCX</h3>
+                    <div class="file-grid">
+                        <a href="KIT_PRESSE_AFFAIRE_TOUS_FRAUDEURS.docx" class="file-card">
+                            <div class="file-icon docx">📰</div>
+                            <div class="file-info">
+                                <div class="file-name">Kit Presse</div>
+                                <div class="file-desc">Dossier pour journalistes</div>
+                            </div>
+                        </a>
+                        <a href="Plaidoyer_Citoyen_Deborsu_COMPLET.docx" class="file-card">
+                            <div class="file-icon docx">📜</div>
+                            <div class="file-info">
+                                <div class="file-name">Plaidoyer Complet</div>
+                                <div class="file-desc">15 pages, VOIR/JUGER/AGIR</div>
+                            </div>
+                        </a>
+                        <a href="ULTIMATUM_CITOYEN_RTL_Deborsu.docx" class="file-card">
+                            <div class="file-icon docx">⚠️</div>
+                            <div class="file-info">
+                                <div class="file-name">Ultimatum Citoyen</div>
+                                <div class="file-desc">Deadline 1er avril 2026</div>
+                            </div>
+                        </a>
+                        <a href="PETITION_KIT_CAMPAGNE_StopPropagande.docx" class="file-card">
+                            <div class="file-icon docx">✊</div>
+                            <div class="file-info">
+                                <div class="file-name">Kit Campagne</div>
+                                <div class="file-desc">12 pages, guide plainte CSA</div>
+                            </div>
+                        </a>
+                        <a href="Dossier_Campagne_Requalification_RTL.docx" class="file-card">
+                            <div class="file-icon docx">📁</div>
+                            <div class="file-info">
+                                <div class="file-name">Dossier Requalification</div>
+                                <div class="file-desc">Argumentaire complet</div>
+                            </div>
+                        </a>
+                    </div>
+                    
+                    <h3 style="margin: 24px 0 16px; font-size: 16px;">Fichiers Markdown</h3>
+                    <div class="file-grid">
+                        <a href="AUDIT_FINAL_COMPLET.md" class="file-card">
+                            <div class="file-icon md">✅</div>
+                            <div class="file-info">
+                                <div class="file-name">Audit Final</div>
+                                <div class="file-desc">Rapport corrections</div>
+                            </div>
+                        </a>
+                        <a href="RECAPITULATIF-LIVRABLES-COMPLET.md" class="file-card">
+                            <div class="file-icon md">📋</div>
+                            <div class="file-info">
+                                <div class="file-name">Récapitulatif Livrables</div>
+                                <div class="file-desc">Inventaire complet</div>
+                            </div>
+                        </a>
+                        <a href="communique-presse.md" class="file-card">
+                            <div class="file-icon md">📢</div>
+                            <div class="file-info">
+                                <div class="file-name">Communiqué Presse</div>
+                                <div class="file-desc">Version Markdown</div>
+                            </div>
+                        </a>
+                        <a href="scripts-video-tiktok-reels.md" class="file-card">
+                            <div class="file-icon md">🎬</div>
+                            <div class="file-info">
+                                <div class="file-name">Scripts Vidéo</div>
+                                <div class="file-desc">TikTok, Reels 30s/60s</div>
+                            </div>
+                        </a>
+                    </div>
+                    
+                    <h3 style="margin: 24px 0 16px; font-size: 16px;">Visuels SVG</h3>
+                    <div class="file-grid">
+                        <a href="visuels/og-image-1200x630.svg" class="file-card">
+                            <div class="file-icon svg">🖼️</div>
+                            <div class="file-info">
+                                <div class="file-name">OG Image</div>
+                                <div class="file-desc">1200×630px partage social</div>
+                            </div>
+                        </a>
+                        <a href="visuels/instagram-slide-1-cover.svg" class="file-card">
+                            <div class="file-icon svg">📱</div>
+                            <div class="file-info">
+                                <div class="file-name">Instagram Slide 1</div>
+                                <div class="file-desc">Cover carrousel</div>
+                            </div>
+                        </a>
+                        <a href="visuels/instagram-slide-2-probleme.svg" class="file-card">
+                            <div class="file-icon svg">📱</div>
+                            <div class="file-info">
+                                <div class="file-name">Instagram Slide 2</div>
+                                <div class="file-desc">Le problème</div>
+                            </div>
+                        </a>
+                        <a href="visuels/instagram-slide-3-chiffres.svg" class="file-card">
+                            <div class="file-icon svg">📱</div>
+                            <div class="file-info">
+                                <div class="file-name">Instagram Slide 3</div>
+                                <div class="file-desc">Les chiffres</div>
+                            </div>
+                        </a>
+                        <a href="visuels/instagram-slide-4-timing.svg" class="file-card">
+                            <div class="file-icon svg">📱</div>
+                            <div class="file-info">
+                                <div class="file-name">Instagram Slide 4</div>
+                                <div class="file-desc">Le timing</div>
+                            </div>
+                        </a>
+                        <a href="visuels/instagram-slide-5-victimes.svg" class="file-card">
+                            <div class="file-icon svg">📱</div>
+                            <div class="file-info">
+                                <div class="file-name">Instagram Slide 5</div>
+                                <div class="file-desc">Les victimes</div>
+                            </div>
+                        </a>
+                        <a href="visuels/instagram-slide-6-cta.svg" class="file-card">
+                            <div class="file-icon svg">📱</div>
+                            <div class="file-info">
+                                <div class="file-name">Instagram Slide 6</div>
+                                <div class="file-desc">Call to action</div>
+                            </div>
+                        </a>
+                        <a href="visuels/flyer-a5-imprimable.html" class="file-card">
+                            <div class="file-icon html">🖨️</div>
+                            <div class="file-info">
+                                <div class="file-name">Flyer A5</div>
+                                <div class="file-desc">Version imprimable</div>
+                            </div>
+                        </a>
+                    </div>
+                    
+                    <h3 style="margin: 24px 0 16px; font-size: 16px;">Fichiers Techniques</h3>
+                    <div class="file-grid">
+                        <a href="sitemap.xml" class="file-card">
+                            <div class="file-icon xml">🗺️</div>
+                            <div class="file-info">
+                                <div class="file-name">Sitemap XML</div>
+                                <div class="file-desc">Plan du site</div>
+                            </div>
+                        </a>
+                        <a href="rss.xml" class="file-card">
+                            <div class="file-icon xml">📡</div>
+                            <div class="file-info">
+                                <div class="file-name">Flux RSS</div>
+                                <div class="file-desc">Syndication</div>
+                            </div>
+                        </a>
+                        <a href="knowledge-graph.json" class="file-card">
+                            <div class="file-icon json">🧠</div>
+                            <div class="file-info">
+                                <div class="file-name">Knowledge Graph</div>
+                                <div class="file-desc">Données structurées</div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </section>
+            
+        </div>
+        
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+            <div class="widget">
+                <div class="widget-header">⚡ Accès Rapide</div>
+                <div class="widget-body">
+                    <div class="quick-links">
+                        <a href="petition-stop-propagande.html" class="quick-link">
+                            <span class="emoji">✊</span> Pétition
+                        </a>
+                        <a href="simulateur-arizona-impact-personnel.html" class="quick-link">
+                            <span class="emoji">📊</span> Simulateur Arizona
+                        </a>
+                        <a href="generateur-plainte-csa.html" class="quick-link">
+                            <span class="emoji">📝</span> Générateur Plainte
+                        </a>
+                        <a href="hub-deborsu-tous-fraudeurs.html" class="quick-link">
+                            <span class="emoji">📁</span> Dossier Complet
+                        </a>
+                        <a href="kit-presse-journalistes.html" class="quick-link">
+                            <span class="emoji">📰</span> Kit Presse
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="widget">
+                <div class="widget-header">📊 Chiffres Clés</div>
+                <div class="widget-body">
+                    <div class="key-figures">
+                        <div class="key-fig">
+                            <div class="key-fig-value">&lt;3%</div>
+                            <div class="key-fig-label">Fraude réelle</div>
+                        </div>
+                        <div class="key-fig">
+                            <div class="key-fig-value">30Md€</div>
+                            <div class="key-fig-label">Fraude fiscale</div>
+                        </div>
+                        <div class="key-fig">
+                            <div class="key-fig-value">150×</div>
+                            <div class="key-fig-label">Le ratio</div>
+                        </div>
+                        <div class="key-fig">
+                            <div class="key-fig-value">400+</div>
+                            <div class="key-fig-label">Plaintes CSA</div>
+                        </div>
+                        <div class="key-fig">
+                            <div class="key-fig-value">410K</div>
+                            <div class="key-fig-label">Téléspectateurs</div>
+                        </div>
+                        <div class="key-fig">
+                            <div class="key-fig-value">47K</div>
+                            <div class="key-fig-label">Lettres ONEM</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="widget">
+                <div class="widget-header">📅 Dates Clés</div>
+                <div class="widget-body">
+                    <div class="timeline" style="padding-left: 20px;">
+                        <div class="timeline-item done" style="padding-bottom: 16px;">
+                            <div class="timeline-date">7 NOV 2025</div>
+                            <div class="timeline-title">Diffusion RTL</div>
+                        </div>
+                        <div class="timeline-item done" style="padding-bottom: 16px;">
+                            <div class="timeline-date">12 NOV 2025</div>
+                            <div class="timeline-title">400+ Plaintes CSA</div>
+                        </div>
+                        <div class="timeline-item done" style="padding-bottom: 16px;">
+                            <div class="timeline-date">12 NOV 2025</div>
+                            <div class="timeline-title">47K Lettres ONEM</div>
+                        </div>
+                        <div class="timeline-item done" style="padding-bottom: 16px;">
+                            <div class="timeline-date">24 NOV 2025</div>
+                            <div class="timeline-title">Motion Verviers</div>
+                        </div>
+                        <div class="timeline-item future" style="padding-bottom: 0;">
+                            <div class="timeline-date">1 AVR 2026</div>
+                            <div class="timeline-title">⏰ Deadline</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="widget">
+                <div class="widget-header">📞 Contact</div>
+                <div class="widget-body contacts">
+                    <p><strong>Site :</strong> <a href="https://ouaisfi.eu">ouaisfi.eu</a></p>
+                    <p><strong>Email :</strong> <a href="mailto:contact@ouaisfi.eu">contact@ouaisfi.eu</a></p>
+                    <p><strong>Presse :</strong> <a href="mailto:presse@ouaisfi.eu">presse@ouaisfi.eu</a></p>
+                    <p><strong>GitHub :</strong> <a href="https://github.com/yannkeep/showroom">yannkeep/showroom</a></p>
+                </div>
+            </div>
+            
+            <div class="widget">
+                <div class="widget-header">⚠️ À Développer</div>
+                <div class="widget-body">
+                    <ul class="phase-tasks" style="padding-left: 0; list-style: none;">
+                        <li class="lorem" style="border: none; font-size: 12px;">Backend pétition (compteur réel)</li>
+                        <li class="lorem" style="border: none; font-size: 12px;">API signatures</li>
+                        <li class="lorem" style="border: none; font-size: 12px;">Newsletter system</li>
+                        <li class="lorem" style="border: none; font-size: 12px;">Analytics dashboard</li>
+                        <li class="lorem" style="border: none; font-size: 12px;">Multi-langue (NL, DE)</li>
+                    </ul>
+                </div>
+            </div>
+        </aside>
+    </main>
+    
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-inner">
+            <div class="footer-logo">📡 OUAISFIEU NEWS 24/7</div>
+            <p>Centre de crise citoyenne — Veille indépendante — Zéro pub, zéro traçage</p>
+            
+            <div class="footer-stats">
+                <div class="footer-stat">
+                    <div class="footer-stat-value">127</div>
+                    <div class="footer-stat-label">Pages HTML</div>
+                </div>
+                <div class="footer-stat">
+                    <div class="footer-stat-value">7</div>
+                    <div class="footer-stat-label">Documents DOCX</div>
+                </div>
+                <div class="footer-stat">
+                    <div class="footer-stat-value">7</div>
+                    <div class="footer-stat-label">Visuels SVG</div>
+                </div>
+                <div class="footer-stat">
+                    <div class="footer-stat-value">6</div>
+                    <div class="footer-stat-label">Outils Interactifs</div>
+                </div>
+                <div class="footer-stat">
+                    <div class="footer-stat-value">48h</div>
+                    <div class="footer-stat-label">De travail</div>
+                </div>
+            </div>
+            
+            <div class="footer-copy">
+                © 2026 ouaisfi.eu — Licence CC BY-NC-SA 4.0 — Code source ouvert sur GitHub<br>
+                Toutes les données sont vérifiables. Zéro chiffre inventé.
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        // Smooth scroll for nav
+        document.querySelectorAll('.nav-btn').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                const href = this.getAttribute('href');
+                if (href.startsWith('#')) {
+                    e.preventDefault();
+                    document.querySelector(href).scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+        
+        // Update active nav on scroll
+        const sections = document.querySelectorAll('section[id]');
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (scrollY >= sectionTop - 200) {
+                    current = section.getAttribute('id');
+                }
+            });
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.getAttribute('href') === '#' + current) {
+                    btn.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
