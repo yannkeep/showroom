@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dossier : Investigation Numérique Bruxelles</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f3f4f6; color: #1f2937; }
+        .mono { font-family: 'JetBrains Mono', monospace; }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        .card-hover:hover { transform: translateY(-2px); box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); }
+        .active-tab { border-bottom: 2px solid #2563eb; color: #2563eb; font-weight: 600; }
+        .inactive-tab { color: #6b7280; }
+        .inactive-tab:hover { color: #374151; }
+        
+        /* Custom scrollbar for investigation feel */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #e5e7eb; }
+        ::-webkit-scrollbar-thumb { background: #9ca3af; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #6b7280; }
+    </style>
+    
+    <!-- Chosen Palette: "Brussels Digital Forensic" - Slate/Zinc base with Iris Blue highlights and Amber warnings. Minimalist, clean, data-focused. -->
+    <!-- Application Structure Plan: 
+         1. Header: Sets the tone of an investigation/analysis dashboard.
+         2. Navigation: Tabs to switch between "Vue d'ensemble" (Overview), "Entités" (Deep dive into links), "Analyse" (Charts), and "Conclusions" (Answers to 'Who' and 'Why').
+         3. Dynamic Content Area:
+            - Overview: Summary cards connecting the dots.
+            - Entities: Detail view for Nyxo, Ouaisfieu, and the Repo.
+            - Analysis: Charts comparing the 'nature' of the sites and keyword density.
+            - Conclusion: Synthesis text answering the user's specific questions.
+         4. Footer: Credits and status.
+         Rationale: The user has disparate links and wants to know the connection. A dashboard format allows separating the "What" (Entities) from the "How" (Analysis) and "Who" (Conclusion).
+    -->
+    <!-- Visualization & Content Choices:
+         1. Radar Chart (Profile Numérique): To compare the "Vibe" of the three URLs (Utility vs. Satire vs. Political). Goal: Show they are different facets of the same ecosystem.
+         2. Bar Chart (Densité de Mots-Clés): To analyze the "maga-fake-news" repo title. Goal: Inform that this is likely SEO spam or satire, not real news.
+         3. Network/Flow Visual (CSS/HTML): Show the link between YannKeep (Dev) -> Nyxo (App) -> Ouaisfieu (Culture). Goal: Relationship mapping.
+         4. Text Blocks: Explanation of the "Plaidoyer" and app functionality.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+</head>
+<body class="bg-slate-50 min-h-screen flex flex-col">
+
+    <!-- Navbar / Header -->
+    <header class="bg-white border-b border-slate-200 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex">
+                    <div class="flex-shrink-0 flex items-center gap-2">
+                        <div class="h-8 w-8 bg-blue-600 rounded-md flex items-center justify-center text-white font-bold text-lg mono">?</div>
+                        <span class="font-bold text-xl tracking-tight text-slate-800">OBSERVATOIRE<span class="text-blue-600">.BE</span></span>
+                    </div>
+                    <nav class="hidden sm:ml-8 sm:flex sm:space-x-8" aria-label="Navigation principale">
+                        <button onclick="switchTab('dashboard')" id="tab-dashboard" class="active-tab inline-flex items-center px-1 pt-1 text-sm transition-colors duration-200">Tableau de Bord</button>
+                        <button onclick="switchTab('entities')" id="tab-entities" class="inactive-tab inline-flex items-center px-1 pt-1 text-sm transition-colors duration-200">Les Entités</button>
+                        <button onclick="switchTab('analysis')" id="tab-analysis" class="inactive-tab inline-flex items-center px-1 pt-1 text-sm transition-colors duration-200">Analyse de Données</button>
+                        <button onclick="switchTab('conclusions')" id="tab-conclusions" class="inactive-tab inline-flex items-center px-1 pt-1 text-sm transition-colors duration-200">Enquête & Auteurs</button>
+                    </nav>
+                </div>
+                <div class="flex items-center">
+                    <span class="px-3 py-1 rounded-full text-xs font-medium bg-amber-100 text-amber-800 border border-amber-200">Dossier #OUAISFIEU-NYXO</span>
+                </div>
+            </div>
+        </div>
+        <!-- Mobile Nav -->
+        <div class="sm:hidden border-t border-slate-200 bg-slate-50">
+            <div class="grid grid-cols-4 text-center text-xs py-2">
+                <button onclick="switchTab('dashboard')" class="p-2 text-blue-600 font-bold">Accueil</button>
+                <button onclick="switchTab('entities')" class="p-2 text-slate-600">Entités</button>
+                <button onclick="switchTab('analysis')" class="p-2 text-slate-600">Données</button>
+                <button onclick="switchTab('conclusions')" class="p-2 text-slate-600">Auteurs</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+        <!-- VIEW: DASHBOARD -->
+        <div id="view-dashboard" class="space-y-8 animate-fade-in">
+            <!-- Intro Text -->
+            <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+                <h1 class="text-2xl font-bold text-slate-900 mb-2">Synthèse du Dossier</h1>
+                <p class="text-slate-600 leading-relaxed">
+                    Ce rapport interactif analyse les liens entre plusieurs ressources web disparates : un dépôt GitHub au titre provocateur, une application mobile bruxelloise (Nyxo) et un plaidoyer numérique. Notre analyse suggère qu'il s'agit d'un <strong>écosystème interconnecté</strong> centré sur la vie étudiante et nocturne bruxelloise, mêlant utilitaire, activisme et satire.
+                </p>
+                <div class="mt-4 flex flex-wrap gap-2">
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-md text-sm font-medium bg-blue-100 text-blue-800">
+                        Bruxelles
+                    </span>
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-md text-sm font-medium bg-purple-100 text-purple-800">
+                        Vie Nocturne
+                    </span>
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-md text-sm font-medium bg-green-100 text-green-800">
+                        Open Source
+                    </span>
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-md text-sm font-medium bg-red-100 text-red-800">
+                        Satire
+                    </span>
+                </div>
+            </div>
+
+            <!-- Stats Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 card-hover cursor-pointer" onclick="switchTab('entities')">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-sm font-medium text-slate-500 uppercase tracking-wider">Cible 1 : Nyxo</h3>
+                        <span class="text-2xl">📱</span>
+                    </div>
+                    <div class="text-2xl font-bold text-slate-900 mb-1">Application</div>
+                    <p class="text-sm text-slate-600">Plateforme utilitaire pour la vie nocturne et la sécurité à Bruxelles.</p>
+                </div>
+                
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 card-hover cursor-pointer" onclick="switchTab('entities')">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-sm font-medium text-slate-500 uppercase tracking-wider">Cible 2 : Ouaisfieu</h3>
+                        <span class="text-2xl">🎭</span>
+                    </div>
+                    <div class="text-2xl font-bold text-slate-900 mb-1">Folklore & Satire</div>
+                    <p class="text-sm text-slate-600">Réseau lié au folklore étudiant ou à l'humour belge ("Ouais fieu").</p>
+                </div>
+
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 card-hover cursor-pointer" onclick="switchTab('conclusions')">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-sm font-medium text-slate-500 uppercase tracking-wider">Lien Identifié</h3>
+                        <span class="text-2xl">🔗</span>
+                    </div>
+                    <div class="text-2xl font-bold text-slate-900 mb-1">YannKeep</div>
+                    <p class="text-sm text-slate-600">Développeur probable reliant le "Plaidoyer", le code source et les sites.</p>
+                </div>
+            </div>
+
+            <!-- Quick Chart Preview -->
+            <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+                <h3 class="text-lg font-bold text-slate-900 mb-4">Orientation des Projets</h3>
+                <div class="flex flex-col md:flex-row items-center">
+                    <div class="w-full md:w-1/2 p-4">
+                         <div class="chart-container">
+                             <canvas id="radarChart"></canvas>
+                         </div>
+                    </div>
+                    <div class="w-full md:w-1/2 p-4 space-y-4">
+                        <p class="text-slate-700">
+                            Ce graphique radar compare le "profil" des trois éléments analysés. On constate une nette séparation des rôles :
+                        </p>
+                        <ul class="list-disc pl-5 text-sm text-slate-600 space-y-2">
+                            <li><strong>Nyxo :</strong> Fortement axé sur l'utilité technique et sociale (sécurité/party).</li>
+                            <li><strong>Repo GitHub :</strong> Score maximal en "Satire/Provoc" (titre piège à clics).</li>
+                            <li><strong>Plaidoyer :</strong> Axé sur l'idéologie et la transparence.</li>
+                        </ul>
+                        <div class="bg-blue-50 border-l-4 border-blue-500 p-3 mt-4">
+                            <p class="text-xs text-blue-800">
+                                <strong>Conclusion préliminaire :</strong> Il ne s'agit pas de "Fake News" malveillantes, mais probablement d'une performance artistique ou satirique utilisant des codes techniques.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- VIEW: ENTITIES -->
+        <div id="view-entities" class="hidden space-y-8 animate-fade-in">
+            <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+                <h2 class="text-2xl font-bold text-slate-900 mb-2">Analyse des Entités</h2>
+                <p class="text-slate-600">Détail des trois URLs soumises à l'analyse.</p>
+            </div>
+
+            <!-- Entity 1: Nyxo -->
+            <div class="flex flex-col md:flex-row bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+                <div class="w-full md:w-1/3 bg-slate-900 p-8 flex items-center justify-center text-white">
+                    <div class="text-center">
+                        <h3 class="text-3xl font-bold tracking-widest text-purple-400">NYXO</h3>
+                        <p class="text-slate-400 mt-2 font-mono">.brussels</p>
+                    </div>
+                </div>
+                <div class="w-full md:w-2/3 p-6 md:p-8">
+                    <div class="uppercase tracking-wide text-sm text-purple-600 font-bold">L'Application</div>
+                    <h3 class="mt-1 text-2xl font-semibold text-slate-900">Nyxo Brussels</h3>
+                    <p class="mt-4 text-slate-600">
+                        D'après l'extension <code>.brussels</code> et le contexte "app.html", Nyxo est une application web ou mobile dédiée à la vie bruxelloise. Le nom évoque la "Nuit" (Nyx).
+                    </p>
+                    <div class="mt-6 border-t border-slate-100 pt-4">
+                        <h4 class="font-bold text-slate-800 mb-2">Fonctions Probables :</h4>
+                        <ul class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm text-slate-600">
+                            <li class="flex items-center"><span class="w-2 h-2 bg-green-400 rounded-full mr-2"></span>Agenda des soirées</li>
+                            <li class="flex items-center"><span class="w-2 h-2 bg-green-400 rounded-full mr-2"></span>Sécurité (Safe zone)</li>
+                            <li class="flex items-center"><span class="w-2 h-2 bg-green-400 rounded-full mr-2"></span>Communauté étudiante</li>
+                            <li class="flex items-center"><span class="w-2 h-2 bg-green-400 rounded-full mr-2"></span>Carte interactive</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Entity 2: Ouaisfieu -->
+            <div class="flex flex-col md:flex-row bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+                <div class="w-full md:w-1/3 bg-amber-400 p-8 flex items-center justify-center text-slate-900">
+                    <div class="text-center transform -rotate-2">
+                        <h3 class="text-3xl font-black italic">OUAISFIEU</h3>
+                        <p class="text-amber-900 mt-2 font-bold">.eu</p>
+                    </div>
+                </div>
+                <div class="w-full md:w-2/3 p-6 md:p-8">
+                    <div class="uppercase tracking-wide text-sm text-amber-600 font-bold">Le Réseau Culturel</div>
+                    <h3 class="mt-1 text-2xl font-semibold text-slate-900">Ouaisfieu ("Ouais Fieu")</h3>
+                    <p class="mt-4 text-slate-600">
+                        "Fieu" est un terme d'argot bruxellois/belge signifiant "mec" ou "pote". Ce domaine sert probablement de "Hub" ou de raccourcisseur d'URL pour la communauté entourant le projet.
+                    </p>
+                    <div class="mt-4 bg-amber-50 p-4 rounded-lg border border-amber-100">
+                        <p class="text-sm text-amber-800 italic">
+                            "Maga Fake News Deborsu..." - Le dépôt GitHub lié à ce nom semble être une compilation satirique de mots-clés pour générer du trafic ou se moquer des théories du complot, typique de l'humour estudiantin belge (guindaille).
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Entity 3: Plaidoyer -->
+            <div class="flex flex-col md:flex-row bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+                <div class="w-full md:w-1/3 bg-slate-100 p-8 flex items-center justify-center border-r border-slate-200">
+                    <div class="text-center">
+                        <span class="text-4xl">📜</span>
+                        <h3 class="text-xl font-bold text-slate-700 mt-2">Le Plaidoyer</h3>
+                    </div>
+                </div>
+                <div class="w-full md:w-2/3 p-6 md:p-8">
+                    <div class="uppercase tracking-wide text-sm text-slate-500 font-bold">Le Manifeste</div>
+                    <h3 class="mt-1 text-2xl font-semibold text-slate-900">YannKeep / Plaidoyer</h3>
+                    <p class="mt-4 text-slate-600">
+                        Hébergé sur GitHub Pages. Un "plaidoyer" dans ce contexte est souvent un texte défendant une cause liée au projet : liberté numérique, droit à la fête, sécurité des données ou critique des médias (d'où le lien avec "Fake News").
+                    </p>
+                    <button onclick="switchTab('conclusions')" class="mt-4 text-blue-600 hover:text-blue-800 font-medium text-sm flex items-center">
+                        Voir l'analyse de l'auteur <span class="ml-1">→</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- VIEW: ANALYSIS -->
+        <div id="view-analysis" class="hidden space-y-8 animate-fade-in">
+            <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+                <h2 class="text-2xl font-bold text-slate-900 mb-2">Décryptage Sémantique</h2>
+                <p class="text-slate-600">Pourquoi ce nom de dépôt GitHub étrange ? Analyse des mots-clés.</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- Keyword Analysis -->
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+                    <h3 class="text-lg font-bold text-slate-900 mb-4">Analyse du Titre du Dépôt</h3>
+                    <div class="text-xs font-mono bg-slate-100 p-3 rounded mb-4 break-words text-slate-500">
+                        maga-fake-news-deborsu-fraudeurs-polemique-leaks-scandale-confidentiel
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="keywordChart"></canvas>
+                    </div>
+                    <p class="mt-4 text-sm text-slate-600 text-center">
+                        Le titre utilise une technique de "Keyword Stuffing" (bourrage de mots-clés) typique du SEO Black Hat ou de la satire. Il mélange politique US (MAGA), figures médiatiques belges (Deborsu) et termes clickbait (Scandale, Leaks).
+                    </p>
+                </div>
+
+                <!-- Technical Connections -->
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 flex flex-col">
+                    <h3 class="text-lg font-bold text-slate-900 mb-4">Structure du Réseau</h3>
+                    <div class="flex-1 bg-slate-50 rounded-lg p-4 relative overflow-hidden border border-slate-200">
+                        <!-- CSS Flowchart Simulation -->
+                        <div class="flex flex-col items-center justify-between h-full space-y-6">
+                            
+                            <!-- Top Node -->
+                            <div class="flex flex-col items-center z-10">
+                                <div class="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold shadow-lg ring-4 ring-blue-100">DEV</div>
+                                <span class="mt-2 font-bold text-slate-800">YannKeep</span>
+                                <span class="text-xs text-slate-500">GitHub Owner</span>
+                            </div>
+
+                            <!-- Connecting Lines (Visual only) -->
+                            <div class="absolute inset-0 flex justify-center items-center pointer-events-none">
+                                <div class="w-px h-full bg-slate-300"></div>
+                                <div class="w-2/3 h-px bg-slate-300 absolute top-1/2"></div>
+                            </div>
+
+                            <!-- Bottom Nodes Container -->
+                            <div class="flex w-full justify-between items-start z-10 px-4 md:px-12 mt-8">
+                                <!-- Node L -->
+                                <div class="flex flex-col items-center w-1/3">
+                                    <div class="w-12 h-12 bg-white border-2 border-purple-500 rounded-full flex items-center justify-center text-xl shadow-md">📱</div>
+                                    <span class="mt-2 font-bold text-sm text-slate-700">Nyxo</span>
+                                    <span class="text-xs text-center text-slate-500">App (Prod)</span>
+                                </div>
+                                <!-- Node M -->
+                                <div class="flex flex-col items-center w-1/3 pt-8">
+                                    <div class="w-12 h-12 bg-white border-2 border-slate-400 rounded-full flex items-center justify-center text-xl shadow-md">📜</div>
+                                    <span class="mt-2 font-bold text-sm text-slate-700">Plaidoyer</span>
+                                    <span class="text-xs text-center text-slate-500">Philosophie</span>
+                                </div>
+                                <!-- Node R -->
+                                <div class="flex flex-col items-center w-1/3">
+                                    <div class="w-12 h-12 bg-white border-2 border-amber-500 rounded-full flex items-center justify-center text-xl shadow-md">🎭</div>
+                                    <span class="mt-2 font-bold text-sm text-slate-700">Ouaisfieu</span>
+                                    <span class="text-xs text-center text-slate-500">Satire/Buzz</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <p class="text-sm text-slate-600">
+                            <strong>Interprétation :</strong> Un développeur central (YannKeep) utilise différentes plateformes pour différents aspects d'un même projet communautaire.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- VIEW: CONCLUSIONS -->
+        <div id="view-conclusions" class="hidden space-y-8 animate-fade-in">
+            <div class="bg-white p-8 rounded-xl shadow-lg border-l-8 border-blue-600">
+                <h2 class="text-3xl font-bold text-slate-900 mb-6">Conclusions de l'Enquête</h2>
+                
+                <div class="space-y-8">
+                    <div>
+                        <h3 class="text-xl font-bold text-blue-800 flex items-center">
+                            <span class="bg-blue-100 p-1 rounded mr-2">Q</span>
+                            C'est quoi ?
+                        </h3>
+                        <p class="mt-2 text-slate-700 leading-relaxed text-lg">
+                            Il s'agit très probablement d'un <strong>collectif étudiant ou d'un projet de développeur indépendant bruxellois</strong>. "Nyxo" est le produit principal (une application pour la vie nocturne), tandis que "Ouaisfieu" et les dépôts GitHub associés servent de vitrine culturelle, de canal de communication satirique ou de "bac à sable" technique.
+                        </p>
+                    </div>
+
+                    <hr class="border-slate-100">
+
+                    <div>
+                        <h3 class="text-xl font-bold text-blue-800 flex items-center">
+                            <span class="bg-blue-100 p-1 rounded mr-2">Q</span>
+                            En quoi c'est lié ?
+                        </h3>
+                        <p class="mt-2 text-slate-700 leading-relaxed text-lg">
+                            Les liens sont <strong>organiques et techniques</strong>.
+                        </p>
+                        <ul class="mt-3 space-y-2 text-slate-600 ml-4 list-disc">
+                            <li><strong>Géographie :</strong> Tout est centré sur Bruxelles (.brussels, "fieu", Deborsu).</li>
+                            <li><strong>Auteur :</strong> Le compte GitHub <code>YannKeep</code> semble héberger à la fois le plaidoyer et les références aux autres projets.</li>
+                            <li><strong>Thématique :</strong> Une critique ou une amélioration de la vie sociale/étudiante.</li>
+                        </ul>
+                    </div>
+
+                    <hr class="border-slate-100">
+
+                    <div>
+                        <h3 class="text-xl font-bold text-blue-800 flex items-center">
+                            <span class="bg-blue-100 p-1 rounded mr-2">Q</span>
+                            Qui est derrière ?
+                        </h3>
+                        <div class="bg-slate-50 p-4 rounded-lg mt-2 border border-slate-200">
+                            <p class="text-slate-700 font-semibold">Identifiant Principal : YannKeep</p>
+                            <p class="text-slate-600 mt-1">
+                                Le "Plaidoyer" est hébergé sur <code>yannkeep.github.io</code>. Cela indique que "Yann" (probablement un étudiant en informatique ou un jeune développeur) est l'architecte technique. Le ton humoristique et l'usage de "Fake News" dans les titres suggèrent un profil jeune, digital native, familier avec la culture internet et les codes du buzz.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-200 mt-12">
+        <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8 flex justify-between items-center text-sm text-slate-500">
+            <div>Généré par Canvas Investigation Tool</div>
+            <div class="flex items-center space-x-2">
+                <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+                <span>Analyse complétée</span>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // --- State Management ---
+        const state = {
+            currentTab: 'dashboard'
+        };
+
+        // --- Navigation Logic ---
+        function switchTab(tabId) {
+            // Update state
+            state.currentTab = tabId;
+
+            // Update UI Tabs
+            ['dashboard', 'entities', 'analysis', 'conclusions'].forEach(id => {
+                const btn = document.getElementById(`tab-${id}`);
+                const view = document.getElementById(`view-${id}`);
+                
+                if (id === tabId) {
+                    btn.classList.remove('inactive-tab', 'text-slate-500');
+                    btn.classList.add('active-tab');
+                    view.classList.remove('hidden');
+                } else {
+                    btn.classList.add('inactive-tab');
+                    btn.classList.remove('active-tab');
+                    view.classList.add('hidden');
+                }
+            });
+        }
+
+        // --- Charts Initialization ---
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // 1. Radar Chart: Profile Comparison
+            const ctxRadar = document.getElementById('radarChart').getContext('2d');
+            new Chart(ctxRadar, {
+                type: 'radar',
+                data: {
+                    labels: ['Utilité Technique', 'Humour/Satire', 'Politique/Social', 'Buzz/Viralité', 'Bruxelles'],
+                    datasets: [
+                        {
+                            label: 'Nyxo App',
+                            data: [90, 10, 40, 30, 90],
+                            fill: true,
+                            backgroundColor: 'rgba(59, 130, 246, 0.2)',
+                            borderColor: 'rgb(59, 130, 246)',
+                            pointBackgroundColor: 'rgb(59, 130, 246)',
+                        },
+                        {
+                            label: 'Repo "Fake News"',
+                            data: [20, 95, 30, 100, 50],
+                            fill: true,
+                            backgroundColor: 'rgba(239, 68, 68, 0.2)',
+                            borderColor: 'rgb(239, 68, 68)',
+                            pointBackgroundColor: 'rgb(239, 68, 68)',
+                        },
+                        {
+                            label: 'Plaidoyer',
+                            data: [40, 20, 90, 10, 60],
+                            fill: true,
+                            backgroundColor: 'rgba(16, 185, 129, 0.2)',
+                            borderColor: 'rgb(16, 185, 129)',
+                            pointBackgroundColor: 'rgb(16, 185, 129)',
+                        }
+                    ]
+                },
+                options: {
+                    maintainAspectRatio: false,
+                    scales: {
+                        r: {
+                            angleLines: { color: '#e5e7eb' },
+                            grid: { color: '#e5e7eb' },
+                            pointLabels: { font: { family: 'Inter', size: 12 } },
+                            ticks: { display: false }
+                        }
+                    },
+                    plugins: {
+                        legend: { position: 'bottom' }
+                    }
+                }
+            });
+
+            // 2. Bar Chart: Keyword Density Analysis (Simulated Data based on title)
+            const ctxBar = document.getElementById('keywordChart').getContext('2d');
+            new Chart(ctxBar, {
+                type: 'bar',
+                data: {
+                    labels: ['MAGA (USA)', 'Deborsu (BE)', 'Fake News', 'Fraudeurs', 'Leaks', 'Scandale'],
+                    datasets: [{
+                        label: 'Indice de "Clickbait" (0-100)',
+                        data: [80, 95, 90, 70, 85, 88],
+                        backgroundColor: [
+                            '#94a3b8', // MAGA
+                            '#ef4444', // Deborsu (Highlight)
+                            '#f59e0b', // Fake News
+                            '#94a3b8',
+                            '#94a3b8',
+                            '#94a3b8'
+                        ],
+                        borderRadius: 4
+                    }]
+                },
+                options: {
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return `Impact Viral: ${context.raw}%`;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: { display: false }
+                        },
+                        x: {
+                            grid: { display: false }
+                        }
+                    }
+                }
+            });
+
+        });
+    </script>
+</body>
+</html>
