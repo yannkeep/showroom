@@ -1,1771 +1,796 @@
 <!DOCTYPE html>
-<html lang="fr" data-theme="dark">
+<html lang="fr-BE">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>STOP PROPAGANDE — Tous Fraudeurs ? Non. Moins de 3%.</title>
-    <meta name="description" content="410.000 personnes manipulées par RTL. La fraude sociale réelle ? Moins de 3%. Signez la pétition, rejoignez le mouvement.">
-    <meta property="og:title" content="STOP PROPAGANDE — La vérité sur 'Tous Fraudeurs'">
-    <meta property="og:description" content="RTL a menti à 410.000 personnes. La fraude sociale réelle est inférieure à 3%. Rejoignez le mouvement.">
-    <meta property="og:image" content="https://ouaisfi.eu/og-image.png">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <title>⚖️ ACTE D'ACCUSATION | Tribunal Citoyen Extraordinaire pour les Crimes contre la Cohésion Nationale</title>
+    <meta name="description" content="[FICTION SATIRIQUE] Acte d'accusation contre les auteurs du reportage 'Tous Fraudeurs' pour crimes contre la cohésion nationale, sabotage du moral civil et complicité de guerre de classe.">
+    
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Cinzel:wght@400;700;900&family=Share+Tech+Mono&display=swap');
+        
         :root {
-            /* Mint */
-            --mint: #48BB78;
-            --mint-light: #9AE6B4;
-            --mint-dark: #276749;
-            --mint-glow: rgba(72, 187, 120, 0.6);
-            
-            /* Lilac */
-            --lilac: #9F7AEA;
-            --lilac-light: #D6BCFA;
-            --lilac-dark: #553C9A;
-            --lilac-glow: rgba(159, 122, 234, 0.6);
-            
-            /* Neon accents */
-            --neon-pink: #FF6B9D;
-            --neon-cyan: #00F5FF;
-            --neon-yellow: #FFE66D;
-            
-            /* Red for alerts */
-            --red: #FC8181;
-            --red-dark: #C53030;
-            --red-glow: rgba(252, 129, 129, 0.6);
-            
-            /* Transitions */
-            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --parchment: #f4f1e8;
+            --ink: #1a1a1a;
+            --blood: #8b0000;
+            --gold: #c9a227;
+            --seal: #6b0f1a;
+            --shadow: rgba(0,0,0,0.1);
         }
         
-        [data-theme="dark"] {
-            --bg-primary: #0a0a0f;
-            --bg-secondary: #12121a;
-            --bg-card: #1a1a2e;
-            --bg-card-hover: #252542;
-            --text-primary: #f0f0f5;
-            --text-secondary: #a0a0b0;
-            --text-muted: #6a6a7a;
-            --border: #2a2a3e;
-            --glow-intensity: 1;
-        }
-        
-        [data-theme="light"] {
-            --bg-primary: #f8f9fc;
-            --bg-secondary: #ffffff;
-            --bg-card: #ffffff;
-            --bg-card-hover: #f0f4f8;
-            --text-primary: #1a202c;
-            --text-secondary: #4a5568;
-            --text-muted: #718096;
-            --border: #e2e8f0;
-            --glow-intensity: 0.3;
-        }
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        html {
-            scroll-behavior: smooth;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: var(--bg-primary);
-            color: var(--text-primary);
-            line-height: 1.6;
-            transition: var(--transition);
-        }
-        
-        /* Scanlines effect for dark mode */
-        [data-theme="dark"] body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            background: repeating-linear-gradient(
-                0deg,
-                rgba(0, 0, 0, 0.1) 0px,
-                rgba(0, 0, 0, 0.1) 1px,
-                transparent 1px,
-                transparent 2px
-            );
-            z-index: 9999;
-            opacity: 0.3;
-        }
-        
-        /* Grid background */
-        [data-theme="dark"] body::after {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            background-image: 
-                linear-gradient(rgba(72, 187, 120, 0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(159, 122, 234, 0.03) 1px, transparent 1px);
-            background-size: 50px 50px;
-            z-index: -1;
-        }
-        
-        /* Typography */
-        h1, h2, h3, .neon-text {
-            font-family: 'Orbitron', monospace;
-            font-weight: 700;
-            letter-spacing: 0.05em;
-        }
-        
-        .mono {
-            font-family: 'JetBrains Mono', monospace;
-        }
-        
-        /* Neon glow effect */
-        .glow-mint {
-            text-shadow: 
-                0 0 5px var(--mint-glow),
-                0 0 10px var(--mint-glow),
-                0 0 20px var(--mint-glow),
-                0 0 40px var(--mint-glow);
-        }
-        
-        .glow-lilac {
-            text-shadow: 
-                0 0 5px var(--lilac-glow),
-                0 0 10px var(--lilac-glow),
-                0 0 20px var(--lilac-glow),
-                0 0 40px var(--lilac-glow);
-        }
-        
-        .glow-red {
-            text-shadow: 
-                0 0 5px var(--red-glow),
-                0 0 10px var(--red-glow),
-                0 0 20px var(--red-glow);
-        }
-        
-        /* Navigation */
-        nav {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 1000;
-            background: rgba(10, 10, 15, 0.9);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid var(--border);
-            padding: 1rem 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        [data-theme="light"] nav {
-            background: rgba(255, 255, 255, 0.95);
-        }
-        
-        .nav-logo {
-            font-family: 'Orbitron', monospace;
-            font-size: 1.2rem;
-            font-weight: 900;
-            color: var(--mint);
-            text-decoration: none;
-        }
-        
-        .nav-links {
-            display: flex;
-            gap: 2rem;
-            list-style: none;
-        }
-        
-        .nav-links a {
-            color: var(--text-secondary);
-            text-decoration: none;
-            font-size: 0.9rem;
-            font-weight: 500;
-            transition: var(--transition);
-            position: relative;
-        }
-        
-        .nav-links a:hover {
-            color: var(--mint);
-        }
-        
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            bottom: -4px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: var(--mint);
-            box-shadow: 0 0 10px var(--mint-glow);
-            transition: var(--transition);
-        }
-        
-        .nav-links a:hover::after {
-            width: 100%;
-        }
-        
-        /* Theme toggle */
-        .theme-toggle {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            cursor: pointer;
-        }
-        
-        .toggle-track {
-            width: 50px;
-            height: 26px;
-            background: var(--bg-card);
-            border: 2px solid var(--lilac);
-            border-radius: 13px;
-            position: relative;
-            transition: var(--transition);
-        }
-        
-        .toggle-thumb {
-            width: 18px;
-            height: 18px;
-            background: var(--lilac);
-            border-radius: 50%;
-            position: absolute;
-            top: 2px;
-            left: 2px;
-            transition: var(--transition);
-            box-shadow: 0 0 10px var(--lilac-glow);
-        }
-        
-        [data-theme="light"] .toggle-thumb {
-            left: 26px;
-            background: var(--mint);
-            box-shadow: 0 0 10px var(--mint-glow);
-        }
-        
-        .toggle-icon {
-            font-size: 1.2rem;
-        }
-        
-        /* Hero section */
-        .hero {
+            font-family: 'Libre Baskerville', Georgia, serif;
+            background: 
+                repeating-linear-gradient(
+                    0deg,
+                    transparent,
+                    transparent 29px,
+                    rgba(0,0,0,0.03) 29px,
+                    rgba(0,0,0,0.03) 30px
+                ),
+                linear-gradient(135deg, #f5f2e9 0%, #e8e4d9 100%);
+            color: var(--ink);
+            line-height: 1.9;
+            font-size: 17px;
             min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 6rem 2rem 4rem;
-            position: relative;
-            overflow: hidden;
         }
         
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 150%;
-            height: 150%;
-            background: radial-gradient(ellipse at center, 
-                rgba(72, 187, 120, 0.1) 0%,
-                rgba(159, 122, 234, 0.05) 30%,
-                transparent 70%);
-            z-index: -1;
-        }
-        
-        .hero-badge {
-            display: inline-block;
-            padding: 0.5rem 1.5rem;
-            background: var(--bg-card);
-            border: 1px solid var(--lilac);
-            border-radius: 50px;
-            font-size: 0.85rem;
-            color: var(--lilac-light);
-            margin-bottom: 2rem;
-            animation: pulse-border 2s infinite;
-        }
-        
-        @keyframes pulse-border {
-            0%, 100% { box-shadow: 0 0 5px var(--lilac-glow); }
-            50% { box-shadow: 0 0 20px var(--lilac-glow), 0 0 40px var(--lilac-glow); }
-        }
-        
-        .hero h1 {
-            font-size: clamp(2.5rem, 8vw, 5rem);
-            line-height: 1.1;
-            margin-bottom: 1.5rem;
-        }
-        
-        .hero h1 .question {
-            color: var(--red);
-            display: block;
-        }
-        
-        [data-theme="dark"] .hero h1 .question {
-            animation: flicker 3s infinite;
-        }
-        
-        @keyframes flicker {
-            0%, 100% { opacity: 1; }
-            92% { opacity: 1; }
-            93% { opacity: 0.8; }
-            94% { opacity: 1; }
-            96% { opacity: 0.9; }
-            97% { opacity: 1; }
-        }
-        
-        .hero h1 .answer {
-            color: var(--mint);
-        }
-        
-        .hero-subtitle {
-            font-size: 1.5rem;
-            color: var(--text-secondary);
-            margin-bottom: 3rem;
-            max-width: 600px;
-        }
-        
-        .hero-stats {
-            display: flex;
-            gap: 3rem;
-            flex-wrap: wrap;
-            justify-content: center;
-            margin-bottom: 3rem;
-        }
-        
-        .stat {
-            text-align: center;
-        }
-        
-        .stat-value {
-            font-family: 'Orbitron', monospace;
-            font-size: 3rem;
-            font-weight: 900;
-            line-height: 1;
-        }
-        
-        .stat-value.mint { color: var(--mint); }
-        .stat-value.lilac { color: var(--lilac); }
-        .stat-value.red { color: var(--red); }
-        
-        [data-theme="dark"] .stat-value.mint { text-shadow: 0 0 20px var(--mint-glow); }
-        [data-theme="dark"] .stat-value.lilac { text-shadow: 0 0 20px var(--lilac-glow); }
-        [data-theme="dark"] .stat-value.red { text-shadow: 0 0 20px var(--red-glow); }
-        
-        .stat-label {
-            font-size: 0.9rem;
-            color: var(--text-muted);
-            margin-top: 0.5rem;
-        }
-        
-        /* Buttons */
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 1rem 2rem;
-            border: none;
-            border-radius: 8px;
-            font-family: 'Orbitron', monospace;
-            font-size: 1rem;
-            font-weight: 700;
-            text-decoration: none;
-            cursor: pointer;
-            transition: var(--transition);
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-        }
-        
-        .btn-primary {
-            background: linear-gradient(135deg, var(--mint) 0%, var(--mint-dark) 100%);
+        /* === DISCLAIMER BANNER === */
+        .disclaimer {
+            background: var(--blood);
             color: white;
-            box-shadow: 0 4px 20px var(--mint-glow);
-        }
-        
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 30px var(--mint-glow);
-        }
-        
-        .btn-secondary {
-            background: transparent;
-            color: var(--lilac);
-            border: 2px solid var(--lilac);
-        }
-        
-        .btn-secondary:hover {
-            background: var(--lilac);
-            color: white;
-            box-shadow: 0 0 20px var(--lilac-glow);
-        }
-        
-        .hero-buttons {
-            display: flex;
-            gap: 1rem;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-        
-        /* Sections */
-        section {
-            padding: 6rem 2rem;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        
-        .section-header {
+            padding: 16px 24px;
             text-align: center;
-            margin-bottom: 4rem;
-        }
-        
-        .section-badge {
-            display: inline-block;
-            padding: 0.25rem 1rem;
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 4px;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            margin-bottom: 1rem;
-        }
-        
-        .section-title {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-        }
-        
-        .section-subtitle {
-            color: var(--text-secondary);
-            max-width: 600px;
-            margin: 0 auto;
-        }
-        
-        /* Cards */
-        .card {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 2rem;
-            transition: var(--transition);
-        }
-        
-        .card:hover {
-            background: var(--bg-card-hover);
-            border-color: var(--mint);
-            box-shadow: 0 0 30px rgba(72, 187, 120, 0.1);
-        }
-        
-        .card-mint {
-            border-left: 4px solid var(--mint);
-        }
-        
-        .card-lilac {
-            border-left: 4px solid var(--lilac);
-        }
-        
-        .card-red {
-            border-left: 4px solid var(--red);
-        }
-        
-        /* Problem section */
-        .problem-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-        }
-        
-        .problem-card {
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .problem-card::before {
-            content: '';
-            position: absolute;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 14px;
+            position: sticky;
             top: 0;
-            right: 0;
-            width: 100px;
-            height: 100px;
-            background: radial-gradient(circle at top right, var(--red-glow) 0%, transparent 70%);
-            opacity: calc(0.3 * var(--glow-intensity));
+            z-index: 1000;
         }
         
-        .problem-icon {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
+        .disclaimer strong {
+            color: var(--gold);
         }
         
-        .problem-title {
-            font-size: 1.3rem;
-            margin-bottom: 0.5rem;
-            color: var(--red);
-        }
-        
-        /* Truth section */
-        .truth-comparison {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 2rem;
-            margin-bottom: 3rem;
+        /* === DOCUMENT === */
+        .document {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 60px 80px;
+            background: var(--parchment);
+            box-shadow: 0 0 60px var(--shadow);
+            position: relative;
         }
         
         @media (max-width: 768px) {
-            .truth-comparison {
-                grid-template-columns: 1fr;
+            .document {
+                padding: 40px 24px;
             }
         }
         
-        .truth-box {
-            padding: 3rem;
-            border-radius: 16px;
+        /* Aged paper effect */
+        .document::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: 
+                radial-gradient(ellipse at 0% 0%, rgba(139,69,19,0.1) 0%, transparent 50%),
+                radial-gradient(ellipse at 100% 100%, rgba(139,69,19,0.1) 0%, transparent 50%);
+            pointer-events: none;
+        }
+        
+        /* === HEADER === */
+        .doc-header {
             text-align: center;
+            margin-bottom: 48px;
+            padding-bottom: 32px;
+            border-bottom: 3px double var(--ink);
         }
         
-        .truth-box.social {
-            background: linear-gradient(135deg, rgba(72, 187, 120, 0.1) 0%, rgba(72, 187, 120, 0.05) 100%);
-            border: 2px solid var(--mint);
-        }
-        
-        .truth-box.fiscal {
-            background: linear-gradient(135deg, rgba(252, 129, 129, 0.1) 0%, rgba(252, 129, 129, 0.05) 100%);
-            border: 2px solid var(--red);
-        }
-        
-        .truth-label {
-            font-size: 0.9rem;
-            color: var(--text-muted);
-            margin-bottom: 0.5rem;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-        }
-        
-        .truth-value {
-            font-family: 'Orbitron', monospace;
-            font-size: 4rem;
-            font-weight: 900;
-            line-height: 1;
-        }
-        
-        .truth-box.social .truth-value {
-            color: var(--mint);
-        }
-        
-        .truth-box.fiscal .truth-value {
-            color: var(--red);
-        }
-        
-        [data-theme="dark"] .truth-box.social .truth-value {
-            text-shadow: 0 0 30px var(--mint-glow);
-        }
-        
-        [data-theme="dark"] .truth-box.fiscal .truth-value {
-            text-shadow: 0 0 30px var(--red-glow);
-        }
-        
-        .truth-desc {
-            margin-top: 1rem;
-            color: var(--text-secondary);
-        }
-        
-        .truth-ratio {
-            text-align: center;
-            padding: 2rem;
-            background: var(--bg-card);
-            border-radius: 12px;
-            border: 1px solid var(--border);
-        }
-        
-        .truth-ratio .ratio-value {
-            font-family: 'Orbitron', monospace;
-            font-size: 5rem;
-            font-weight: 900;
-            background: linear-gradient(135deg, var(--lilac) 0%, var(--neon-pink) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        
-        [data-theme="dark"] .truth-ratio .ratio-value {
-            filter: drop-shadow(0 0 20px var(--lilac-glow));
-        }
-        
-        /* Arguments section */
-        .arguments-list {
+        .seal {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 24px;
+            background: var(--seal);
+            border-radius: 50%;
             display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            box-shadow: 
+                0 4px 8px rgba(0,0,0,0.3),
+                inset 0 2px 4px rgba(255,255,255,0.1);
         }
         
-        .argument {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            overflow: hidden;
+        .doc-title {
+            font-family: 'Cinzel', serif;
+            font-size: 28px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            color: var(--blood);
+            margin-bottom: 8px;
         }
         
-        .argument-question {
-            padding: 1.5rem 2rem;
-            background: var(--bg-secondary);
-            cursor: pointer;
+        .doc-subtitle {
+            font-family: 'Cinzel', serif;
+            font-size: 16px;
+            letter-spacing: 6px;
+            text-transform: uppercase;
+            color: var(--ink);
+            opacity: 0.7;
+        }
+        
+        .doc-reference {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 12px;
+            color: var(--blood);
+            margin-top: 16px;
+        }
+        
+        /* === SECTIONS === */
+        h2 {
+            font-family: 'Cinzel', serif;
+            font-size: 18px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: var(--blood);
+            margin: 48px 0 24px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--gold);
+        }
+        
+        h3 {
+            font-family: 'Cinzel', serif;
+            font-size: 15px;
+            font-weight: 700;
+            margin: 32px 0 16px;
+            color: var(--ink);
+        }
+        
+        p {
+            margin-bottom: 16px;
+            text-align: justify;
+            text-indent: 2em;
+        }
+        
+        p.no-indent {
+            text-indent: 0;
+        }
+        
+        .highlight {
+            background: linear-gradient(180deg, transparent 60%, rgba(201,162,39,0.3) 60%);
+            padding: 0 2px;
+        }
+        
+        /* === ACCUSÉS === */
+        .accused-box {
+            background: rgba(107,15,26,0.05);
+            border: 2px solid var(--seal);
+            padding: 24px;
+            margin: 24px 0;
+        }
+        
+        .accused-title {
+            font-family: 'Cinzel', serif;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--blood);
+            margin-bottom: 16px;
+        }
+        
+        .accused-list {
+            list-style: none;
+        }
+        
+        .accused-list li {
+            padding: 12px 0;
+            border-bottom: 1px dashed var(--gold);
             display: flex;
             justify-content: space-between;
-            align-items: center;
-            transition: var(--transition);
+            flex-wrap: wrap;
+            gap: 8px;
         }
         
-        .argument-question:hover {
-            background: var(--bg-card-hover);
+        .accused-list li:last-child {
+            border-bottom: none;
         }
         
-        .argument-question h3 {
-            font-family: 'Inter', sans-serif;
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: var(--red);
-        }
-        
-        .argument-toggle {
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            background: var(--bg-card);
-            border: 2px solid var(--lilac);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--lilac);
-            transition: var(--transition);
-        }
-        
-        .argument.open .argument-toggle {
-            transform: rotate(45deg);
-            background: var(--lilac);
-            color: white;
-        }
-        
-        .argument-answer {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s ease;
-        }
-        
-        .argument.open .argument-answer {
-            max-height: 500px;
-        }
-        
-        .argument-content {
-            padding: 2rem;
-            border-top: 1px solid var(--border);
-        }
-        
-        .argument-content p {
-            margin-bottom: 1rem;
-        }
-        
-        .argument-content strong {
-            color: var(--mint);
-        }
-        
-        /* Petition section */
-        #petition {
-            background: var(--bg-secondary);
-            border-radius: 24px;
-            margin: 4rem auto;
-            padding: 4rem;
-        }
-        
-        .petition-demands {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-            margin: 3rem 0;
-        }
-        
-        .demand {
-            padding: 1.5rem;
-            background: var(--bg-card);
-            border-radius: 12px;
-            border: 1px solid var(--border);
-            transition: var(--transition);
-        }
-        
-        .demand:hover {
-            transform: translateY(-4px);
-            border-color: var(--mint);
-            box-shadow: 0 10px 40px rgba(72, 187, 120, 0.1);
-        }
-        
-        .demand-number {
-            font-family: 'Orbitron', monospace;
-            font-size: 2rem;
-            font-weight: 900;
-            color: var(--mint);
-            margin-bottom: 0.5rem;
-        }
-        
-        [data-theme="dark"] .demand-number {
-            text-shadow: 0 0 10px var(--mint-glow);
-        }
-        
-        .demand h3 {
-            font-family: 'Inter', sans-serif;
-            font-size: 1rem;
+        .accused-name {
             font-weight: 700;
-            margin-bottom: 0.5rem;
         }
         
-        .demand p {
-            font-size: 0.9rem;
-            color: var(--text-muted);
+        .accused-role {
+            font-style: italic;
+            color: #666;
         }
         
-        /* Sign form */
-        .sign-form {
-            max-width: 500px;
-            margin: 0 auto;
+        /* === CHARGES === */
+        .charge {
+            background: white;
+            border-left: 4px solid var(--blood);
+            padding: 24px;
+            margin: 24px 0;
+            box-shadow: 2px 2px 10px var(--shadow);
+        }
+        
+        .charge-number {
+            font-family: 'Cinzel', serif;
+            font-size: 14px;
+            color: var(--blood);
+            letter-spacing: 2px;
+            margin-bottom: 8px;
+        }
+        
+        .charge-title {
+            font-family: 'Cinzel', serif;
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+        
+        .charge-article {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 12px;
+            color: #666;
+            margin-top: 16px;
+        }
+        
+        /* === PREUVES === */
+        .evidence {
+            background: #fff;
+            border: 1px solid #ddd;
+            padding: 20px;
+            margin: 16px 0;
+            font-size: 15px;
+        }
+        
+        .evidence-label {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 11px;
+            color: var(--blood);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+        
+        /* === CITATIONS === */
+        blockquote {
+            border-left: 3px solid var(--gold);
+            padding: 16px 24px;
+            margin: 24px 0;
+            background: rgba(201,162,39,0.05);
+            font-style: italic;
+        }
+        
+        blockquote cite {
+            display: block;
+            margin-top: 12px;
+            font-size: 14px;
+            font-style: normal;
+            color: #666;
+        }
+        
+        /* === VERDICT === */
+        .verdict-box {
+            background: var(--seal);
+            color: var(--parchment);
+            padding: 32px;
+            margin: 48px 0;
             text-align: center;
         }
         
-        .form-group {
-            margin-bottom: 1rem;
-        }
-        
-        .form-input {
-            width: 100%;
-            padding: 1rem 1.5rem;
-            background: var(--bg-card);
-            border: 2px solid var(--border);
-            border-radius: 8px;
-            color: var(--text-primary);
-            font-size: 1rem;
-            transition: var(--transition);
-        }
-        
-        .form-input:focus {
-            outline: none;
-            border-color: var(--mint);
-            box-shadow: 0 0 20px var(--mint-glow);
-        }
-        
-        .form-input::placeholder {
-            color: var(--text-muted);
-        }
-        
-        /* Timeline */
-        .timeline {
-            position: relative;
-            padding-left: 3rem;
-        }
-        
-        .timeline::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 0;
-            bottom: 0;
-            width: 2px;
-            background: linear-gradient(to bottom, var(--mint), var(--lilac), var(--red));
-        }
-        
-        [data-theme="dark"] .timeline::before {
-            box-shadow: 0 0 10px var(--mint-glow);
-        }
-        
-        .timeline-item {
-            position: relative;
-            padding-bottom: 2rem;
-        }
-        
-        .timeline-item::before {
-            content: '';
-            position: absolute;
-            left: -3rem;
-            top: 0;
-            width: 14px;
-            height: 14px;
-            background: var(--bg-primary);
-            border: 3px solid var(--mint);
-            border-radius: 50%;
-            transform: translateX(-6px);
-        }
-        
-        .timeline-item.highlight::before {
-            border-color: var(--red);
-            box-shadow: 0 0 10px var(--red-glow);
-        }
-        
-        .timeline-item.lilac::before {
-            border-color: var(--lilac);
-        }
-        
-        .timeline-date {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.85rem;
-            color: var(--mint);
-            margin-bottom: 0.25rem;
-        }
-        
-        .timeline-item.highlight .timeline-date {
-            color: var(--red);
-        }
-        
-        .timeline-item.lilac .timeline-date {
-            color: var(--lilac);
-        }
-        
-        .timeline-content {
-            background: var(--bg-card);
-            padding: 1rem 1.5rem;
-            border-radius: 8px;
-            border: 1px solid var(--border);
-        }
-        
-        .timeline-content h4 {
-            font-family: 'Inter', sans-serif;
-            font-size: 1rem;
-            margin-bottom: 0.25rem;
-        }
-        
-        .timeline-content p {
-            font-size: 0.9rem;
-            color: var(--text-muted);
-        }
-        
-        /* Kit section */
-        .kit-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-        }
-        
-        .kit-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 2rem;
-            transition: var(--transition);
-        }
-        
-        .kit-card:hover {
-            border-color: var(--lilac);
-            box-shadow: 0 0 30px rgba(159, 122, 234, 0.1);
-        }
-        
-        .kit-icon {
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, var(--lilac) 0%, var(--lilac-dark) 100%);
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            margin-bottom: 1.5rem;
-        }
-        
-        [data-theme="dark"] .kit-icon {
-            box-shadow: 0 0 20px var(--lilac-glow);
-        }
-        
-        .kit-card h3 {
-            font-family: 'Inter', sans-serif;
-            font-size: 1.2rem;
-            margin-bottom: 0.5rem;
-        }
-        
-        .kit-card p {
-            color: var(--text-secondary);
-            font-size: 0.95rem;
-            margin-bottom: 1.5rem;
-        }
-        
-        /* Social posts */
-        .social-post {
-            background: var(--bg-secondary);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 1.5rem;
-            margin-bottom: 1rem;
-            position: relative;
-        }
-        
-        .social-post::before {
-            content: attr(data-platform);
-            position: absolute;
-            top: -10px;
-            left: 20px;
-            background: var(--lilac);
-            color: white;
-            padding: 0.25rem 0.75rem;
-            border-radius: 4px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            text-transform: uppercase;
-        }
-        
-        .social-post-content {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.9rem;
-            white-space: pre-wrap;
-            color: var(--text-primary);
-        }
-        
-        .copy-btn {
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 6px;
-            padding: 0.5rem 1rem;
-            cursor: pointer;
-            font-size: 0.8rem;
-            color: var(--text-secondary);
-            transition: var(--transition);
-        }
-        
-        .copy-btn:hover {
-            background: var(--mint);
-            color: white;
-            border-color: var(--mint);
-        }
-        
-        /* CSA Guide */
-        .csa-steps {
-            counter-reset: step;
-        }
-        
-        .csa-step {
-            display: flex;
-            gap: 1.5rem;
-            margin-bottom: 1.5rem;
-            align-items: flex-start;
-        }
-        
-        .csa-step-number {
-            flex-shrink: 0;
-            width: 50px;
-            height: 50px;
-            background: linear-gradient(135deg, var(--mint) 0%, var(--mint-dark) 100%);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: 'Orbitron', monospace;
+        .verdict-title {
+            font-family: 'Cinzel', serif;
+            font-size: 24px;
             font-weight: 900;
-            font-size: 1.2rem;
-            color: white;
+            letter-spacing: 4px;
+            margin-bottom: 24px;
         }
         
-        [data-theme="dark"] .csa-step-number {
-            box-shadow: 0 0 20px var(--mint-glow);
+        .verdict-text {
+            font-size: 18px;
+            line-height: 2;
         }
         
-        .csa-step-content h4 {
-            font-family: 'Inter', sans-serif;
-            margin-bottom: 0.25rem;
+        /* === SIGNATURES === */
+        .signatures {
+            margin-top: 64px;
+            padding-top: 32px;
+            border-top: 2px solid var(--ink);
         }
         
-        .csa-step-content p {
-            color: var(--text-secondary);
-            font-size: 0.95rem;
-        }
-        
-        .csa-template {
-            background: var(--bg-secondary);
-            border: 2px dashed var(--border);
-            border-radius: 12px;
-            padding: 2rem;
-            margin-top: 2rem;
-        }
-        
-        .csa-template h4 {
-            font-family: 'Inter', sans-serif;
-            color: var(--lilac);
-            margin-bottom: 1rem;
-        }
-        
-        .csa-template-text {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.85rem;
-            color: var(--text-secondary);
-            white-space: pre-wrap;
-            line-height: 1.8;
-        }
-        
-        /* Footer */
-        footer {
-            background: var(--bg-secondary);
-            border-top: 1px solid var(--border);
-            padding: 4rem 2rem 2rem;
-            margin-top: 4rem;
-        }
-        
-        .footer-content {
-            max-width: 1200px;
-            margin: 0 auto;
+        .signature-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 3rem;
+            gap: 32px;
+            margin-top: 32px;
         }
         
-        .footer-brand h3 {
-            font-family: 'Orbitron', monospace;
-            color: var(--mint);
-            margin-bottom: 1rem;
-        }
-        
-        .footer-links h4 {
-            font-family: 'Inter', sans-serif;
-            font-size: 0.9rem;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            margin-bottom: 1rem;
-        }
-        
-        .footer-links ul {
-            list-style: none;
-        }
-        
-        .footer-links a {
-            color: var(--text-secondary);
-            text-decoration: none;
-            font-size: 0.95rem;
-            display: block;
-            padding: 0.25rem 0;
-            transition: var(--transition);
-        }
-        
-        .footer-links a:hover {
-            color: var(--mint);
-        }
-        
-        .footer-bottom {
-            max-width: 1200px;
-            margin: 3rem auto 0;
-            padding-top: 2rem;
-            border-top: 1px solid var(--border);
+        .signature-item {
             text-align: center;
-            color: var(--text-muted);
-            font-size: 0.9rem;
         }
         
-        .hashtags {
+        .signature-line {
+            border-bottom: 1px solid var(--ink);
+            height: 40px;
+            margin-bottom: 8px;
+            font-family: 'Brush Script MT', cursive;
+            font-size: 24px;
+            color: var(--ink);
+        }
+        
+        .signature-name {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .signature-title {
+            font-size: 11px;
+            color: #666;
+            font-style: italic;
+        }
+        
+        /* === STAMPS === */
+        .stamps {
             display: flex;
-            gap: 1rem;
-            flex-wrap: wrap;
             justify-content: center;
-            margin-top: 1rem;
+            gap: 48px;
+            margin-top: 48px;
+            flex-wrap: wrap;
         }
         
-        .hashtag {
-            color: var(--lilac);
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.85rem;
+        .stamp {
+            width: 100px;
+            height: 100px;
+            border: 3px solid var(--blood);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Cinzel', serif;
+            font-size: 10px;
+            text-transform: uppercase;
+            text-align: center;
+            color: var(--blood);
+            transform: rotate(-15deg);
+            opacity: 0.8;
         }
         
-        /* Mobile menu */
-        .mobile-menu-btn {
-            display: none;
-            background: none;
-            border: none;
-            color: var(--text-primary);
-            font-size: 1.5rem;
-            cursor: pointer;
+        .stamp.approved {
+            border-color: darkgreen;
+            color: darkgreen;
         }
         
-        @media (max-width: 768px) {
-            .nav-links {
-                display: none;
-                position: absolute;
-                top: 100%;
-                left: 0;
-                right: 0;
-                background: var(--bg-secondary);
-                flex-direction: column;
-                padding: 1rem;
-                gap: 0;
-                border-bottom: 1px solid var(--border);
-            }
-            
-            .nav-links.open {
-                display: flex;
-            }
-            
-            .nav-links a {
-                padding: 1rem;
-                border-bottom: 1px solid var(--border);
-            }
-            
-            .mobile-menu-btn {
-                display: block;
-            }
-            
-            .hero h1 {
-                font-size: 2rem;
-            }
-            
-            .hero-stats {
-                gap: 1.5rem;
-            }
-            
-            .stat-value {
-                font-size: 2rem;
-            }
-            
-            section {
-                padding: 3rem 1rem;
-            }
-            
-            .truth-value {
-                font-size: 2.5rem;
-            }
-            
-            #petition {
-                padding: 2rem 1rem;
-                margin: 2rem 1rem;
-                border-radius: 16px;
-            }
+        /* === FOOTER === */
+        .doc-footer {
+            margin-top: 64px;
+            padding-top: 24px;
+            border-top: 1px solid var(--ink);
+            font-size: 12px;
+            color: #666;
+            text-align: center;
         }
         
-        /* Animations */
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
+        /* === ANNOTATIONS === */
+        .annotation {
+            background: #ffffa0;
+            padding: 2px 4px;
+            font-size: 14px;
+            transform: rotate(-2deg);
+            display: inline-block;
+            margin: 0 4px;
+            box-shadow: 1px 1px 3px rgba(0,0,0,0.2);
         }
         
-        .float {
-            animation: float 3s ease-in-out infinite;
+        /* === REDACTED === */
+        .redacted {
+            background: var(--ink);
+            color: var(--ink);
+            padding: 0 8px;
+            user-select: none;
         }
         
-        /* Scroll reveal */
-        .reveal {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 0.6s ease, transform 0.6s ease;
+        .redacted:hover {
+            color: var(--parchment);
         }
         
-        .reveal.visible {
-            opacity: 1;
-            transform: translateY(0);
+        /* Coffee stain effect */
+        .coffee-stain {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: radial-gradient(ellipse, rgba(139,90,43,0.15) 0%, rgba(139,90,43,0.05) 50%, transparent 70%);
+            pointer-events: none;
+        }
+        
+        .coffee-stain.top-right {
+            top: 120px;
+            right: 60px;
+        }
+        
+        .coffee-stain.bottom-left {
+            bottom: 200px;
+            left: 40px;
+            width: 60px;
+            height: 60px;
         }
     </style>
 </head>
 <body>
-    <!-- Navigation -->
-    <nav>
-        <a href="#" class="nav-logo">OUAISFIEU</a>
-        <ul class="nav-links" id="navLinks">
-            <li><a href="#probleme">Le Problème</a></li>
-            <li><a href="#verite">La Vérité</a></li>
-            <li><a href="#arguments">Arguments</a></li>
-            <li><a href="#petition">Pétition</a></li>
-            <li><a href="#kit">Kit Campagne</a></li>
-            <li><a href="#plainte">Porter Plainte</a></li>
-        </ul>
-        <div class="theme-toggle" onclick="toggleTheme()">
-            <span class="toggle-icon">🌙</span>
-            <div class="toggle-track">
-                <div class="toggle-thumb"></div>
-            </div>
-            <span class="toggle-icon">☀️</span>
-        </div>
-        <button class="mobile-menu-btn" onclick="toggleMobileMenu()">☰</button>
-    </nav>
-
-    <!-- Hero -->
-    <section class="hero">
-        <span class="hero-badge">⚡ 400+ plaintes au CSA — Record historique</span>
-        <h1>
-            <span class="question">« TOUS FRAUDEURS ? »</span>
-            <span class="answer">Non. Moins de 3%.</span>
-        </h1>
-        <p class="hero-subtitle">RTL a menti à 410.000 personnes. La propagande anti-pauvres, c'est terminé.</p>
+    <!-- DISCLAIMER -->
+    <div class="disclaimer">
+        ⚠️ <strong>FICTION SATIRIQUE</strong> — Ce document est une œuvre de satire politique et de fiction spéculative. 
+        Il pousse à l'absurde la logique de responsabilité médiatique pour faire réfléchir. 
+        Aucune poursuite réelle n'est suggérée. <strong>Mais la réflexion, elle, est sérieuse.</strong>
+    </div>
+    
+    <div class="document">
+        <!-- Coffee stains for authenticity -->
+        <div class="coffee-stain top-right"></div>
+        <div class="coffee-stain bottom-left"></div>
         
-        <div class="hero-stats">
-            <div class="stat">
-                <div class="stat-value red">410 860</div>
-                <div class="stat-label">personnes manipulées</div>
-            </div>
-            <div class="stat">
-                <div class="stat-value mint">&lt;3%</div>
-                <div class="stat-label">de fraude réelle</div>
-            </div>
-            <div class="stat">
-                <div class="stat-value lilac">400+</div>
-                <div class="stat-label">plaintes au CSA</div>
-            </div>
-        </div>
+        <!-- HEADER -->
+        <header class="doc-header">
+            <div class="seal">⚖️</div>
+            <h1 class="doc-title">Acte d'Accusation</h1>
+            <p class="doc-subtitle">Tribunal Citoyen Extraordinaire pour les Crimes contre la Cohésion Nationale</p>
+            <p class="doc-reference">Dossier N° TCE-2026-001-BE | Classification : CONSCIENCE PUBLIQUE</p>
+        </header>
         
-        <div class="hero-buttons">
-            <a href="#petition" class="btn btn-primary">✊ Signer la pétition</a>
-            <a href="#kit" class="btn btn-secondary">📦 Kit de campagne</a>
-        </div>
-    </section>
-
-    <!-- Problème -->
-    <section id="probleme">
-        <div class="section-header">
-            <span class="section-badge">// LE PROBLÈME</span>
-            <h2 class="section-title">Ce que <span style="color: var(--red)">RTL</span> vous a caché</h2>
-            <p class="section-subtitle">Le 7 novembre 2025, un documentaire a déformé la réalité pour 410.000 téléspectateurs.</p>
-        </div>
+        <!-- PRÉAMBULE -->
+        <section>
+            <h2>Préambule</h2>
+            <p>CONSIDÉRANT que la cohésion nationale constitue le fondement de toute société démocratique ;</p>
+            <p>CONSIDÉRANT que les médias audiovisuels disposent d'une puissance de frappe cognitive sans précédent, capable de façonner en une soirée la perception de 410.860 esprits ;</p>
+            <p>CONSIDÉRANT que cette puissance implique une responsabilité proportionnelle ;</p>
+            <p>CONSIDÉRANT que l'Histoire a démontré, de Radio Mille Collines à Fox News, que les médias peuvent être des armes de destruction massive du tissu social ;</p>
+            <p>CONSIDÉRANT que le silence des institutions face à ces dérives constitue une forme de complicité passive ;</p>
+            <p>Le Tribunal Citoyen Extraordinaire, réuni en session plénière ce 29 janvier 2026, émet le présent acte d'accusation.</p>
+        </section>
         
-        <div class="problem-grid">
-            <div class="card card-red problem-card reveal">
-                <div class="problem-icon">🎬</div>
-                <h3 class="problem-title">Montage manipulé</h3>
-                <p>Gaëlle Denys, présidente du CPAS, a été interviewée pendant <strong>1 heure</strong>. Au final ? Quelques phrases sorties de leur contexte.</p>
+        <!-- ACCUSÉS -->
+        <section>
+            <h2>Parties Accusées</h2>
+            
+            <div class="accused-box">
+                <div class="accused-title">Accusés Principaux</div>
+                <ul class="accused-list">
+                    <li>
+                        <span class="accused-name">RTL Belgium SA</span>
+                        <span class="accused-role">Diffuseur — Personne morale</span>
+                    </li>
+                    <li>
+                        <span class="accused-name">Christophe DEBORSU</span>
+                        <span class="accused-role">Réalisateur — Auteur intellectuel</span>
+                    </li>
+                    <li>
+                        <span class="accused-name">[Direction Éditoriale RTL]</span>
+                        <span class="accused-role">Validation du contenu — Chaîne de commandement</span>
+                    </li>
+                </ul>
             </div>
             
-            <div class="card card-red problem-card reveal">
-                <div class="problem-icon">📊</div>
-                <h3 class="problem-title">Chiffres cachés</h3>
-                <p>Le taux réel de fraude sociale (<strong>moins de 3%</strong>) n'est <strong>jamais</strong> mentionné dans les 37 minutes du documentaire.</p>
+            <div class="accused-box">
+                <div class="accused-title">Accusés par Complicité</div>
+                <ul class="accused-list">
+                    <li>
+                        <span class="accused-name">[Producteur exécutif]</span>
+                        <span class="accused-role">Financement et logistique</span>
+                    </li>
+                    <li>
+                        <span class="accused-name">[Chef monteur]</span>
+                        <span class="accused-role">Manipulation narrative par le montage</span>
+                    </li>
+                    <li>
+                        <span class="accused-name">[Service juridique RTL]</span>
+                        <span class="accused-role">Validation légale d'un contenu éthiquement contestable</span>
+                    </li>
+                </ul>
             </div>
             
-            <div class="card card-red problem-card reveal">
-                <div class="problem-icon">⏰</div>
-                <h3 class="problem-title">Timing politique</h3>
-                <p>Diffusé <strong>5 jours avant</strong> l'envoi de 47.000 lettres ONEM menaçant des chômeurs d'exclusion. Coïncidence ?</p>
+            <div class="accused-box">
+                <div class="accused-title">Accusés par Omission Coupable</div>
+                <ul class="accused-list">
+                    <li>
+                        <span class="accused-name">[Médias concurrents]</span>
+                        <span class="accused-role">Silence corporatiste face au scandale</span>
+                    </li>
+                    <li>
+                        <span class="accused-name">[Institutions de régulation]</span>
+                        <span class="accused-role">Lenteur procédurale équivalant à impunité</span>
+                    </li>
+                </ul>
             </div>
-            
-            <div class="card card-red problem-card reveal">
-                <div class="problem-icon">👨‍👩‍👧</div>
-                <h3 class="problem-title">Victimes exposées</h3>
-                <p>Laetitia, une des personnes filmées, reçoit maintenant des <strong>insultes et des menaces</strong> dans la rue.</p>
-            </div>
-            
-            <div class="card card-red problem-card reveal">
-                <div class="problem-icon">🎭</div>
-                <h3 class="problem-title">Conflit d'intérêts</h3>
-                <p><strong>Charlotte Deborsu</strong>, nièce du journaliste, est députée MR. Le MR a immédiatement salué ce "vrai travail d'enquête".</p>
-            </div>
-            
-            <div class="card card-red problem-card reveal">
-                <div class="problem-icon">🔇</div>
-                <h3 class="problem-title">Silence de RTL</h3>
-                <p>Face à 400+ plaintes au CSA, RTL déclare <strong>"ne pas souhaiter réagir à la polémique"</strong>.</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Vérité -->
-    <section id="verite">
-        <div class="section-header">
-            <span class="section-badge">// LA VÉRITÉ</span>
-            <h2 class="section-title">Les <span style="color: var(--mint)">vrais</span> chiffres</h2>
-            <p class="section-subtitle">Ce que RTL aurait dû vous montrer.</p>
-        </div>
+        </section>
         
-        <div class="truth-comparison reveal">
-            <div class="truth-box social">
-                <div class="truth-label">Fraude sociale</div>
-                <div class="truth-value">200 M€</div>
-                <div class="truth-desc">par an • Taux réel : <strong>&lt;3%</strong></div>
-            </div>
-            <div class="truth-box fiscal">
-                <div class="truth-label">Fraude fiscale</div>
-                <div class="truth-value">30 Md€</div>
-                <div class="truth-desc">par an • Mais 0 documentaire RTL</div>
-            </div>
-        </div>
-        
-        <div class="truth-ratio reveal">
-            <div class="ratio-value">150×</div>
-            <p style="margin-top: 1rem; color: var(--text-secondary);">La fraude fiscale représente <strong>150 fois</strong> la fraude sociale.<br>Mais c'est moins télégénique qu'une mère célibataire de Verviers.</p>
-        </div>
-    </section>
-
-    <!-- Arguments -->
-    <section id="arguments">
-        <div class="section-header">
-            <span class="section-badge">// ARGUMENTS</span>
-            <h2 class="section-title">Réponses aux <span style="color: var(--lilac)">objections</span></h2>
-            <p class="section-subtitle">On vous a peut-être dit... Voici quoi répondre.</p>
-        </div>
-        
-        <div class="arguments-list">
-            <div class="argument reveal">
-                <div class="argument-question" onclick="toggleArgument(this)">
-                    <h3>« C'est quand même vrai qu'il y a des abus ! »</h3>
-                    <div class="argument-toggle">+</div>
-                </div>
-                <div class="argument-answer">
-                    <div class="argument-content">
-                        <p>Oui, il y a des abus. <strong>Moins de 3%</strong> selon l'ONEM. Et ils sont déjà contrôlés et sanctionnés.</p>
-                        <p>Le problème n'est pas de montrer des cas d'abus. Le problème, c'est de les présenter comme <strong>LA RÈGLE</strong> alors qu'ils sont <strong>L'EXCEPTION</strong>.</p>
-                        <p>Imaginez un documentaire « Tous violeurs ? » basé sur 5 cas de viol. Ce serait scandaleux. C'est <strong>exactement</strong> ce que RTL a fait avec les allocataires.</p>
-                    </div>
-                </div>
+        <!-- CONTEXTE GÉOPOLITIQUE -->
+        <section>
+            <h2>Contexte : La Belgique en État de Siège Social</h2>
+            
+            <p>Au moment des faits (7 novembre 2025), le Royaume de Belgique se trouvait dans une situation assimilable à un <span class="highlight">état de guerre sociale non déclarée</span> :</p>
+            
+            <div class="evidence">
+                <div class="evidence-label">Situation économique</div>
+                <p class="no-indent">• Négociations gouvernementales Arizona en cours — coupes budgétaires imminentes<br>
+                • 500.000+ demandeurs d'emploi en Belgique<br>
+                • 90.000 exclusions du chômage depuis les réformes précédentes<br>
+                • Inflation ayant érodé le pouvoir d'achat de 15%+ sur 3 ans<br>
+                • Précarisation croissante de la classe moyenne</p>
             </div>
             
-            <div class="argument reveal">
-                <div class="argument-question" onclick="toggleArgument(this)">
-                    <h3>« Mais ils ont juste montré la réalité ! »</h3>
-                    <div class="argument-toggle">+</div>
-                </div>
-                <div class="argument-answer">
-                    <div class="argument-content">
-                        <p>Non. Ils ont <strong>CONSTRUIT</strong> une réalité.</p>
-                        <p>• Gaëlle Denys, présidente du CPAS, a été interviewée pendant <strong>1 HEURE</strong>. Au montage : quelques phrases sorties de leur contexte.</p>
-                        <p>• Le taux réel de fraude (&lt;3%) n'est <strong>JAMAIS</strong> mentionné.</p>
-                        <p>• La musique, le montage, le titre : tout est fait pour créer une <strong>IMPRESSION</strong> de fraude généralisée.</p>
-                        <p>C'est de la <strong>mise en scène</strong>, pas du journalisme.</p>
-                    </div>
-                </div>
+            <div class="evidence">
+                <div class="evidence-label">Tension sociale</div>
+                <p class="no-indent">• Manifestations syndicales récurrentes<br>
+                • Taux de confiance dans les institutions au plus bas historique<br>
+                • Montée des discours populistes exploitant le ressentiment<br>
+                • Fracture communautaire exacerbée par les questions de transferts Nord-Sud</p>
             </div>
             
-            <div class="argument reveal">
-                <div class="argument-question" onclick="toggleArgument(this)">
-                    <h3>« Et la fraude fiscale alors ? »</h3>
-                    <div class="argument-toggle">+</div>
+            <p>Dans ce contexte de <span class="highlight">poudrière sociale</span>, la diffusion d'un contenu visant à retourner une partie de la population contre une autre constitue un acte d'une gravité exceptionnelle.</p>
+            
+            <blockquote>
+                "En temps de guerre, saper le moral de la nation est un acte de trahison. En temps de paix sociale fragile, saper la solidarité entre citoyens l'est tout autant."
+                <cite>— Doctrine du Tribunal Citoyen Extraordinaire</cite>
+            </blockquote>
+        </section>
+        
+        <!-- CHEF D'ACCUSATION 1 -->
+        <section>
+            <h2>Chefs d'Accusation</h2>
+            
+            <div class="charge">
+                <div class="charge-number">Chef d'accusation I</div>
+                <div class="charge-title">HAUTE TRAHISON INFORMATIONNELLE</div>
+                
+                <p>Les accusés sont poursuivis pour avoir, de manière préméditée et coordonnée, diffusé à 410.860 citoyens belges un contenu conçu pour :</p>
+                
+                <p>a) <strong>Fracturer le corps social</strong> en opposant artificiellement les "travailleurs" aux "assistés" — catégories dont la porosité est scientifiquement établie (67% des chômeurs retrouvent un emploi dans les 12 mois) ;</p>
+                
+                <p>b) <strong>Fabriquer un ennemi intérieur</strong> — les allocataires sociaux — pour détourner l'attention des véritables dysfonctionnements systémiques (fraude fiscale : 30 milliards €/an vs fraude sociale : ~200 millions €/an, soit un ratio de 150:1) ;</p>
+                
+                <p>c) <strong>Préparer psychologiquement la population</strong> à accepter des mesures d'austérité socialement destructrices, en les présentant comme une "correction" d'abus largement fantasmés.</p>
+                
+                <div class="evidence">
+                    <div class="evidence-label">Pièce à conviction A — Synchronisation suspecte</div>
+                    <p class="no-indent">Le documentaire a été diffusé le <strong>7 novembre 2025</strong>.<br>
+                    L'ONEM a envoyé <strong>47.000 lettres</strong> de contrôle le <strong>12 novembre 2025</strong>.<br>
+                    Intervalle : <strong>5 jours</strong>.<br>
+                    Probabilité de coïncidence : <span class="annotation">À déterminer</span></p>
                 </div>
-                <div class="argument-answer">
-                    <div class="argument-content">
-                        <p>Excellente question. La fraude fiscale, c'est <strong>30 MILLIARDS</strong> par an. 150 fois plus que la fraude sociale.</p>
-                        <p>Combien de documentaires RTL sur les holdings luxembourgeoises ? Sur les montages fiscaux des grandes fortunes ? Sur les rescrits fiscaux ?</p>
-                        <p><strong>Zéro.</strong> C'est plus facile de filmer une mère célibataire à Verviers que d'enquêter sur la fraude des puissants.</p>
-                    </div>
-                </div>
+                
+                <p class="charge-article">Réf. : Code Citoyen Imaginaire, Art. 1 — "Nul ne peut utiliser les moyens de communication de masse pour dresser une partie du peuple contre une autre."</p>
             </div>
             
-            <div class="argument reveal">
-                <div class="argument-question" onclick="toggleArgument(this)">
-                    <h3>« C'est de la censure ! »</h3>
-                    <div class="argument-toggle">+</div>
+            <div class="charge">
+                <div class="charge-number">Chef d'accusation II</div>
+                <div class="charge-title">CRIME DE PROPAGANDE EN TEMPS DE CRISE</div>
+                
+                <p>Les accusés sont poursuivis pour avoir produit et diffusé un contenu présentant toutes les caractéristiques de la <span class="highlight">propagande de guerre de classe</span> :</p>
+                
+                <p>a) <strong>Déshumanisation de l'ennemi désigné</strong> — Les allocataires sont présentés non comme des citoyens en difficulté mais comme des "fraudeurs", des "profiteurs", des parasites du corps social ;</p>
+                
+                <p>b) <strong>Omission systématique des données contradictoires</strong> — Le taux réel de fraude sociale (<3%) n'est jamais mentionné. Les causes structurelles du chômage sont ignorées. Le ratio fraude fiscale/sociale (150:1) est occulté ;</p>
+                
+                <p>c) <strong>Manipulation émotionnelle par le montage</strong> — Une heure d'interview de Gaëlle Denys (CPAS Verviers) réduite à 30 secondes. Ratio de censure : 120:1. Seuls les éléments servant le récit accusatoire ont été conservés ;</p>
+                
+                <p>d) <strong>Absence de contradictoire</strong> — Aucun économiste, aucun sociologue, aucun représentant syndical, aucune association de défense des droits n'a été invité à contrebalancer le récit.</p>
+                
+                <div class="evidence">
+                    <div class="evidence-label">Pièce à conviction B — Checklist de propagande (Chomsky)</div>
+                    <p class="no-indent">✓ Filtre de propriété (RTL = groupe privé à but lucratif)<br>
+                    ✓ Filtre publicitaire (annonceurs = classes aisées)<br>
+                    ✓ Filtre des sources (ONEM, pas les syndicats)<br>
+                    ✓ Filtre des critiques (aucune voix discordante)<br>
+                    ✓ Idéologie dominante (néolibéralisme = évidence)<br>
+                    <strong>5/5 filtres du "Manufacturing Consent" validés.</strong></p>
                 </div>
-                <div class="argument-answer">
-                    <div class="argument-content">
-                        <p><strong>Personne</strong> ne demande le retrait du documentaire.</p>
-                        <p>On demande qu'il soit <strong>CORRECTEMENT ÉTIQUETÉ</strong> : « docu-fiction », parce qu'il relève de la mise en scène, pas de l'investigation.</p>
-                        <p>Et on demande des <strong>EXCUSES</strong> aux personnes dont la vie a été détruite par ce montage.</p>
-                        <p>Demander la vérité, ce n'est pas de la censure. C'est de la <strong>démocratie</strong>.</p>
-                    </div>
-                </div>
+                
+                <p class="charge-article">Réf. : Principes de Nuremberg, adaptés — "La propagande visant à inciter à la persécution d'un groupe social constitue un crime contre l'humanité."</p>
             </div>
-        </div>
-    </section>
-
-    <!-- Pétition -->
-    <section id="petition">
-        <div class="section-header">
-            <span class="section-badge">// PÉTITION</span>
-            <h2 class="section-title">Stop à la <span style="color: var(--mint)">propagande</span></h2>
-            <p class="section-subtitle">Signez pour exiger la vérité.</p>
-        </div>
+            
+            <div class="charge">
+                <div class="charge-number">Chef d'accusation III</div>
+                <div class="charge-title">COMPLICITÉ DE VIOLENCE PSYCHOLOGIQUE DE MASSE</div>
+                
+                <p>Les accusés sont poursuivis pour avoir, en connaissance de cause, infligé des <span class="highlight">dommages psychologiques mesurables</span> à des populations vulnérables :</p>
+                
+                <p>a) <strong>Dommages directs aux personnes filmées</strong> — Laetitia a déclaré avoir reçu "énormément de messages et d'insultes" suite à la diffusion. Elle a été harcelée dans la rue. Son image sociale a été détruite ;</p>
+                
+                <p>b) <strong>Dommages indirects à la population allocataire</strong> — Les études scientifiques établissent que la stigmatisation médiatique augmente les symptômes dépressifs de 19%, la probabilité de dépression majeure de 29%, et provoque un non-recours aux droits de 20 à 50% ;</p>
+                
+                <p>c) <strong>Dommages collatéraux à la cohésion sociale</strong> — Renforcement des préjugés, légitimation de la discrimination à l'embauche, justification de politiques d'austérité destructrices.</p>
+                
+                <div class="evidence">
+                    <div class="evidence-label">Pièce à conviction C — Études scientifiques</div>
+                    <p class="no-indent">• Pak (2020) : +19% symptômes dépressifs, +29% dépression majeure<br>
+                    • O'Donnell (2015) : 44% de la variance des symptômes physiques expliquée par stigmatisation<br>
+                    • Harvard Kennedy School : 20-50% de non-recours aux droits par honte<br>
+                    • Joseph Rowntree Foundation : effets de "Benefits Street" mesurables 5 ans après</p>
+                </div>
+                
+                <p class="charge-article">Réf. : Convention de Genève, par analogie — "Infliger intentionnellement des souffrances psychologiques à des populations civiles constitue un traitement inhumain."</p>
+            </div>
+            
+            <div class="charge">
+                <div class="charge-number">Chef d'accusation IV</div>
+                <div class="charge-title">SABOTAGE DU CONTRAT SOCIAL BELGE</div>
+                
+                <p>Les accusés sont poursuivis pour avoir activement contribué à la <span class="highlight">destruction du modèle social belge</span> — un héritage de décennies de compromis démocratiques :</p>
+                
+                <p>a) <strong>Attaque contre le principe de solidarité</strong> — Le système belge de sécurité sociale repose sur la solidarité entre actifs et inactifs, entre bien-portants et malades, entre générations. Ce reportage vise à briser ce pacte ;</p>
+                
+                <p>b) <strong>Collaboration objective avec les intérêts de l'austérité</strong> — Le timing du reportage (5 jours avant les lettres ONEM, en pleine négociation Arizona) suggère une coordination, explicite ou implicite, avec les forces politiques souhaitant démanteler les protections sociales ;</p>
+                
+                <p>c) <strong>Légitimation médiatique de la régression sociale</strong> — En présentant les allocataires comme des fraudeurs, le reportage rend "acceptable" leur appauvrissement programmé.</p>
+                
+                <div class="evidence">
+                    <div class="evidence-label">Pièce à conviction D — Le lien familial non déclaré</div>
+                    <p class="no-indent">Christophe DEBORSU est l'oncle de Charlotte DEBORSU, <strong>députée MR</strong> (parti membre de la coalition Arizona).<br>
+                    Ce lien familial n'a jamais été déclaré au public.<br>
+                    Le MR est le principal promoteur des coupes dans les allocations chômage.<br>
+                    <span class="annotation">Conflit d'intérêts ?</span></p>
+                </div>
+                
+                <p class="charge-article">Réf. : Constitution belge, Art. 23 — "Chacun a le droit de mener une vie conforme à la dignité humaine." — Ce droit a été bafoué.</p>
+            </div>
+            
+            <div class="charge">
+                <div class="charge-number">Chef d'accusation V</div>
+                <div class="charge-title">TÉLÉGUIDAGE PRÉSUMÉ PAR INTÉRÊTS ÉTRANGERS AU BIEN COMMUN</div>
+                
+                <p>Les accusés sont poursuivis pour avoir potentiellement agi sous l'influence d'<span class="highlight">intérêts incompatibles avec le bien commun</span> :</p>
+                
+                <p>a) <strong>Intérêts capitalistiques</strong> — RTL Belgium appartient au groupe RTL (Bertelsmann), multinationale dont les intérêts ne coïncident pas nécessairement avec ceux du peuple belge ;</p>
+                
+                <p>b) <strong>Intérêts politiques partisans</strong> — Le lien familial MR non déclaré soulève la question d'une influence politique sur le contenu éditorial ;</p>
+                
+                <p>c) <strong>Intérêts de classe</strong> — Les propriétaires de médias, les annonceurs et les éditorialistes appartiennent structurellement aux classes supérieures. Leur vision du monde imprègne inconsciemment (ou consciemment) les contenus produits.</p>
+                
+                <blockquote>
+                    "Il est difficile de faire comprendre quelque chose à quelqu'un quand son salaire dépend du fait qu'il ne le comprenne pas."
+                    <cite>— Upton Sinclair</cite>
+                </blockquote>
+                
+                <p class="charge-article">Réf. : Droit des peuples à disposer d'une information libre — "Un peuple désinformé ne peut exercer sa souveraineté."</p>
+            </div>
+        </section>
         
-        <div class="petition-demands reveal">
-            <div class="demand">
-                <div class="demand-number">01</div>
-                <h3>Requalification</h3>
-                <p>Le documentaire doit être étiqueté « docu-fiction ».</p>
-            </div>
-            <div class="demand">
-                <div class="demand-number">02</div>
-                <h3>Sanction CSA</h3>
-                <p>Pour violation des obligations déontologiques.</p>
-            </div>
-            <div class="demand">
-                <div class="demand-number">03</div>
-                <h3>Excuses publiques</h3>
-                <p>Aux personnes stigmatisées par le reportage.</p>
-            </div>
-            <div class="demand">
-                <div class="demand-number">04</div>
-                <h3>Rectification</h3>
-                <p>Diffusée en prime time avec les vrais chiffres.</p>
-            </div>
-        </div>
+        <!-- CIRCONSTANCES AGGRAVANTES -->
+        <section>
+            <h2>Circonstances Aggravantes</h2>
+            
+            <h3>1. Préméditation manifeste</h3>
+            <p>Un documentaire de 45 minutes nécessite des semaines de préparation, de tournage et de montage. Chaque décision éditoriale — qui interviewer, quoi garder, quoi couper — a été délibérée. L'absence de contradictoire n'est pas un oubli : c'est un choix.</p>
+            
+            <h3>2. Récidive institutionnelle</h3>
+            <p>RTL Belgium a déjà été sanctionné par le CSA : 8.000€ d'amende en 2021, 3.000€ en 2022. La chaîne connaît les règles et choisit de les violer quand le gain (audience, influence) dépasse le coût (amendes dérisoires).</p>
+            
+            <h3>3. Abus de position dominante informationnelle</h3>
+            <p>RTL-TVI est la chaîne privée la plus regardée en Belgique francophone. Avec 410.860 téléspectateurs et 39,1% de part de marché, le reportage a touché une proportion significative de la population. Cette puissance de feu implique une responsabilité proportionnelle.</p>
+            
+            <h3>4. Ciblage des plus vulnérables</h3>
+            <p>Les personnes filmées — Laetitia, Jacqueline, les habitants de la rue de Dison — sont par définition en situation de précarité. Elles n'ont pas les moyens de se défendre médiatiquement ou juridiquement. Les accuser publiquement de fraude revient à tirer sur une ambulance.</p>
+            
+            <h3>5. Exploitation du timing politique</h3>
+            <p>La diffusion à 5 jours des lettres ONEM et en pleine négociation Arizona ne peut être fortuite. Même si aucune coordination explicite n'est prouvée, l'effet de synergie a été recherché ou, au minimum, accepté.</p>
+        </section>
         
-        <div class="sign-form reveal">
-            <h3 style="margin-bottom: 1.5rem;">Signez la pétition</h3>
-            <form id="petitionForm">
-                <div class="form-group">
-                    <input type="text" class="form-input" placeholder="Votre prénom" required>
-                </div>
-                <div class="form-group">
-                    <input type="text" class="form-input" placeholder="Votre nom" required>
-                </div>
-                <div class="form-group">
-                    <input type="email" class="form-input" placeholder="Votre email" required>
-                </div>
-                <div class="form-group">
-                    <input type="text" class="form-input" placeholder="Code postal">
-                </div>
-                <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center;">
-                    ✊ Je signe la pétition
-                </button>
-            </form>
-            <p style="margin-top: 1rem; font-size: 0.85rem; color: var(--text-muted);">
-                Vos données ne seront jamais partagées. Uniquement utilisées pour la pétition.
+        <!-- CIRCONSTANCES ATTÉNUANTES -->
+        <section>
+            <h2>Circonstances Atténuantes (pour la forme)</h2>
+            
+            <p>Le Tribunal, soucieux d'équité, note les éléments suivants :</p>
+            
+            <p>a) Les accusés ont agi dans un <strong>système médiatique structurellement biaisé</strong> qui récompense le sensationnalisme et punit la nuance. Ils sont en partie victimes d'un environnement toxique ;</p>
+            
+            <p>b) La <strong>formation journalistique</strong> actuelle n'insiste pas suffisamment sur la responsabilité sociale des médias. Les accusés peuvent arguer d'une forme d'ignorance systémique ;</p>
+            
+            <p>c) La <strong>pression économique</strong> sur les médias (baisse des recettes publicitaires, concurrence du numérique) pousse à des contenus de plus en plus racoleurs. Les accusés sont pris dans une spirale qu'ils n'ont pas créée.</p>
+            
+            <p><em>Ces circonstances atténuent la responsabilité individuelle mais n'effacent pas les dommages causés.</em></p>
+        </section>
+        
+        <!-- VERDICT -->
+        <div class="verdict-box">
+            <div class="verdict-title">RÉQUISITOIRE</div>
+            <p class="verdict-text">
+                Le Tribunal Citoyen Extraordinaire requiert que les accusés soient reconnus <strong>COUPABLES</strong> de crimes contre la cohésion nationale, de propagande de guerre sociale, de complicité de violence psychologique de masse, de sabotage du contrat social et de téléguidage présumé par intérêts étrangers au bien commun.
+                <br><br>
+                Les peines requises sont détaillées dans l'annexe "Sanctions Symboliques et Réparations Exigées".
             </p>
         </div>
-    </section>
-
-    <!-- Kit de campagne -->
-    <section id="kit">
-        <div class="section-header">
-            <span class="section-badge">// KIT DE CAMPAGNE</span>
-            <h2 class="section-title">Diffusez la <span style="color: var(--lilac)">vérité</span></h2>
-            <p class="section-subtitle">Tout ce qu'il faut pour contrer la propagande.</p>
-        </div>
         
-        <div class="kit-grid">
-            <div class="kit-card reveal">
-                <div class="kit-icon">📱</div>
-                <h3>Posts réseaux sociaux</h3>
-                <p>Copier-coller prêts pour Twitter, Facebook, Instagram.</p>
-                <a href="#posts" class="btn btn-secondary" style="width: 100%; justify-content: center;">Voir les posts</a>
-            </div>
+        <!-- SANCTIONS DEMANDÉES -->
+        <section>
+            <h2>Sanctions Symboliques Requises</h2>
             
-            <div class="kit-card reveal">
-                <div class="kit-icon">💬</div>
-                <h3>Arguments clés</h3>
-                <p>Les 3 chiffres à retenir et les réponses aux objections.</p>
-                <a href="#arguments" class="btn btn-secondary" style="width: 100%; justify-content: center;">Voir les arguments</a>
-            </div>
+            <h3>Pour RTL Belgium SA</h3>
+            <p>• <strong>Diffusion d'un rectificatif</strong> de durée égale au documentaire (45 min), en prime time, présentant les données occultées (taux réel de fraude, ratio fiscal/social, témoignages complets) ;</p>
+            <p>• <strong>Financement d'une étude indépendante</strong> sur les impacts psychologiques de la couverture médiatique de la pauvreté en Belgique ;</p>
+            <p>• <strong>Requalification officielle</strong> du programme en "docu-fiction à visée politique" dans tous les catalogues et archives ;</p>
+            <p>• <strong>Création d'un fonds d'aide juridique</strong> pour les personnes stigmatisées par la couverture médiatique.</p>
             
-            <div class="kit-card reveal">
-                <div class="kit-icon">📋</div>
-                <h3>Porter plainte au CSA</h3>
-                <p>Guide étape par étape + modèle de plainte.</p>
-                <a href="#plainte" class="btn btn-secondary" style="width: 100%; justify-content: center;">Voir le guide</a>
-            </div>
+            <h3>Pour Christophe DEBORSU</h3>
+            <p>• <strong>Excuses publiques</strong> aux personnes filmées, particulièrement Laetitia et Gaëlle Denys ;</p>
+            <p>• <strong>Déclaration publique</strong> du lien familial avec Charlotte Deborsu (MR) et engagement de transparence future ;</p>
+            <p>• <strong>Réalisation d'un contre-documentaire</strong> donnant la parole aux voix occultées : syndicats, associations, économistes critiques, victimes de la stigmatisation.</p>
             
-            <div class="kit-card reveal">
-                <div class="kit-icon">📅</div>
-                <h3>Chronologie</h3>
-                <p>Ce qui s'est passé depuis le 7 novembre 2025.</p>
-                <a href="#chronologie" class="btn btn-secondary" style="width: 100%; justify-content: center;">Voir la timeline</a>
-            </div>
-        </div>
+            <h3>Pour les Institutions</h3>
+            <p>• <strong>Renforcement des pouvoirs du CSA</strong> avec amendes dissuasives (% du chiffre d'affaires, non montants fixes) ;</p>
+            <p>• <strong>Création d'un droit de réponse audiovisuel effectif</strong> pour les groupes sociaux stigmatisés ;</p>
+            <p>• <strong>Intégration de la "condition sociale"</strong> dans les motifs de discrimination protégés, avec mêmes sanctions que le racisme.</p>
+        </section>
         
-        <!-- Posts -->
-        <div id="posts" style="margin-top: 4rem;">
-            <h3 style="margin-bottom: 2rem; color: var(--lilac);">📱 Posts à partager</h3>
+        <!-- APPEL À LA POSTÉRITÉ -->
+        <section>
+            <h2>Appel à la Postérité</h2>
             
-            <div class="social-post reveal" data-platform="Twitter">
-                <button class="copy-btn" onclick="copyPost(this)">📋 Copier</button>
-                <div class="social-post-content">RTL dit que les allocataires fraudent.
-
-Réalité : moins de 3%.
-
-Fraude fiscale : 30 MILLIARDS (150x plus).
-
-Mais ça, c'est moins télégénique qu'une mère célibataire de Verviers.
-
-#StopPropagande #VraisChiffres</div>
-            </div>
+            <p>Ce tribunal n'a aucun pouvoir légal. Ses "condamnations" n'ont aucune force exécutoire. Et c'est précisément le problème.</p>
             
-            <div class="social-post reveal" data-platform="Facebook">
-                <button class="copy-btn" onclick="copyPost(this)">📋 Copier</button>
-                <div class="social-post-content">Le 7 novembre, 410.000 personnes ont regardé un « documentaire » sur RTL disant que les allocataires fraudent.
-
-Ce qu'ils n'ont PAS vu :
-❌ Le taux réel : moins de 3%
-❌ L'interview complète : 1h réduite à quelques phrases
-❌ La fraude fiscale : 30 milliards (150x plus)
-
-Ce qu'ils ONT vu :
-✅ Cas extrêmes présentés comme la norme
-✅ Musique anxiogène
-✅ Titre racoleur
-
-Résultat : une mère de famille reçoit des insultes dans la rue.
-
-Ce n'est pas du journalisme. C'est de la propagande.
-
-👉 ouaisfi.eu/petition</div>
-            </div>
+            <p>Quand un média peut, en 45 minutes et pour ~150.000€ de budget, infliger des dommages psychologiques mesurables à des milliers de personnes, détruire la réputation d'individus vulnérables, et préparer le terrain pour des politiques d'appauvrissement massif — et que la seule sanction possible est une amende de 3.000€ et un blâme du CDJ...</p>
             
-            <div class="social-post reveal" data-platform="Instagram">
-                <button class="copy-btn" onclick="copyPost(this)">📋 Copier</button>
-                <div class="social-post-content">RTL : « Tous fraudeurs ? »
-
-Réalité : < 3% ✅
-
-Fraude fiscale : 150x plus 💸
-
-Qui sont les vrais fraudeurs ? 🤔
-
-#StopPropagande #VraisChiffres #TousFraudeurs</div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Porter plainte -->
-    <section id="plainte">
-        <div class="section-header">
-            <span class="section-badge">// PORTER PLAINTE</span>
-            <h2 class="section-title">Saisir le <span style="color: var(--mint)">CSA</span></h2>
-            <p class="section-subtitle">5 minutes, gratuit, en ligne. Chaque plainte compte.</p>
-        </div>
+            <p>...alors le système est complice.</p>
+            
+            <p>Ce document restera dans les archives. Dans 10 ans, dans 50 ans, quand des historiens étudieront comment les démocraties du XXIe siècle ont sombré dans l'inégalité et la division, ils trouveront ce dossier.</p>
+            
+            <p>Et ils sauront que certains citoyens avaient compris. Avaient documenté. Avaient crié.</p>
+            
+            <p>Ils sauront aussi qui n'a pas écouté.</p>
+            
+            <blockquote>
+                "Le monde ne sera pas détruit par ceux qui font le mal, mais par ceux qui les regardent sans rien faire."
+                <cite>— Albert Einstein</cite>
+            </blockquote>
+        </section>
         
-        <div class="csa-steps reveal">
-            <div class="csa-step">
-                <div class="csa-step-number">1</div>
-                <div class="csa-step-content">
-                    <h4>Aller sur csa.be</h4>
-                    <p>Rubrique « Porter plainte » ou directement sur le formulaire en ligne.</p>
+        <!-- SIGNATURES -->
+        <section class="signatures">
+            <h2>Signatures</h2>
+            
+            <div class="signature-grid">
+                <div class="signature-item">
+                    <div class="signature-line">Le Peuple Belge</div>
+                    <div class="signature-name">Plaignant collectif</div>
+                    <div class="signature-title">410.860 téléspectateurs désinformés</div>
                 </div>
-            </div>
-            <div class="csa-step">
-                <div class="csa-step-number">2</div>
-                <div class="csa-step-content">
-                    <h4>Remplir le formulaire</h4>
-                    <p>Programme : « Sans boulot : tous fraudeurs ? » • Chaîne : RTL-TVI</p>
+                <div class="signature-item">
+                    <div class="signature-line">Les Oubliés</div>
+                    <div class="signature-name">Partie civile</div>
+                    <div class="signature-title">500.000+ demandeurs d'emploi belges</div>
                 </div>
-            </div>
-            <div class="csa-step">
-                <div class="csa-step-number">3</div>
-                <div class="csa-step-content">
-                    <h4>Indiquer la date</h4>
-                    <p>7 novembre 2025, 20h30</p>
+                <div class="signature-item">
+                    <div class="signature-line">Gaëlle Denys</div>
+                    <div class="signature-name">Témoin à décharge censuré</div>
+                    <div class="signature-title">1h d'interview → 30s de montage</div>
                 </div>
-            </div>
-            <div class="csa-step">
-                <div class="csa-step-number">4</div>
-                <div class="csa-step-content">
-                    <h4>Exposer les motifs</h4>
-                    <p>Utilisez notre modèle ci-dessous ou personnalisez.</p>
-                </div>
-            </div>
-            <div class="csa-step">
-                <div class="csa-step-number">5</div>
-                <div class="csa-step-content">
-                    <h4>Envoyer</h4>
-                    <p>C'est gratuit et anonyme. Chaque plainte renforce le dossier.</p>
-                </div>
-            </div>
-        </div>
-        
-        <div class="csa-template reveal">
-            <h4>📋 Modèle de plainte (à personnaliser)</h4>
-            <div class="csa-template-text">Je souhaite porter plainte contre le programme « Sans boulot : tous fraudeurs ? » diffusé le 7 novembre 2025 sur RTL-TVI.
-
-Motifs :
-- Cas individuels présentés comme représentatifs alors que la fraude réelle est inférieure à 3% (ONEM)
-- Interview tronquée : 1 heure réduite à quelques phrases
-- Absence totale de chiffres officiels
-- Timing suspect : 5 jours avant lettres ONEM
-- Conséquences : une personne filmée reçoit insultes et menaces
-
-Ce programme viole les obligations de rigueur et d'honnêteté du décret SMA-SPV.</div>
-            <button class="btn btn-primary" style="margin-top: 1rem;" onclick="copyTemplate()">📋 Copier le modèle</button>
-        </div>
-    </section>
-
-    <!-- Chronologie -->
-    <section id="chronologie">
-        <div class="section-header">
-            <span class="section-badge">// CHRONOLOGIE</span>
-            <h2 class="section-title">Ce qui s'est <span style="color: var(--lilac)">passé</span></h2>
-        </div>
-        
-        <div class="timeline reveal">
-            <div class="timeline-item highlight">
-                <div class="timeline-date">7 novembre 2025</div>
-                <div class="timeline-content">
-                    <h4>📺 Diffusion du documentaire</h4>
-                    <p>410.860 téléspectateurs regardent « Tous Fraudeurs ? » sur RTL-TVI</p>
+                <div class="signature-item">
+                    <div class="signature-line">La Vérité</div>
+                    <div class="signature-name">Absente de l'antenne</div>
+                    <div class="signature-title">&lt;3% de fraude réelle (jamais cité)</div>
                 </div>
             </div>
             
-            <div class="timeline-item">
-                <div class="timeline-date">8 novembre 2025</div>
-                <div class="timeline-content">
-                    <h4>🎩 Récupération politique</h4>
-                    <p>Bouchez (MR) salue un « vrai travail d'enquête »</p>
-                </div>
+            <div class="stamps">
+                <div class="stamp">TRIBUNAL<br>CITOYEN<br>2026</div>
+                <div class="stamp approved">CONSCIENCE<br>PUBLIQUE<br>ACTIVÉE</div>
+                <div class="stamp">MÉMOIRE<br>COLLECTIVE<br>ARCHIVÉE</div>
             </div>
-            
-            <div class="timeline-item highlight">
-                <div class="timeline-date">12 novembre 2025</div>
-                <div class="timeline-content">
-                    <h4>📬 Lettres ONEM</h4>
-                    <p>47.000 lettres de menace d'exclusion envoyées — 5 jours après le documentaire</p>
-                </div>
-            </div>
-            
-            <div class="timeline-item">
-                <div class="timeline-date">12 novembre 2025</div>
-                <div class="timeline-content">
-                    <h4>📋 Record de plaintes</h4>
-                    <p>Le CSA annonce plus de 400 plaintes — record historique</p>
-                </div>
-            </div>
-            
-            <div class="timeline-item">
-                <div class="timeline-date">13 novembre 2025</div>
-                <div class="timeline-content">
-                    <h4>😶 Silence de RTL</h4>
-                    <p>« RTL Belgium ne souhaite pas réagir à la polémique »</p>
-                </div>
-            </div>
-            
-            <div class="timeline-item lilac">
-                <div class="timeline-date">24 novembre 2025</div>
-                <div class="timeline-content">
-                    <h4>🏛️ Motion de Verviers</h4>
-                    <p>Le Conseil communal vote une motion de soutien au CPAS — tous partis sauf 1</p>
-                </div>
-            </div>
-            
-            <div class="timeline-item">
-                <div class="timeline-date">Février 2026</div>
-                <div class="timeline-content">
-                    <h4>⏳ Avis CDJ attendu</h4>
-                    <p>Le Conseil de Déontologie Journalistique doit rendre son avis</p>
-                </div>
-            </div>
-            
-            <div class="timeline-item highlight">
-                <div class="timeline-date">1er avril 2026</div>
-                <div class="timeline-content">
-                    <h4>🎯 DEADLINE ULTIMATUM</h4>
-                    <p>Requalification en docu-fiction exigée — Jour du poisson d'avril</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer>
-        <div class="footer-content">
-            <div class="footer-brand">
-                <h3>OUAISFIEU</h3>
-                <p style="color: var(--text-secondary);">La vérité est notre arme.<br>Partagez-la.</p>
-            </div>
-            
-            <div class="footer-links">
-                <h4>Navigation</h4>
-                <ul>
-                    <li><a href="#probleme">Le Problème</a></li>
-                    <li><a href="#verite">La Vérité</a></li>
-                    <li><a href="#arguments">Arguments</a></li>
-                    <li><a href="#petition">Pétition</a></li>
-                </ul>
-            </div>
-            
-            <div class="footer-links">
-                <h4>Agir</h4>
-                <ul>
-                    <li><a href="#plainte">Porter plainte au CSA</a></li>
-                    <li><a href="#kit">Kit de campagne</a></li>
-                    <li><a href="#posts">Posts à partager</a></li>
-                </ul>
-            </div>
-            
-            <div class="footer-links">
-                <h4>Contact</h4>
-                <ul>
-                    <li><a href="https://dl.ouaifi.eu/haha">contact@ouaisfi.eu</a></li>
-                    <li><a href="https://bsky.app/profile/ouaisfi.eu">Bluesky</a></li>
-                    <li><a href="https://www.facebook.com/groups/26017106634560034">Facebook</a></li>
-                </ul>
-            </div>
-        </div>
+        </section>
         
-        <div class="footer-bottom">
-            <p>Document libre — CC BY-NC-SA — Diffusion encouragée</p>
-            <div class="hashtags">
-                <span class="hashtag">#StopPropagande</span>
-                <span class="hashtag">#VraisChiffres</span>
-                <span class="hashtag">#TousFraudeurs</span>
-            </div>
-        </div>
-    </footer>
-
-    <script>
-        // Theme toggle
-        function toggleTheme() {
-            const html = document.documentElement;
-            const currentTheme = html.getAttribute('data-theme');
-            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-            html.setAttribute('data-theme', newTheme);
-            localStorage.setItem('theme', newTheme);
-        }
-        
-        // Load saved theme
-        const savedTheme = localStorage.getItem('theme');
-        if (savedTheme) {
-            document.documentElement.setAttribute('data-theme', savedTheme);
-        }
-        
-        // Mobile menu
-        function toggleMobileMenu() {
-            document.getElementById('navLinks').classList.toggle('open');
-        }
-        
-        // Arguments accordion
-        function toggleArgument(element) {
-            const argument = element.parentElement;
-            argument.classList.toggle('open');
-        }
-        
-        // Copy post
-        function copyPost(btn) {
-            const post = btn.parentElement.querySelector('.social-post-content');
-            navigator.clipboard.writeText(post.textContent);
-            btn.textContent = '✓ Copié !';
-            setTimeout(() => btn.textContent = '📋 Copier', 2000);
-        }
-        
-        // Copy template
-        function copyTemplate() {
-            const template = document.querySelector('.csa-template-text').textContent;
-            navigator.clipboard.writeText(template);
-            alert('Modèle copié dans le presse-papier !');
-        }
-        
-        // Form handling
-        document.getElementById('petitionForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            alert('Merci pour votre signature ! (Démo - la vraie pétition sera bientôt en ligne)');
-        });
-        
-        // Scroll reveal
-        function reveal() {
-            const reveals = document.querySelectorAll('.reveal');
-            reveals.forEach(el => {
-                const windowHeight = window.innerHeight;
-                const elementTop = el.getBoundingClientRect().top;
-                const elementVisible = 150;
-                
-                if (elementTop < windowHeight - elementVisible) {
-                    el.classList.add('visible');
-                }
-            });
-        }
-        
-        window.addEventListener('scroll', reveal);
-        reveal(); // Initial check
-        
-        // Smooth scroll for nav links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                    // Close mobile menu
-                    document.getElementById('navLinks').classList.remove('open');
-                }
-            });
-        });
-    </script>
+        <!-- FOOTER -->
+        <footer class="doc-footer">
+            <p><strong>DOCUMENT FICTIF À VALEUR SATIRIQUE</strong></p>
+            <p>Produit par le Tribunal Citoyen Extraordinaire (instance imaginaire) — ouaisfi.eu</p>
+            <p>Les faits cités sont réels. L'interprétation juridique est fictive. La colère est authentique.</p>
+            <p>Bruxelles, le 29 janvier 2026</p>
+        </footer>
+    </div>
 </body>
 </html>
