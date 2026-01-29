@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>:(</title>
+<meta name="description" content="Une erreur critique a été détectée dans le système démocratique belge.">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Segoe+UI:wght@200;400;600&display=swap');
+
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;overflow:hidden}
+body{
+font-family:'Segoe UI',system-ui,sans-serif;
+background:#0078d7;
+color:#fff;
+display:flex;
+flex-direction:column;
+justify-content:center;
+padding:10%;
+cursor:none;
+}
+
+.sad{font-size:clamp(8rem,20vw,14rem);font-weight:200;margin-bottom:2rem}
+
+h1{
+font-size:clamp(1.5rem,4vw,2.5rem);
+font-weight:400;
+margin-bottom:1.5rem;
+}
+
+p{
+font-size:clamp(.9rem,2vw,1.25rem);
+font-weight:200;
+line-height:1.8;
+max-width:900px;
+margin-bottom:1rem;
+}
+
+.small{font-size:clamp(.75rem,1.5vw,1rem);opacity:.9;margin-top:2rem}
+
+.progress{margin:2rem 0;display:flex;align-items:center;gap:1rem}
+.progress-text{font-size:clamp(.9rem,2vw,1.1rem)}
+.percent{font-variant-numeric:tabular-nums}
+
+.qr-section{
+display:flex;
+align-items:flex-start;
+gap:2rem;
+margin-top:3rem;
+padding-top:2rem;
+border-top:1px solid rgba(255,255,255,.2);
+}
+.qr-box{
+width:100px;height:100px;
+background:#fff;
+padding:8px;
+flex-shrink:0;
+}
+.qr-box svg{width:100%;height:100%}
+.qr-info{font-size:clamp(.75rem,1.5vw,.95rem);line-height:1.6}
+.qr-info code{
+display:block;
+margin-top:1rem;
+font-family:'Consolas',monospace;
+font-size:.85em;
+word-break:break-all;
+}
+
+.error-details{
+margin-top:3rem;
+font-family:'Consolas',monospace;
+font-size:clamp(.65rem,1.2vw,.8rem);
+opacity:.7;
+line-height:1.8;
+}
+
+.cta{
+display:inline-block;
+margin-top:2rem;
+padding:1rem 2rem;
+background:#fff;
+color:#0078d7;
+text-decoration:none;
+font-weight:600;
+font-size:1rem;
+transition:all .2s;
+}
+.cta:hover{background:#f0f0f0;transform:scale(1.02)}
+
+.restart{
+position:fixed;
+bottom:2rem;
+right:2rem;
+font-size:.8rem;
+opacity:.5;
+}
+
+/* Fake scan animation */
+@keyframes scan{
+0%{background-position:0 0}
+100%{background-position:0 100vh}
+}
+body::after{
+content:'';
+position:fixed;
+inset:0;
+background:linear-gradient(transparent 50%,rgba(0,0,0,.03) 50%);
+background-size:100% 4px;
+pointer-events:none;
+animation:scan 10s linear infinite;
+}
+</style>
+</head>
+<body>
+
+<div class="sad">:(</div>
+
+<h1>Votre démocratie a rencontré un problème et doit redémarrer.</h1>
+
+<p>Nous collectons des informations sur l'erreur, puis nous tenterons de restaurer la confiance citoyenne.</p>
+
+<div class="progress">
+<span class="progress-text">Analyse en cours...</span>
+<span class="percent" id="pct">0</span>% terminé
+</div>
+
+<p class="small">Si vous souhaitez en savoir plus, vous pouvez rechercher cette erreur en ligne : <strong>JOURNALISM_ETHICS_NOT_FOUND</strong></p>
+
+<div class="qr-section">
+<div class="qr-box">
+<svg viewBox="0 0 100 100">
+<rect fill="#000" x="10" y="10" width="20" height="20"/>
+<rect fill="#000" x="70" y="10" width="20" height="20"/>
+<rect fill="#000" x="10" y="70" width="20" height="20"/>
+<rect fill="#000" x="40" y="10" width="10" height="10"/>
+<rect fill="#000" x="40" y="30" width="10" height="10"/>
+<rect fill="#000" x="50" y="40" width="10" height="10"/>
+<rect fill="#000" x="30" y="50" width="10" height="10"/>
+<rect fill="#000" x="60" y="50" width="10" height="10"/>
+<rect fill="#000" x="40" y="60" width="20" height="10"/>
+<rect fill="#000" x="70" y="50" width="20" height="10"/>
+<rect fill="#000" x="50" y="70" width="10" height="20"/>
+<rect fill="#000" x="70" y="70" width="10" height="10"/>
+</svg>
+</div>
+<div class="qr-info">
+Pour plus d'informations sur ce problème et les solutions possibles, scannez ce code ou visitez :
+<code>https://ouaisfi.eu/petition</code>
+</div>
+</div>
+
+<div class="error-details">
+Code d'arrêt : DEONTOLOGY_EXCEPTION_NOT_HANDLED<br>
+Module défaillant : RTL_TOUS_FRAUDEURS.dll<br>
+Paramètres : 0xDEB0R5U 0x0000002A 0xFAKENEWS<br>
+Adresse : BRUXELLES:0x1030:AVENUE_GEORGIN<br><br>
+Fichiers corrompus détectés :<br>
+- C:\MEDIAS\RTL\ethics.sys [MANQUANT]<br>
+- C:\MEDIAS\RTL\fact_checking.dll [CORROMPU]<br>
+- C:\MEDIAS\RTL\contradictoire.exe [JAMAIS INSTALLÉ]<br>
+- C:\DEMOCRATIE\confiance_citoyens.bak [SUPPRIMÉ]
+</div>
+
+<a href="petition-countdown.html" class="cta">⟳ REDÉMARRER LA DÉMOCRATIE</a>
+
+<div class="restart">Appuyez sur CTRL+ALT+VÉRITÉ pour redémarrer</div>
+
+<script>
+let pct = 0;
+const el = document.getElementById('pct');
+const errors = [
+    "Vérification intégrité éditoriale... ÉCHEC",
+    "Recherche données ONEM... NON TROUVÉES", 
+    "Analyse contradictoire... ABSENT",
+    "Scan témoignages... MANIPULATION DÉTECTÉE",
+    "Restauration confiance... IMPOSSIBLE"
+];
+let errorIndex = 0;
+
+function increment() {
+    if (pct < 97) {
+        pct += Math.random() * 3;
+        if (pct > 97) pct = 97;
+        el.textContent = Math.floor(pct);
+        
+        if (pct > errorIndex * 20 && errorIndex < errors.length) {
+            console.log('%c' + errors[errorIndex], 'color: #ff0000; font-weight: bold');
+            errorIndex++;
+        }
+        
+        setTimeout(increment, 200 + Math.random() * 800);
+    }
+}
+increment();
+
+// Easter egg - Konami code
+let konamiCode = [];
+const konamiSequence = [38,38,40,40,37,39,37,39,66,65];
+document.addEventListener('keydown', (e) => {
+    konamiCode.push(e.keyCode);
+    konamiCode = konamiCode.slice(-10);
+    if (konamiCode.join(',') === konamiSequence.join(',')) {
+        document.body.style.background = '#ff0000';
+        document.querySelector('h1').textContent = 'RTL A ÉTÉ HACKÉ PAR LA VÉRITÉ';
+    }
+});
+</script>
+
+</body>
+</html>
