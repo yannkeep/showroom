@@ -1,0 +1,1179 @@
+<!DOCTYPE html>
+<html lang="fr-BE">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>💀 GIBET.EXE | La Ballade des Pendus Médiatiques | v6.6.6</title>
+    <meta name="description" content="SATIRE HARDCORE - Terminal rétro avec jeu du pendu et Ballade de Villon revisitée. Easter eggs et konami code inside.">
+    <meta name="robots" content="noindex">
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=VT323&family=Press+Start+2P&display=swap');
+        
+        :root {
+            --green: #00ff41;
+            --green-dim: #00aa2a;
+            --amber: #ffb000;
+            --red: #ff0040;
+            --cyan: #00ffff;
+            --magenta: #ff00ff;
+            --bg: #0a0a0a;
+            --bg-light: #111;
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'VT323', monospace;
+            background: var(--bg);
+            color: var(--green);
+            font-size: 18px;
+            line-height: 1.5;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        /* CRT EFFECT */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: 
+                repeating-linear-gradient(
+                    0deg,
+                    rgba(0, 0, 0, 0.15),
+                    rgba(0, 0, 0, 0.15) 1px,
+                    transparent 1px,
+                    transparent 2px
+                );
+            pointer-events: none;
+            z-index: 10000;
+        }
+        
+        body::after {
+            content: "";
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: radial-gradient(ellipse at center, transparent 0%, rgba(0,0,0,0.4) 100%);
+            pointer-events: none;
+            z-index: 9999;
+        }
+        
+        /* DISCLAIMER */
+        .disclaimer {
+            background: var(--red);
+            color: white;
+            padding: 8px 16px;
+            text-align: center;
+            font-size: 14px;
+            position: sticky;
+            top: 0;
+            z-index: 9998;
+        }
+        
+        /* TERMINAL */
+        .terminal {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .terminal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            background: var(--bg-light);
+            border: 1px solid var(--green);
+            border-bottom: none;
+        }
+        
+        .terminal-title {
+            font-family: 'Press Start 2P', monospace;
+            font-size: 12px;
+            color: var(--green);
+        }
+        
+        .terminal-buttons {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .terminal-btn {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+        
+        .btn-red { background: #ff5f56; }
+        .btn-yellow { background: #ffbd2e; }
+        .btn-green { background: #27ca40; }
+        
+        .terminal-body {
+            background: var(--bg);
+            border: 1px solid var(--green);
+            padding: 20px;
+            min-height: 600px;
+        }
+        
+        /* OUTPUT */
+        .output {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+        
+        .output .line {
+            margin-bottom: 4px;
+        }
+        
+        .prompt {
+            color: var(--cyan);
+        }
+        
+        .error {
+            color: var(--red);
+        }
+        
+        .success {
+            color: var(--green);
+        }
+        
+        .warning {
+            color: var(--amber);
+        }
+        
+        .magenta {
+            color: var(--magenta);
+        }
+        
+        .dim {
+            color: var(--green-dim);
+        }
+        
+        /* INPUT */
+        .input-line {
+            display: flex;
+            align-items: center;
+            margin-top: 16px;
+        }
+        
+        .input-prompt {
+            color: var(--cyan);
+            margin-right: 8px;
+        }
+        
+        #terminal-input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            color: var(--green);
+            font-family: 'VT323', monospace;
+            font-size: 18px;
+            outline: none;
+            caret-color: var(--green);
+        }
+        
+        .cursor {
+            display: inline-block;
+            width: 10px;
+            height: 18px;
+            background: var(--green);
+            animation: blink 1s step-end infinite;
+        }
+        
+        @keyframes blink {
+            50% { opacity: 0; }
+        }
+        
+        /* ASCII ART */
+        .ascii-art {
+            color: var(--amber);
+            font-size: 14px;
+            line-height: 1.2;
+        }
+        
+        /* HANGMAN GAME */
+        .hangman-display {
+            display: grid;
+            grid-template-columns: 200px 1fr;
+            gap: 40px;
+            margin: 20px 0;
+        }
+        
+        .hangman-figure {
+            font-size: 14px;
+            line-height: 1.1;
+            color: var(--red);
+        }
+        
+        .hangman-word {
+            font-size: 32px;
+            letter-spacing: 8px;
+            color: var(--amber);
+        }
+        
+        .hangman-letters {
+            margin-top: 20px;
+            font-size: 20px;
+            color: var(--green-dim);
+        }
+        
+        .hangman-letters .used {
+            color: var(--red);
+            text-decoration: line-through;
+        }
+        
+        /* POEM */
+        .poem {
+            border-left: 3px solid var(--amber);
+            padding-left: 20px;
+            margin: 20px 0;
+            font-style: italic;
+        }
+        
+        .poem-title {
+            color: var(--amber);
+            font-size: 24px;
+            margin-bottom: 16px;
+            font-style: normal;
+        }
+        
+        /* GLITCH */
+        @keyframes glitch {
+            0%, 100% { transform: translate(0); }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(-2px, -2px); }
+            60% { transform: translate(2px, 2px); }
+            80% { transform: translate(2px, -2px); }
+        }
+        
+        .glitch {
+            animation: glitch 0.3s infinite;
+        }
+        
+        /* KONAMI ACTIVATED */
+        .konami-mode .terminal-body {
+            background: linear-gradient(180deg, #1a0020 0%, #0a0a0a 100%);
+        }
+        
+        .konami-mode .output {
+            color: var(--magenta);
+        }
+        
+        /* MATRIX RAIN */
+        .matrix-rain {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+            z-index: 1;
+            opacity: 0;
+            transition: opacity 1s;
+        }
+        
+        .matrix-rain.active {
+            opacity: 0.3;
+        }
+        
+        .matrix-rain canvas {
+            width: 100%;
+            height: 100%;
+        }
+        
+        /* SECRET PANELS */
+        .secret-panel {
+            display: none;
+            background: var(--bg-light);
+            border: 2px solid var(--magenta);
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .secret-panel.visible {
+            display: block;
+        }
+        
+        .secret-panel h3 {
+            color: var(--magenta);
+            margin-bottom: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="disclaimer">
+        ⚠️ FICTION SATIRIQUE HARDCORE — Pastiche de Villon. Jeu classique du pendu. Art politique. Liberté d'expression.
+    </div>
+    
+    <div class="matrix-rain" id="matrixRain">
+        <canvas id="matrixCanvas"></canvas>
+    </div>
+    
+    <div class="terminal" id="terminal">
+        <div class="terminal-header">
+            <span class="terminal-title">GIBET.EXE v6.6.6 — Terminal du Jugement Public</span>
+            <div class="terminal-buttons">
+                <div class="terminal-btn btn-red"></div>
+                <div class="terminal-btn btn-yellow"></div>
+                <div class="terminal-btn btn-green"></div>
+            </div>
+        </div>
+        <div class="terminal-body">
+            <div class="output" id="output"></div>
+            <div class="input-line">
+                <span class="input-prompt">CITOYEN@GIBET:~$</span>
+                <input type="text" id="terminal-input" autofocus autocomplete="off" spellcheck="false">
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // ========== STATE ==========
+        const state = {
+            konamiActive: false,
+            konamiSequence: [],
+            konamiCode: ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'],
+            secretsFound: [],
+            hangmanActive: false,
+            hangmanState: null,
+            commandHistory: [],
+            historyIndex: -1,
+            easterEggsFound: 0,
+            totalEasterEggs: 7
+        };
+        
+        // ========== HANGMAN WORDS ==========
+        const hangmanWords = [
+            { word: 'MANIPULATION', hint: 'Art de tordre le réel' },
+            { word: 'MONTAGE', hint: '120:1 ratio' },
+            { word: 'PROPAGANDE', hint: 'Information weaponisée' },
+            { word: 'DEONTOLOGIE', hint: 'Ce qui manquait' },
+            { word: 'STIGMATISATION', hint: 'Effet collatéral' },
+            { word: 'CONTRADICTOIRE', hint: 'Grand absent du reportage' },
+            { word: 'AUDIMAT', hint: 'Le vrai patron' },
+            { word: 'PLAINTES', hint: '400+ au CSA' },
+            { word: 'VERVIERS', hint: 'Rue de Dison' },
+            { word: 'ARIZONA', hint: 'Gouvernement des coupes' },
+            { word: 'TRAHISON', hint: 'De la confiance des interviewés' },
+            { word: 'SYNCHRONISATION', hint: '5 jours avant les lettres ONEM' }
+        ];
+        
+        // ========== HANGMAN FIGURES ==========
+        const hangmanFigures = [
+            `
+   ┌─────┐
+   │     │
+   │     
+   │    
+   │    
+   │   
+───┴───────`,
+            `
+   ┌─────┐
+   │     │
+   │     O
+   │    
+   │    
+   │   
+───┴───────`,
+            `
+   ┌─────┐
+   │     │
+   │     O
+   │     │
+   │    
+   │   
+───┴───────`,
+            `
+   ┌─────┐
+   │     │
+   │     O
+   │    /│
+   │    
+   │   
+───┴───────`,
+            `
+   ┌─────┐
+   │     │
+   │     O
+   │    /│\\
+   │    
+   │   
+───┴───────`,
+            `
+   ┌─────┐
+   │     │
+   │     O
+   │    /│\\
+   │    / 
+   │   
+───┴───────`,
+            `
+   ┌─────┐
+   │     │
+   │     O   <- PENDU!
+   │    /│\\
+   │    / \\
+   │   
+───┴───────`
+        ];
+        
+        // ========== ASCII ART ==========
+        const asciiGibet = `
+<span class="ascii-art">
+     ██████╗ ██╗██████╗ ███████╗████████╗   ███████╗██╗  ██╗███████╗
+    ██╔════╝ ██║██╔══██╗██╔════╝╚══██╔══╝   ██╔════╝╚██╗██╔╝██╔════╝
+    ██║  ███╗██║██████╔╝█████╗     ██║      █████╗   ╚███╔╝ █████╗  
+    ██║   ██║██║██╔══██╗██╔══╝     ██║      ██╔══╝   ██╔██╗ ██╔══╝  
+    ╚██████╔╝██║██████╔╝███████╗   ██║   ██╗███████╗██╔╝ ██╗███████╗
+     ╚═════╝ ╚═╝╚═════╝ ╚══════╝   ╚═╝   ╚═╝╚══════╝╚═╝  ╚═╝╚══════╝
+                                                            v6.6.6
+</span>`;
+
+        const asciiSkull = `
+<span class="warning">
+        ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+        ░░░░░░░░░░░░░▄▀▀▀▀▀▄░░░░░░░░░
+        ░░░░░░░░░░░▄▀░░░░░░░▀▄░░░░░░░
+        ░░░░░░░░░▄▀░░░░░░░░░░▀▄░░░░░░
+        ░░░░░░░░▄▀░░░░░░░░░░░░▀▄░░░░░
+        ░░░░░░░█░░░░▀▄░░░▄▀░░░░█░░░░░
+        ░░░░░░░█░░░░░░░░░░░░░░░█░░░░░
+        ░░░░░░░█░░░▀▄▄▄▄▄▄▄▀░░░█░░░░░
+        ░░░░░░░░▀▄░░░░░░░░░░░▄▀░░░░░░
+        ░░░░░░░░░░▀▀▀▀███▀▀▀▀░░░░░░░░
+        ░░░░░░░░░░░░░░███░░░░░░░░░░░░
+</span>`;
+
+        // ========== BALLADE DES PENDUS ==========
+        const balladeDesPendus = `
+<span class="poem">
+<span class="poem-title">⚰️ BALLADE DES PENDUS MÉDIATIQUES ⚰️</span>
+<span class="dim">(d'après François Villon, pour le XXIe siècle)</span>
+
+Frères humains qui après nous vivez,
+N'ayez les cœurs contre nous endurcis,
+Car, si pitié de nous pauvres avez,
+Dieu en aura plus tôt de vous mercis.
+Vous nous voyez ci attachés, six :
+Quant à la chair, que trop avons nourrie,
+Elle est piéça dévorée et pourrie,
+Et nous, les os, devenons cendre et poudre.
+De notre mal personne ne s'en rie;
+Mais priez Dieu que tous nous veuille absoudre!
+
+<span class="warning">— ADAPTATION POUR LE GIBET MÉDIATIQUE —</span>
+
+Frères citoyens qui après nous scrollez,
+N'ayez les cœurs contre nous endurcis,
+Car, si pitié de nous monteurs avez,
+L'Opinion aura tôt fait son prix.
+Vous nous voyez ci attachés, pendus :
+Quant à l'éthique, que trop avons trahie,
+Elle est piéça découpée et pourrie,
+Et nous, les noms, devenons mème et poudre.
+De notre chute personne ne s'en rie;
+Mais tapez HELP pour tous nous voir absoudre!
+
+Le ratio fut de cent-vingt pour un,
+Une heure de vie pour trente secondes,
+La confiance brisée, le tort commun,
+Et sur les pauvres nos accusations immondes.
+Prince des Ondes, Seigneur de l'Audimat,
+Nous qui pensions régner sur les antennes,
+Nous voici nus, privés de nos diadèmes,
+Au pilori du tribunal citoyen.
+Quatre cents plaintes comme autant de chaînes,
+Et nul recours — sinon le souverain dédain.
+
+<span class="dim">Ici s'achève la Ballade. Tapez SUITE pour les noms des pendus.</span>
+</span>`;
+
+        const listeDesPendus = `
+<span class="error">
+╔════════════════════════════════════════════════════════════════╗
+║           🎭 LES PENDUS DU GIBET MÉDIATIQUE 🎭                ║
+╠════════════════════════════════════════════════════════════════╣
+║                                                                ║
+║  PENDU #1 — LE RÉALISATEUR                                    ║
+║  "Je ne faisais que mon travail" — Dernières paroles          ║
+║  Crime: Ratio 120:1 sur interview                              ║
+║                                                                ║
+║  PENDU #2 — LE DIRECTEUR ÉDITORIAL                            ║
+║  "L'audience justifie tout" — Devise gravée sur la corde      ║
+║  Crime: Validation du montage orienté                          ║
+║                                                                ║
+║  PENDU #3 — LE PRODUCTEUR                                      ║
+║  "Budget respecté, éthique en option"                          ║
+║  Crime: Financement de la propagande                           ║
+║                                                                ║
+║  PENDU #4 — LE CHEF MONTEUR                                    ║
+║  "J'ai coupé ce qu'on m'a dit de couper"                      ║
+║  Crime: 59 minutes 30 secondes à la poubelle                   ║
+║                                                                ║
+║  PENDU #5 — LE SERVICE JURIDIQUE                               ║
+║  "Techniquement légal" — Épitaphe                              ║
+║  Crime: Validation du juridiquement douteux                    ║
+║                                                                ║
+║  PENDU #6 — LE SILENCE CORPORATISTE                           ║
+║  "Pas de vagues entre confrères"                               ║
+║  Crime: Omerta médiatique                                      ║
+║                                                                ║
+╚════════════════════════════════════════════════════════════════╝
+</span>
+
+<span class="dim">Tapez JOUER pour commencer le jeu du pendu et peut-être les sauver...
+...ou pas.</span>`;
+
+        // ========== COMMANDS ==========
+        const commands = {
+            help: () => `
+<span class="warning">═══════════════ COMMANDES DISPONIBLES ═══════════════</span>
+
+<span class="cyan">NAVIGATION:</span>
+  help        - Affiche cette aide
+  clear       - Efface l'écran
+  ballade     - Affiche la Ballade des Pendus
+  suite       - Liste des pendus du gibet
+  
+<span class="cyan">JEU DU PENDU:</span>
+  jouer       - Lance une partie
+  [lettre]    - Propose une lettre (en jeu)
+  abandon     - Abandonne la partie en cours
+  
+<span class="cyan">EXPLORATION:</span>
+  dossier     - Résumé de l'affaire
+  chiffres    - Statistiques clés
+  timeline    - Chronologie des faits
+  sources     - Liste des sources
+  
+<span class="cyan">EASTER EGGS:</span>
+  ???         - Il y en a ${state.totalEasterEggs}. Tu en as trouvé ${state.easterEggsFound}.
+  
+<span class="dim">Hint: Konami Code fonctionne ici. Et d'autres secrets...</span>
+`,
+
+            clear: () => {
+                document.getElementById('output').innerHTML = '';
+                return '';
+            },
+
+            ballade: () => balladeDesPendus,
+            
+            suite: () => listeDesPendus,
+
+            jouer: () => startHangman(),
+
+            abandon: () => {
+                if (state.hangmanActive) {
+                    state.hangmanActive = false;
+                    state.hangmanState = null;
+                    return '<span class="error">Partie abandonnée. Les pendus restent pendus.</span>';
+                }
+                return '<span class="dim">Aucune partie en cours.</span>';
+            },
+
+            dossier: () => `
+<span class="warning">╔══════════════════ DOSSIER ══════════════════╗</span>
+
+<span class="cyan">OBJET:</span> Documentaire "Sans boulot : tous fraudeurs ?"
+<span class="cyan">DIFFUSEUR:</span> RTL-TVI
+<span class="cyan">DATE:</span> 7 novembre 2025, 19h50
+<span class="cyan">AUDIENCE:</span> 410.860 téléspectateurs (39,1% PDM)
+
+<span class="cyan">FAITS REPROCHÉS:</span>
+• Montage orienté (ratio 120:1 sur interview)
+• Absence de contradictoire
+• Source IWEPS démentie
+• Timing suspect (5 jours avant lettres ONEM)
+• Lien familial MR non déclaré
+
+<span class="cyan">CONSÉQUENCES:</span>
+• 400+ plaintes au CSA (record FWB)
+• Enquête CSA ouverte
+• Victime harcelée dans la rue
+• Dossier transmis au CDJ
+
+<span class="dim">Tapez CHIFFRES pour les statistiques détaillées.</span>
+`,
+
+            chiffres: () => `
+<span class="warning">╔═══════════════ CHIFFRES CLÉS ═══════════════╗</span>
+
+AUDIENCE
+├─ Téléspectateurs: <span class="error">410.860</span>
+├─ Part de marché: <span class="error">39,1%</span>
+└─ Plaintes CSA: <span class="error">400+</span> (record)
+
+MONTAGE
+├─ Interview complète: <span class="cyan">60 minutes</span>
+├─ Version diffusée: <span class="error">30 secondes</span>
+└─ Ratio de censure: <span class="error">120:1</span>
+
+FRAUDE RÉELLE
+├─ Taux fraude sociale: <span class="success">&lt;3%</span>
+├─ Taux suggéré docu: <span class="error">~100%</span>
+└─ Coefficient déformation: <span class="error">33×</span>
+
+COMPARAISON FRAUDES
+├─ Fraude fiscale/an: <span class="error">30.000.000.000€</span>
+├─ Fraude sociale/an: <span class="cyan">~200.000.000€</span>
+└─ Ratio fiscal/social: <span class="error">150:1</span>
+
+COÛT PRODUCTION
+├─ Budget estimé: <span class="warning">150.000-200.000€</span>
+└─ Coût fact-checker: <span class="success">2.200-4.500€</span> (non payé?)
+`,
+
+            timeline: () => `
+<span class="warning">╔═══════════════ TIMELINE ═══════════════╗</span>
+
+<span class="dim">2025</span>
+├─ <span class="cyan">???</span> Tournage rue de Dison, Verviers
+├─ <span class="cyan">???</span> Interview Gaëlle Denys (1h filmée)
+├─ <span class="cyan">???</span> Montage: 1h → 30s
+│
+├─ <span class="warning">07 NOV</span> Diffusion RTL-TVI 19h50
+│   └─ 410.860 téléspectateurs
+│
+├─ <span class="error">08 NOV</span> Premières réactions
+│   └─ Laetitia reçoit insultes
+│
+├─ <span class="error">12 NOV</span> ONEM envoie 47.000 lettres
+│   └─ Coïncidence? (5 jours)
+│
+├─ <span class="warning">NOV</span> Plaintes CSA s'accumulent
+│   └─ 100... 200... 300... 400+
+│
+└─ <span class="cyan">29 JAN 2026</span> Ce terminal existe
+    └─ Le jugement continue
+
+<span class="dim">Tapez BALLADE pour le verdict poétique.</span>
+`,
+
+            sources: () => `
+<span class="warning">╔═══════════════ SOURCES ═══════════════╗</span>
+
+<span class="cyan">AUDIENCE:</span>
+└─ CIM (Centre d'Information sur les Médias)
+
+<span class="cyan">PLAINTES:</span>
+└─ CSA (Conseil Supérieur de l'Audiovisuel)
+
+<span class="cyan">ÉTUDES SCIENTIFIQUES:</span>
+├─ Pak (2020) - Depression & welfare stigma
+├─ O'Donnell (2015) - Unemployment stigma
+├─ Harvard Kennedy School - Non-take-up
+└─ Joseph Rowntree Foundation - Benefits Street
+
+<span class="cyan">TÉMOIGNAGES:</span>
+├─ Gaëlle Denys - Het Belang van Limburg
+└─ Laetitia - Déclarations presse
+
+<span class="cyan">DÉMENTI:</span>
+└─ IWEPS - La Libre Belgique
+
+<span class="dim">Toutes les données sont vérifiables. 0 invention.</span>
+`,
+
+            // EASTER EGGS
+            rtl: () => {
+                foundEasterEgg('rtl');
+                return `
+<span class="error">
+█▀▀█ ▀▀█▀▀ █░░   ░░ ░░ ░░   █▀▀ █▀▀█ █▀▀█ █▀▀█ █▀▀█
+█▄▄▀ ░░█░░ █░░   ░░ ░░ ░░   █▀▀ █▄▄▀ █▄▄▀ █░░█ █▄▄▀
+▀░▀▀ ░░▀░░ ▀▀▀   ░░ ░░ ░░   ▀▀▀ ▀░▀▀ ▀░▀▀ ▀▀▀▀ ▀░▀▀
+
+404 - ÉTHIQUE NOT FOUND
+503 - SERVICE CONTRADICTOIRE UNAVAILABLE
+418 - I'M A TEAPOT (de propagande)
+
+🥚 EASTER EGG TROUVÉ! (${state.easterEggsFound}/${state.totalEasterEggs})
+</span>`;
+            },
+
+            deborsu: () => {
+                foundEasterEgg('deborsu');
+                return `
+<span class="warning">
+RECHERCHE EN COURS...
+
+> DEBORSU, Christophe
+> Profession: Journaliste/Documentariste
+> Œuvre notable: "Sans boulot : tous fraudeurs ?"
+> Ratio signature: 120:1
+> Plaintes générées: 400+
+> Lien familial: [REDACTED] députée MR
+> Statut: En attente de jugement CSA
+
+"Le journaliste qui filmait des pauvres
+Pour mieux faire passer l'austérité."
+
+🥚 EASTER EGG TROUVÉ! (${state.easterEggsFound}/${state.totalEasterEggs})
+</span>`;
+            },
+
+            villon: () => {
+                foundEasterEgg('villon');
+                return `
+<span class="magenta">
+╔════════════════════════════════════════════════╗
+║  FRANÇOIS VILLON (1431-1463?)                 ║
+║  Poète français, prince des poètes maudits    ║
+╠════════════════════════════════════════════════╣
+║                                                ║
+║  "Frères humains qui après nous vivez,        ║
+║   N'ayez les cœurs contre nous endurcis..."   ║
+║                                                ║
+║  La Ballade des Pendus fut écrite alors       ║
+║  que Villon attendait son exécution.          ║
+║  Il fut finalement banni de Paris.            ║
+║                                                ║
+║  600 ans plus tard, d'autres pendus           ║
+║  attendent leur jugement au gibet             ║
+║  de l'opinion publique.                       ║
+║                                                ║
+╚════════════════════════════════════════════════╝
+
+🥚 EASTER EGG TROUVÉ! (${state.easterEggsFound}/${state.totalEasterEggs})
+</span>`;
+            },
+
+            '1337': () => {
+                foundEasterEgg('1337');
+                return `
+<span class="cyan">
+7|-|15 15 4 53CR37 M3554G3 F0R 7|-|053 \\/\\/|-|0 5P34|< 1337
+
+TR4N5L4710N:
+"Th3 tr00th 15 0u7 th3r3, bu7 17'5 b33n m0n74g3d."
+
+D0CUM3N74RY 574T5:
+- 4UD13NC3: 410860 n00bz
+- PL41N75: 400+ h4x0rz
+- R4710: 120:1 pwn4g3
+
+G G N0 R3
+
+🥚 EASTER EGG TROUVÉ! (${state.easterEggsFound}/${state.totalEasterEggs})
+</span>`;
+            },
+
+            matrix: () => {
+                foundEasterEgg('matrix');
+                toggleMatrix();
+                return `
+<span class="success">
+MATRIX RAIN ACTIVATED...
+
+"Tu prends la pilule bleue, tu regardes RTL et tu crois ce qu'on te montre.
+ Tu prends la pilule rouge, tu lis les sources et tu vois la réalité."
+
+"Il n'y a pas de cuillère."
+"Il n'y a pas de fraudeur généralisé."
+
+🥚 EASTER EGG TROUVÉ! (${state.easterEggsFound}/${state.totalEasterEggs})
+</span>`;
+            },
+
+            sudo: () => {
+                foundEasterEgg('sudo');
+                return `
+<span class="error">
+[sudo] password for citoyen: ********
+
+ACCÈS ROOT OBTENU AU SYSTÈME MÉDIATIQUE...
+
+# cat /etc/rtl/secrets.conf
+EDITORIAL_BIAS=true
+FACT_CHECK=false
+CONTRADICTOIRE=/dev/null
+MONTAGE_RATIO=120:1
+FAMILY_TIES=REDACTED
+
+# rm -rf /var/log/ethics/*
+rm: cannot remove '/var/log/ethics/*': No such file or directory
+
+# ls /mnt/conscience/
+<Répertoire vide>
+
+🥚 EASTER EGG TROUVÉ! (${state.easterEggsFound}/${state.totalEasterEggs})
+</span>`;
+            },
+
+            '42': () => {
+                foundEasterEgg('42');
+                return `
+<span class="cyan">
+╔════════════════════════════════════════════════════════════╗
+║                                                            ║
+║   "La réponse à la grande question sur la vie,            ║
+║    l'univers et le reste est... 42."                      ║
+║                                                            ║
+║    — Deep Thought, H2G2                                    ║
+║                                                            ║
+║   La vraie question était probablement:                    ║
+║   "Quel est le vrai taux de fraude sociale?"              ║
+║                                                            ║
+║   Réponse: < 3%                                            ║
+║   (pas 42%, pas 100%, moins de 3%)                         ║
+║                                                            ║
+╚════════════════════════════════════════════════════════════╝
+
+🥚 EASTER EGG TROUVÉ! (${state.easterEggsFound}/${state.totalEasterEggs})
+</span>`;
+            }
+        };
+
+        // ========== HELPER FUNCTIONS ==========
+        function foundEasterEgg(name) {
+            if (!state.secretsFound.includes(name)) {
+                state.secretsFound.push(name);
+                state.easterEggsFound = state.secretsFound.length;
+            }
+        }
+
+        function toggleMatrix() {
+            const rain = document.getElementById('matrixRain');
+            rain.classList.toggle('active');
+            if (rain.classList.contains('active')) {
+                initMatrixRain();
+            }
+        }
+
+        function initMatrixRain() {
+            const canvas = document.getElementById('matrixCanvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            
+            const chars = 'FRAUDEMONTAGEETHIQUEPLAINTE400RTL'.split('');
+            const drops = Array(Math.floor(canvas.width / 20)).fill(1);
+            
+            function draw() {
+                ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                ctx.fillStyle = '#0f0';
+                ctx.font = '15px monospace';
+                
+                drops.forEach((y, i) => {
+                    const char = chars[Math.floor(Math.random() * chars.length)];
+                    ctx.fillText(char, i * 20, y * 20);
+                    if (y * 20 > canvas.height && Math.random() > 0.975) {
+                        drops[i] = 0;
+                    }
+                    drops[i]++;
+                });
+            }
+            
+            setInterval(draw, 50);
+        }
+
+        // ========== HANGMAN GAME ==========
+        function startHangman() {
+            const wordObj = hangmanWords[Math.floor(Math.random() * hangmanWords.length)];
+            state.hangmanActive = true;
+            state.hangmanState = {
+                word: wordObj.word,
+                hint: wordObj.hint,
+                guessed: [],
+                errors: 0,
+                maxErrors: 6
+            };
+            return renderHangman();
+        }
+
+        function renderHangman() {
+            const h = state.hangmanState;
+            const display = h.word.split('').map(l => h.guessed.includes(l) ? l : '_').join(' ');
+            const remaining = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').map(l => 
+                h.guessed.includes(l) ? `<span class="used">${l}</span>` : l
+            ).join(' ');
+            
+            return `
+<span class="warning">═══════════════ JEU DU PENDU ═══════════════</span>
+
+<span class="error">${hangmanFigures[h.errors]}</span>
+
+<span class="cyan">INDICE:</span> ${h.hint}
+
+<span class="warning" style="font-size: 24px; letter-spacing: 4px;">${display}</span>
+
+<span class="dim">Lettres: ${remaining}</span>
+
+<span class="dim">Erreurs: ${h.errors}/${h.maxErrors}</span>
+
+<span class="cyan">Tape une lettre pour jouer, ou ABANDON pour arrêter.</span>
+`;
+        }
+
+        function guessLetter(letter) {
+            const h = state.hangmanState;
+            letter = letter.toUpperCase();
+            
+            if (!/^[A-Z]$/.test(letter)) {
+                return '<span class="error">Entre une seule lettre (A-Z).</span>\n' + renderHangman();
+            }
+            
+            if (h.guessed.includes(letter)) {
+                return '<span class="warning">Lettre déjà essayée!</span>\n' + renderHangman();
+            }
+            
+            h.guessed.push(letter);
+            
+            if (!h.word.includes(letter)) {
+                h.errors++;
+            }
+            
+            // Check win
+            const won = h.word.split('').every(l => h.guessed.includes(l));
+            if (won) {
+                state.hangmanActive = false;
+                return `
+<span class="success">
+╔════════════════════════════════════════════════════╗
+║                    GAGNÉ!                          ║
+║                                                    ║
+║   Le mot était: ${h.word.padEnd(30)}║
+║                                                    ║
+║   Tu as sauvé un pendu du gibet médiatique!       ║
+║   (mais les autres attendent toujours...)          ║
+║                                                    ║
+╚════════════════════════════════════════════════════╝
+</span>
+
+<span class="dim">Tape JOUER pour une nouvelle partie.</span>
+`;
+            }
+            
+            // Check lose
+            if (h.errors >= h.maxErrors) {
+                state.hangmanActive = false;
+                return `
+<span class="error">
+╔════════════════════════════════════════════════════╗
+║                    PENDU!                          ║
+║                                                    ║
+║   Le mot était: ${h.word.padEnd(30)}║
+║                                                    ║
+║   Un de plus au gibet...                           ║
+║   Comme les victimes du documentaire.              ║
+║                                                    ║
+╚════════════════════════════════════════════════════╝
+</span>
+
+<span class="dim">Tape JOUER pour réessayer.</span>
+`;
+            }
+            
+            return renderHangman();
+        }
+
+        // ========== KONAMI CODE ==========
+        document.addEventListener('keydown', (e) => {
+            state.konamiSequence.push(e.key);
+            state.konamiSequence = state.konamiSequence.slice(-10);
+            
+            if (JSON.stringify(state.konamiSequence) === JSON.stringify(state.konamiCode)) {
+                activateKonami();
+            }
+        });
+
+        function activateKonami() {
+            if (state.konamiActive) return;
+            state.konamiActive = true;
+            foundEasterEgg('konami');
+            document.body.classList.add('konami-mode');
+            
+            printOutput(`
+<span class="magenta">
+▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄
+
+  ██╗  ██╗ ██████╗ ███╗   ██╗ █████╗ ███╗   ███╗██╗
+  ██║ ██╔╝██╔═══██╗████╗  ██║██╔══██╗████╗ ████║██║
+  █████╔╝ ██║   ██║██╔██╗ ██║███████║██╔████╔██║██║
+  ██╔═██╗ ██║   ██║██║╚██╗██║██╔══██║██║╚██╔╝██║██║
+  ██║  ██╗╚██████╔╝██║ ╚████║██║  ██║██║ ╚═╝ ██║██║
+  ╚═╝  ╚═╝ ╚═════╝ ╚═╝  ╚═══╝╚═╝  ╚═╝╚═╝     ╚═╝╚═╝
+                                                    
+          ↑ ↑ ↓ ↓ ← → ← → B A — CODE ACTIVÉ!
+          
+▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄
+
+  MODE SECRET DÉBLOQUÉ!
+  
+  + 30 vies pour les pendus (jk ils sont toujours pendus)
+  + Vision magenta activée
+  + Nouvelles commandes disponibles:
+    - GODMODE: Voir tous les secrets
+    - IDDQD: Invincibilité journalistique (n'existe pas)
+    - IDKFA: Tous les faits et sources
+    
+  🥚 EASTER EGG ULTIME TROUVÉ! (${state.easterEggsFound}/${state.totalEasterEggs})
+
+</span>
+`);
+        }
+
+        // ========== SECRET COMMANDS (après Konami) ==========
+        commands.godmode = () => {
+            if (!state.konamiActive) return '<span class="error">Commande inconnue. Tape HELP.</span>';
+            return `
+<span class="magenta">
+G O D M O D E   A C T I V É
+
+Secrets restants à trouver:
+${['rtl', 'deborsu', 'villon', '1337', 'matrix', 'sudo', '42'].filter(s => !state.secretsFound.includes(s)).map(s => `- Tape "${s}"`).join('\n')}
+
+Tu as trouvé: ${state.easterEggsFound}/${state.totalEasterEggs}
+
+"Avec un grand pouvoir vient une grande responsabilité."
+— Ce que RTL n'a pas compris.
+</span>
+`;
+        };
+
+        commands.iddqd = () => {
+            if (!state.konamiActive) return '<span class="error">Commande inconnue. Tape HELP.</span>';
+            return `
+<span class="error">
+IDDQD — INVINCIBILITÉ JOURNALISTIQUE
+
+ERROR: Module non trouvé.
+
+L'invincibilité journalistique n'existe pas.
+Même les plus grands peuvent tomber.
+Surtout quand 400 citoyens se lèvent.
+
+"Le journalisme sans éthique, c'est comme
+DOOM sans le BFG: ça finit mal."
+</span>
+`;
+        };
+
+        commands.idkfa = () => {
+            if (!state.konamiActive) return '<span class="error">Commande inconnue. Tape HELP.</span>';
+            return `
+<span class="success">
+IDKFA — TOUS LES FAITS ET SOURCES CHARGÉS
+
+INVENTAIRE:
+├─ 📊 Statistiques CIM: ÉQUIPÉ
+├─ 📋 Plaintes CSA: 400+ CHARGÉES  
+├─ 📚 Études scientifiques: 5 PEER-REVIEWED
+├─ 🎤 Témoignages: GAËLLE + LAETITIA
+├─ ❌ Démenti IWEPS: CONFIRMÉ
+├─ 📅 Timeline: SYNCHRONISÉE
+└─ 💀 Ballade de Villon: ADAPTÉE
+
+ARMES:
+├─ BFG-9000: Arguments sourcés
+├─ Shotgun: Faits vérifiables  
+├─ Chainsaw: Satire mordante
+└─ Fists: Indignation citoyenne
+
+PRÊT AU COMBAT.
+</span>
+`;
+        };
+
+        // ========== TERMINAL LOGIC ==========
+        const output = document.getElementById('output');
+        const input = document.getElementById('terminal-input');
+
+        function printOutput(text) {
+            output.innerHTML += text + '\n';
+            output.scrollTop = output.scrollHeight;
+        }
+
+        function processCommand(cmd) {
+            const trimmed = cmd.trim().toLowerCase();
+            
+            // Add to history
+            if (trimmed) {
+                state.commandHistory.push(trimmed);
+                state.historyIndex = state.commandHistory.length;
+            }
+            
+            // Echo command
+            printOutput(`<span class="prompt">CITOYEN@GIBET:~$</span> ${cmd}`);
+            
+            // Empty command
+            if (!trimmed) return;
+            
+            // Hangman mode
+            if (state.hangmanActive && trimmed.length === 1) {
+                printOutput(guessLetter(trimmed));
+                return;
+            }
+            
+            // Check commands
+            if (commands[trimmed]) {
+                const result = commands[trimmed]();
+                if (result) printOutput(result);
+            } else {
+                printOutput(`<span class="error">Commande inconnue: ${trimmed}</span>\n<span class="dim">Tape HELP pour la liste des commandes.</span>`);
+            }
+        }
+
+        // ========== EVENT LISTENERS ==========
+        input.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                processCommand(input.value);
+                input.value = '';
+            } else if (e.key === 'ArrowUp') {
+                if (state.historyIndex > 0) {
+                    state.historyIndex--;
+                    input.value = state.commandHistory[state.historyIndex];
+                }
+            } else if (e.key === 'ArrowDown') {
+                if (state.historyIndex < state.commandHistory.length - 1) {
+                    state.historyIndex++;
+                    input.value = state.commandHistory[state.historyIndex];
+                } else {
+                    state.historyIndex = state.commandHistory.length;
+                    input.value = '';
+                }
+            }
+        });
+
+        // Focus input on click anywhere
+        document.addEventListener('click', () => input.focus());
+
+        // ========== BOOT SEQUENCE ==========
+        function bootSequence() {
+            const bootMessages = [
+                { text: '<span class="dim">Initializing GIBET.EXE v6.6.6...</span>', delay: 0 },
+                { text: '<span class="dim">Loading ethical_standards.dll... <span class="error">FILE NOT FOUND</span></span>', delay: 500 },
+                { text: '<span class="dim">Loading contradictoire.sys... <span class="error">FILE NOT FOUND</span></span>', delay: 800 },
+                { text: '<span class="dim">Loading fact_check.exe... <span class="error">FILE NOT FOUND</span></span>', delay: 1100 },
+                { text: '<span class="dim">Loading audience_metrics.dll... <span class="success">OK (410860 loaded)</span></span>', delay: 1400 },
+                { text: '<span class="dim">Loading plaintes.db... <span class="warning">400+ ENTRIES</span></span>', delay: 1700 },
+                { text: '', delay: 2000 },
+                { text: asciiGibet, delay: 2100 },
+                { text: '', delay: 2200 },
+                { text: asciiSkull, delay: 2300 },
+                { text: '', delay: 2400 },
+                { text: '<span class="warning">═══════════════════════════════════════════════════════════════</span>', delay: 2500 },
+                { text: '<span class="cyan">  BIENVENUE AU TERMINAL DU JUGEMENT PUBLIC</span>', delay: 2600 },
+                { text: '<span class="dim">  "Frères humains qui après nous scrollez..."</span>', delay: 2700 },
+                { text: '<span class="warning">═══════════════════════════════════════════════════════════════</span>', delay: 2800 },
+                { text: '', delay: 2900 },
+                { text: '<span class="success">Tape HELP pour commencer.</span>', delay: 3000 },
+                { text: '<span class="dim">Tape BALLADE pour la Ballade des Pendus.</span>', delay: 3100 },
+                { text: '<span class="dim">Tape JOUER pour le jeu du pendu.</span>', delay: 3200 },
+                { text: '', delay: 3300 },
+                { text: '<span class="magenta">🥚 7 easter eggs sont cachés. Konami Code fonctionne.</span>', delay: 3400 },
+            ];
+
+            bootMessages.forEach(msg => {
+                setTimeout(() => printOutput(msg.text), msg.delay);
+            });
+        }
+
+        // Start
+        bootSequence();
+    </script>
+</body>
