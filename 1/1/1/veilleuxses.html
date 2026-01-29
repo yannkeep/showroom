@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="fr-BE">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comprendre l'Affaire "Tous Fraudeurs" | Ce que RTL ne vous a pas dit</title>
+    <meta name="description" content="Le 7 novembre 2025, RTL diffusait un documentaire sur la fraude sociale. 400+ citoyens ont porté plainte. Voici pourquoi, avec les faits et les sources.">
+    
+    <meta property="og:title" content="Comprendre l'Affaire Tous Fraudeurs">
+    <meta property="og:description" content="410.860 téléspectateurs. 400+ plaintes. Moins de 3% de fraude réelle. Les faits que RTL a oubliés.">
+    <meta property="og:type" content="website">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --blue: #2563eb;
+            --blue-dark: #1d4ed8;
+            --red: #dc2626;
+            --green: #16a34a;
+            --orange: #ea580c;
+            --gray-50: #f9fafb;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-500: #6b7280;
+            --gray-700: #374151;
+            --gray-900: #111827;
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: var(--gray-50);
+            color: var(--gray-900);
+            font-size: 17px;
+            line-height: 1.7;
+        }
+        
+        /* HEADER */
+        header {
+            background: var(--gray-900);
+            color: white;
+            padding: 60px 24px 80px;
+            text-align: center;
+        }
+        
+        .header-label {
+            display: inline-block;
+            background: var(--red);
+            color: white;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 24px;
+        }
+        
+        h1 {
+            font-family: 'Merriweather', Georgia, serif;
+            font-size: clamp(28px, 5vw, 42px);
+            font-weight: 700;
+            max-width: 800px;
+            margin: 0 auto 16px;
+            line-height: 1.3;
+        }
+        
+        .header-subtitle {
+            font-size: 18px;
+            color: #9ca3af;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        /* NAV */
+        nav {
+            background: white;
+            border-bottom: 1px solid var(--gray-200);
+            padding: 16px 24px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .nav-inner {
+            max-width: 900px;
+            margin: 0 auto;
+            display: flex;
+            gap: 24px;
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+        
+        .nav-inner::-webkit-scrollbar { display: none; }
+        
+        .nav-link {
+            color: var(--gray-500);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            white-space: nowrap;
+            padding: 8px 0;
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s;
+        }
+        
+        .nav-link:hover {
+            color: var(--blue);
+            border-bottom-color: var(--blue);
+        }
+        
+        /* MAIN */
+        main {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 48px 24px;
+        }
+        
+        /* SECTIONS */
+        section {
+            margin-bottom: 64px;
+        }
+        
+        h2 {
+            font-family: 'Merriweather', Georgia, serif;
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 24px;
+            color: var(--gray-900);
+        }
+        
+        h3 {
+            font-size: 20px;
+            font-weight: 600;
+            margin: 32px 0 16px;
+            color: var(--gray-900);
+        }
+        
+        p {
+            margin-bottom: 20px;
+            color: var(--gray-700);
+        }
+        
+        /* KEY NUMBERS */
+        .key-numbers {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 32px 0;
+        }
+        
+        .key-number {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            text-align: center;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        .key-number-value {
+            font-size: 36px;
+            font-weight: 700;
+            color: var(--blue);
+            margin-bottom: 8px;
+        }
+        
+        .key-number-value.red { color: var(--red); }
+        .key-number-value.green { color: var(--green); }
+        .key-number-value.orange { color: var(--orange); }
+        
+        .key-number-label {
+            font-size: 14px;
+            color: var(--gray-500);
+        }
+        
+        .key-number-source {
+            font-size: 11px;
+            color: var(--gray-500);
+            margin-top: 8px;
+            font-style: italic;
+        }
+        
+        /* INFO BOX */
+        .info-box {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            margin: 24px 0;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        .info-box.warning {
+            border-left: 4px solid var(--orange);
+        }
+        
+        .info-box.fact {
+            border-left: 4px solid var(--blue);
+        }
+        
+        .info-box.comparison {
+            border-left: 4px solid var(--green);
+        }
+        
+        .info-box-title {
+            font-weight: 600;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        /* TIMELINE */
+        .timeline {
+            position: relative;
+            padding-left: 32px;
+            margin: 32px 0;
+        }
+        
+        .timeline::before {
+            content: "";
+            position: absolute;
+            left: 8px;
+            top: 8px;
+            bottom: 8px;
+            width: 2px;
+            background: var(--gray-200);
+        }
+        
+        .timeline-item {
+            position: relative;
+            margin-bottom: 24px;
+        }
+        
+        .timeline-item::before {
+            content: "";
+            position: absolute;
+            left: -28px;
+            top: 8px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--blue);
+        }
+        
+        .timeline-item.alert::before {
+            background: var(--red);
+        }
+        
+        .timeline-date {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--blue);
+            margin-bottom: 4px;
+        }
+        
+        .timeline-item.alert .timeline-date {
+            color: var(--red);
+        }
+        
+        .timeline-content {
+            color: var(--gray-700);
+        }
+        
+        /* QUOTES */
+        blockquote {
+            background: var(--gray-100);
+            border-radius: 12px;
+            padding: 24px;
+            margin: 24px 0;
+            font-style: italic;
+            color: var(--gray-700);
+        }
+        
+        blockquote cite {
+            display: block;
+            margin-top: 12px;
+            font-size: 14px;
+            font-style: normal;
+            color: var(--gray-500);
+        }
+        
+        /* COMPARISON */
+        .comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 32px 0;
+        }
+        
+        @media (max-width: 600px) {
+            .comparison {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .comparison-item {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            text-align: center;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        .comparison-item.bad {
+            border-top: 4px solid var(--red);
+        }
+        
+        .comparison-item.good {
+            border-top: 4px solid var(--green);
+        }
+        
+        .comparison-value {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        
+        .comparison-item.bad .comparison-value { color: var(--red); }
+        .comparison-item.good .comparison-value { color: var(--green); }
+        
+        /* ACTIONS */
+        .actions {
+            display: grid;
+            gap: 16px;
+            margin: 32px 0;
+        }
+        
+        .action-card {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            display: flex;
+            gap: 16px;
+            align-items: flex-start;
+        }
+        
+        .action-icon {
+            font-size: 24px;
+            flex-shrink: 0;
+        }
+        
+        .action-content h4 {
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        
+        .action-content p {
+            font-size: 15px;
+            margin-bottom: 0;
+        }
+        
+        /* SOURCES */
+        .sources-list {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            margin: 24px 0;
+        }
+        
+        .sources-list h4 {
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+        
+        .sources-list ul {
+            list-style: none;
+        }
+        
+        .sources-list li {
+            padding: 8px 0;
+            border-bottom: 1px solid var(--gray-100);
+            font-size: 14px;
+            color: var(--gray-700);
+        }
+        
+        .sources-list li:last-child {
+            border-bottom: none;
+        }
+        
+        .source-type {
+            display: inline-block;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            padding: 2px 8px;
+            border-radius: 4px;
+            margin-right: 8px;
+        }
+        
+        .source-type.official { background: #dbeafe; color: var(--blue); }
+        .source-type.press { background: #fef3c7; color: var(--orange); }
+        .source-type.study { background: #d1fae5; color: var(--green); }
+        
+        /* FAQ */
+        .faq-item {
+            background: white;
+            border-radius: 12px;
+            margin-bottom: 12px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .faq-question {
+            padding: 20px 24px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .faq-question::after {
+            content: "+";
+            font-size: 24px;
+            color: var(--gray-500);
+        }
+        
+        .faq-item.open .faq-question::after {
+            content: "−";
+        }
+        
+        .faq-answer {
+            display: none;
+            padding: 0 24px 20px;
+            color: var(--gray-700);
+        }
+        
+        .faq-item.open .faq-answer {
+            display: block;
+        }
+        
+        /* FOOTER */
+        footer {
+            background: var(--gray-900);
+            color: white;
+            padding: 48px 24px;
+            text-align: center;
+        }
+        
+        .footer-note {
+            font-size: 14px;
+            color: #9ca3af;
+            max-width: 600px;
+            margin: 0 auto 24px;
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            flex-wrap: wrap;
+        }
+        
+        .footer-links a {
+            color: #9ca3af;
+            text-decoration: none;
+            font-size: 14px;
+        }
+        
+        .footer-links a:hover {
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <span class="header-label">Dossier citoyen</span>
+        <h1>Comprendre l'Affaire "Tous Fraudeurs"</h1>
+        <p class="header-subtitle">Le 7 novembre 2025, RTL-TVI diffusait un documentaire sur la fraude sociale. Plus de 400 citoyens ont porté plainte. Voici les faits.</p>
+    </header>
+    
+    <nav>
+        <div class="nav-inner">
+            <a href="#resume" class="nav-link">Résumé</a>
+            <a href="#chiffres" class="nav-link">Les chiffres</a>
+            <a href="#problemes" class="nav-link">Ce qui pose problème</a>
+            <a href="#contexte" class="nav-link">Contexte</a>
+            <a href="#consequences" class="nav-link">Conséquences</a>
+            <a href="#agir" class="nav-link">Agir</a>
+            <a href="#faq" class="nav-link">FAQ</a>
+            <a href="#sources" class="nav-link">Sources</a>
+        </div>
+    </nav>
+    
+    <main>
+        <!-- RÉSUMÉ -->
+        <section id="resume">
+            <h2>En bref</h2>
+            
+            <p>Le 7 novembre 2025, RTL-TVI diffuse "Sans boulot : tous fraudeurs ?", un documentaire présenté comme une enquête sur la fraude sociale en Belgique. Plus de 410.000 personnes le regardent.</p>
+            
+            <p>Dans les jours qui suivent, plus de 400 téléspectateurs déposent une plainte auprès du CSA (Conseil Supérieur de l'Audiovisuel). C'est un record historique en Belgique francophone.</p>
+            
+            <p><strong>Pourquoi tant de plaintes ?</strong> Les citoyens reprochent au documentaire de présenter une image déformée de la réalité, en suggérant que la fraude sociale serait généralisée — alors que les chiffres officiels montrent qu'elle concerne moins de 3% des allocataires.</p>
+            
+            <div class="key-numbers">
+                <div class="key-number">
+                    <div class="key-number-value">410.860</div>
+                    <div class="key-number-label">téléspectateurs</div>
+                    <div class="key-number-source">Source : CIM</div>
+                </div>
+                <div class="key-number">
+                    <div class="key-number-value red">400+</div>
+                    <div class="key-number-label">plaintes au CSA</div>
+                    <div class="key-number-source">Record historique FWB</div>
+                </div>
+                <div class="key-number">
+                    <div class="key-number-value green">&lt;3%</div>
+                    <div class="key-number-label">de fraude réelle</div>
+                    <div class="key-number-source">Sources officielles</div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- LES CHIFFRES -->
+        <section id="chiffres">
+            <h2>Les chiffres que le documentaire n'a pas montrés</h2>
+            
+            <h3>Le vrai taux de fraude sociale</h3>
+            <p>Selon les données officielles, le taux de fraude sociale en Belgique est inférieur à 3%. Cela signifie que plus de 97% des allocataires perçoivent leurs aides de manière légitime.</p>
+            
+            <div class="info-box fact">
+                <div class="info-box-title">📊 Que dit le documentaire vs. la réalité ?</div>
+                <p style="margin-bottom: 0;">Le documentaire consacre 100% de son temps à des cas présentés comme de la fraude, créant l'impression que c'est un phénomène généralisé. Il ne mentionne jamais le taux réel de moins de 3%.</p>
+            </div>
+            
+            <h3>Fraude sociale vs. fraude fiscale</h3>
+            <p>Pour avoir une vision complète, il faut comparer les ordres de grandeur :</p>
+            
+            <div class="comparison">
+                <div class="comparison-item bad">
+                    <div class="comparison-value">~200 M€</div>
+                    <div>Fraude sociale estimée par an</div>
+                </div>
+                <div class="comparison-item bad">
+                    <div class="comparison-value">~30 Mds€</div>
+                    <div>Fraude fiscale estimée par an</div>
+                </div>
+            </div>
+            
+            <div class="info-box comparison">
+                <div class="info-box-title">⚖️ Le ratio</div>
+                <p style="margin-bottom: 0;">La fraude fiscale représente environ <strong>150 fois</strong> le montant de la fraude sociale. Pourtant, les documentaires sur les "fraudeurs fiscaux" sont beaucoup plus rares que ceux sur les allocataires.</p>
+            </div>
+        </section>
+        
+        <!-- CE QUI POSE PROBLÈME -->
+        <section id="problemes">
+            <h2>Ce qui pose problème dans ce documentaire</h2>
+            
+            <h3>1. Un montage très sélectif</h3>
+            <p>Gaëlle Denys, présidente du CPAS de Verviers, a accordé une interview d'une heure à l'équipe du documentaire. Au montage final, seules 30 secondes ont été conservées.</p>
+            
+            <div class="info-box warning">
+                <div class="info-box-title">⚠️ Le ratio du montage</div>
+                <p><strong>1 heure filmée → 30 secondes diffusées</strong></p>
+                <p style="margin-bottom: 0;">Soit un ratio de 120:1. Les 59 minutes et 30 secondes restantes — qui contenaient probablement des nuances et du contexte — n'ont pas été montrées.</p>
+            </div>
+            
+            <h3>2. L'absence de contradictoire</h3>
+            <p>Un documentaire équilibré devrait donner la parole à différents points de vue : syndicats, associations d'aide aux personnes précaires, économistes, sociologues... Ces voix sont absentes du programme.</p>
+            
+            <h3>3. Le timing de diffusion</h3>
+            <p>Le documentaire a été diffusé le 7 novembre 2025. Cinq jours plus tard, le 12 novembre, l'ONEM envoyait 47.000 lettres de contrôle aux demandeurs d'emploi. Cette proximité a soulevé des questions.</p>
+            
+            <h3>4. Les conséquences sur les personnes filmées</h3>
+            <p>Selon les témoignages recueillis par la presse, certaines personnes apparaissant dans le documentaire ont reçu des insultes et du harcèlement dans les jours suivant la diffusion.</p>
+            
+            <blockquote>
+                Une des personnes filmées a déclaré avoir reçu des messages d'insultes et avoir été interpellée négativement dans la rue après la diffusion.
+                <cite>Témoignages rapportés dans la presse</cite>
+            </blockquote>
+        </section>
+        
+        <!-- CONTEXTE -->
+        <section id="contexte">
+            <h2>Le contexte</h2>
+            
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-date">Avant novembre 2025</div>
+                    <div class="timeline-content">Négociations pour la formation du gouvernement Arizona. Des réformes du chômage sont annoncées.</div>
+                </div>
+                <div class="timeline-item alert">
+                    <div class="timeline-date">7 novembre 2025</div>
+                    <div class="timeline-content">Diffusion du documentaire "Sans boulot : tous fraudeurs ?" sur RTL-TVI à 19h50. 410.860 téléspectateurs.</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">8-11 novembre 2025</div>
+                    <div class="timeline-content">Premières réactions. Les plaintes commencent à affluer au CSA.</div>
+                </div>
+                <div class="timeline-item alert">
+                    <div class="timeline-date">12 novembre 2025</div>
+                    <div class="timeline-content">L'ONEM envoie 47.000 lettres aux demandeurs d'emploi pour des contrôles.</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">Novembre-décembre 2025</div>
+                    <div class="timeline-content">Le nombre de plaintes continue d'augmenter. Le CSA ouvre une enquête.</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">Janvier 2026</div>
+                    <div class="timeline-content">Plus de 400 plaintes enregistrées. L'enquête du CSA est en cours.</div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- CONSÉQUENCES -->
+        <section id="consequences">
+            <h2>Pourquoi c'est important</h2>
+            
+            <h3>Ce que disent les études scientifiques</h3>
+            <p>La recherche académique a documenté les effets de la stigmatisation médiatique des allocataires sociaux :</p>
+            
+            <div class="key-numbers">
+                <div class="key-number">
+                    <div class="key-number-value orange">+19%</div>
+                    <div class="key-number-label">de symptômes dépressifs</div>
+                    <div class="key-number-source">Étude Pak, 2020</div>
+                </div>
+                <div class="key-number">
+                    <div class="key-number-value orange">20-50%</div>
+                    <div class="key-number-label">de non-recours aux aides</div>
+                    <div class="key-number-source">Harvard Kennedy School</div>
+                </div>
+            </div>
+            
+            <p>Les personnes qui ont droit à des aides mais n'y recourent pas par honte ou par peur du stigmate représentent un problème majeur de politique sociale. Ce "non-recours" peut être amplifié par une couverture médiatique négative.</p>
+            
+            <h3>Le précédent britannique</h3>
+            <p>En 2014, la chaîne britannique Channel 4 diffusait "Benefits Street", un programme similaire. Une étude de la Joseph Rowntree Foundation a montré que ses effets sur la perception des allocataires étaient encore mesurables cinq ans après sa diffusion.</p>
+        </section>
+        
+        <!-- AGIR -->
+        <section id="agir">
+            <h2>Ce que vous pouvez faire</h2>
+            
+            <div class="actions">
+                <div class="action-card">
+                    <div class="action-icon">📝</div>
+                    <div class="action-content">
+                        <h4>Porter plainte au CSA</h4>
+                        <p>Le Conseil Supérieur de l'Audiovisuel examine les plaintes des téléspectateurs. Vous pouvez déposer une plainte gratuitement sur leur site : <strong>csa.be</strong></p>
+                    </div>
+                </div>
+                
+                <div class="action-card">
+                    <div class="action-icon">📰</div>
+                    <div class="action-content">
+                        <h4>Saisir le Conseil de Déontologie Journalistique</h4>
+                        <p>Le CDJ examine les manquements à la déontologie journalistique. La procédure est gratuite et doit être introduite dans les 2 mois suivant la diffusion : <strong>lecdj.be</strong></p>
+                    </div>
+                </div>
+                
+                <div class="action-card">
+                    <div class="action-icon">💬</div>
+                    <div class="action-content">
+                        <h4>En parler autour de vous</h4>
+                        <p>Partagez les faits avec votre entourage. Face à la désinformation, l'information vérifiée est le meilleur antidote.</p>
+                    </div>
+                </div>
+                
+                <div class="action-card">
+                    <div class="action-icon">🔍</div>
+                    <div class="action-content">
+                        <h4>Vérifier avant de partager</h4>
+                        <p>Quand vous voyez une affirmation sur la fraude sociale, cherchez la source. Les chiffres officiels sont souvent très différents des impressions véhiculées par certains médias.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- FAQ -->
+        <section id="faq">
+            <h2>Questions fréquentes</h2>
+            
+            <div class="faq-item">
+                <div class="faq-question">Le documentaire a-t-il menti ?</div>
+                <div class="faq-answer">
+                    <p>Le problème n'est pas nécessairement le mensonge direct, mais l'omission et la déformation. En ne montrant que des cas suspects sans jamais mentionner que la fraude réelle est inférieure à 3%, le documentaire crée une impression fausse de la réalité. C'est ce qu'on appelle un "biais de sélection".</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">Que risque RTL ?</div>
+                <div class="faq-answer">
+                    <p>Le CSA peut prononcer différentes sanctions : avertissement, obligation de diffuser un communiqué, amende. Dans le passé, RTL a déjà été sanctionné par des amendes de quelques milliers d'euros. L'enquête est en cours.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">Est-ce que la fraude sociale n'existe pas ?</div>
+                <div class="faq-answer">
+                    <p>La fraude sociale existe, et il est légitime de lutter contre. Mais elle représente moins de 3% des cas. Un documentaire équilibré devrait mentionner ce contexte, et ne pas présenter l'exception comme si elle était la règle.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">Pourquoi parler de fraude fiscale ?</div>
+                <div class="faq-answer">
+                    <p>La comparaison permet de mettre les choses en perspective. La fraude fiscale coûte environ 150 fois plus cher à la collectivité que la fraude sociale. Pourtant, elle fait l'objet de beaucoup moins d'attention médiatique. Cette disproportion pose question.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">Le CSA peut-il vraiment changer quelque chose ?</div>
+                <div class="faq-answer">
+                    <p>Les sanctions du CSA sont souvent modestes. Mais le nombre record de plaintes (400+) envoie un signal fort. Il montre que les citoyens sont attentifs à la qualité de l'information et refusent d'être manipulés.</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- SOURCES -->
+        <section id="sources">
+            <h2>Sources</h2>
+            
+            <p>Toutes les informations de cette page sont vérifiables. Voici nos sources :</p>
+            
+            <div class="sources-list">
+                <h4>Données d'audience et plaintes</h4>
+                <ul>
+                    <li><span class="source-type official">Officiel</span> CIM (Centre d'Information sur les Médias) — Données d'audience</li>
+                    <li><span class="source-type official">Officiel</span> CSA (Conseil Supérieur de l'Audiovisuel) — Nombre de plaintes</li>
+                </ul>
+            </div>
+            
+            <div class="sources-list">
+                <h4>Témoignages</h4>
+                <ul>
+                    <li><span class="source-type press">Presse</span> Het Belang van Limburg — Interview de Gaëlle Denys sur le ratio de montage</li>
+                    <li><span class="source-type press">Presse</span> Témoignages des personnes filmées rapportés dans la presse belge</li>
+                </ul>
+            </div>
+            
+            <div class="sources-list">
+                <h4>Études scientifiques</h4>
+                <ul>
+                    <li><span class="source-type study">Étude</span> Pak (2020) — Effets de la stigmatisation sur la santé mentale</li>
+                    <li><span class="source-type study">Étude</span> O'Donnell (2015) — Stigmatisation et chômage</li>
+                    <li><span class="source-type study">Étude</span> Harvard Kennedy School — Non-recours aux aides sociales</li>
+                    <li><span class="source-type study">Étude</span> Joseph Rowntree Foundation — Effets de "Benefits Street"</li>
+                </ul>
+            </div>
+            
+            <div class="sources-list">
+                <h4>Données sur la fraude</h4>
+                <ul>
+                    <li><span class="source-type official">Officiel</span> Rapports des organismes de sécurité sociale belges — Taux de fraude</li>
+                    <li><span class="source-type official">Officiel</span> Estimations de la fraude fiscale — Sources gouvernementales et académiques</li>
+                </ul>
+            </div>
+        </section>
+    </main>
+    
+    <footer>
+        <p class="footer-note">
+            Ce site a été créé par des citoyens bénévoles. Il n'est affilié à aucun parti politique, syndicat ou association. Son seul but est de fournir une information factuelle et sourcée.
+        </p>
+        <div class="footer-links">
+            <a href="mentions-legales.html">Mentions légales</a>
+            <a href="politique-confidentialite.html">Confidentialité</a>
+            <a href="contact.html">Contact</a>
+        </div>
+        <p style="margin-top: 24px; font-size: 13px; color: #6b7280;">
+            ouaisfi.eu — CC BY-NC-SA 4.0 — Janvier 2026
+        </p>
+    </footer>
+    
+    <script>
+        // FAQ accordion
+        document.querySelectorAll('.faq-question').forEach(q => {
+            q.addEventListener('click', () => {
+                q.parentElement.classList.toggle('open');
+            });
+        });
+        
+        // Smooth scroll for nav
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const target = document.querySelector(link.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
