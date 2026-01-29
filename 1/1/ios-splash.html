@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>VÉRITÉ — Loading</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;overflow:hidden}
+body{
+font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display',sans-serif;
+background:linear-gradient(180deg,#000 0%,#0a1628 50%,#1a0a28 100%);
+color:#fff;
+display:flex;flex-direction:column;
+align-items:center;justify-content:center;
+}
+
+/* APP ICON */
+.app-icon{
+width:120px;height:120px;
+background:linear-gradient(135deg,#00ff9d 0%,#00b4d8 50%,#7209b7 100%);
+border-radius:26px;
+display:flex;align-items:center;justify-content:center;
+margin-bottom:2rem;
+box-shadow:0 20px 60px rgba(0,255,157,.3);
+animation:iconPulse 2s ease-in-out infinite;
+}
+@keyframes iconPulse{
+0%,100%{transform:scale(1);box-shadow:0 20px 60px rgba(0,255,157,.3)}
+50%{transform:scale(1.02);box-shadow:0 25px 80px rgba(0,255,157,.4)}
+}
+.app-icon svg{width:60%;height:60%}
+
+.app-name{
+font-size:1.75rem;
+font-weight:700;
+letter-spacing:.05em;
+margin-bottom:.5rem;
+background:linear-gradient(90deg,#00ff9d,#00b4d8);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+}
+.app-tagline{
+font-size:.9rem;
+opacity:.5;
+margin-bottom:3rem;
+}
+
+/* LOADING BAR */
+.loading-container{
+width:200px;
+margin-bottom:1rem;
+}
+.loading-bar{
+height:4px;
+background:rgba(255,255,255,.1);
+border-radius:2px;
+overflow:hidden;
+}
+.loading-fill{
+height:100%;
+background:linear-gradient(90deg,#00ff9d,#00b4d8,#7209b7);
+border-radius:2px;
+animation:loading 3s ease-in-out forwards;
+}
+@keyframes loading{
+0%{width:0%}
+20%{width:20%}
+40%{width:45%}
+60%{width:70%}
+80%{width:85%}
+100%{width:100%}
+}
+
+.loading-text{
+font-size:.75rem;
+opacity:.4;
+text-align:center;
+animation:textChange 3s forwards;
+}
+
+/* BOOT SEQUENCE */
+.boot-text{
+position:fixed;
+bottom:15%;
+font-family:'SF Mono',monospace;
+font-size:.65rem;
+color:rgba(255,255,255,.3);
+text-align:center;
+max-width:300px;
+}
+.boot-line{
+opacity:0;
+animation:fadeIn .3s forwards;
+margin:.25rem 0;
+}
+@keyframes fadeIn{to{opacity:1}}
+
+/* STATUS BAR FAKE */
+.status-bar{
+position:fixed;
+top:0;left:0;right:0;
+padding:env(safe-area-inset-top, 12px) 1.5rem .5rem;
+display:flex;justify-content:space-between;
+font-size:.75rem;
+font-weight:600;
+}
+.status-bar .time{font-variant-numeric:tabular-nums}
+.status-bar .icons{display:flex;gap:.5rem;align-items:center}
+
+/* SWIPE HINT */
+.swipe-hint{
+position:fixed;
+bottom:2rem;
+font-size:.8rem;
+opacity:0;
+animation:fadeInUp 1s 3s forwards;
+}
+@keyframes fadeInUp{to{opacity:.5;transform:translateY(0)}}
+.swipe-hint{transform:translateY(10px)}
+
+/* FINAL REDIRECT */
+.redirect-overlay{
+position:fixed;inset:0;
+background:#000;
+opacity:0;
+pointer-events:none;
+transition:opacity .5s;
+}
+.redirect-overlay.active{opacity:1;pointer-events:all}
+</style>
+</head>
+<body>
+
+<!-- STATUS BAR -->
+<div class="status-bar">
+<span class="time" id="time">9:41</span>
+<span class="icons">
+<span>📶</span>
+<span>🔋</span>
+</span>
+</div>
+
+<!-- MAIN -->
+<div class="app-icon">
+<svg viewBox="0 0 100 100" fill="none">
+<path d="M50 10 L90 30 L90 70 L50 90 L10 70 L10 30 Z" stroke="#fff" stroke-width="3" fill="none"/>
+<path d="M50 25 L75 40 L75 60 L50 75 L25 60 L25 40 Z" stroke="#fff" stroke-width="2" fill="rgba(255,255,255,.1)"/>
+<circle cx="50" cy="50" r="10" fill="#fff"/>
+</svg>
+</div>
+
+<div class="app-name">VÉRITÉ</div>
+<div class="app-tagline">Contre-information citoyenne</div>
+
+<div class="loading-container">
+<div class="loading-bar">
+<div class="loading-fill"></div>
+</div>
+</div>
+<div class="loading-text" id="loadingText">Chargement des modules...</div>
+
+<div class="boot-text" id="bootText"></div>
+
+<div class="swipe-hint">Glissez pour continuer ↑</div>
+
+<div class="redirect-overlay" id="overlay"></div>
+
+<script>
+// Time
+function updateTime() {
+    const now = new Date();
+    const h = now.getHours();
+    const m = String(now.getMinutes()).padStart(2, '0');
+    document.getElementById('time').textContent = h + ':' + m;
+}
+updateTime();
+
+// Boot sequence
+const bootLines = [
+    "Initialisation système...",
+    "Chargement fact-checking.dll",
+    "Connexion sources ONEM... OK",
+    "Connexion sources SPF... OK",
+    "Scan propagande médiatique...",
+    "407 anomalies détectées",
+    "Module pétition: PRÊT",
+    "Système opérationnel"
+];
+
+const bootText = document.getElementById('bootText');
+const loadingText = document.getElementById('loadingText');
+
+let lineIndex = 0;
+function addBootLine() {
+    if (lineIndex < bootLines.length) {
+        const line = document.createElement('div');
+        line.className = 'boot-line';
+        line.style.animationDelay = '0s';
+        line.textContent = '> ' + bootLines[lineIndex];
+        bootText.appendChild(line);
+        loadingText.textContent = bootLines[lineIndex];
+        lineIndex++;
+        setTimeout(addBootLine, 350);
+    } else {
+        // Redirect
+        setTimeout(() => {
+            loadingText.textContent = 'Bienvenue.';
+            document.getElementById('overlay').classList.add('active');
+            setTimeout(() => {
+                window.location.href = 'petition-countdown.html';
+            }, 600);
+        }, 1000);
+    }
+}
+
+setTimeout(addBootLine, 500);
+
+// Swipe detection
+let touchStartY = 0;
+document.addEventListener('touchstart', e => touchStartY = e.touches[0].clientY);
+document.addEventListener('touchend', e => {
+    const diff = touchStartY - e.changedTouches[0].clientY;
+    if (diff > 50) {
+        document.getElementById('overlay').classList.add('active');
+        setTimeout(() => window.location.href = 'petition-countdown.html', 300);
+    }
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>🗳️ Référendum Citoyen — RTL doit-il requalifier ?</title>
+<meta name="description" content="Votez : RTL doit-il requalifier Tous Fraudeurs en docu-fiction ?">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap');
+
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+font-family:'Roboto',sans-serif;
+background:#0a1628;
+color:#fff;
+min-height:100vh;
+overflow:hidden;
+}
+
+/* HEADER OFFICIEL */
+.header{
+background:linear-gradient(90deg,#1a237e,#0d47a1);
+padding:1rem 2rem;
+display:flex;justify-content:space-between;align-items:center;
+border-bottom:4px solid #ffc107;
+}
+.header-left{display:flex;align-items:center;gap:1rem}
+.coat-of-arms{
+width:60px;height:60px;
+background:#fff;
+border-radius:50%;
+display:flex;align-items:center;justify-content:center;
+font-size:2rem;
+}
+.header-title h1{font-size:1.1rem;font-weight:500}
+.header-title p{font-size:.8rem;opacity:.8}
+.header-right{text-align:right;font-size:.9rem}
+.header-right .live{
+display:inline-flex;align-items:center;gap:.5rem;
+background:rgba(255,255,255,.1);
+padding:.5rem 1rem;
+border-radius:4px;
+}
+.header-right .dot{
+width:10px;height:10px;
+background:#f44336;
+border-radius:50%;
+animation:blink 1s infinite;
+}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+
+/* MAIN */
+.main{
+display:grid;
+grid-template-columns:1fr 400px;
+height:calc(100vh - 90px);
+}
+
+/* LEFT - VOTE */
+.vote-section{
+padding:3rem;
+display:flex;flex-direction:column;
+justify-content:center;
+background:linear-gradient(180deg,#0a1628 0%,#0d2137 100%);
+}
+
+.question-box{
+background:rgba(255,255,255,.05);
+border:1px solid rgba(255,255,255,.1);
+border-radius:12px;
+padding:2rem;
+margin-bottom:2rem;
+}
+.question-label{
+font-size:.8rem;
+text-transform:uppercase;
+letter-spacing:.2em;
+color:#ffc107;
+margin-bottom:1rem;
+}
+.question-text{
+font-size:clamp(1.25rem,3vw,1.75rem);
+font-weight:700;
+line-height:1.4;
+}
+
+.vote-buttons{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:1.5rem;
+margin-bottom:2rem;
+}
+.vote-btn{
+padding:2.5rem 2rem;
+border:3px solid transparent;
+border-radius:16px;
+font-size:1.5rem;
+font-weight:900;
+cursor:pointer;
+transition:all .3s;
+display:flex;flex-direction:column;
+align-items:center;gap:.75rem;
+font-family:inherit;
+}
+.vote-btn.oui{
+background:linear-gradient(135deg,#1b5e20,#2e7d32);
+color:#fff;
+}
+.vote-btn.oui:hover{
+transform:scale(1.02);
+border-color:#4caf50;
+box-shadow:0 0 30px rgba(76,175,80,.4);
+}
+.vote-btn.non{
+background:linear-gradient(135deg,#b71c1c,#c62828);
+color:#fff;
+}
+.vote-btn.non:hover{
+transform:scale(1.02);
+border-color:#f44336;
+box-shadow:0 0 30px rgba(244,67,54,.4);
+}
+.vote-btn .icon{font-size:3rem}
+.vote-btn .label{font-size:1rem;font-weight:500;opacity:.8}
+
+.vote-info{
+font-size:.85rem;
+color:rgba(255,255,255,.5);
+text-align:center;
+}
+
+/* RIGHT - RESULTS */
+.results-section{
+background:#0d2137;
+border-left:1px solid rgba(255,255,255,.1);
+padding:2rem;
+display:flex;flex-direction:column;
+}
+
+.results-header{
+text-align:center;
+padding-bottom:1.5rem;
+border-bottom:1px solid rgba(255,255,255,.1);
+margin-bottom:1.5rem;
+}
+.results-header h2{
+font-size:1.1rem;
+font-weight:500;
+margin-bottom:.5rem;
+}
+.total-votes{
+font-size:2.5rem;
+font-weight:900;
+color:#ffc107;
+}
+.total-label{font-size:.8rem;opacity:.6}
+
+/* BARS */
+.result-bars{flex:1}
+.result-bar{margin-bottom:1.5rem}
+.bar-header{
+display:flex;justify-content:space-between;
+margin-bottom:.5rem;
+font-size:.9rem;
+}
+.bar-header .pct{font-weight:700}
+.bar-track{
+height:40px;
+background:rgba(255,255,255,.1);
+border-radius:8px;
+overflow:hidden;
+position:relative;
+}
+.bar-fill{
+height:100%;
+border-radius:8px;
+transition:width 1s ease-out;
+display:flex;align-items:center;
+padding-left:1rem;
+font-weight:700;
+font-size:.9rem;
+}
+.bar-fill.oui{background:linear-gradient(90deg,#1b5e20,#4caf50)}
+.bar-fill.non{background:linear-gradient(90deg,#b71c1c,#f44336)}
+
+/* LIVE TICKER */
+.live-ticker{
+background:rgba(255,255,255,.05);
+border-radius:8px;
+padding:1rem;
+margin-top:auto;
+}
+.ticker-title{
+font-size:.75rem;
+text-transform:uppercase;
+letter-spacing:.1em;
+color:#ffc107;
+margin-bottom:.75rem;
+}
+.ticker-items{
+font-size:.8rem;
+max-height:150px;
+overflow-y:auto;
+}
+.ticker-item{
+padding:.5rem 0;
+border-bottom:1px solid rgba(255,255,255,.05);
+display:flex;justify-content:space-between;
+}
+.ticker-item:last-child{border:none}
+.ticker-item .region{opacity:.6}
+.ticker-item .vote{font-weight:600}
+.ticker-item .vote.oui{color:#4caf50}
+.ticker-item .vote.non{color:#f44336}
+
+/* MAP BACKGROUND */
+.map-bg{
+position:fixed;
+top:90px;left:0;right:400px;bottom:0;
+opacity:.03;
+background:url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 120"><path fill="%23fff" d="M50,5 L65,20 L80,15 L85,35 L95,50 L85,70 L75,85 L60,95 L45,90 L30,100 L20,85 L10,70 L15,50 L10,35 L25,25 L35,15 Z"/></svg>') center/contain no-repeat;
+pointer-events:none;
+}
+
+/* FOOTER */
+.footer{
+position:fixed;
+bottom:0;left:0;right:0;
+background:#0a1628;
+border-top:1px solid rgba(255,255,255,.1);
+padding:.75rem 2rem;
+display:flex;justify-content:space-between;
+font-size:.8rem;
+}
+.footer a{color:#ffc107;text-decoration:none}
+
+@media(max-width:900px){
+.main{grid-template-columns:1fr}
+.results-section{display:none}
+.map-bg{display:none}
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+<div class="header-left">
+<div class="coat-of-arms">🦁</div>
+<div class="header-title">
+<h1>RÉFÉRENDUM CITOYEN</h1>
+<p>Consultation populaire non-officielle</p>
+</div>
+</div>
+<div class="header-right">
+<div class="live"><span class="dot"></span> EN DIRECT</div>
+<div id="datetime"></div>
+</div>
+</div>
+
+<!-- MAP BG -->
+<div class="map-bg"></div>
+
+<!-- MAIN -->
+<div class="main">
+
+<!-- VOTE -->
+<div class="vote-section">
+<div class="question-box">
+<div class="question-label">Question soumise au vote</div>
+<div class="question-text">
+RTL Belgium doit-il requalifier le programme « Tous Fraudeurs ? » de "documentaire" en "docu-fiction" ?
+</div>
+</div>
+
+<div class="vote-buttons">
+<button class="vote-btn oui" onclick="vote('oui')">
+<span class="icon">✓</span>
+<span>OUI</span>
+<span class="label">Pour la requalification</span>
+</button>
+<button class="vote-btn non" onclick="vote('non')">
+<span class="icon">✗</span>
+<span>NON</span>
+<span class="label">Contre la requalification</span>
+</button>
+</div>
+
+<p class="vote-info">
+Ce vote symbolique accompagne la pétition officielle. Deadline : 31 mars 2026.
+</p>
+</div>
+
+<!-- RESULTS -->
+<div class="results-section">
+<div class="results-header">
+<h2>RÉSULTATS EN TEMPS RÉEL</h2>
+<div class="total-votes" id="totalVotes">12,847</div>
+<div class="total-label">votes enregistrés</div>
+</div>
+
+<div class="result-bars">
+<div class="result-bar">
+<div class="bar-header">
+<span>✓ OUI — Requalifier</span>
+<span class="pct" id="ouiPct">94.2%</span>
+</div>
+<div class="bar-track">
+<div class="bar-fill oui" id="ouiBar" style="width:94.2%">12,102</div>
+</div>
+</div>
+
+<div class="result-bar">
+<div class="bar-header">
+<span>✗ NON — Garder "documentaire"</span>
+<span class="pct" id="nonPct">5.8%</span>
+</div>
+<div class="bar-track">
+<div class="bar-fill non" id="nonBar" style="width:5.8%"></div>
+</div>
+</div>
+</div>
+
+<div class="live-ticker">
+<div class="ticker-title">🔴 Derniers votes</div>
+<div class="ticker-items" id="ticker">
+<div class="ticker-item"><span class="region">Bruxelles</span><span class="vote oui">OUI</span></div>
+<div class="ticker-item"><span class="region">Liège</span><span class="vote oui">OUI</span></div>
+<div class="ticker-item"><span class="region">Charleroi</span><span class="vote oui">OUI</span></div>
+<div class="ticker-item"><span class="region">Namur</span><span class="vote non">NON</span></div>
+<div class="ticker-item"><span class="region">Mons</span><span class="vote oui">OUI</span></div>
+</div>
+</div>
+</div>
+
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+<span>Consultation citoyenne symbolique — ouaisfi.eu</span>
+<a href="petition-countdown.html">→ Signer la vraie pétition</a>
+</div>
+
+<script>
+// DateTime
+function updateDateTime() {
+    const now = new Date();
+    document.getElementById('datetime').textContent = now.toLocaleString('fr-BE');
+}
+updateDateTime();
+setInterval(updateDateTime, 1000);
+
+// Simulated data
+let totalVotes = 12847;
+let ouiVotes = 12102;
+let nonVotes = 745;
+
+const regions = ['Bruxelles', 'Liège', 'Charleroi', 'Namur', 'Mons', 'Tournai', 'Verviers', 'Arlon', 'Wavre', 'Louvain-la-Neuve', 'Ottignies', 'La Louvière'];
+
+function updateDisplay() {
+    const ouiPct = ((ouiVotes / totalVotes) * 100).toFixed(1);
+    const nonPct = ((nonVotes / totalVotes) * 100).toFixed(1);
+    
+    document.getElementById('totalVotes').textContent = totalVotes.toLocaleString('fr-BE');
+    document.getElementById('ouiPct').textContent = ouiPct + '%';
+    document.getElementById('nonPct').textContent = nonPct + '%';
+    document.getElementById('ouiBar').style.width = ouiPct + '%';
+    document.getElementById('ouiBar').textContent = ouiVotes.toLocaleString('fr-BE');
+    document.getElementById('nonBar').style.width = nonPct + '%';
+}
+
+function addTickerItem(region, voteType) {
+    const ticker = document.getElementById('ticker');
+    const item = document.createElement('div');
+    item.className = 'ticker-item';
+    item.innerHTML = `<span class="region">${region}</span><span class="vote ${voteType}">${voteType.toUpperCase()}</span>`;
+    ticker.insertBefore(item, ticker.firstChild);
+    if (ticker.children.length > 10) ticker.removeChild(ticker.lastChild);
+}
+
+function vote(type) {
+    totalVotes++;
+    if (type === 'oui') {
+        ouiVotes++;
+    } else {
+        nonVotes++;
+    }
+    updateDisplay();
+    addTickerItem('Votre vote', type);
+    
+    // Redirect after vote
+    setTimeout(() => {
+        if (confirm('Merci pour votre vote ! Voulez-vous maintenant signer la vraie pétition ?')) {
+            window.location.href = 'petition-countdown.html';
+        }
+    }, 500);
+}
+
+// Simulate live votes
+setInterval(() => {
+    const isOui = Math.random() > 0.08; // 92% OUI
+    totalVotes++;
+    if (isOui) {
+        ouiVotes++;
+        addTickerItem(regions[Math.floor(Math.random() * regions.length)], 'oui');
+    } else {
+        nonVotes++;
+        addTickerItem(regions[Math.floor(Math.random() * regions.length)], 'non');
+    }
+    updateDisplay();
+}, 3000 + Math.random() * 5000);
+</script>
+
+</body>
+</html>

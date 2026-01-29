@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>💬 Assistant RTL — Service Client</title>
+<meta name="description" content="L'assistant virtuel RTL qui ne vous aide pas vraiment.">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+font-family:'Inter',sans-serif;
+background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);
+min-height:100vh;
+display:flex;align-items:center;justify-content:center;
+padding:1rem;
+}
+
+.chat-container{
+width:100%;
+max-width:420px;
+height:700px;
+max-height:90vh;
+background:#fff;
+border-radius:20px;
+box-shadow:0 25px 50px rgba(0,0,0,.25);
+display:flex;flex-direction:column;
+overflow:hidden;
+}
+
+/* HEADER */
+.chat-header{
+background:linear-gradient(135deg,#c8102e 0%,#8b0000 100%);
+color:#fff;
+padding:1.25rem;
+display:flex;align-items:center;gap:1rem;
+}
+.avatar{
+width:50px;height:50px;
+background:#fff;
+border-radius:50%;
+display:flex;align-items:center;justify-content:center;
+font-weight:800;
+color:#c8102e;
+font-size:1.25rem;
+}
+.header-info h3{font-size:1.1rem;font-weight:600}
+.header-info p{font-size:.8rem;opacity:.8;display:flex;align-items:center;gap:.25rem}
+.header-info .dot{width:8px;height:8px;background:#4ade80;border-radius:50%;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
+
+/* MESSAGES */
+.chat-messages{
+flex:1;
+overflow-y:auto;
+padding:1rem;
+background:#f8fafc;
+display:flex;flex-direction:column;gap:.75rem;
+}
+
+.message{
+max-width:85%;
+padding:.875rem 1rem;
+border-radius:18px;
+font-size:.9rem;
+line-height:1.5;
+animation:slideIn .3s ease-out;
+}
+@keyframes slideIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+.message.bot{
+background:#fff;
+border:1px solid #e2e8f0;
+align-self:flex-start;
+border-bottom-left-radius:4px;
+}
+.message.user{
+background:linear-gradient(135deg,#c8102e,#e91e63);
+color:#fff;
+align-self:flex-end;
+border-bottom-right-radius:4px;
+}
+.message.system{
+background:#fef3c7;
+border:1px solid #fcd34d;
+align-self:center;
+font-size:.8rem;
+text-align:center;
+max-width:90%;
+}
+
+.typing{
+display:flex;gap:.25rem;
+padding:1rem;
+}
+.typing span{
+width:8px;height:8px;
+background:#94a3b8;
+border-radius:50%;
+animation:bounce .6s infinite;
+}
+.typing span:nth-child(2){animation-delay:.1s}
+.typing span:nth-child(3){animation-delay:.2s}
+@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+
+/* QUICK REPLIES */
+.quick-replies{
+padding:.75rem 1rem;
+display:flex;flex-wrap:wrap;gap:.5rem;
+border-top:1px solid #e2e8f0;
+background:#fff;
+}
+.quick-btn{
+padding:.5rem 1rem;
+background:#f1f5f9;
+border:1px solid #e2e8f0;
+border-radius:20px;
+font-size:.8rem;
+cursor:pointer;
+transition:all .2s;
+font-family:inherit;
+}
+.quick-btn:hover{background:#e2e8f0;border-color:#cbd5e1}
+
+/* INPUT */
+.chat-input{
+padding:1rem;
+background:#fff;
+border-top:1px solid #e2e8f0;
+display:flex;gap:.75rem;
+}
+.chat-input input{
+flex:1;
+padding:.875rem 1rem;
+border:2px solid #e2e8f0;
+border-radius:25px;
+font-size:.9rem;
+font-family:inherit;
+outline:none;
+transition:border-color .2s;
+}
+.chat-input input:focus{border-color:#c8102e}
+.chat-input button{
+width:45px;height:45px;
+background:linear-gradient(135deg,#c8102e,#e91e63);
+border:none;
+border-radius:50%;
+color:#fff;
+font-size:1.25rem;
+cursor:pointer;
+transition:transform .2s;
+}
+.chat-input button:hover{transform:scale(1.05)}
+
+/* DISCLAIMER */
+.disclaimer{
+padding:.75rem;
+background:#fef2f2;
+border-top:1px solid #fecaca;
+font-size:.7rem;
+color:#991b1b;
+text-align:center;
+}
+.disclaimer a{color:#991b1b;font-weight:600}
+</style>
+</head>
+<body>
+
+<div class="chat-container">
+<div class="chat-header">
+<div class="avatar">RTL</div>
+<div class="header-info">
+<h3>Assistant RTL</h3>
+<p><span class="dot"></span> En ligne — Temps de réponse variable</p>
+</div>
+</div>
+
+<div class="chat-messages" id="messages">
+<div class="message bot">
+Bonjour ! 👋 Je suis l'assistant virtuel RTL. Comment puis-je ne pas vous aider aujourd'hui ?
+</div>
+</div>
+
+<div class="quick-replies" id="quickReplies">
+<button class="quick-btn" onclick="sendQuick('Tous Fraudeurs')">Tous Fraudeurs</button>
+<button class="quick-btn" onclick="sendQuick('Plaintes CSA')">Plaintes CSA</button>
+<button class="quick-btn" onclick="sendQuick('Fraude sociale')">Fraude sociale</button>
+<button class="quick-btn" onclick="sendQuick('Déontologie')">Déontologie</button>
+</div>
+
+<div class="chat-input">
+<input type="text" id="userInput" placeholder="Tapez votre message..." onkeypress="if(event.key==='Enter')sendMessage()">
+<button onclick="sendMessage()">➤</button>
+</div>
+
+<div class="disclaimer">
+⚠️ Ceci est une parodie satirique — <a href="petition-countdown.html">Voir les vraies infos</a>
+</div>
+</div>
+
+<script>
+const messages = document.getElementById('messages');
+const input = document.getElementById('userInput');
+const quickReplies = document.getElementById('quickReplies');
+
+const responses = {
+    'tous fraudeurs': [
+        "\"Tous Fraudeurs ?\" est un programme d'investigation de haute qualité qui a nécessité des mois de travail. 📺",
+        "Je ne comprends pas votre question. Avez-vous essayé de regarder la rediffusion ?",
+        "Ce documentaire a été réalisé dans le respect total de nos standards... *vérifie ses notes* ...de divertissement.",
+        "ERROR 404: Éthique journalistique non trouvée. Veuillez réessayer plus tard.",
+        "Nos équipes ont travaillé très dur pour sélectionner les 30 meilleures secondes parmi des heures d'interviews ! 🎬"
+    ],
+    'plaintes': [
+        "400 plaintes ? Je vois plutôt ça comme 400 téléspectateurs très engagés ! 📈",
+        "Le CSA examine actuellement... *bruit de papier froissé* ...un dossier très épais, oui.",
+        "Nos avocats me demandent de ne pas commenter les procédures en cours. ⚖️",
+        "Techniquement, c'est un record d'audience post-diffusion !",
+        "Je transfère votre demande au service \"Gestion de crise\". Temps d'attente estimé : ∞"
+    ],
+    'fraude': [
+        "La fraude sociale est un problème MAJEUR qui touche... *consulte Google* ...moins de 3% des allocataires. Mais c'est beaucoup, 3% !",
+        "Nous n'avons pas cité les chiffres officiels car ils ne correspondaient pas à notre ligne éditoriale.",
+        "Fraude fiscale ? Connais pas. Vous voulez dire \"optimisation fiscale\" ? C'est légal ça. 💼",
+        "30 milliards de fraude fiscale vs 200 millions de fraude sociale ? Ce n'est pas comparable, la sociale est plus... sociale.",
+        "Je vous suggère de regarder notre prochain documentaire : \"Tous Optimisateurs Fiscaux ?\" ...ah non, celui-là n'est pas prévu."
+    ],
+    'déontologie': [
+        "La déontologie est très importante pour nous ! C'est écrit quelque part dans nos bureaux, je crois.",
+        "Le CDJ ? C'est... *tape sur clavier* ...un organisme qui fait des recommandations qu'on lit avec attention avant de les ignorer.",
+        "Nos critères de documentaire sont : 1) Du drame 2) De la musique stressante 3) Des gens qui ont l'air coupables",
+        "Journalisme d'investigation ≠ Journalisme de confirmation. Mais les deux commencent par J !",
+        "ERROR: Module contradictoire.exe n'a jamais été installé sur ce système."
+    ],
+    'default': [
+        "Intéressant ! Avez-vous essayé d'éteindre et rallumer votre télévision ? 📺",
+        "Je vais transférer votre demande au service compétent... *rires enregistrés*",
+        "Cette fonctionnalité sera disponible dans une prochaine mise à jour de notre éthique.",
+        "Merci pour votre message ! Il sera traité avec le même soin que nos vérifications de faits.",
+        "Je suis désolé, je n'ai pas compris. Comme les statistiques de l'ONEM.",
+        "Votre opinion est importante pour nous ! *la met directement à la corbeille*",
+        "Avez-vous essayé de poser une question qui ne remet pas en cause notre travail ?",
+        "Je consulte notre base de données de faits alternatifs...",
+        "ERREUR: Votre question contient trop de demandes de transparence.",
+        "Pour des informations fiables, je vous recommande... *bug* ...un autre média."
+    ]
+};
+
+function getResponse(text) {
+    const lower = text.toLowerCase();
+    if (lower.includes('fraudeur') || lower.includes('documentaire') || lower.includes('programme')) {
+        return responses['tous fraudeurs'][Math.floor(Math.random() * responses['tous fraudeurs'].length)];
+    }
+    if (lower.includes('plainte') || lower.includes('csa') || lower.includes('400')) {
+        return responses['plaintes'][Math.floor(Math.random() * responses['plaintes'].length)];
+    }
+    if (lower.includes('fraude') || lower.includes('3%') || lower.includes('chiffre') || lower.includes('onem') || lower.includes('fiscal')) {
+        return responses['fraude'][Math.floor(Math.random() * responses['fraude'].length)];
+    }
+    if (lower.includes('déonto') || lower.includes('éthique') || lower.includes('cdj') || lower.includes('journalis')) {
+        return responses['déontologie'][Math.floor(Math.random() * responses['déontologie'].length)];
+    }
+    return responses['default'][Math.floor(Math.random() * responses['default'].length)];
+}
+
+function addMessage(text, type) {
+    const div = document.createElement('div');
+    div.className = `message ${type}`;
+    div.textContent = text;
+    messages.appendChild(div);
+    messages.scrollTop = messages.scrollHeight;
+}
+
+function showTyping() {
+    const div = document.createElement('div');
+    div.className = 'message bot typing';
+    div.id = 'typing';
+    div.innerHTML = '<span></span><span></span><span></span>';
+    messages.appendChild(div);
+    messages.scrollTop = messages.scrollHeight;
+}
+
+function hideTyping() {
+    const typing = document.getElementById('typing');
+    if (typing) typing.remove();
+}
+
+function sendMessage() {
+    const text = input.value.trim();
+    if (!text) return;
+    
+    addMessage(text, 'user');
+    input.value = '';
+    quickReplies.style.display = 'none';
+    
+    showTyping();
+    
+    const delay = 1000 + Math.random() * 2000;
+    setTimeout(() => {
+        hideTyping();
+        addMessage(getResponse(text), 'bot');
+        
+        // Parfois ajouter un message système sarcastique
+        if (Math.random() > 0.7) {
+            setTimeout(() => {
+                const systems = [
+                    "💡 Conseil : Pour des infos fiables, visitez ouaisfi.eu",
+                    "📊 Le saviez-vous ? Le taux réel de fraude est <3% (source: ONEM)",
+                    "⚠️ Ce chatbot est aussi fiable que le fact-checking de RTL",
+                    "🎭 Rappel : Ceci est une parodie. Contrairement à \"Tous Fraudeurs\"."
+                ];
+                addMessage(systems[Math.floor(Math.random() * systems.length)], 'system');
+            }, 1500);
+        }
+    }, delay);
+}
+
+function sendQuick(text) {
+    input.value = text;
+    sendMessage();
+}
+
+// Message d'accueil différé
+setTimeout(() => {
+    addMessage("Je peux répondre à vos questions sur nos programmes, avec la même rigueur que notre service fact-checking. 😊", 'bot');
+}, 2000);
+</script>
+
+</body>
+</html>
