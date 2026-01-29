@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>RTL.be — Maintenance en cours</title>
+<meta name="description" content="RTL.be est en maintenance pour mise à jour de ses standards éthiques.">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%}
+body{
+font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+background:linear-gradient(180deg,#f8f9fa 0%,#e9ecef 100%);
+color:#333;
+display:flex;flex-direction:column;
+align-items:center;justify-content:center;
+min-height:100vh;
+padding:2rem;
+text-align:center;
+}
+
+.logo{
+margin-bottom:2rem;
+}
+.logo svg{width:120px}
+
+.gear-container{
+position:relative;
+width:120px;height:120px;
+margin:2rem auto;
+}
+.gear{
+position:absolute;
+animation:rotate 8s linear infinite;
+}
+.gear.reverse{animation-direction:reverse;animation-duration:6s}
+@keyframes rotate{to{transform:rotate(360deg)}}
+.gear:nth-child(1){top:0;left:20px}
+.gear:nth-child(2){top:40px;left:60px}
+.gear:nth-child(3){top:50px;left:0}
+
+h1{
+font-size:clamp(1.5rem,4vw,2rem);
+font-weight:600;
+margin-bottom:1rem;
+color:#c8102e;
+}
+
+p{
+font-size:1.1rem;
+color:#666;
+max-width:500px;
+line-height:1.6;
+margin-bottom:1rem;
+}
+
+.status-box{
+background:#fff;
+border:1px solid #ddd;
+border-radius:8px;
+padding:1.5rem 2rem;
+margin:2rem 0;
+box-shadow:0 2px 10px rgba(0,0,0,.05);
+max-width:500px;
+text-align:left;
+}
+.status-item{
+display:flex;align-items:center;
+padding:.75rem 0;
+border-bottom:1px solid #eee;
+font-size:.95rem;
+}
+.status-item:last-child{border:none}
+.status-icon{
+width:24px;height:24px;
+border-radius:50%;
+margin-right:1rem;
+display:flex;align-items:center;justify-content:center;
+font-size:.75rem;
+}
+.status-icon.loading{background:#fff3cd;color:#856404;animation:pulse 1.5s infinite}
+.status-icon.error{background:#f8d7da;color:#721c24}
+.status-icon.ok{background:#d4edda;color:#155724}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
+
+.progress-container{
+width:100%;max-width:400px;
+margin:1.5rem 0;
+}
+.progress-label{
+display:flex;justify-content:space-between;
+font-size:.85rem;color:#666;
+margin-bottom:.5rem;
+}
+.progress-bar{
+height:8px;
+background:#e9ecef;
+border-radius:4px;
+overflow:hidden;
+}
+.progress-fill{
+height:100%;
+background:linear-gradient(90deg,#c8102e,#ff6b6b);
+width:0%;
+animation:load 30s ease-out forwards;
+}
+@keyframes load{
+0%{width:0%}
+10%{width:15%}
+30%{width:23%}
+60%{width:31%}
+90%{width:42%}
+100%{width:42%}
+}
+
+.time-estimate{
+font-size:1.5rem;
+font-weight:600;
+color:#c8102e;
+margin:1rem 0;
+font-family:'Courier New',monospace;
+}
+
+.disclaimer{
+font-size:.8rem;
+color:#999;
+margin-top:2rem;
+padding-top:2rem;
+border-top:1px solid #ddd;
+max-width:600px;
+}
+
+.real-link{
+display:inline-block;
+margin-top:1.5rem;
+padding:.75rem 1.5rem;
+background:#c8102e;
+color:#fff;
+text-decoration:none;
+border-radius:4px;
+font-weight:500;
+transition:all .2s;
+}
+.real-link:hover{background:#a00d25;transform:translateY(-1px)}
+
+.footer{
+position:fixed;
+bottom:0;left:0;right:0;
+background:#c8102e;
+color:#fff;
+padding:.5rem;
+font-size:.8rem;
+text-align:center;
+}
+</style>
+</head>
+<body>
+
+<!-- FAKE RTL LOGO -->
+<div class="logo">
+<svg viewBox="0 0 120 50">
+<rect fill="#c8102e" width="120" height="50" rx="4"/>
+<text x="60" y="35" text-anchor="middle" fill="#fff" font-family="Arial Black" font-size="28" font-weight="900">RTL</text>
+</svg>
+</div>
+
+<!-- GEARS -->
+<div class="gear-container">
+<svg class="gear" width="50" height="50" viewBox="0 0 50 50">
+<path fill="#c8102e" d="M25,10 L27,2 L23,2 Z M25,40 L27,48 L23,48 Z M10,25 L2,27 L2,23 Z M40,25 L48,27 L48,23 Z M14,14 L8,8 L12,12 Z M36,36 L42,42 L38,38 Z M36,14 L42,8 L38,12 Z M14,36 L8,42 L12,38 Z" opacity=".3"/>
+<circle cx="25" cy="25" r="15" fill="none" stroke="#c8102e" stroke-width="6"/>
+<circle cx="25" cy="25" r="6" fill="#c8102e"/>
+</svg>
+<svg class="gear reverse" width="40" height="40" viewBox="0 0 50 50">
+<circle cx="25" cy="25" r="12" fill="none" stroke="#666" stroke-width="5"/>
+<circle cx="25" cy="25" r="5" fill="#666"/>
+</svg>
+<svg class="gear" width="35" height="35" viewBox="0 0 50 50">
+<circle cx="25" cy="25" r="10" fill="none" stroke="#999" stroke-width="4"/>
+<circle cx="25" cy="25" r="4" fill="#999"/>
+</svg>
+</div>
+
+<h1>🔧 Maintenance en cours</h1>
+
+<p>Notre site est actuellement en maintenance pour <strong>mise à jour de nos standards journalistiques et éthiques</strong>.</p>
+
+<div class="status-box">
+<div class="status-item">
+<span class="status-icon error">✗</span>
+<span>Vérification des faits — <strong>Module introuvable</strong></span>
+</div>
+<div class="status-item">
+<span class="status-icon error">✗</span>
+<span>Contradictoire — <strong>Jamais installé</strong></span>
+</div>
+<div class="status-item">
+<span class="status-icon error">✗</span>
+<span>Données officielles — <strong>Connexion refusée</strong></span>
+</div>
+<div class="status-item">
+<span class="status-icon loading">⟳</span>
+<span>Intégrité éditoriale — <strong>Recherche en cours...</strong></span>
+</div>
+<div class="status-item">
+<span class="status-icon ok">✓</span>
+<span>Dramatisation excessive — <strong>Opérationnel</strong></span>
+</div>
+</div>
+
+<div class="progress-container">
+<div class="progress-label">
+<span>Progression</span>
+<span id="pct">0%</span>
+</div>
+<div class="progress-bar">
+<div class="progress-fill" id="fill"></div>
+</div>
+</div>
+
+<p>Temps estimé avant restauration de l'éthique :</p>
+<div class="time-estimate">∞</div>
+
+<a href="petition-countdown.html" class="real-link">En attendant, visitez la vraie info →</a>
+
+<p class="disclaimer">
+<strong>Note :</strong> Ceci est une page satirique créée par ouaisfi.eu. Elle illustre les problèmes de déontologie journalistique révélés par l'affaire "Tous Fraudeurs". RTL n'est pas réellement en maintenance (malheureusement, leur éthique l'est peut-être).
+</p>
+
+<div class="footer">
+Cette page est une parodie • <a href="index.html" style="color:#fff">ouaisfi.eu</a> • Satire protégée par la liberté d'expression
+</div>
+
+<script>
+// Sync percentage display with CSS animation
+const fill = document.getElementById('fill');
+const pct = document.getElementById('pct');
+let currentWidth = 0;
+
+function updatePct() {
+    const computed = getComputedStyle(fill).width;
+    const parent = fill.parentElement.offsetWidth;
+    const percent = Math.round((parseFloat(computed) / parent) * 100);
+    pct.textContent = percent + '%';
+    if (percent < 42) requestAnimationFrame(updatePct);
+}
+setTimeout(updatePct, 100);
+</script>
+
+</body>
+</html>

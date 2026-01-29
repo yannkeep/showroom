@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>🔴 BREAKING NEWS — Flash Info Citoyen</title>
+<meta name="description" content="Les infos que les JT ne montrent pas. Flash spécial fraude et déontologie.">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&family=Roboto:wght@400;500;700&display=swap');
+
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+font-family:'Roboto',sans-serif;
+background:#1a1a2e;
+color:#fff;
+overflow-x:hidden;
+}
+
+/* TICKER TOP */
+.ticker-top{
+background:#cc0000;
+color:#fff;
+padding:.5rem 0;
+font-family:'Roboto Condensed',sans-serif;
+font-weight:700;
+font-size:.85rem;
+overflow:hidden;
+}
+.ticker-content{
+display:flex;
+animation:ticker 25s linear infinite;
+white-space:nowrap;
+}
+@keyframes ticker{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+.ticker-item{padding:0 3rem;display:flex;align-items:center;gap:.5rem}
+.ticker-item::before{content:'●';color:#ffcc00;font-size:.5rem}
+
+/* HEADER */
+.header{
+background:linear-gradient(180deg,#0a0a1a 0%,#1a1a2e 100%);
+padding:1rem 2rem;
+display:flex;justify-content:space-between;align-items:center;
+border-bottom:3px solid #cc0000;
+}
+.logo{
+font-family:'Roboto Condensed',sans-serif;
+font-size:1.75rem;
+font-weight:700;
+display:flex;align-items:center;gap:.75rem;
+}
+.logo .live{
+background:#cc0000;
+padding:.25rem .5rem;
+font-size:.7rem;
+border-radius:2px;
+animation:live-pulse 1s infinite;
+}
+@keyframes live-pulse{0%,100%{opacity:1}50%{opacity:.6}}
+.header-time{
+font-family:'Roboto Condensed',sans-serif;
+text-align:right;
+}
+.header-time .time{font-size:1.5rem;font-weight:700}
+.header-time .date{font-size:.85rem;opacity:.7}
+
+/* MAIN GRID */
+.main{
+display:grid;
+grid-template-columns:2fr 1fr;
+gap:1px;
+background:#333;
+min-height:calc(100vh - 150px);
+}
+
+/* VIDEO ZONE */
+.video-zone{
+background:#0a0a1a;
+position:relative;
+}
+.video-placeholder{
+aspect-ratio:16/9;
+background:linear-gradient(135deg,#1a1a2e 0%,#0a0a1a 100%);
+display:flex;align-items:center;justify-content:center;
+position:relative;
+overflow:hidden;
+}
+.video-placeholder::before{
+content:'';position:absolute;inset:0;
+background:url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text x="50" y="55" text-anchor="middle" font-size="8" fill="rgba(255,255,255,.03)">VÉRITÉ</text></svg>');
+background-size:100px;
+animation:bg-scroll 20s linear infinite;
+}
+@keyframes bg-scroll{0%{background-position:0 0}100%{background-position:100px 100px}}
+
+.big-stat{
+text-align:center;
+z-index:1;
+padding:2rem;
+}
+.big-stat .number{
+font-family:'Roboto Condensed',sans-serif;
+font-size:clamp(5rem,15vw,12rem);
+font-weight:700;
+line-height:1;
+background:linear-gradient(180deg,#fff 0%,#cc0000 100%);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+}
+.big-stat .label{
+font-size:clamp(1rem,3vw,1.75rem);
+margin-top:1rem;
+opacity:.9;
+}
+.big-stat .source{
+font-size:.85rem;
+opacity:.5;
+margin-top:.5rem;
+}
+
+/* BREAKING BANNER */
+.breaking-banner{
+background:#cc0000;
+padding:.75rem 1rem;
+display:flex;align-items:center;gap:1rem;
+}
+.breaking-label{
+background:#fff;
+color:#cc0000;
+padding:.25rem .75rem;
+font-family:'Roboto Condensed',sans-serif;
+font-weight:700;
+font-size:.85rem;
+animation:flash .5s infinite;
+}
+@keyframes flash{0%,100%{opacity:1}50%{opacity:.8}}
+.breaking-text{
+font-family:'Roboto Condensed',sans-serif;
+font-size:1.1rem;
+font-weight:700;
+}
+
+/* HEADLINE */
+.headline-zone{
+padding:1.5rem;
+background:#0f0f1f;
+}
+.headline{
+font-family:'Roboto Condensed',sans-serif;
+font-size:clamp(1.25rem,3vw,2rem);
+font-weight:700;
+line-height:1.3;
+margin-bottom:1rem;
+}
+.headline-meta{
+display:flex;gap:1.5rem;
+font-size:.85rem;
+opacity:.7;
+}
+
+/* SIDEBAR */
+.sidebar{
+background:#0f0f1f;
+display:flex;flex-direction:column;
+}
+
+.sidebar-section{
+padding:1rem;
+border-bottom:1px solid #333;
+}
+.sidebar-title{
+font-family:'Roboto Condensed',sans-serif;
+font-size:.8rem;
+font-weight:700;
+text-transform:uppercase;
+letter-spacing:.1em;
+color:#cc0000;
+margin-bottom:1rem;
+display:flex;align-items:center;gap:.5rem;
+}
+.sidebar-title::before{content:'▌'}
+
+/* STATS CARDS */
+.stat-card{
+background:#1a1a2e;
+padding:1rem;
+margin-bottom:.75rem;
+border-left:3px solid #cc0000;
+}
+.stat-card .value{
+font-family:'Roboto Condensed',sans-serif;
+font-size:1.75rem;
+font-weight:700;
+}
+.stat-card.green .value{color:#00cc66}
+.stat-card.red .value{color:#cc0000}
+.stat-card.yellow .value{color:#ffcc00}
+.stat-card.blue .value{color:#0099ff}
+.stat-card .label{font-size:.85rem;opacity:.7;margin-top:.25rem}
+
+/* TIMELINE */
+.timeline-item{
+padding:.75rem 0;
+border-bottom:1px solid rgba(255,255,255,.1);
+font-size:.9rem;
+}
+.timeline-item:last-child{border:none}
+.timeline-time{
+font-family:'Roboto Condensed',sans-serif;
+font-size:.75rem;
+color:#cc0000;
+margin-bottom:.25rem;
+}
+.timeline-text{opacity:.9;line-height:1.4}
+
+/* CTA */
+.cta-box{
+padding:1.5rem;
+background:linear-gradient(135deg,#cc0000,#990000);
+margin-top:auto;
+text-align:center;
+}
+.cta-box h3{
+font-family:'Roboto Condensed',sans-serif;
+font-size:1.1rem;
+margin-bottom:.75rem;
+}
+.cta-box a{
+display:inline-block;
+padding:.75rem 1.5rem;
+background:#fff;
+color:#cc0000;
+text-decoration:none;
+font-weight:700;
+border-radius:2px;
+}
+
+/* BOTTOM TICKER */
+.ticker-bottom{
+background:#0a0a1a;
+border-top:1px solid #333;
+padding:.75rem 2rem;
+display:flex;align-items:center;gap:2rem;
+}
+.ticker-bottom .label{
+background:#ffcc00;
+color:#000;
+padding:.25rem .5rem;
+font-family:'Roboto Condensed',sans-serif;
+font-weight:700;
+font-size:.75rem;
+}
+.ticker-bottom .scroll{
+flex:1;overflow:hidden;
+}
+.ticker-bottom .scroll-content{
+display:flex;
+animation:ticker 40s linear infinite;
+white-space:nowrap;
+font-size:.9rem;
+}
+.ticker-bottom .scroll-item{
+padding:0 2rem;
+opacity:.8;
+}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+.main{grid-template-columns:1fr}
+.sidebar{order:-1}
+}
+</style>
+</head>
+<body>
+
+<!-- TOP TICKER -->
+<div class="ticker-top">
+<div class="ticker-content">
+<span class="ticker-item">FLASH — Plus de 400 plaintes déposées au CSA contre "Tous Fraudeurs"</span>
+<span class="ticker-item">EXCLUSIF — Le taux réel de fraude sociale est inférieur à 3% selon l'ONEM</span>
+<span class="ticker-item">RÉVÉLATION — Témoins dénoncent manipulation au montage</span>
+<span class="ticker-item">URGENT — Pétition citoyenne lancée, deadline 31 mars</span>
+<span class="ticker-item">FLASH — Plus de 400 plaintes déposées au CSA contre "Tous Fraudeurs"</span>
+<span class="ticker-item">EXCLUSIF — Le taux réel de fraude sociale est inférieur à 3% selon l'ONEM</span>
+<span class="ticker-item">RÉVÉLATION — Témoins dénoncent manipulation au montage</span>
+<span class="ticker-item">URGENT — Pétition citoyenne lancée, deadline 31 mars</span>
+</div>
+</div>
+
+<!-- HEADER -->
+<div class="header">
+<div class="logo">
+<span class="live">🔴 LIVE</span>
+INFO CITOYENNE
+</div>
+<div class="header-time">
+<div class="time" id="time">00:00:00</div>
+<div class="date" id="date">--</div>
+</div>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+<!-- VIDEO ZONE -->
+<div class="video-zone">
+<div class="video-placeholder">
+<div class="big-stat">
+<div class="number" id="counter">30</div>
+<div class="label">MILLIARDS € de fraude fiscale par an</div>
+<div class="source">Source : SPF Finances</div>
+</div>
+</div>
+
+<div class="breaking-banner">
+<span class="breaking-label">⚡ BREAKING</span>
+<span class="breaking-text">RTL accusé de manipulation : 0 critère documentaire respecté sur 7</span>
+</div>
+
+<div class="headline-zone">
+<h1 class="headline">"Tous Fraudeurs" : le programme qui accuse 500.000 personnes alors que 97% sont en règle</h1>
+<div class="headline-meta">
+<span>📍 Belgique</span>
+<span>🕐 Il y a 2 heures</span>
+<span>👁️ 12.847 lectures</span>
+</div>
+</div>
+</div>
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+<div class="sidebar-section">
+<div class="sidebar-title">Chiffres clés</div>
+<div class="stat-card green">
+<div class="value">&lt;3%</div>
+<div class="label">Taux réel de fraude sociale</div>
+</div>
+<div class="stat-card red">
+<div class="value">150:1</div>
+<div class="label">Ratio fraude fiscale/sociale</div>
+</div>
+<div class="stat-card yellow">
+<div class="value">407</div>
+<div class="label">Plaintes au CSA (record)</div>
+</div>
+<div class="stat-card blue">
+<div class="value">0/7</div>
+<div class="label">Critères documentaire respectés</div>
+</div>
+</div>
+
+<div class="sidebar-section">
+<div class="sidebar-title">Fil d'actualité</div>
+<div class="timeline-item">
+<div class="timeline-time">12 NOV 2025</div>
+<div class="timeline-text">Diffusion de "Tous Fraudeurs" sur RTL-TVI</div>
+</div>
+<div class="timeline-item">
+<div class="timeline-time">NOV-DÉC 2025</div>
+<div class="timeline-text">Vague de plaintes au CSA — record historique franchi</div>
+</div>
+<div class="timeline-item">
+<div class="timeline-time">JANVIER 2026</div>
+<div class="timeline-text">Publication de l'analyse technique : 0/7 critères</div>
+</div>
+<div class="timeline-item">
+<div class="timeline-time">28 JAN 2026</div>
+<div class="timeline-text">Lancement de la pétition citoyenne</div>
+</div>
+<div class="timeline-item">
+<div class="timeline-time">31 MARS 2026</div>
+<div class="timeline-text">Deadline pétition — remise officielle le 1er avril</div>
+</div>
+</div>
+
+<div class="cta-box">
+<h3>Agissez maintenant</h3>
+<a href="petition-countdown.html">✍️ Signer la pétition</a>
+</div>
+</div>
+</div>
+
+<!-- BOTTOM TICKER -->
+<div class="ticker-bottom">
+<span class="label">À LA UNE</span>
+<div class="scroll">
+<div class="scroll-content">
+<span class="scroll-item">Fraude fiscale : 30 milliards €/an</span>
+<span class="scroll-item">●</span>
+<span class="scroll-item">Fraude sociale : 200 millions €/an</span>
+<span class="scroll-item">●</span>
+<span class="scroll-item">97% des allocataires sont en règle</span>
+<span class="scroll-item">●</span>
+<span class="scroll-item">RTL n'a cité aucune donnée officielle</span>
+<span class="scroll-item">●</span>
+<span class="scroll-item">1h d'interview → 30 secondes au montage</span>
+<span class="scroll-item">●</span>
+<span class="scroll-item">Fraude fiscale : 30 milliards €/an</span>
+<span class="scroll-item">●</span>
+<span class="scroll-item">Fraude sociale : 200 millions €/an</span>
+<span class="scroll-item">●</span>
+<span class="scroll-item">97% des allocataires sont en règle</span>
+<span class="scroll-item">●</span>
+<span class="scroll-item">RTL n'a cité aucune donnée officielle</span>
+<span class="scroll-item">●</span>
+<span class="scroll-item">1h d'interview → 30 secondes au montage</span>
+</div>
+</div>
+</div>
+
+<script>
+// Clock
+function updateTime() {
+    const now = new Date();
+    document.getElementById('time').textContent = now.toTimeString().slice(0,8);
+    document.getElementById('date').textContent = now.toLocaleDateString('fr-BE', {weekday:'long', day:'numeric', month:'long', year:'numeric'});
+}
+updateTime();
+setInterval(updateTime, 1000);
+
+// Counter animation
+let count = 0;
+const target = 30;
+const counter = document.getElementById('counter');
+function animateCounter() {
+    if (count < target) {
+        count++;
+        counter.textContent = count;
+        setTimeout(animateCounter, 100);
+    }
+}
+setTimeout(animateCounter, 1000);
+</script>
+
+</body>
+</html>

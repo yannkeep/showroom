@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Calculateur d'Injustice Fiscale — ouaisfi.eu</title>
+<meta name="description" content="Calculez combien vous payez d'impôts vs ce que les ultra-riches évitent.">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+font-family:'Inter',sans-serif;
+background:#f8fafc;
+color:#1e293b;
+min-height:100vh;
+}
+
+.header{
+background:linear-gradient(135deg,#1e3a5f 0%,#0f172a 100%);
+color:#fff;
+padding:3rem 2rem;
+text-align:center;
+}
+.header h1{
+font-size:clamp(1.5rem,4vw,2.5rem);
+font-weight:800;
+margin-bottom:.5rem;
+}
+.header p{
+opacity:.8;
+max-width:600px;
+margin:0 auto;
+}
+
+.main{
+max-width:900px;
+margin:-2rem auto 3rem;
+padding:0 1rem;
+}
+
+.card{
+background:#fff;
+border-radius:16px;
+box-shadow:0 4px 20px rgba(0,0,0,.1);
+overflow:hidden;
+}
+
+.form-section{
+padding:2rem;
+}
+.form-section h2{
+font-size:1.25rem;
+margin-bottom:1.5rem;
+display:flex;align-items:center;gap:.5rem;
+}
+
+.form-group{
+margin-bottom:1.5rem;
+}
+.form-group label{
+display:block;
+font-weight:600;
+margin-bottom:.5rem;
+font-size:.95rem;
+}
+.form-group input,.form-group select{
+width:100%;
+padding:1rem;
+border:2px solid #e2e8f0;
+border-radius:8px;
+font-size:1rem;
+font-family:inherit;
+transition:all .2s;
+}
+.form-group input:focus,.form-group select:focus{
+outline:none;
+border-color:#3b82f6;
+box-shadow:0 0 0 3px rgba(59,130,246,.1);
+}
+.form-group .hint{
+font-size:.8rem;
+color:#64748b;
+margin-top:.25rem;
+}
+
+.slider-container{
+margin:1rem 0;
+}
+.slider-container input[type="range"]{
+width:100%;
+height:8px;
+-webkit-appearance:none;
+background:#e2e8f0;
+border-radius:4px;
+}
+.slider-container input[type="range"]::-webkit-slider-thumb{
+-webkit-appearance:none;
+width:24px;height:24px;
+background:#3b82f6;
+border-radius:50%;
+cursor:pointer;
+box-shadow:0 2px 6px rgba(0,0,0,.2);
+}
+.slider-labels{
+display:flex;justify-content:space-between;
+font-size:.8rem;color:#64748b;
+margin-top:.5rem;
+}
+
+.btn-calc{
+width:100%;
+padding:1rem;
+background:linear-gradient(135deg,#3b82f6,#1d4ed8);
+color:#fff;
+border:none;
+border-radius:8px;
+font-size:1.1rem;
+font-weight:700;
+cursor:pointer;
+transition:all .2s;
+}
+.btn-calc:hover{
+transform:translateY(-2px);
+box-shadow:0 4px 15px rgba(59,130,246,.4);
+}
+
+/* RESULTS */
+.results{
+display:none;
+padding:2rem;
+background:#f1f5f9;
+border-top:1px solid #e2e8f0;
+}
+.results.show{display:block}
+
+.result-header{
+text-align:center;
+margin-bottom:2rem;
+}
+.result-header h3{
+font-size:1.5rem;
+color:#dc2626;
+margin-bottom:.5rem;
+}
+
+.comparison{
+display:grid;
+grid-template-columns:1fr auto 1fr;
+gap:1rem;
+align-items:center;
+margin-bottom:2rem;
+}
+.comparison-box{
+background:#fff;
+padding:1.5rem;
+border-radius:12px;
+text-align:center;
+box-shadow:0 2px 10px rgba(0,0,0,.05);
+}
+.comparison-box.you{border-top:4px solid #22c55e}
+.comparison-box.them{border-top:4px solid #dc2626}
+.comparison-box .label{font-size:.85rem;color:#64748b;margin-bottom:.5rem}
+.comparison-box .amount{font-size:1.75rem;font-weight:800}
+.comparison-box.you .amount{color:#22c55e}
+.comparison-box.them .amount{color:#dc2626}
+.comparison-box .detail{font-size:.8rem;color:#94a3b8;margin-top:.5rem}
+.comparison-vs{
+font-size:2rem;
+font-weight:800;
+color:#94a3b8;
+}
+
+.injustice-meter{
+background:#fff;
+padding:1.5rem;
+border-radius:12px;
+margin-bottom:2rem;
+}
+.injustice-meter h4{
+font-size:1rem;
+margin-bottom:1rem;
+text-align:center;
+}
+.meter-bar{
+height:30px;
+background:#e2e8f0;
+border-radius:15px;
+overflow:hidden;
+position:relative;
+}
+.meter-fill{
+height:100%;
+background:linear-gradient(90deg,#22c55e,#eab308,#dc2626);
+border-radius:15px;
+transition:width 1s ease-out;
+}
+.meter-labels{
+display:flex;justify-content:space-between;
+font-size:.75rem;color:#64748b;
+margin-top:.5rem;
+}
+
+.facts-box{
+background:#fef2f2;
+border:1px solid #fecaca;
+border-radius:12px;
+padding:1.5rem;
+margin-bottom:2rem;
+}
+.facts-box h4{
+color:#dc2626;
+margin-bottom:1rem;
+font-size:1rem;
+}
+.facts-box ul{
+margin-left:1.25rem;
+}
+.facts-box li{
+margin:.5rem 0;
+font-size:.95rem;
+color:#7f1d1d;
+}
+
+.cta-result{
+text-align:center;
+padding-top:1rem;
+}
+.cta-result p{
+margin-bottom:1rem;
+color:#64748b;
+}
+.cta-result a{
+display:inline-block;
+padding:1rem 2rem;
+background:#dc2626;
+color:#fff;
+text-decoration:none;
+border-radius:8px;
+font-weight:700;
+}
+
+@media(max-width:600px){
+.comparison{grid-template-columns:1fr}
+.comparison-vs{display:none}
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+<h1>💰 Calculateur d'Injustice Fiscale</h1>
+<p>Découvrez combien vous contribuez vs ce que les ultra-riches évitent de payer</p>
+</div>
+
+<div class="main">
+<div class="card">
+
+<!-- FORM -->
+<div class="form-section">
+<h2>📋 Vos informations</h2>
+
+<div class="form-group">
+<label>Revenu annuel brut (€)</label>
+<input type="number" id="revenu" placeholder="35000" value="35000">
+<div class="hint">Salaire brut annuel avant impôts</div>
+</div>
+
+<div class="form-group">
+<label>Situation</label>
+<select id="situation">
+<option value="single">Isolé(e)</option>
+<option value="couple">En couple (1 revenu)</option>
+<option value="couple2">En couple (2 revenus)</option>
+<option value="family">Famille avec enfants</option>
+</select>
+</div>
+
+<div class="form-group">
+<label>Vous payez combien de TVA par mois ? (estimation)</label>
+<div class="slider-container">
+<input type="range" id="tva" min="50" max="500" value="200">
+<div class="slider-labels">
+<span>50€</span>
+<span id="tvaValue">200€</span>
+<span>500€</span>
+</div>
+</div>
+</div>
+
+<button class="btn-calc" onclick="calculate()">Calculer l'injustice →</button>
+</div>
+
+<!-- RESULTS -->
+<div class="results" id="results">
+<div class="result-header">
+<h3>😤 Résultat de l'injustice</h3>
+<p>Comparaison entre votre contribution et celle des fraudeurs</p>
+</div>
+
+<div class="comparison">
+<div class="comparison-box you">
+<div class="label">VOUS PAYEZ</div>
+<div class="amount" id="youPay">€0</div>
+<div class="detail">par an en impôts + TVA</div>
+</div>
+<div class="comparison-vs">VS</div>
+<div class="comparison-box them">
+<div class="label">LA FRAUDE FISCALE</div>
+<div class="amount">30 Mds €</div>
+<div class="detail">évités par an en Belgique</div>
+</div>
+</div>
+
+<div class="injustice-meter">
+<h4>🌡️ Indice d'injustice médiatique</h4>
+<div class="meter-bar">
+<div class="meter-fill" id="meterFill" style="width:0%"></div>
+</div>
+<div class="meter-labels">
+<span>Équilibré</span>
+<span>Déséquilibré</span>
+<span>SCANDALEUX</span>
+</div>
+</div>
+
+<div class="facts-box">
+<h4>📊 Ce que RTL ne vous a pas dit :</h4>
+<ul>
+<li>Vous payez <strong id="multiple">X fois</strong> plus d'impôts (proportionnellement) que les optimisateurs fiscaux</li>
+<li>La fraude fiscale (30 Mds€) = <strong>150x</strong> la fraude sociale (200 M€)</li>
+<li>Pourtant, RTL a fait <strong>0 documentaire</strong> sur la fraude fiscale</li>
+<li>Le programme "Tous Fraudeurs" a généré <strong>400+ plaintes</strong> au CSA</li>
+<li><strong id="yourShare">X €</strong> de vos impôts servent à compenser la fraude fiscale</li>
+</ul>
+</div>
+
+<div class="cta-result">
+<p>Marre de payer pour les autres ?</p>
+<a href="petition-countdown.html">✍️ Signez la pétition contre la désinformation</a>
+</div>
+</div>
+
+</div>
+</div>
+
+<script>
+// TVA slider
+const tvaSlider = document.getElementById('tva');
+const tvaValue = document.getElementById('tvaValue');
+tvaSlider.oninput = () => tvaValue.textContent = tvaSlider.value + '€';
+
+function calculate() {
+    const revenu = parseFloat(document.getElementById('revenu').value) || 35000;
+    const tva = parseFloat(document.getElementById('tva').value) * 12;
+    const situation = document.getElementById('situation').value;
+    
+    // Simplified Belgian tax calculation
+    let taxRate = 0.35; // Average effective rate
+    if (situation === 'couple' || situation === 'family') taxRate = 0.30;
+    if (revenu < 25000) taxRate = 0.25;
+    if (revenu > 60000) taxRate = 0.45;
+    
+    const incomeTax = revenu * taxRate;
+    const totalPaid = incomeTax + tva;
+    
+    // Show results
+    document.getElementById('results').classList.add('show');
+    document.getElementById('youPay').textContent = '€' + Math.round(totalPaid).toLocaleString('fr-BE');
+    
+    // Calculate "your share" of compensating fiscal fraud
+    // 30B / 11M population = ~2700€ per capita
+    const yourShare = Math.round(2700 * (totalPaid / 15000));
+    document.getElementById('yourShare').textContent = yourShare.toLocaleString('fr-BE') + ' €';
+    
+    // Multiple calculation (vs someone evading 50% of similar income)
+    const multiple = Math.round((taxRate / 0.05) * 10) / 10;
+    document.getElementById('multiple').textContent = multiple + ' fois';
+    
+    // Injustice meter (always high because the system is rigged)
+    setTimeout(() => {
+        document.getElementById('meterFill').style.width = '87%';
+    }, 300);
+    
+    // Scroll to results
+    document.getElementById('results').scrollIntoView({ behavior: 'smooth' });
+}
+</script>
+
+</body>
+</html>

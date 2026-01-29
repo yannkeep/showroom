@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>VÉRITÉ OS — Initialisation</title>
+<meta name="description" content="Démarrage du système de contre-information citoyenne.">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap');
+
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+font-family:'JetBrains Mono',monospace;
+background:#000;
+color:#00ff41;
+min-height:100vh;
+display:flex;flex-direction:column;
+align-items:center;justify-content:center;
+padding:2rem;
+overflow:hidden;
+}
+
+.boot-screen{
+width:100%;
+max-width:800px;
+}
+
+/* LOGO ASCII */
+.logo-ascii{
+font-size:clamp(.4rem,1.5vw,.7rem);
+line-height:1.2;
+margin-bottom:2rem;
+white-space:pre;
+color:#00ff41;
+text-shadow:0 0 10px #00ff41;
+text-align:center;
+}
+
+/* BOOT LOG */
+.boot-log{
+font-size:clamp(.7rem,1.5vw,.9rem);
+line-height:1.8;
+margin-bottom:2rem;
+}
+.log-line{
+opacity:0;
+animation:fadeIn .1s forwards;
+}
+.log-line.ok{color:#00ff41}
+.log-line.warn{color:#ffcc00}
+.log-line.error{color:#ff0040}
+.log-line.info{color:#00ffff}
+@keyframes fadeIn{to{opacity:1}}
+
+.log-line::before{content:'[';color:#666}
+.log-line::after{content:']';color:#666}
+.log-line .status{margin-right:.5rem}
+.log-line.ok .status::after{content:' OK ';color:#00ff41}
+.log-line.warn .status::after{content:'WARN';color:#ffcc00}
+.log-line.error .status::after{content:'FAIL';color:#ff0040}
+.log-line.info .status::after{content:'INFO';color:#00ffff}
+
+/* PROGRESS BAR */
+.progress-section{
+margin:2rem 0;
+}
+.progress-label{
+display:flex;justify-content:space-between;
+margin-bottom:.5rem;
+font-size:.8rem;
+}
+.progress-bar{
+height:20px;
+background:#111;
+border:1px solid #00ff41;
+position:relative;
+overflow:hidden;
+}
+.progress-fill{
+height:100%;
+background:linear-gradient(90deg,#003311,#00ff41);
+width:0%;
+transition:width .3s;
+position:relative;
+}
+.progress-fill::after{
+content:'';
+position:absolute;
+right:0;top:0;bottom:0;
+width:20px;
+background:linear-gradient(90deg,transparent,#00ff41);
+animation:pulse 1s infinite;
+}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
+
+/* SYSTEM INFO */
+.system-info{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+gap:1rem;
+margin:2rem 0;
+font-size:.8rem;
+}
+.info-block{
+border:1px solid #333;
+padding:1rem;
+}
+.info-block .label{color:#666;margin-bottom:.25rem}
+.info-block .value{color:#00ff41}
+
+/* FINAL */
+.final-message{
+text-align:center;
+margin-top:2rem;
+display:none;
+}
+.final-message h2{
+font-size:1.5rem;
+margin-bottom:1rem;
+text-shadow:0 0 20px #00ff41;
+}
+.final-message p{
+color:#00ffff;
+margin-bottom:1.5rem;
+}
+.final-message a{
+display:inline-block;
+padding:1rem 2rem;
+border:2px solid #00ff41;
+color:#00ff41;
+text-decoration:none;
+font-weight:bold;
+transition:all .2s;
+}
+.final-message a:hover{
+background:#00ff41;
+color:#000;
+box-shadow:0 0 30px #00ff41;
+}
+
+/* CURSOR */
+.cursor{
+display:inline-block;
+width:10px;
+height:1.2em;
+background:#00ff41;
+animation:blink 1s infinite;
+vertical-align:middle;
+}
+@keyframes blink{0%,50%{opacity:1}51%,100%{opacity:0}}
+</style>
+</head>
+<body>
+
+<div class="boot-screen">
+
+<!-- ASCII LOGO -->
+<pre class="logo-ascii">
+██╗   ██╗███████╗██████╗ ██╗████████╗███████╗     ██████╗ ███████╗
+██║   ██║██╔════╝██╔══██╗██║╚══██╔══╝██╔════╝    ██╔═══██╗██╔════╝
+██║   ██║█████╗  ██████╔╝██║   ██║   █████╗      ██║   ██║███████╗
+╚██╗ ██╔╝██╔══╝  ██╔══██╗██║   ██║   ██╔══╝      ██║   ██║╚════██║
+ ╚████╔╝ ███████╗██║  ██║██║   ██║   ███████╗    ╚██████╔╝███████║
+  ╚═══╝  ╚══════╝╚═╝  ╚═╝╚═╝   ╚═╝   ╚══════╝     ╚═════╝ ╚══════╝
+                    SYSTÈME DE CONTRE-INFORMATION v2.026
+</pre>
+
+<!-- BOOT LOG -->
+<div class="boot-log" id="bootLog"></div>
+
+<!-- PROGRESS -->
+<div class="progress-section">
+<div class="progress-label">
+<span>Chargement des modules de vérité</span>
+<span id="pct">0%</span>
+</div>
+<div class="progress-bar">
+<div class="progress-fill" id="fill"></div>
+</div>
+</div>
+
+<!-- SYSTEM INFO -->
+<div class="system-info">
+<div class="info-block">
+<div class="label">PLAINTES CSA</div>
+<div class="value" id="plaintes">Chargement...</div>
+</div>
+<div class="info-block">
+<div class="label">FRAUDE RÉELLE</div>
+<div class="value" id="fraude">Chargement...</div>
+</div>
+<div class="info-block">
+<div class="label">RATIO FISC/SOC</div>
+<div class="value" id="ratio">Chargement...</div>
+</div>
+<div class="info-block">
+<div class="label">CRITÈRES DOC</div>
+<div class="value" id="criteres">Chargement...</div>
+</div>
+</div>
+
+<!-- FINAL -->
+<div class="final-message" id="final">
+<h2>SYSTÈME PRÊT</h2>
+<p>Tous les modules de vérité sont opérationnels.<br>Prêt à déconstruire la propagande.</p>
+<a href="petition-countdown.html">▶ LANCER LA MISSION</a>
+</div>
+
+</div>
+
+<script>
+const logs = [
+    { text: "BIOS VÉRITÉ v2.026 initialisé", status: "info", delay: 300 },
+    { text: "Détection hardware citoyen", status: "ok", delay: 200 },
+    { text: "Chargement kernel critique", status: "ok", delay: 300 },
+    { text: "Module fact-checking", status: "ok", delay: 400 },
+    { text: "Module sources-officielles", status: "ok", delay: 300 },
+    { text: "Module contradictoire", status: "ok", delay: 200 },
+    { text: "Scan propagande RTL...", status: "info", delay: 500 },
+    { text: "  → Données ONEM citées : 0", status: "error", delay: 300 },
+    { text: "  → Contradictoire présent : NON", status: "error", delay: 300 },
+    { text: "  → Témoignages intègres : ÉCHEC", status: "error", delay: 300 },
+    { text: "  → Manipulation détectée : OUI", status: "warn", delay: 400 },
+    { text: "Analyse terminée : 0/7 critères", status: "error", delay: 500 },
+    { text: "Chargement contre-mesures", status: "info", delay: 300 },
+    { text: "Module pétition-citoyenne", status: "ok", delay: 300 },
+    { text: "Module documentation-preuves", status: "ok", delay: 300 },
+    { text: "Module mobilisation", status: "ok", delay: 300 },
+    { text: "Connexion réseau citoyen", status: "ok", delay: 400 },
+    { text: "Deadline chargée : 31 MARS 2026", status: "warn", delay: 300 },
+    { text: "Tous systèmes opérationnels", status: "ok", delay: 500 },
+];
+
+const bootLog = document.getElementById('bootLog');
+const fill = document.getElementById('fill');
+const pct = document.getElementById('pct');
+
+let currentLog = 0;
+let progress = 0;
+
+function addLog(log) {
+    const line = document.createElement('div');
+    line.className = `log-line ${log.status}`;
+    line.innerHTML = `<span class="status"></span>${log.text}`;
+    line.style.animationDelay = '0s';
+    bootLog.appendChild(line);
+    bootLog.scrollTop = bootLog.scrollHeight;
+}
+
+function updateProgress(value) {
+    progress = value;
+    fill.style.width = progress + '%';
+    pct.textContent = Math.round(progress) + '%';
+}
+
+function runBoot() {
+    if (currentLog < logs.length) {
+        addLog(logs[currentLog]);
+        updateProgress((currentLog / logs.length) * 100);
+        currentLog++;
+        setTimeout(runBoot, logs[currentLog - 1].delay);
+    } else {
+        updateProgress(100);
+        
+        // Update stats
+        setTimeout(() => {
+            document.getElementById('plaintes').textContent = '407+';
+            document.getElementById('plaintes').style.color = '#ffcc00';
+        }, 200);
+        setTimeout(() => {
+            document.getElementById('fraude').textContent = '<3%';
+            document.getElementById('fraude').style.color = '#00ff41';
+        }, 400);
+        setTimeout(() => {
+            document.getElementById('ratio').textContent = '150:1';
+            document.getElementById('ratio').style.color = '#ff0040';
+        }, 600);
+        setTimeout(() => {
+            document.getElementById('criteres').textContent = '0/7';
+            document.getElementById('criteres').style.color = '#ff0040';
+        }, 800);
+        
+        // Show final
+        setTimeout(() => {
+            document.getElementById('final').style.display = 'block';
+        }, 1500);
+    }
+}
+
+// Start boot sequence
+setTimeout(runBoot, 500);
+</script>
+
+</body>
+</html>
