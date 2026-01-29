@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="fr-BE">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kit Presse | Affaire "Tous Fraudeurs" | ouaisfi.eu</title>
+    <meta name="description" content="Dossier de presse destiné aux journalistes et associations professionnelles sur l'affaire du documentaire RTL 'Tous Fraudeurs'. Faits établis, questions sans réponse, ressources.">
+    <meta name="robots" content="noindex">
+    <link rel="canonical" href="https://ouaisfi.eu/kit-presse">
+    
+    <style>
+        @media print {
+            .no-print { display: none !important; }
+            body { background: white; color: black; font-size: 11pt; }
+            .container { max-width: 100%; padding: 0; }
+            h1 { font-size: 24pt; }
+            h2 { font-size: 16pt; page-break-after: avoid; }
+            .page-break { page-break-before: always; }
+        }
+        
+        :root {
+            --text: #1a1a24;
+            --text-muted: #4a4a5a;
+            --accent: #c92a2a;
+            --bg: #ffffff;
+            --bg-alt: #f8f9fa;
+            --border: #dee2e6;
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Georgia', 'Times New Roman', serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.8;
+            font-size: 16px;
+        }
+        
+        .container { max-width: 800px; margin: 0 auto; padding: 40px 24px; }
+        
+        a { color: var(--accent); }
+        
+        /* Header */
+        .press-header {
+            text-align: center;
+            padding: 60px 0;
+            border-bottom: 3px double var(--border);
+            margin-bottom: 40px;
+        }
+        .press-header .label {
+            font-family: Arial, sans-serif;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: var(--text-muted);
+            margin-bottom: 24px;
+        }
+        .press-header h1 {
+            font-size: 42px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            line-height: 1.2;
+        }
+        .press-header .subtitle {
+            font-size: 20px;
+            font-style: italic;
+            color: var(--text-muted);
+            margin-bottom: 24px;
+        }
+        .levels {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            flex-wrap: wrap;
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+        }
+        .level {
+            padding: 8px 16px;
+            background: var(--bg-alt);
+            border-radius: 4px;
+        }
+        .level strong { color: var(--accent); }
+        
+        /* Sections */
+        section { margin-bottom: 48px; }
+        
+        h2 {
+            font-size: 28px;
+            margin-bottom: 24px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid var(--accent);
+        }
+        
+        h3 {
+            font-size: 20px;
+            margin: 32px 0 16px;
+            color: var(--accent);
+        }
+        
+        p { margin-bottom: 16px; text-align: justify; }
+        
+        .lead {
+            font-size: 18px;
+            font-style: italic;
+            color: var(--text-muted);
+            margin-bottom: 24px;
+        }
+        
+        /* Facts table */
+        .facts-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 24px 0;
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+        }
+        .facts-table th, .facts-table td {
+            padding: 12px 16px;
+            text-align: left;
+            border: 1px solid var(--border);
+        }
+        .facts-table th {
+            background: var(--bg-alt);
+            font-weight: 600;
+            width: 30%;
+        }
+        
+        /* Lists */
+        ul, ol { margin: 16px 0 24px 24px; }
+        li { margin-bottom: 8px; }
+        
+        /* Quotes */
+        blockquote {
+            margin: 32px 0;
+            padding: 24px 32px;
+            background: var(--bg-alt);
+            border-left: 4px solid var(--accent);
+            font-style: italic;
+        }
+        blockquote cite {
+            display: block;
+            margin-top: 12px;
+            font-size: 14px;
+            color: var(--text-muted);
+            font-style: normal;
+        }
+        
+        /* Questions */
+        .question {
+            margin: 16px 0;
+            padding: 16px 20px;
+            background: #fff3cd;
+            border-radius: 4px;
+            font-family: Arial, sans-serif;
+        }
+        .question strong { color: var(--accent); }
+        
+        /* Levels boxes */
+        .level-box {
+            margin: 24px 0;
+            padding: 24px;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+        }
+        .level-box h3 {
+            margin-top: 0;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border);
+        }
+        .level-box.micro { border-color: #dc3545; }
+        .level-box.meso { border-color: #fd7e14; }
+        .level-box.macro { border-color: #6f42c1; }
+        
+        /* Contact box */
+        .contact-box {
+            margin: 32px 0;
+            padding: 24px;
+            background: var(--bg-alt);
+            border-radius: 8px;
+            text-align: center;
+            font-family: Arial, sans-serif;
+        }
+        .contact-box h3 { margin-top: 0; border: none; text-align: center; }
+        .contact-box .email {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--accent);
+        }
+        
+        /* Download button */
+        .download-section {
+            text-align: center;
+            padding: 32px;
+            background: var(--text);
+            color: white;
+            border-radius: 8px;
+            margin: 48px 0;
+        }
+        .download-section h3 { color: white; border: none; margin: 0 0 16px; }
+        .download-btn {
+            display: inline-block;
+            padding: 14px 32px;
+            background: var(--accent);
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-family: Arial, sans-serif;
+            font-weight: 700;
+            margin-top: 16px;
+        }
+        .download-btn:hover { background: #a52020; color: white; }
+        
+        /* Footer */
+        footer {
+            margin-top: 64px;
+            padding: 32px 0;
+            border-top: 1px solid var(--border);
+            text-align: center;
+            font-size: 14px;
+            color: var(--text-muted);
+            font-family: Arial, sans-serif;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="press-header">
+            <div class="label">Kit Presse — Confidentiel Presse — Janvier 2026</div>
+            <h1>AFFAIRE « TOUS FRAUDEURS »</h1>
+            <p class="subtitle">Quand un « documentaire » trahit les standards du journalisme</p>
+            <div class="levels">
+                <span class="level"><strong>MICRO</strong> — victimes directes</span>
+                <span class="level"><strong>MÉSO</strong> — profession journalistique</span>
+                <span class="level"><strong>MACRO</strong> — démocratie et débat public</span>
+            </div>
+        </header>
+        
+        <section class="no-print download-section">
+            <h3>📥 Télécharger le dossier complet</h3>
+            <p>Version DOCX professionnelle avec mise en page pour impression</p>
+            <a href="KIT_PRESSE_AFFAIRE_TOUS_FRAUDEURS.docx" class="download-btn">Télécharger le Kit Presse (DOCX)</a>
+        </section>
+        
+        <section>
+            <h2>Lettre ouverte aux journalistes</h2>
+            <p class="lead">Chers confrères, chères consœurs,</p>
+            <p>Nous nous adressons à vous non pas en tant que militants, mais en tant que citoyens profondément attachés au journalisme d'intérêt public — celui qui éclaire, qui questionne, qui protège.</p>
+            <p>Le 7 novembre 2025, RTL-TVI a diffusé « Sans boulot : tous fraudeurs ? », présenté comme un documentaire journalistique. Ce programme a généré <strong>plus de 400 plaintes au CSA</strong> — un record historique en Belgique francophone.</p>
+            <p>Ce qui nous préoccupe dépasse le contenu lui-même. C'est <strong>le silence assourdissant de la profession</strong> face à des pratiques qui violent frontalement les standards déontologiques que vous défendez quotidiennement.</p>
+            <p>Une interviewée filmée pendant 1 heure, montée en 30 secondes hors contexte. Des chiffres officiels (moins de 3% de fraude selon l'ONEM) jamais mentionnés en 37 minutes. Un timing de diffusion 5 jours avant l'envoi de 47.000 lettres ONEM. Un conflit d'intérêts familial non déclaré.</p>
+            <p><em>Imaginez un instant que ces mêmes pratiques soient appliquées à un reportage sur votre rédaction. Accepteriez-vous qu'on appelle cela du journalisme ?</em></p>
+        </section>
+        
+        <section class="page-break">
+            <h2>I. Les faits établis</h2>
+            <p class="lead">Chaque élément ci-dessous est vérifiable et sourcé. Aucune interprétation, uniquement des faits.</p>
+            
+            <table class="facts-table">
+                <tr>
+                    <th>Date de diffusion</th>
+                    <td>7 novembre 2025, RTL-TVI, 20h25, prime time</td>
+                </tr>
+                <tr>
+                    <th>Audience</th>
+                    <td>410.860 téléspectateurs (source : CIM)</td>
+                </tr>
+                <tr>
+                    <th>Plaintes CSA</th>
+                    <td>Plus de 400 — record historique en Belgique francophone pour un seul programme</td>
+                </tr>
+                <tr>
+                    <th>Réalisateur</th>
+                    <td>Christophe Deborsu (ex-RTBF, créateur de « Je Vous Dérange »)</td>
+                </tr>
+                <tr>
+                    <th>Lien familial</th>
+                    <td>Charlotte Deborsu (nièce) est députée MR au Parlement de la FWB</td>
+                </tr>
+                <tr>
+                    <th>Timing ONEM</th>
+                    <td>12 novembre 2025 : envoi de 47.000 lettres menaçant des chômeurs d'exclusion (5 jours après diffusion)</td>
+                </tr>
+                <tr>
+                    <th>Réaction politique</th>
+                    <td>24 novembre 2025 : motion au Conseil communal de Verviers condamnant le documentaire</td>
+                </tr>
+            </table>
+            
+            <h3>Le témoignage tronqué de Gaëlle Denys</h3>
+            <p>Gaëlle Denys, présidente du CPAS de Verviers, a été interviewée pendant <strong>près d'une heure</strong>. Au montage final : <strong>environ 30 secondes</strong>, sorties de leur contexte, inversant le sens de son propos. La motion du Conseil communal de Verviers lui a apporté un soutien officiel.</p>
+            
+            <h3>Les chiffres officiels jamais mentionnés</h3>
+            <p>En 37 minutes de programme, ces données officielles n'apparaissent jamais :</p>
+            <ul>
+                <li><strong>Taux de fraude sociale : moins de 3%</strong> (source : ONEM, rapports annuels)</li>
+                <li><strong>Fraude fiscale estimée : environ 30 milliards €/an</strong> (diverses estimations académiques et institutionnelles)</li>
+                <li>Ratio : la fraude fiscale représente environ <strong>150 fois</strong> le montant de la fraude sociale</li>
+            </ul>
+        </section>
+        
+        <section class="page-break">
+            <h2>II. Un scandale à trois niveaux</h2>
+            
+            <div class="level-box micro">
+                <h3>NIVEAU MICRO : Les victimes directes</h3>
+                <ul>
+                    <li>Laetitia, mère célibataire présentée dans le documentaire, rapporte recevoir des insultes et menaces dans la rue depuis la diffusion</li>
+                    <li>Gaëlle Denys, professionnelle du social, voit son image et son travail déformés publiquement</li>
+                    <li>Les habitants de Verviers stigmatisés collectivement comme « ville de fraudeurs »</li>
+                    <li>Les 410.860 téléspectateurs désinformés sur la réalité de la fraude sociale</li>
+                </ul>
+                <div class="question">
+                    <strong>Question pour la presse :</strong> Quelqu'un a-t-il recueilli la parole des personnes filmées après la diffusion ? Quel suivi éditorial ?
+                </div>
+            </div>
+            
+            <div class="level-box meso">
+                <h3>NIVEAU MÉSO : La profession journalistique</h3>
+                <p>Ce programme viole plusieurs standards déontologiques fondamentaux :</p>
+                <ol>
+                    <li><strong>Absence de contradictoire :</strong> Les experts des politiques sociales, les syndicats, les associations de défense des chômeurs n'apparaissent pas</li>
+                    <li><strong>Omission des données essentielles :</strong> Le taux officiel de fraude (moins de 3%) n'est jamais cité</li>
+                    <li><strong>Montage orienté :</strong> Ratio 60:1 entre temps d'interview et temps diffusé, avec déformation du propos</li>
+                    <li><strong>Conflit d'intérêts non déclaré :</strong> Lien familial avec une élue du parti promouvant les réformes ciblant les chômeurs</li>
+                    <li><strong>Qualification trompeuse :</strong> Présenté comme « documentaire » alors que les standards du genre ne sont pas respectés</li>
+                </ol>
+                <div class="question">
+                    <strong>Question pour la presse :</strong> L'AJP s'est-elle prononcée ? Le CDJ a-t-il été saisi ?
+                </div>
+            </div>
+            
+            <div class="level-box macro">
+                <h3>NIVEAU MACRO : La démocratie et le débat public</h3>
+                <ul>
+                    <li><strong>Synchronisation suspecte :</strong> Diffusion 5 jours avant une action ONEM massive, en pleine négociation des réformes Arizona</li>
+                    <li><strong>Fabrique du consentement :</strong> Préparer l'opinion publique à accepter des mesures d'austérité en stigmatisant les victimes</li>
+                    <li><strong>Étouffement médiatique :</strong> Malgré 400+ plaintes (record historique), quasi-absence de couverture critique</li>
+                    <li><strong>Précédent dangereux :</strong> Si cette pratique n'est pas sanctionnée, elle devient la norme</li>
+                </ul>
+                <div class="question">
+                    <strong>Question pour la presse :</strong> Pourquoi cette affaire ne fait-elle pas l'objet d'enquêtes journalistiques ? Qui a intérêt à ce silence ?
+                </div>
+            </div>
+        </section>
+        
+        <section class="page-break">
+            <h2>III. Les questions qui méritent enquête</h2>
+            <p class="lead">Ces questions n'ont, à notre connaissance, reçu aucune réponse publique.</p>
+            
+            <h3>Sur le processus éditorial</h3>
+            <ol>
+                <li>Qui a commandité ce documentaire ? RTL Belgium ? Une production externe ?</li>
+                <li>Quel était le brief initial ? Existe-t-il une trace écrite ?</li>
+                <li>Qui a validé le montage final ? Quel processus de vérification des faits ?</li>
+                <li>Pourquoi le taux officiel de fraude n'apparaît-il nulle part ?</li>
+            </ol>
+            
+            <h3>Sur le timing</h3>
+            <ol start="5">
+                <li>La date de diffusion (5 jours avant les lettres ONEM) est-elle une coïncidence ?</li>
+                <li>Y a-t-il eu des contacts entre la production et le cabinet du ministre de l'Emploi ?</li>
+                <li>RTL a-t-il été informé à l'avance de l'opération ONEM ?</li>
+            </ol>
+            
+            <h3>Sur le conflit d'intérêts</h3>
+            <ol start="8">
+                <li>Le lien familial Deborsu-Deborsu a-t-il été déclaré à RTL ?</li>
+                <li>Charlotte Deborsu a-t-elle eu connaissance du projet avant diffusion ?</li>
+                <li>Le MR a-t-il eu des contacts avec RTL concernant ce programme ?</li>
+            </ol>
+            
+            <h3>Sur le silence médiatique</h3>
+            <ol start="11">
+                <li>Pourquoi aucun média belge n'a-t-il enquêté sur cette affaire ?</li>
+                <li>Les médias concurrents ont-ils reçu des pressions ?</li>
+                <li>L'AJP et le CDJ ont-ils été contactés ? Quelle a été leur réponse ?</li>
+            </ol>
+        </section>
+        
+        <section>
+            <h2>IV. Ressources et contacts</h2>
+            
+            <h3>Sources officielles</h3>
+            <ul>
+                <li>ONEM — Rapports annuels : <a href="https://www.onem.be" target="_blank">www.onem.be</a></li>
+                <li>CSA — Conseil Supérieur de l'Audiovisuel : <a href="https://www.csa.be" target="_blank">www.csa.be</a></li>
+                <li>Décret SMA — Articles 9, 10, 36 (dignité, non-discrimination, déontologie)</li>
+                <li>CIM — Mesures d'audience : <a href="https://www.cim.be" target="_blank">www.cim.be</a></li>
+            </ul>
+            
+            <h3>Instances professionnelles</h3>
+            <ul>
+                <li>AJP — Association des Journalistes Professionnels : <a href="https://www.ajp.be" target="_blank">www.ajp.be</a></li>
+                <li>CDJ — Conseil de Déontologie Journalistique : <a href="https://www.lecdj.be" target="_blank">www.lecdj.be</a></li>
+            </ul>
+            
+            <h3>Dossier complet</h3>
+            <ul>
+                <li>Site de référence : <a href="https://ouaisfi.eu"><strong>ouaisfi.eu</strong></a></li>
+                <li>Dossier Deborsu : <a href="hub-deborsu-tous-fraudeurs.html">ouaisfi.eu/hub-deborsu-tous-fraudeurs</a></li>
+                <li>Code source : <a href="https://github.com/yannkeep/showroom" target="_blank">github.com/yannkeep/showroom</a></li>
+            </ul>
+            
+            <div class="contact-box">
+                <h3>Contact Presse</h3>
+                <p class="email">presse@ouaisfi.eu</p>
+                <p>Nous nous tenons à disposition pour toute demande d'interview, de précision ou de documentation complémentaire.</p>
+            </div>
+        </section>
+        
+        <blockquote>
+            « Le journalisme consiste à publier ce que d'autres ne voudraient pas voir publié. Tout le reste n'est que relations publiques. »
+            <cite>— Attribué à George Orwell</cite>
+        </blockquote>
+        
+        <footer>
+            <p><a href="index.html">ouaisfi.eu</a> — Veille citoyenne indépendante</p>
+            <p>Document sous embargo jusqu'à publication</p>
+        </footer>
+    </div>
+</body>
+</html>
