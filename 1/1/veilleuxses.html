@@ -1,0 +1,1719 @@
+<!DOCTYPE html>
+<html lang="fr-BE">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>⚔️ DOSSIER TOUS FRAUDEURS | Anatomie d'un Scandale & Arsenal Juridique</title>
+    <meta name="description" content="Dossier complet sur l'affaire Tous Fraudeurs RTL : coûts de production (197.447€), impacts scientifiques, et toutes les voies de recours de la Justice de Paix à la CEDH.">
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=VT323&family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&display=swap');
+        
+        :root {
+            --neon-green: #39ff14;
+            --neon-cyan: #00fff7;
+            --neon-magenta: #ff00ff;
+            --neon-red: #ff073a;
+            --neon-yellow: #fff700;
+            --neon-orange: #ff6600;
+            --bg-dark: #0a0a0f;
+            --bg-panel: #12121a;
+            --bg-card: #1a1a2e;
+            --text: #e0e0e0;
+            --text-dim: #6a6a7a;
+            --border: #2a2a3a;
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        /* === CRT EFFECT === */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: repeating-linear-gradient(
+                0deg,
+                rgba(0,0,0,0.15),
+                rgba(0,0,0,0.15) 1px,
+                transparent 1px,
+                transparent 2px
+            );
+            pointer-events: none;
+            z-index: 10000;
+        }
+        
+        body::after {
+            content: "";
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: radial-gradient(ellipse at center, transparent 0%, rgba(0,0,0,0.4) 100%);
+            pointer-events: none;
+            z-index: 9999;
+        }
+        
+        body {
+            font-family: 'Share Tech Mono', monospace;
+            background: var(--bg-dark);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        /* === GLITCH ANIMATION === */
+        @keyframes glitch {
+            0%, 100% { transform: translate(0); }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(-2px, -2px); }
+            60% { transform: translate(2px, 2px); }
+            80% { transform: translate(2px, -2px); }
+        }
+        
+        @keyframes flicker {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+            75% { opacity: 0.9; }
+        }
+        
+        @keyframes scan {
+            0% { top: -100%; }
+            100% { top: 100%; }
+        }
+        
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 5px currentColor, 0 0 10px currentColor; }
+            50% { box-shadow: 0 0 20px currentColor, 0 0 40px currentColor; }
+        }
+        
+        @keyframes typing {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+        
+        @keyframes blink {
+            50% { border-color: transparent; }
+        }
+        
+        /* === HEADER DOOM STYLE === */
+        header {
+            background: linear-gradient(180deg, #1a0a0a 0%, var(--bg-dark) 100%);
+            border-bottom: 4px solid var(--neon-red);
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        header::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--neon-red), var(--neon-orange), var(--neon-yellow), var(--neon-green), var(--neon-cyan), var(--neon-magenta), var(--neon-red));
+            background-size: 200% 100%;
+            animation: gradient-shift 3s linear infinite;
+        }
+        
+        @keyframes gradient-shift {
+            0% { background-position: 0% 0%; }
+            100% { background-position: 200% 0%; }
+        }
+        
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            align-items: center;
+            gap: 24px;
+        }
+        
+        .logo-box {
+            background: var(--bg-panel);
+            border: 2px solid var(--neon-red);
+            padding: 12px 20px;
+            position: relative;
+        }
+        
+        .logo-box::before {
+            content: "LEVEL_01";
+            position: absolute;
+            top: -10px;
+            left: 10px;
+            background: var(--bg-dark);
+            padding: 0 8px;
+            font-size: 10px;
+            color: var(--neon-red);
+            font-family: 'VT323', monospace;
+        }
+        
+        .logo {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 28px;
+            font-weight: 900;
+            color: var(--neon-red);
+            text-shadow: 0 0 10px var(--neon-red), 0 0 20px var(--neon-red);
+            letter-spacing: 4px;
+        }
+        
+        .subtitle {
+            font-family: 'VT323', monospace;
+            font-size: 14px;
+            color: var(--text-dim);
+            margin-top: 4px;
+        }
+        
+        .title-main {
+            text-align: center;
+        }
+        
+        .title-main h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(24px, 4vw, 42px);
+            font-weight: 900;
+            background: linear-gradient(90deg, var(--neon-cyan), var(--neon-green));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            animation: flicker 4s infinite;
+        }
+        
+        .title-sub {
+            font-family: 'VT323', monospace;
+            font-size: 18px;
+            color: var(--neon-yellow);
+            margin-top: 8px;
+        }
+        
+        .stats-hud {
+            display: flex;
+            gap: 16px;
+        }
+        
+        .hud-item {
+            background: var(--bg-panel);
+            border: 1px solid var(--border);
+            padding: 8px 16px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .hud-item::after {
+            content: "";
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            height: 3px;
+            background: var(--neon-green);
+        }
+        
+        .hud-value {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--neon-green);
+            text-shadow: 0 0 10px var(--neon-green);
+        }
+        
+        .hud-label {
+            font-size: 10px;
+            color: var(--text-dim);
+            text-transform: uppercase;
+        }
+        
+        /* === NAVIGATION TERMINAL === */
+        nav {
+            background: var(--bg-panel);
+            border-bottom: 2px solid var(--border);
+            padding: 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .nav-inner {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            overflow-x: auto;
+        }
+        
+        .nav-item {
+            padding: 16px 24px;
+            color: var(--text-dim);
+            text-decoration: none;
+            font-family: 'VT323', monospace;
+            font-size: 18px;
+            text-transform: uppercase;
+            border-right: 1px solid var(--border);
+            transition: all 0.2s;
+            white-space: nowrap;
+            position: relative;
+        }
+        
+        .nav-item:hover {
+            background: var(--bg-card);
+            color: var(--neon-cyan);
+        }
+        
+        .nav-item.active {
+            background: var(--neon-cyan);
+            color: var(--bg-dark);
+        }
+        
+        .nav-item::before {
+            content: "> ";
+            color: var(--neon-green);
+        }
+        
+        /* === MAIN CONTAINER === */
+        main {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 24px;
+        }
+        
+        /* === SECTIONS === */
+        .section {
+            background: var(--bg-panel);
+            border: 2px solid var(--border);
+            margin-bottom: 32px;
+            position: relative;
+        }
+        
+        .section::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: linear-gradient(135deg, rgba(0,255,247,0.02) 0%, transparent 50%);
+            pointer-events: none;
+        }
+        
+        .section-header {
+            background: linear-gradient(90deg, var(--bg-card), var(--bg-panel));
+            padding: 16px 24px;
+            border-bottom: 2px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .section-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 20px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .section-title .icon {
+            font-size: 24px;
+        }
+        
+        .section-title.red { color: var(--neon-red); }
+        .section-title.green { color: var(--neon-green); }
+        .section-title.cyan { color: var(--neon-cyan); }
+        .section-title.yellow { color: var(--neon-yellow); }
+        .section-title.magenta { color: var(--neon-magenta); }
+        .section-title.orange { color: var(--neon-orange); }
+        
+        .section-badge {
+            background: var(--bg-dark);
+            border: 1px solid currentColor;
+            padding: 4px 12px;
+            font-family: 'VT323', monospace;
+            font-size: 14px;
+        }
+        
+        .section-body {
+            padding: 24px;
+        }
+        
+        /* === TERMINAL INTRO === */
+        .terminal-intro {
+            background: #000;
+            border: 2px solid var(--neon-green);
+            padding: 24px;
+            font-family: 'VT323', monospace;
+            font-size: 18px;
+            line-height: 1.8;
+            position: relative;
+            margin-bottom: 32px;
+        }
+        
+        .terminal-intro::before {
+            content: "root@ouaisfieu:~$ cat dossier.txt";
+            display: block;
+            color: var(--neon-green);
+            margin-bottom: 16px;
+        }
+        
+        .terminal-intro .cursor {
+            display: inline-block;
+            width: 10px;
+            height: 18px;
+            background: var(--neon-green);
+            animation: blink 1s step-end infinite;
+            vertical-align: middle;
+            margin-left: 4px;
+        }
+        
+        .terminal-intro .highlight {
+            color: var(--neon-yellow);
+            font-weight: bold;
+        }
+        
+        .terminal-intro .alert {
+            color: var(--neon-red);
+        }
+        
+        .terminal-intro .success {
+            color: var(--neon-green);
+        }
+        
+        /* === DATA GRID === */
+        .data-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 16px;
+        }
+        
+        .data-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            padding: 20px;
+            position: relative;
+            transition: all 0.3s;
+        }
+        
+        .data-card:hover {
+            border-color: var(--neon-cyan);
+            transform: translateY(-2px);
+        }
+        
+        .data-card::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0;
+            width: 4px;
+            height: 100%;
+        }
+        
+        .data-card.red::before { background: var(--neon-red); }
+        .data-card.green::before { background: var(--neon-green); }
+        .data-card.cyan::before { background: var(--neon-cyan); }
+        .data-card.yellow::before { background: var(--neon-yellow); }
+        .data-card.magenta::before { background: var(--neon-magenta); }
+        .data-card.orange::before { background: var(--neon-orange); }
+        
+        .data-value {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 32px;
+            font-weight: 900;
+            margin-bottom: 8px;
+        }
+        
+        .data-card.red .data-value { color: var(--neon-red); text-shadow: 0 0 10px var(--neon-red); }
+        .data-card.green .data-value { color: var(--neon-green); text-shadow: 0 0 10px var(--neon-green); }
+        .data-card.cyan .data-value { color: var(--neon-cyan); text-shadow: 0 0 10px var(--neon-cyan); }
+        .data-card.yellow .data-value { color: var(--neon-yellow); text-shadow: 0 0 10px var(--neon-yellow); }
+        .data-card.magenta .data-value { color: var(--neon-magenta); text-shadow: 0 0 10px var(--neon-magenta); }
+        .data-card.orange .data-value { color: var(--neon-orange); text-shadow: 0 0 10px var(--neon-orange); }
+        
+        .data-label {
+            font-size: 14px;
+            color: var(--text);
+            margin-bottom: 8px;
+        }
+        
+        .data-source {
+            font-size: 11px;
+            color: var(--text-dim);
+            font-family: 'VT323', monospace;
+        }
+        
+        /* === TABLES === */
+        .doom-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-family: 'Share Tech Mono', monospace;
+        }
+        
+        .doom-table th {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            padding: 12px 16px;
+            text-align: left;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 12px;
+            text-transform: uppercase;
+            color: var(--neon-cyan);
+        }
+        
+        .doom-table td {
+            border: 1px solid var(--border);
+            padding: 12px 16px;
+            background: var(--bg-panel);
+        }
+        
+        .doom-table tr:hover td {
+            background: var(--bg-card);
+        }
+        
+        .doom-table .money {
+            color: var(--neon-green);
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+        }
+        
+        .doom-table .percent {
+            color: var(--neon-yellow);
+        }
+        
+        /* === TIMELINE VERTICAL === */
+        .timeline-vertical {
+            position: relative;
+            padding-left: 40px;
+        }
+        
+        .timeline-vertical::before {
+            content: "";
+            position: absolute;
+            left: 15px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(180deg, var(--neon-cyan), var(--neon-magenta));
+        }
+        
+        .timeline-item {
+            position: relative;
+            margin-bottom: 24px;
+            padding: 16px 20px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+        }
+        
+        .timeline-item::before {
+            content: "";
+            position: absolute;
+            left: -33px;
+            top: 20px;
+            width: 16px;
+            height: 16px;
+            background: var(--bg-dark);
+            border: 3px solid var(--neon-cyan);
+            border-radius: 50%;
+        }
+        
+        .timeline-item.active::before {
+            background: var(--neon-cyan);
+            box-shadow: 0 0 10px var(--neon-cyan);
+        }
+        
+        .timeline-date {
+            font-family: 'VT323', monospace;
+            font-size: 14px;
+            color: var(--neon-cyan);
+            margin-bottom: 8px;
+        }
+        
+        .timeline-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        
+        .timeline-desc {
+            font-size: 14px;
+            color: var(--text-dim);
+        }
+        
+        /* === RECOURS CARDS === */
+        .recours-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 20px;
+        }
+        
+        .recours-card {
+            background: var(--bg-card);
+            border: 2px solid var(--border);
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+        
+        .recours-card:hover {
+            border-color: var(--neon-green);
+            transform: scale(1.02);
+        }
+        
+        .recours-header {
+            background: linear-gradient(90deg, var(--bg-panel), var(--bg-card));
+            padding: 16px 20px;
+            border-bottom: 2px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .recours-name {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 18px;
+            font-weight: 700;
+        }
+        
+        .recours-level {
+            font-family: 'VT323', monospace;
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        
+        .recours-level.local { background: var(--neon-green); color: #000; }
+        .recours-level.regional { background: var(--neon-cyan); color: #000; }
+        .recours-level.federal { background: var(--neon-yellow); color: #000; }
+        .recours-level.eu { background: var(--neon-magenta); color: #000; }
+        .recours-level.intl { background: var(--neon-orange); color: #000; }
+        
+        .recours-body {
+            padding: 20px;
+        }
+        
+        .recours-stat {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .recours-stat:last-child {
+            border-bottom: none;
+        }
+        
+        .recours-stat-label {
+            color: var(--text-dim);
+            font-size: 13px;
+        }
+        
+        .recours-stat-value {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+        }
+        
+        .recours-stat-value.free { color: var(--neon-green); }
+        .recours-stat-value.paid { color: var(--neon-yellow); }
+        .recours-stat-value.urgent { color: var(--neon-red); }
+        
+        .recours-desc {
+            margin-top: 16px;
+            padding: 12px;
+            background: var(--bg-panel);
+            border-left: 3px solid var(--neon-cyan);
+            font-size: 13px;
+            color: var(--text-dim);
+        }
+        
+        /* === IMPACT BARS === */
+        .impact-bar {
+            margin-bottom: 20px;
+        }
+        
+        .impact-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+        
+        .impact-label .value {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+        }
+        
+        .impact-track {
+            height: 24px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .impact-fill {
+            height: 100%;
+            position: relative;
+            transition: width 1s ease-out;
+        }
+        
+        .impact-fill::after {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: repeating-linear-gradient(
+                90deg,
+                transparent,
+                transparent 10px,
+                rgba(0,0,0,0.2) 10px,
+                rgba(0,0,0,0.2) 20px
+            );
+        }
+        
+        .impact-fill.red { background: linear-gradient(90deg, var(--neon-red), #ff4444); }
+        .impact-fill.green { background: linear-gradient(90deg, var(--neon-green), #44ff44); }
+        .impact-fill.yellow { background: linear-gradient(90deg, var(--neon-yellow), #ffff44); }
+        .impact-fill.cyan { background: linear-gradient(90deg, var(--neon-cyan), #44ffff); }
+        
+        .impact-source {
+            font-size: 11px;
+            color: var(--text-dim);
+            margin-top: 4px;
+            font-family: 'VT323', monospace;
+        }
+        
+        /* === QUOTE BLOCK === */
+        .quote-block {
+            background: var(--bg-card);
+            border-left: 4px solid var(--neon-magenta);
+            padding: 20px 24px;
+            margin: 24px 0;
+            position: relative;
+        }
+        
+        .quote-block::before {
+            content: '"';
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            font-size: 48px;
+            color: var(--neon-magenta);
+            opacity: 0.3;
+            font-family: Georgia, serif;
+        }
+        
+        .quote-text {
+            font-size: 18px;
+            font-style: italic;
+            padding-left: 32px;
+        }
+        
+        .quote-author {
+            margin-top: 12px;
+            padding-left: 32px;
+            font-size: 14px;
+            color: var(--text-dim);
+        }
+        
+        /* === ALERT BOXES === */
+        .alert-box {
+            padding: 16px 20px;
+            margin: 16px 0;
+            border: 2px solid;
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+        }
+        
+        .alert-box.danger {
+            border-color: var(--neon-red);
+            background: rgba(255,7,58,0.1);
+        }
+        
+        .alert-box.warning {
+            border-color: var(--neon-yellow);
+            background: rgba(255,247,0,0.1);
+        }
+        
+        .alert-box.info {
+            border-color: var(--neon-cyan);
+            background: rgba(0,255,247,0.1);
+        }
+        
+        .alert-box.success {
+            border-color: var(--neon-green);
+            background: rgba(57,255,20,0.1);
+        }
+        
+        .alert-icon {
+            font-size: 24px;
+            flex-shrink: 0;
+        }
+        
+        .alert-content {
+            flex: 1;
+        }
+        
+        .alert-title {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        
+        .alert-box.danger .alert-title { color: var(--neon-red); }
+        .alert-box.warning .alert-title { color: var(--neon-yellow); }
+        .alert-box.info .alert-title { color: var(--neon-cyan); }
+        .alert-box.success .alert-title { color: var(--neon-green); }
+        
+        /* === FOOTER === */
+        footer {
+            background: var(--bg-panel);
+            border-top: 4px solid var(--neon-red);
+            padding: 48px 24px;
+            margin-top: 48px;
+        }
+        
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        
+        .footer-logo {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 24px;
+            font-weight: 900;
+            color: var(--neon-red);
+            text-shadow: 0 0 10px var(--neon-red);
+            margin-bottom: 16px;
+        }
+        
+        .footer-stats {
+            display: flex;
+            justify-content: center;
+            gap: 48px;
+            margin: 32px 0;
+            flex-wrap: wrap;
+        }
+        
+        .footer-stat {
+            text-align: center;
+        }
+        
+        .footer-stat-value {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--neon-green);
+        }
+        
+        .footer-stat-label {
+            font-family: 'VT323', monospace;
+            font-size: 14px;
+            color: var(--text-dim);
+        }
+        
+        .footer-legal {
+            font-size: 12px;
+            color: var(--text-dim);
+            margin-top: 32px;
+            padding-top: 24px;
+            border-top: 1px solid var(--border);
+        }
+        
+        /* === RESPONSIVE === */
+        @media (max-width: 768px) {
+            .header-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            
+            .stats-hud {
+                justify-content: center;
+            }
+            
+            .nav-inner {
+                justify-content: flex-start;
+            }
+            
+            .data-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .recours-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- HEADER -->
+    <header>
+        <div class="header-content">
+            <div class="logo-box">
+                <div class="logo">⚔️ DOSSIER</div>
+                <div class="subtitle">INVESTIGATION CITOYENNE</div>
+            </div>
+            
+            <div class="title-main">
+                <h1>TOUS FRAUDEURS : ANATOMIE D'UN SCANDALE</h1>
+                <div class="title-sub">[ COÛTS // IMPACTS // RECOURS JURIDIQUES ]</div>
+            </div>
+            
+            <div class="stats-hud">
+                <div class="hud-item">
+                    <div class="hud-value">400+</div>
+                    <div class="hud-label">Plaintes CSA</div>
+                </div>
+                <div class="hud-item">
+                    <div class="hud-value">197K€</div>
+                    <div class="hud-label">Coût Moyen</div>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <!-- NAV -->
+    <nav>
+        <div class="nav-inner">
+            <a href="#intro" class="nav-item active">BRIEFING</a>
+            <a href="#faits" class="nav-item">FAITS</a>
+            <a href="#couts" class="nav-item">COÛTS</a>
+            <a href="#impacts" class="nav-item">IMPACTS</a>
+            <a href="#recours" class="nav-item">RECOURS</a>
+            <a href="#europe" class="nav-item">EUROPE/ONU</a>
+            <a href="#action" class="nav-item">ACTION</a>
+        </div>
+    </nav>
+    
+    <!-- MAIN -->
+    <main>
+        <!-- INTRO TERMINAL -->
+        <div class="terminal-intro" id="intro">
+            Le documentaire <span class="highlight">"Sans boulot : tous fraudeurs ?"</span> diffusé le <span class="alert">7 novembre 2025</span> sur RTL-TVI a déclenché plus de <span class="highlight">400 plaintes au CSA</span> — un record historique en Belgique francophone.<br><br>
+            
+            Cette enquête révèle un coût de production estimé entre <span class="success">120 000 et 200 000 euros</span> pour un documentaire dont la méthodologie journalistique est massivement contestée.<br><br>
+            
+            La recherche scientifique démontre que ce type de "poverty porn" cause des dommages économiques et psychologiques <span class="alert">mesurables</span> aux populations stigmatisées.<br><br>
+            
+            Les victimes disposent de <span class="highlight">10+ voies de recours</span>, du CDJ gratuit jusqu'à la CEDH.<br>
+            <span class="alert">⚠️ DÉLAI CDJ : 2 MOIS APRÈS DIFFUSION</span><span class="cursor"></span>
+        </div>
+        
+        <!-- SECTION: FAITS ÉTABLIS -->
+        <section class="section" id="faits">
+            <div class="section-header">
+                <div class="section-title red">
+                    <span class="icon">📺</span>
+                    FAITS ÉTABLIS
+                </div>
+                <span class="section-badge" style="color: var(--neon-red);">VÉRIFIÉS</span>
+            </div>
+            <div class="section-body">
+                <div class="data-grid">
+                    <div class="data-card red">
+                        <div class="data-value">410 860</div>
+                        <div class="data-label">Téléspectateurs</div>
+                        <div class="data-source">SOURCE: CIM // 39,1% PDM</div>
+                    </div>
+                    <div class="data-card yellow">
+                        <div class="data-value">400+</div>
+                        <div class="data-label">Plaintes au CSA</div>
+                        <div class="data-source">SOURCE: CSA // Record historique FWB</div>
+                    </div>
+                    <div class="data-card cyan">
+                        <div class="data-value">120:1</div>
+                        <div class="data-label">Ratio Interview/Montage</div>
+                        <div class="data-source">1h d'interview → 30s au montage (Gaëlle Denys)</div>
+                    </div>
+                    <div class="data-card magenta">
+                        <div class="data-value">7 NOV</div>
+                        <div class="data-label">Date de diffusion</div>
+                        <div class="data-source">RTL-TVI // 19h50 // "Je vous dérange"</div>
+                    </div>
+                </div>
+                
+                <div class="quote-block">
+                    <div class="quote-text">L'image qu'ils ont donnée de moi est fausse. Je ne suis pas une profiteuse.</div>
+                    <div class="quote-author">— Laetitia, mère célibataire filmée dans le documentaire (Het Belang van Limburg)</div>
+                </div>
+                
+                <div class="quote-block">
+                    <div class="quote-text">L'instrumentalisation de la misère sociale à des fins sensationnalistes visant à flatter les instincts populistes.</div>
+                    <div class="quote-author">— Gaëlle Denys, Présidente CPAS Verviers</div>
+                </div>
+                
+                <div class="alert-box danger">
+                    <div class="alert-icon">⚠️</div>
+                    <div class="alert-content">
+                        <div class="alert-title">SOURCE NON VÉRIFIÉE</div>
+                        <div>Christophe Deborsu a affirmé que l'IWEPS était sa source pour une statistique sur les allocations sociales wallonnes — <strong>l'IWEPS a démenti avoir réalisé cette comparaison</strong> lorsque contacté par La Libre.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- SECTION: COÛTS DE PRODUCTION -->
+        <section class="section" id="couts">
+            <div class="section-header">
+                <div class="section-title green">
+                    <span class="icon">💰</span>
+                    COÛTS DE PRODUCTION
+                </div>
+                <span class="section-badge" style="color: var(--neon-green);">BUDGET</span>
+            </div>
+            <div class="section-body">
+                <div class="data-grid">
+                    <div class="data-card green">
+                        <div class="data-value">197 447€</div>
+                        <div class="data-label">Coût moyen documentaire FWB</div>
+                        <div class="data-source">SOURCE: Centre du Cinéma et de l'Audiovisuel (2018)</div>
+                    </div>
+                    <div class="data-card cyan">
+                        <div class="data-value">120-200K€</div>
+                        <div class="data-label">Fourchette format TV standard</div>
+                        <div class="data-source">37-45 minutes // Belgique francophone</div>
+                    </div>
+                    <div class="data-card yellow">
+                        <div class="data-value">20-30</div>
+                        <div class="data-label">Jours de tournage</div>
+                        <div class="data-source">Standard documentaire TV</div>
+                    </div>
+                    <div class="data-card orange">
+                        <div class="data-value">6-8</div>
+                        <div class="data-label">Semaines de post-production</div>
+                        <div class="data-source">Montage, étalonnage, mixage</div>
+                    </div>
+                </div>
+                
+                <h3 style="font-family: 'Orbitron', sans-serif; color: var(--neon-green); margin: 32px 0 16px;">RÉPARTITION BUDGÉTAIRE TYPIQUE</h3>
+                
+                <table class="doom-table">
+                    <thead>
+                        <tr>
+                            <th>Poste</th>
+                            <th>Coût estimé</th>
+                            <th>Part du budget</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Personnel et salaires</td>
+                            <td class="money">60 000 - 80 000 €</td>
+                            <td class="percent">40-50%</td>
+                        </tr>
+                        <tr>
+                            <td>Équipements techniques</td>
+                            <td class="money">15 000 - 25 000 €</td>
+                            <td class="percent">10-15%</td>
+                        </tr>
+                        <tr>
+                            <td>Post-production et montage</td>
+                            <td class="money">20 000 - 35 000 €</td>
+                            <td class="percent">15-20%</td>
+                        </tr>
+                        <tr>
+                            <td>Droits artistiques (musique, archives)</td>
+                            <td class="money">5 000 - 15 000 €</td>
+                            <td class="percent">5-10%</td>
+                        </tr>
+                        <tr>
+                            <td>Transport et hébergement</td>
+                            <td class="money">10 000 - 20 000 €</td>
+                            <td class="percent">5-10%</td>
+                        </tr>
+                        <tr>
+                            <td>Assurance et divers</td>
+                            <td class="money">12 000 - 20 000 €</td>
+                            <td class="percent">7-13%</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <h3 style="font-family: 'Orbitron', sans-serif; color: var(--neon-cyan); margin: 32px 0 16px;">TARIFS HEBDOMADAIRES EN BELGIQUE</h3>
+                
+                <table class="doom-table">
+                    <thead>
+                        <tr>
+                            <th>Poste</th>
+                            <th>Tarif/semaine</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Directeur de la photographie</td>
+                            <td class="money">2 600 - 5 000 €</td>
+                        </tr>
+                        <tr>
+                            <td>Monteur</td>
+                            <td class="money">1 500 €</td>
+                        </tr>
+                        <tr>
+                            <td>Ingénieur du son</td>
+                            <td class="money">1 850 €</td>
+                        </tr>
+                        <tr>
+                            <td>Fact-checker (mensuel)</td>
+                            <td class="money">2 200 - 4 500 €</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <div class="alert-box info">
+                    <div class="alert-icon">💡</div>
+                    <div class="alert-content">
+                        <div class="alert-title">CODE DE DÉONTOLOGIE CDJ</div>
+                        <div>Exige une vérification croisée avec <strong>au minimum 2 sources différentes</strong> pour toute information factuelle.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- SECTION: IMPACTS MESURÉS -->
+        <section class="section" id="impacts">
+            <div class="section-header">
+                <div class="section-title magenta">
+                    <span class="icon">🧠</span>
+                    IMPACTS SCIENTIFIQUEMENT MESURÉS
+                </div>
+                <span class="section-badge" style="color: var(--neon-magenta);">ÉTUDES</span>
+            </div>
+            <div class="section-body">
+                <h3 style="font-family: 'Orbitron', sans-serif; color: var(--neon-red); margin: 0 0 24px;">EFFETS SUR LA SANTÉ MENTALE</h3>
+                
+                <div class="impact-bar">
+                    <div class="impact-label">
+                        <span>Augmentation symptômes dépressifs (bénéficiaires aide alimentaire)</span>
+                        <span class="value" style="color: var(--neon-red);">+19%</span>
+                    </div>
+                    <div class="impact-track">
+                        <div class="impact-fill red" style="width: 19%;"></div>
+                    </div>
+                    <div class="impact-source">SOURCE: Pak (2020), Health and Retirement Study, N=67 076</div>
+                </div>
+                
+                <div class="impact-bar">
+                    <div class="impact-label">
+                        <span>Probabilité dépression majeure accrue</span>
+                        <span class="value" style="color: var(--neon-red);">+29%</span>
+                    </div>
+                    <div class="impact-track">
+                        <div class="impact-fill red" style="width: 29%;"></div>
+                    </div>
+                    <div class="impact-source">SOURCE: Pak (2020), Health and Retirement Study</div>
+                </div>
+                
+                <div class="impact-bar">
+                    <div class="impact-label">
+                        <span>Variance symptômes physiques expliquée par stigmatisation</span>
+                        <span class="value" style="color: var(--neon-yellow);">44%</span>
+                    </div>
+                    <div class="impact-track">
+                        <div class="impact-fill yellow" style="width: 44%;"></div>
+                    </div>
+                    <div class="impact-source">SOURCE: O'Donnell et al. (2015), étude sur chômeurs</div>
+                </div>
+                
+                <h3 style="font-family: 'Orbitron', sans-serif; color: var(--neon-yellow); margin: 32px 0 24px;">NON-RECOURS AUX DROITS</h3>
+                
+                <div class="impact-bar">
+                    <div class="impact-label">
+                        <span>Ménages éligibles n'utilisant pas les aides</span>
+                        <span class="value" style="color: var(--neon-yellow);">20-50%</span>
+                    </div>
+                    <div class="impact-track">
+                        <div class="impact-fill yellow" style="width: 35%;"></div>
+                    </div>
+                    <div class="impact-source">SOURCE: Harvard Kennedy School</div>
+                </div>
+                
+                <div class="impact-bar">
+                    <div class="impact-label">
+                        <span>Amélioration engagement avec messages déstigmatisants</span>
+                        <span class="value" style="color: var(--neon-green);">+36%</span>
+                    </div>
+                    <div class="impact-track">
+                        <div class="impact-fill green" style="width: 36%;"></div>
+                    </div>
+                    <div class="impact-source">SOURCE: Harvard Kennedy School</div>
+                </div>
+                
+                <div class="impact-bar">
+                    <div class="impact-label">
+                        <span>Non-bénéficiaires citant honte/stigmatisation</span>
+                        <span class="value" style="color: var(--neon-red);">5-25%</span>
+                    </div>
+                    <div class="impact-track">
+                        <div class="impact-fill red" style="width: 15%;"></div>
+                    </div>
+                    <div class="impact-source">SOURCE: srpoverty.org (2022)</div>
+                </div>
+                
+                <div class="alert-box warning">
+                    <div class="alert-icon">📊</div>
+                    <div class="alert-content">
+                        <div class="alert-title">ÉTUDE EUROFOUND (2015)</div>
+                        <div>Au moins un type de prestation dans <strong>chaque État membre de l'UE</strong> affiche un taux de non-recours supérieur à <strong>un tiers des éligibles</strong>.</div>
+                    </div>
+                </div>
+                
+                <h3 style="font-family: 'Orbitron', sans-serif; color: var(--neon-cyan); margin: 32px 0 24px;">PRÉCÉDENT "BENEFITS STREET" (UK, 2014)</h3>
+                
+                <div class="quote-block">
+                    <div class="quote-text">Cinq ans après sa diffusion, des membres du public citaient encore ce programme comme "preuve" d'une culture généralisée de dépendance aux allocations.</div>
+                    <div class="quote-author">— Joseph Rowntree Foundation, recherche sur l'impact durable</div>
+                </div>
+                
+                <div class="quote-block">
+                    <div class="quote-text">À mesure que les cadrages médiatiques ont changé, les politiques ont suivi.</div>
+                    <div class="quote-author">— Rose & Baumgartner (2013), analyse 50 ans de couverture médiatique US (1960-2008)</div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- SECTION: VOIES DE RECOURS BELGIQUE -->
+        <section class="section" id="recours">
+            <div class="section-header">
+                <div class="section-title cyan">
+                    <span class="icon">⚖️</span>
+                    VOIES DE RECOURS — BELGIQUE
+                </div>
+                <span class="section-badge" style="color: var(--neon-cyan);">10+ OPTIONS</span>
+            </div>
+            <div class="section-body">
+                <div class="alert-box danger">
+                    <div class="alert-icon">⏰</div>
+                    <div class="alert-content">
+                        <div class="alert-title">DÉLAI CRITIQUE — CDJ</div>
+                        <div>Le délai de dépôt au Conseil de Déontologie Journalistique n'est que de <strong>2 MOIS</strong> après publication ou diffusion. Pour le 7 novembre 2025, la deadline était le <strong>7 janvier 2026</strong>.</div>
+                    </div>
+                </div>
+                
+                <div class="recours-grid">
+                    <!-- CDJ -->
+                    <div class="recours-card">
+                        <div class="recours-header">
+                            <div class="recours-name">CDJ</div>
+                            <span class="recours-level federal">FÉDÉRAL</span>
+                        </div>
+                        <div class="recours-body">
+                            <div class="recours-stat">
+                                <span class="recours-stat-label">Coût</span>
+                                <span class="recours-stat-value free">GRATUIT</span>
+                            </div>
+                            <div class="recours-stat">
+                                <span class="recours-stat-label">Délai dépôt</span>
+                                <span class="recours-stat-value urgent">2 MOIS</span>
+                            </div>
+                            <div class="recours-stat">
+                                <span class="recours-stat-label">Taux succès 2024</span>
+                                <span class="recours-stat-value" style="color: var(--neon-green);">57%</span>
+                            </div>
+                            <div class="recours-stat">
+                                <span class="recours-stat-label">Sanction max</span>
+                                <span class="recours-stat-value">Publication décision</span>
+                            </div>
+                            <div class="recours-desc">
+                                Conseil de Déontologie Journalistique. Examine les plaintes contre tous les médias de Belgique francophone et germanophone. Procédure de médiation puis examen contradictoire. Autorité morale uniquement.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- CSA -->
+                    <div class="recours-card">
+                        <div class="recours-header">
+                            <div class="recours-name">CSA</div>
+                            <span class="recours-level regional">FWB</span>
+                        </div>
+                        <div class="recours-body">
+                            <div class="recours-stat">
+                                <span class="recours-stat-label">Coût</span>
+                                <span class="recours-stat-value free">GRATUIT</span>
+                            </div>
+                            <div class="recours-stat">
+                                <span class="recours-stat-label">Statut</span>
+                                <span class="recours-stat-value" style="color: var(--neon-yellow);">ENQUÊTE EN COURS</span>
+                            </div>
+                            <div class="recours-stat">
+                                <span class="recours-stat-label">Précédent RTL 2021</span>
+                                <span class="recours-stat-value paid">8 000€</span>
+                            </div>
+                            <div class="recours-stat">
+                                <span class="recours-stat-label">Précédent RTL 2022</span>
+                                <span class="recours-stat-value paid">3 000€</span>
+                            </div>
+                            <div class="recours-desc">
+                                Conseil Supérieur de l'Audiovisuel. Enquête ouverte pour violation article 2.4-1 décret SMA (incitation discrimination basée sur origine/condition sociale). Peut prononcer avertissements et amendes administratives.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- TRIBUNAL CIVIL -->
+                    <div class="recours-card">
+                        <div class="recours-header">
+                            <div class="recours-name">TRIBUNAL CIVIL</div>
+                            <span class="recours-level federal">TPI</span>
+                        </div>
+                        <div class="recours-body">
+                            <div class="recours-stat">
+                                <span class="recours-stat-label">Mise au rôle</span>
+                                <span class="recours-stat-value paid">165€</span>
+                            </div>
+                            <div class="recours-stat">
+                                <span class="recours-stat-label">Honoraires avocat</span>
+                                <span class="recours-stat-value paid">90-200€/h</span>
+                            </div>
+                            <div class="recours-stat">
+                                <span class="recours-stat-label">Prescription</span>
+                                <span class="recours-stat-value">5 ANS</span>
+                            </div>
+                            <div class="recours-stat">
+                                <span class="recours-stat-label">Seuil aide juridique</span>
+                                <span class="recours-stat-value" style="color: var(--neon-green);">1 582€/mois</span>
+                            </div>
+                            <div class="recours-desc">
+                                Article 1382 Code civil (responsabilité extracontractuelle). Les personnes filmées peuvent réclamer dommages moraux, matériels, injonction de cesser, publication du jugement. Aide juridique totale accessible sous conditions de revenus.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- UNIA -->
+                    <div class="recours-card">
+                        <div class="recours-header">
+                            <div class="recours-name">UNIA</div>
+                            <span class="recours-level federal">INTERFÉDÉRAL</span>
+                        </div>
+                        <div class="recours-body">
+                            <div class="recours-stat">
+                                <span class="recours-stat-label">Coût</span>
+                                <span class="recours-stat-value free">GRATUIT</span>
+                            </div>
+                            <div class="recours-stat">
+                                <span class="recours-stat-label">Médiation</span>
+                                <span class="recours-stat-value" style="color: var(--neon-green);">OUI</span>
+                            </div>
+                            <div class="recours-stat">
+                                <span class="recours-stat-label">Action en justice</span>
+                                <span class="recours-stat-value">Avec accord victime</span>
+                            </div>
+                            <div class="recours-desc">
+                                Centre interfédéral pour l'égalité des chances. Peut ouvrir un dossier, tenter une médiation, et dans des cas exceptionnels ester en justice avec l'accord de la victime.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- APD/RGPD -->
+                    <div class="recours-card">
+                        <div class="recours-header">
+                            <div class="recours-name">APD / RGPD</div>
+                            <span class="recours-level federal">FÉDÉRAL</span>
+                        </div>
+                        <div class="recours-body">
+                            <div class="recours-stat">
+                                <span class="recours-stat-label">Coût</span>
+                                <span class="recours-stat-value free">GRATUIT</span>
+                            </div>
+                            <div class="recours-stat">
+                                <span class="recours-stat-label">Sanction max RGPD</span>
+                                <span class="recours-stat-value" style="color: var(--neon-red);">20 000 000€</span>
+                            </div>
+                            <div class="recours-stat">
+                                <span class="recours-stat-label">Délai actuel</span>
+                                <span class="recours-stat-value paid">>400 jours</span>
+                            </div>
+                            <div class="recours-desc">
+                                Autorité de Protection des Données. Peut intervenir si des données personnelles ont été exposées sans consentement. Sanctions potentiellement très élevées mais délais de traitement très longs.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- PÉNAL -->
+                    <div class="recours-card">
+                        <div class="recours-header">
+                            <div class="recours-name">VOIE PÉNALE</div>
+                            <span class="recours-level federal">ASSISES</span>
+                        </div>
+                        <div class="recours-body">
+                            <div class="recours-stat">
+                                <span class="recours-stat-label">Article Code Pénal</span>
+                                <span class="recours-stat-value">443 (diffamation)</span>
+                            </div>
+                            <div class="recours-stat">
+                                <span class="recours-stat-label">Autre base</span>
+                                <span class="recours-stat-value">Loi 10 mai 2007</span>
+                            </div>
+                            <div class="recours-stat">
+                                <span class="recours-stat-label">Juridiction</span>
+                                <span class="recours-stat-value urgent">COUR D'ASSISES</span>
+                            </div>
+                            <div class="recours-stat">
+                                <span class="recours-stat-label">Condamnations récentes</span>
+                                <span class="recours-stat-value paid">~0 depuis WWII</span>
+                            </div>
+                            <div class="recours-desc">
+                                Article 150 Constitution : délits de presse jugés en Cour d'Assises (jury). Procédure extrêmement lourde et rare. Exception si contenu qualifié de raciste/xénophobe → Tribunal Correctionnel.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- SECTION: RECOURS EUROPÉENS ET INTERNATIONAUX -->
+        <section class="section" id="europe">
+            <div class="section-header">
+                <div class="section-title orange">
+                    <span class="icon">🌍</span>
+                    RECOURS EUROPÉENS & INTERNATIONAUX
+                </div>
+                <span class="section-badge" style="color: var(--neon-orange);">APRÈS ÉPUISEMENT</span>
+            </div>
+            <div class="section-body">
+                <div class="alert-box info">
+                    <div class="alert-icon">ℹ️</div>
+                    <div class="alert-content">
+                        <div class="alert-title">CONDITION PRÉALABLE</div>
+                        <div>Les recours européens et internationaux exigent l'<strong>épuisement des voies nationales</strong> (typiquement jusqu'en Cassation) avant d'être recevables.</div>
+                    </div>
+                </div>
+                
+                <div class="recours-grid">
+                    <!-- CEDH -->
+                    <div class="recours-card">
+                        <div class="recours-header">
+                            <div class="recours-name">CEDH</div>
+                            <span class="recours-level eu">EUROPE</span>
+                        </div>
+                        <div class="recours-body">
+                            <div class="recours-stat">
+                                <span class="recours-stat-label">Coût</span>
+                                <span class="recours-stat-value free">GRATUIT</span>
+                            </div>
+                            <div class="recours-stat">
+                                <span class="recours-stat-label">Délai après décision nationale</span>
+                                <span class="recours-stat-value urgent">4 MOIS</span>
+                            </div>
+                            <div class="recours-stat">
+                                <span class="recours-stat-label">Articles applicables</span>
+                                <span class="recours-stat-value">8 + 14</span>
+                            </div>
+                            <div class="recours-stat">
+                                <span class="recours-stat-label">Aide juridictionnelle</span>
+                                <span class="recours-stat-value" style="color: var(--neon-green);">DISPONIBLE</span>
+                            </div>
+                            <div class="recours-desc">
+                                Cour Européenne des Droits de l'Homme. Article 8 (vie privée/dignité) + Article 14 (non-discrimination). "Origine sociale" et "fortune" explicitement listées comme critères protégés. La Cour impose des obligations positives aux États.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- RAPPORTEUR ONU -->
+                    <div class="recours-card">
+                        <div class="recours-header">
+                            <div class="recours-name">RAPPORTEUR ONU</div>
+                            <span class="recours-level intl">INTERNATIONAL</span>
+                        </div>
+                        <div class="recours-body">
+                            <div class="recours-stat">
+                                <span class="recours-stat-label">Rapporteur actuel</span>
+                                <span class="recours-stat-value">Olivier De Schutter</span>
+                            </div>
+                            <div class="recours-stat">
+                                <span class="recours-stat-label">Nationalité</span>
+                                <span class="recours-stat-value" style="color: var(--neon-green);">BELGE</span>
+                            </div>
+                            <div class="recours-stat">
+                                <span class="recours-stat-label">En poste depuis</span>
+                                <span class="recours-stat-value">Mai 2020</span>
+                            </div>
+                            <div class="recours-stat">
+                                <span class="recours-stat-label">Concept clé</span>
+                                <span class="recours-stat-value">"PAUVRETISME"</span>
+                            </div>
+                            <div class="recours-desc">
+                                Rapporteur spécial des Nations Unies sur l'extrême pauvreté. Rapport octobre 2022 : traiter le "pauvretisme" (discriminations envers les pauvres) au même titre que racisme et sexisme. Peut recevoir des communications et informer des rapports thématiques.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- CPI -->
+                    <div class="recours-card">
+                        <div class="recours-header">
+                            <div class="recours-name">CPI / TPI</div>
+                            <span class="recours-level intl">INTERNATIONAL</span>
+                        </div>
+                        <div class="recours-body">
+                            <div class="recours-stat">
+                                <span class="recours-stat-label">Compétence</span>
+                                <span class="recours-stat-value urgent">NON APPLICABLE</span>
+                            </div>
+                            <div class="recours-stat">
+                                <span class="recours-stat-label">Crimes couverts</span>
+                                <span class="recours-stat-value">4 uniquement</span>
+                            </div>
+                            <div class="recours-stat">
+                                <span class="recours-stat-label">Incitation criminalisée</span>
+                                <span class="recours-stat-value">Génocide SEUL</span>
+                            </div>
+                            <div class="recours-desc">
+                                Cour Pénale Internationale. Ne connaît que 4 crimes : génocide, crimes contre l'humanité, crimes de guerre, crime d'agression. Le précédent Nahimana (Rwanda) ne s'applique qu'en contexte de génocide effectif. La stigmatisation médiatique de la pauvreté ne relève PAS de la compétence CPI.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- SECTION: PLAN D'ACTION -->
+        <section class="section" id="action">
+            <div class="section-header">
+                <div class="section-title yellow">
+                    <span class="icon">🎯</span>
+                    PLAN D'ACTION RECOMMANDÉ
+                </div>
+                <span class="section-badge" style="color: var(--neon-yellow);">STRATÉGIE</span>
+            </div>
+            <div class="section-body">
+                <div class="alert-box success">
+                    <div class="alert-icon">✅</div>
+                    <div class="alert-content">
+                        <div class="alert-title">STRATÉGIE OPTIMALE</div>
+                        <div>Combiner <strong>plusieurs actions simultanées</strong> pour maximiser la pression et les chances de succès.</div>
+                    </div>
+                </div>
+                
+                <div class="timeline-vertical">
+                    <div class="timeline-item active">
+                        <div class="timeline-date">IMMÉDIAT — PRIORITÉ 1</div>
+                        <div class="timeline-title" style="color: var(--neon-red);">Dépôt CDJ (si délai non expiré)</div>
+                        <div class="timeline-desc">Gratuit, 2 mois après diffusion. 57% de taux de succès. Impact réputationnel sur le journaliste. Médiation puis examen contradictoire.</div>
+                    </div>
+                    
+                    <div class="timeline-item active">
+                        <div class="timeline-date">EN COURS</div>
+                        <div class="timeline-title" style="color: var(--neon-yellow);">Plainte CSA</div>
+                        <div class="timeline-desc">Enquête déjà ouverte. Gratuit. Peut aboutir à des amendes (précédents RTL: 3.000€ à 8.000€). Article 2.4-1 décret SMA.</div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-date">PARALLÈLE</div>
+                        <div class="timeline-title" style="color: var(--neon-cyan);">Signalement UNIA</div>
+                        <div class="timeline-desc">Gratuit. Médiation possible. Peut ester en justice avec accord de la victime. Centre interfédéral pour l'égalité des chances.</div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-date">SI PERSONNES FILMÉES</div>
+                        <div class="timeline-title" style="color: var(--neon-green);">Action civile TPI</div>
+                        <div class="timeline-desc">Gaëlle Denys, Laetitia et autres peuvent agir personnellement. 165€ mise au rôle + avocat. Aide juridique si revenus < 1.582€/mois. 5 ans de prescription.</div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-date">SI DONNÉES EXPOSÉES</div>
+                        <div class="timeline-title" style="color: var(--neon-magenta);">Plainte APD/RGPD</div>
+                        <div class="timeline-desc">Gratuit mais délai >400 jours. Sanctions potentielles jusqu'à 20M€. Si données personnelles exposées sans consentement.</div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-date">APRÈS ÉPUISEMENT NATIONAL</div>
+                        <div class="timeline-title" style="color: var(--neon-orange);">CEDH (4 mois post-Cassation)</div>
+                        <div class="timeline-desc">Gratuit avec aide juridictionnelle. Articles 8+14. Après avoir épuisé Tribunal Civil → Cour d'Appel → Cassation.</div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-date">COMMUNICATION</div>
+                        <div class="timeline-title">Rapporteur ONU (Olivier De Schutter)</div>
+                        <div class="timeline-desc">Documenter le cas pour informer les rapports thématiques sur le "pauvretisme". Rapporteur belge, en poste depuis 2020.</div>
+                    </div>
+                </div>
+                
+                <div class="alert-box warning">
+                    <div class="alert-icon">⚠️</div>
+                    <div class="alert-content">
+                        <div class="alert-title">À NE PAS FAIRE</div>
+                        <div>La voie pénale (diffamation, incitation discrimination) est théoriquement possible mais pratiquement <strong>inutilisable</strong> en Belgique : l'article 150 de la Constitution impose les Assises pour les délits de presse, avec ~0 condamnation depuis WWII.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- SECTION: SOURCES -->
+        <section class="section">
+            <div class="section-header">
+                <div class="section-title green">
+                    <span class="icon">📚</span>
+                    SOURCES & RÉFÉRENCES
+                </div>
+                <span class="section-badge" style="color: var(--neon-green);">VÉRIFIABLES</span>
+            </div>
+            <div class="section-body">
+                <table class="doom-table">
+                    <thead>
+                        <tr>
+                            <th>Source</th>
+                            <th>Donnée</th>
+                            <th>Type</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>CIM</td>
+                            <td>410.860 téléspectateurs, 39,1% PDM</td>
+                            <td>Audience</td>
+                        </tr>
+                        <tr>
+                            <td>CSA</td>
+                            <td>400+ plaintes, enquête ouverte</td>
+                            <td>Régulation</td>
+                        </tr>
+                        <tr>
+                            <td>Centre du Cinéma FWB</td>
+                            <td>197.447€ coût moyen documentaire</td>
+                            <td>Budget</td>
+                        </tr>
+                        <tr>
+                            <td>Pak (2020)</td>
+                            <td>+19% symptômes dépressifs, +29% dépression majeure</td>
+                            <td>Étude scientifique</td>
+                        </tr>
+                        <tr>
+                            <td>O'Donnell et al. (2015)</td>
+                            <td>44% variance symptômes physiques</td>
+                            <td>Étude scientifique</td>
+                        </tr>
+                        <tr>
+                            <td>Harvard Kennedy School</td>
+                            <td>20-50% non-recours, +36% engagement déstigmatisé</td>
+                            <td>Étude scientifique</td>
+                        </tr>
+                        <tr>
+                            <td>Eurofound (2015)</td>
+                            <td>>1/3 non-recours par type de prestation UE</td>
+                            <td>Étude européenne</td>
+                        </tr>
+                        <tr>
+                            <td>Joseph Rowntree Foundation</td>
+                            <td>Impact Benefits Street 5 ans après</td>
+                            <td>Étude UK</td>
+                        </tr>
+                        <tr>
+                            <td>Rose & Baumgartner (2013)</td>
+                            <td>Corrélation cadrage médiatique / politiques sociales</td>
+                            <td>Étude 50 ans</td>
+                        </tr>
+                        <tr>
+                            <td>CDJ</td>
+                            <td>57% plaintes fondées (2024), délai 2 mois</td>
+                            <td>Régulation</td>
+                        </tr>
+                        <tr>
+                            <td>CSA (précédents)</td>
+                            <td>RTL: 8.000€ (2021), 3.000€ (2022)</td>
+                            <td>Sanctions</td>
+                        </tr>
+                        <tr>
+                            <td>Code civil belge</td>
+                            <td>Article 1382, prescription 5 ans</td>
+                            <td>Juridique</td>
+                        </tr>
+                        <tr>
+                            <td>RGPD</td>
+                            <td>Sanction max 20M€</td>
+                            <td>Juridique</td>
+                        </tr>
+                        <tr>
+                            <td>CEDH</td>
+                            <td>Articles 8+14, délai 4 mois post-Cassation</td>
+                            <td>Juridique</td>
+                        </tr>
+                        <tr>
+                            <td>ONU</td>
+                            <td>Olivier De Schutter, rapport "pauvretisme" oct. 2022</td>
+                            <td>International</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+    
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">⚔️ DOSSIER TOUS FRAUDEURS</div>
+            <p style="color: var(--text-dim); margin-bottom: 24px;">Investigation citoyenne — Données vérifiées — Zéro invention</p>
+            
+            <div class="footer-stats">
+                <div class="footer-stat">
+                    <div class="footer-stat-value">15+</div>
+                    <div class="footer-stat-label">Sources citées</div>
+                </div>
+                <div class="footer-stat">
+                    <div class="footer-stat-value">10+</div>
+                    <div class="footer-stat-label">Voies de recours</div>
+                </div>
+                <div class="footer-stat">
+                    <div class="footer-stat-value">197K€</div>
+                    <div class="footer-stat-label">Coût moyen docu</div>
+                </div>
+                <div class="footer-stat">
+                    <div class="footer-stat-value">0</div>
+                    <div class="footer-stat-label">Chiffres inventés</div>
+                </div>
+            </div>
+            
+            <div class="footer-legal">
+                <p>ouaisfi.eu — Veille citoyenne indépendante — Licence CC BY-NC-SA 4.0</p>
+                <p>Toutes les données sont vérifiables. Zéro publicité, zéro traçage.</p>
+                <p style="margin-top: 16px;">
+                    <a href="index.html" style="color: var(--neon-cyan);">Accueil</a> •
+                    <a href="hub-deborsu-tous-fraudeurs.html" style="color: var(--neon-cyan);">Dossier Deborsu</a> •
+                    <a href="generateur-plainte-csa.html" style="color: var(--neon-cyan);">Générateur Plainte CSA</a> •
+                    <a href="kit-presse-journalistes.html" style="color: var(--neon-cyan);">Kit Presse</a>
+                </p>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        // Smooth scroll
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', function(e) {
+                const href = this.getAttribute('href');
+                if (href.startsWith('#')) {
+                    e.preventDefault();
+                    document.querySelector(href).scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+        
+        // Active nav on scroll
+        const sections = document.querySelectorAll('section[id], .terminal-intro[id]');
+        const navItems = document.querySelectorAll('.nav-item');
+        
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop - 100;
+                if (scrollY >= sectionTop) {
+                    current = section.getAttribute('id');
+                }
+            });
+            
+            navItems.forEach(item => {
+                item.classList.remove('active');
+                if (item.getAttribute('href') === '#' + current) {
+                    item.classList.add('active');
+                }
+            });
+        });
+        
+        // Animate impact bars on scroll
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const fill = entry.target.querySelector('.impact-fill');
+                    if (fill) {
+                        const width = fill.style.width;
+                        fill.style.width = '0%';
+                        setTimeout(() => {
+                            fill.style.width = width;
+                        }, 100);
+                    }
+                }
+            });
+        }, { threshold: 0.5 });
+        
+        document.querySelectorAll('.impact-bar').forEach(bar => observer.observe(bar));
+    </script>
+</body>
+</html>
