@@ -1,0 +1,994 @@
+<!DOCTYPE html>
+<html lang="fr-BE">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📚 BIBLIOTHÈQUE DES ENFERS | Sept Pastiches pour un Documentaire | Kafka, Molière, La Fontaine, Orwell, Camus, Shakespeare, Dante</title>
+    <meta name="description" content="FICTION SATIRIQUE - Recueil de pastiches littéraires sur l'affaire Tous Fraudeurs. Hommage à Kafka, Molière, La Fontaine, Orwell, Camus, Shakespeare et Dante.">
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=EB+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Cinzel:wght@400;700&family=Share+Tech+Mono&display=swap');
+        
+        :root {
+            --ink: #1a1a1a;
+            --paper: #faf8f5;
+            --accent: #8b0000;
+            --gold: #b8860b;
+            --green: #2d5a27;
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'EB Garamond', Georgia, serif;
+            background: var(--paper);
+            color: var(--ink);
+            font-size: 18px;
+            line-height: 1.8;
+        }
+        
+        .disclaimer {
+            background: var(--ink);
+            color: var(--paper);
+            padding: 16px;
+            text-align: center;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 12px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 24px;
+        }
+        
+        /* COVER */
+        .cover {
+            text-align: center;
+            padding: 80px 24px;
+            border-bottom: 3px double var(--ink);
+            margin-bottom: 60px;
+        }
+        
+        .cover-title {
+            font-family: 'Cinzel', serif;
+            font-size: 36px;
+            font-weight: 700;
+            letter-spacing: 4px;
+            margin-bottom: 16px;
+        }
+        
+        .cover-subtitle {
+            font-family: 'Playfair Display', serif;
+            font-size: 20px;
+            font-style: italic;
+            color: var(--accent);
+            margin-bottom: 32px;
+        }
+        
+        .cover-authors {
+            font-size: 14px;
+            color: #666;
+            line-height: 2;
+        }
+        
+        .cover-epigraph {
+            margin-top: 48px;
+            font-style: italic;
+            font-size: 16px;
+            color: #666;
+        }
+        
+        /* TABLE OF CONTENTS */
+        .toc {
+            margin-bottom: 60px;
+            padding: 32px;
+            background: rgba(0,0,0,0.02);
+            border: 1px solid #ddd;
+        }
+        
+        .toc-title {
+            font-family: 'Cinzel', serif;
+            font-size: 20px;
+            text-align: center;
+            margin-bottom: 24px;
+            letter-spacing: 4px;
+        }
+        
+        .toc-list {
+            list-style: none;
+        }
+        
+        .toc-list li {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px dotted #ccc;
+        }
+        
+        .toc-list a {
+            color: var(--ink);
+            text-decoration: none;
+        }
+        
+        .toc-list a:hover {
+            color: var(--accent);
+        }
+        
+        .toc-list .author {
+            font-style: italic;
+            color: #666;
+        }
+        
+        /* PASTICHE SECTIONS */
+        .pastiche {
+            margin-bottom: 80px;
+            padding-bottom: 60px;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .pastiche:last-child {
+            border-bottom: none;
+        }
+        
+        .pastiche-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .pastiche-number {
+            font-family: 'Cinzel', serif;
+            font-size: 14px;
+            letter-spacing: 4px;
+            color: var(--gold);
+            margin-bottom: 16px;
+        }
+        
+        .pastiche-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 32px;
+            font-weight: 900;
+            margin-bottom: 8px;
+        }
+        
+        .pastiche-subtitle {
+            font-style: italic;
+            color: var(--accent);
+            margin-bottom: 8px;
+        }
+        
+        .pastiche-author {
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .pastiche-content {
+            text-align: justify;
+        }
+        
+        .pastiche-content p {
+            margin-bottom: 20px;
+            text-indent: 2em;
+        }
+        
+        .pastiche-content p:first-of-type,
+        .pastiche-content p.no-indent {
+            text-indent: 0;
+        }
+        
+        /* VERSE */
+        .verse {
+            font-family: 'Playfair Display', serif;
+            text-align: center;
+            margin: 32px 0;
+            line-height: 2;
+        }
+        
+        .verse p {
+            text-indent: 0 !important;
+            margin-bottom: 8px !important;
+        }
+        
+        .verse .stanza {
+            margin-bottom: 24px;
+        }
+        
+        /* DIALOGUE */
+        .dialogue {
+            margin: 24px 0;
+            padding-left: 24px;
+        }
+        
+        .dialogue-character {
+            font-variant: small-caps;
+            font-weight: 700;
+            margin-top: 16px;
+        }
+        
+        .dialogue-line {
+            text-indent: 0 !important;
+            margin-bottom: 4px !important;
+        }
+        
+        .stage-direction {
+            font-style: italic;
+            color: #666;
+            text-indent: 0 !important;
+        }
+        
+        /* DROPCAP */
+        .dropcap {
+            float: left;
+            font-family: 'Cinzel', serif;
+            font-size: 64px;
+            line-height: 0.8;
+            padding-right: 12px;
+            color: var(--accent);
+        }
+        
+        /* BLOCKQUOTE */
+        blockquote {
+            border-left: 3px solid var(--gold);
+            padding: 16px 24px;
+            margin: 24px 0;
+            background: rgba(184,134,11,0.05);
+            font-style: italic;
+        }
+        
+        /* CIRCLE (Dante) */
+        .circle {
+            background: rgba(139,0,0,0.05);
+            border: 1px solid var(--accent);
+            padding: 24px;
+            margin: 24px 0;
+        }
+        
+        .circle-title {
+            font-family: 'Cinzel', serif;
+            font-size: 16px;
+            color: var(--accent);
+            text-align: center;
+            margin-bottom: 16px;
+            letter-spacing: 2px;
+        }
+        
+        /* COMMANDMENTS (Orwell) */
+        .commandments {
+            background: var(--ink);
+            color: var(--paper);
+            padding: 24px;
+            margin: 24px 0;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 14px;
+        }
+        
+        .commandments-title {
+            text-align: center;
+            font-size: 16px;
+            margin-bottom: 16px;
+            letter-spacing: 2px;
+        }
+        
+        .commandments ol {
+            padding-left: 24px;
+        }
+        
+        .commandments li {
+            margin-bottom: 8px;
+        }
+        
+        /* FOOTER */
+        .colophon {
+            text-align: center;
+            padding: 48px 24px;
+            border-top: 3px double var(--ink);
+            margin-top: 60px;
+        }
+        
+        .colophon-text {
+            font-size: 14px;
+            color: #666;
+            font-style: italic;
+        }
+        
+        .colophon-warning {
+            margin-top: 24px;
+            padding: 16px;
+            background: var(--ink);
+            color: var(--paper);
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 11px;
+        }
+    </style>
+</head>
+<body>
+    <div class="disclaimer">
+        ⚠️ FICTION SATIRIQUE & PASTICHES LITTÉRAIRES — Hommages aux grands auteurs. Aucune diffamation. Liberté d'expression.
+    </div>
+    
+    <div class="container">
+        <!-- COVER -->
+        <div class="cover">
+            <h1 class="cover-title">BIBLIOTHÈQUE DES ENFERS</h1>
+            <p class="cover-subtitle">Sept Pastiches pour un Documentaire</p>
+            <p class="cover-authors">
+                D'après KAFKA • MOLIÈRE • LA FONTAINE<br>
+                ORWELL • CAMUS • SHAKESPEARE • DANTE
+            </p>
+            <p class="cover-epigraph">
+                "La satire est le miroir où chacun voit le visage de son voisin,<br>
+                jamais le sien."<br>
+                — Jonathan Swift
+            </p>
+        </div>
+        
+        <!-- TABLE OF CONTENTS -->
+        <nav class="toc">
+            <h2 class="toc-title">TABLE</h2>
+            <ol class="toc-list">
+                <li><a href="#kafka">La Métamorphose <span class="author">d'après Kafka</span></a></li>
+                <li><a href="#moliere">Le Fraudeur Imaginaire <span class="author">d'après Molière</span></a></li>
+                <li><a href="#lafontaine">Fables <span class="author">d'après La Fontaine</span></a></li>
+                <li><a href="#orwell">La Ferme des Médias <span class="author">d'après Orwell</span></a></li>
+                <li><a href="#camus">L'Étranger <span class="author">d'après Camus</span></a></li>
+                <li><a href="#shakespeare">La Tragédie de Macborsu <span class="author">d'après Shakespeare</span></a></li>
+                <li><a href="#dante">L'Enfer des Journalistes <span class="author">d'après Dante</span></a></li>
+            </ol>
+        </nav>
+        
+        <!-- I. KAFKA -->
+        <article class="pastiche" id="kafka">
+            <header class="pastiche-header">
+                <div class="pastiche-number">— I —</div>
+                <h2 class="pastiche-title">La Métamorphose</h2>
+                <p class="pastiche-subtitle">ou Le Réveil de C.D.</p>
+                <p class="pastiche-author">d'après Franz Kafka</p>
+            </header>
+            
+            <div class="pastiche-content">
+                <p><span class="dropcap">E</span>n se réveillant un matin après des rêves agités, Christophe D. se retrouva dans son lit métamorphosé en accusé.</p>
+                
+                <p>Il était couché sur son dos, un dos devenu dur comme une carapace médiatique, et, en levant un peu la tête, il vit son ventre bombé, brun, divisé par des nervures en forme de lignes éditoriales, sur lequel la couverture avait peine à tenir et semblait prête à glisser complètement. Ses nombreuses pattes — ou étaient-ce des micros, des caméras, des montages ? — lamentablement minces comparées au reste de sa personne, papillotaient désespérément devant ses yeux.</p>
+                
+                <p>"Que m'est-il arrivé ?" pensa-t-il.</p>
+                
+                <p>Ce n'était pas un rêve. Sa chambre, une vraie chambre d'hôtel de journaliste en déplacement, un peu trop petite, était tranquille entre ses quatre murs bien connus. Au-dessus de la table où était posé un échantillonnage de coupures de presse — C.D. était documentariste — était accrochée l'image qu'il avait récemment découpée d'un magazine : elle représentait une femme, une certaine Laetitia, filmée dans sa cuisine, transformée par son montage en figure de la fraude nationale.</p>
+                
+                <p>Son regard se porta alors vers la fenêtre — on entendait les gouttes de pluie frapper les vitres — et une humeur mélancolique l'envahit. "Et si je continuais à dormir un moment pour oublier toutes ces bêtises ?" pensa-t-il ; mais cela était irréalisable, car il avait l'habitude de dormir sur le côté droit et, dans son état actuel, il était incapable de se mettre dans cette position. Il avait beau se jeter de toutes ses forces sur le côté droit, il revenait toujours sur le dos, comme lesté par quatre cents plaintes.</p>
+                
+                <p>"Mon Dieu", pensa-t-il, "quel métier fatigant j'ai choisi ! Voyager jour après jour. Les soucis professionnels sont bien plus grands qu'ils ne le seraient dans les bureaux d'un vrai journal, et il faut ajouter les tourments du voyage, le souci des correspondances, les repas irréguliers et mauvais, des contacts humains toujours changeants, jamais suivis, jamais cordiaux. Que le diable emporte tout cela !"</p>
+                
+                <p>Il sentit une légère démangeaison au sommet de son ventre ; se traîna lentement sur le dos vers le haut du lit pour pouvoir lever plus facilement la tête ; trouva l'endroit qui le démangeait : c'était un petit écran de smartphone qui affichait "CSA — Vous avez 1 nouvelle plainte".</p>
+                
+                <p>Il voulut le gratter avec une de ses pattes, mais il la retira immédiatement, car au contact il avait été parcouru d'un frisson glacé.</p>
+                
+                <p>"Tout cela ne sert à rien", pensa-t-il, "il faut que je me lève, car mon train part à cinq heures et j'ai une interview à monter dans le sens que je veux."</p>
+                
+                <p>Il regarda son réveil qui faisait tic-tac sur la commode. "Seigneur Dieu !" pensa-t-il. Il était six heures et demie et les aiguilles continuaient leur course tranquille ; il était même la demie passée, il était presque moins le quart. Le réveil n'avait-il pas sonné ? On voyait du lit qu'il avait bien été mis sur quatre heures ; donc il avait certainement sonné. Mais comment dormir tranquillement avec un bruit à faire trembler les meubles ?</p>
+                
+                <p>Et il songea alors : quatre cents personnes, quatre cents citoyens avaient jugé son travail. Quatre cents consciences s'étaient dressées contre lui. Quatre cents fois, quelqu'un avait pris le temps d'écrire, de décrire, d'accuser.</p>
+                
+                <p>Quatre cents fois, il avait été pesé. Et quatre cents fois, il avait été trouvé — quoi ? Coupable ? De quoi exactement ? Il ne savait plus. Les chefs d'accusation s'étaient multipliés dans la nuit, comme ses pattes nouvelles : manipulation, montage orienté, timing suspect, liens familiaux non déclarés, source inventée, absence de contradictoire...</p>
+                
+                <p>C.D. essaya de sortir du lit par le bas. Mais cette partie de son corps — celle qui avait signé les contrats, validé les montages, approuvé les diffusions — s'avéra la plus difficile à mouvoir.</p>
+                
+                <p>Quelqu'un frappa à la porte.</p>
+                
+                <p>"Christophe", dit une voix — c'était celle de son producteur — "il est six heures trois quarts. N'aviez-vous pas une interview ?"</p>
+                
+                <p>Cette voix douce ! C.D. fut effrayé en entendant sa propre voix qui lui répondait, et qui était bien sa voix mais qui venait se mêler, comme d'en dessous, un grésillement douloureux et irrépressible qui ne laissait aux mots leur netteté qu'au premier instant, pour les couvrir ensuite de résonances au point qu'on ne savait plus si on avait bien entendu.</p>
+                
+                <p>"Oui, oui, merci", dit C.D. "Je me lève."</p>
+                
+                <p>Mais il ne se leva pas. Il resta là, sur le dos, à contempler le plafond, à se demander comment un homme qui avait simplement fait son travail — montrer la réalité, disait-il — pouvait se réveiller un matin transformé en monstre.</p>
+                
+                <p>Et peut-être, après tout, avait-il toujours été ce monstre. Peut-être la métamorphose n'en était-elle pas une. Peut-être ne faisait-elle que révéler ce qui avait toujours été là, sous la surface professionnelle, sous les prix, sous les éloges de confrères : une créature qui se nourrissait de la dignité des autres.</p>
+                
+                <p>Le Procès pouvait commencer.</p>
+            </div>
+        </article>
+        
+        <!-- II. MOLIÈRE -->
+        <article class="pastiche" id="moliere">
+            <header class="pastiche-header">
+                <div class="pastiche-number">— II —</div>
+                <h2 class="pastiche-title">Le Fraudeur Imaginaire</h2>
+                <p class="pastiche-subtitle">Comédie en un acte et en vers libres</p>
+                <p class="pastiche-author">d'après Molière</p>
+            </header>
+            
+            <div class="pastiche-content">
+                <p class="stage-direction no-indent">(Le théâtre représente un plateau de télévision. ARGAN-DEBORSU est assis devant une table de montage.)</p>
+                
+                <div class="dialogue">
+                    <p class="dialogue-character">ARGAN-DEBORSU</p>
+                    <p class="dialogue-line">Trois, quatre, cinq, six, sept et huit plaintes,</p>
+                    <p class="dialogue-line">Plus neuf, dix, onze, douze : ah ! que de contraintes !</p>
+                    <p class="dialogue-line">Et treize, quatorze, quinze, seize et puis cent,</p>
+                    <p class="dialogue-line">Et deux cents, et trois cents, et quatre cents, c'est trop, vraiment !</p>
+                    <p class="dialogue-line">Jamais je ne vis, en trente ans de carrière,</p>
+                    <p class="dialogue-line">Autant de plaignants pour un seul documentaire !</p>
+                </div>
+                
+                <p class="stage-direction">(Entre TOINETTE, déguisée en analyste du CSA.)</p>
+                
+                <div class="dialogue">
+                    <p class="dialogue-character">TOINETTE</p>
+                    <p class="dialogue-line">Monsieur, un mot, s'il vous plaît, de votre montage.</p>
+                    <p class="dialogue-line">J'ai vu votre sujet sur les gens sans ouvrage.</p>
+                    <p class="dialogue-line">Dites-moi, je vous prie, ce ratio étrange :</p>
+                    <p class="dialogue-line">Une heure d'interview pour trente secondes — quelle mélange !</p>
+                </div>
+                
+                <div class="dialogue">
+                    <p class="dialogue-character">ARGAN-DEBORSU</p>
+                    <p class="dialogue-line">Quoi ! Vous venez ici, sous ce déguisement,</p>
+                    <p class="dialogue-line">Me parler de ratio et de montage autrement ?</p>
+                    <p class="dialogue-line">Je suis un journaliste, et mon art est de choisir</p>
+                    <p class="dialogue-line">Dans le réel confus ce qui peut nous servir !</p>
+                </div>
+                
+                <div class="dialogue">
+                    <p class="dialogue-character">TOINETTE</p>
+                    <p class="dialogue-line">Servir qui, Monsieur ? Là est toute la question.</p>
+                    <p class="dialogue-line">Le public ? La vérité ? Ou bien votre ambition ?</p>
+                </div>
+                
+                <p class="stage-direction">(Entre BÉLINE, épouse d'Argan-Deborsu, représentant l'Opinion Publique.)</p>
+                
+                <div class="dialogue">
+                    <p class="dialogue-character">BÉLINE</p>
+                    <p class="dialogue-line">Mon ami, qu'avez-vous ? Vous semblez tout défait.</p>
+                    <p class="dialogue-line">Auriez-vous mal monté ? Mal tourné ? Mal fait ?</p>
+                </div>
+                
+                <div class="dialogue">
+                    <p class="dialogue-character">ARGAN-DEBORSU</p>
+                    <p class="dialogue-line">M'amie, quatre cents plaintes ! Quatre cents accusateurs !</p>
+                    <p class="dialogue-line">Qui me traitent de tout : menteur, manipulateur !</p>
+                    <p class="dialogue-line">Moi qui n'ai fait que montrer ces gens dans leur cuisine,</p>
+                    <p class="dialogue-line">Ces fraudeurs, ces profiteurs, cette engeance assassine !</p>
+                </div>
+                
+                <div class="dialogue">
+                    <p class="dialogue-character">TOINETTE</p>
+                    <p class="dialogue-line">Des fraudeurs ? Vraiment ? Et où sont vos preuves ?</p>
+                    <p class="dialogue-line">Le taux réel de fraude, Monsieur, est de trois pour cent neuves.</p>
+                    <p class="dialogue-line">Sur cent allocataires, nonante-sept sont honnêtes.</p>
+                    <p class="dialogue-line">Mais vous, vous les montrez tous comme des malhonnêtes !</p>
+                </div>
+                
+                <div class="dialogue">
+                    <p class="dialogue-character">ARGAN-DEBORSU</p>
+                    <p class="dialogue-line">Trois pour cent ? Balivernes ! Mon instinct de reporter</p>
+                    <p class="dialogue-line">Me dit que la fraude est partout, il suffit de gratter !</p>
+                </div>
+                
+                <div class="dialogue">
+                    <p class="dialogue-character">TOINETTE</p>
+                    <p class="dialogue-line">Votre instinct, Monsieur, n'est pas une source fiable.</p>
+                    <p class="dialogue-line">L'IWEPS, d'ailleurs, vous trouve bien peu croyable :</p>
+                    <p class="dialogue-line">Cette étude que vous citez, ils ne l'ont point faite !</p>
+                    <p class="dialogue-line">Votre source est fictive, et votre thèse défaite !</p>
+                </div>
+                
+                <p class="stage-direction">(Argan-Deborsu se lève, furieux.)</p>
+                
+                <div class="dialogue">
+                    <p class="dialogue-character">ARGAN-DEBORSU</p>
+                    <p class="dialogue-line">Sortez ! Sortez d'ici ! Je suis Christophe D. !</p>
+                    <p class="dialogue-line">Trente ans de carrière, des prix, de la célébrité !</p>
+                    <p class="dialogue-line">Ce n'est pas une servante en habit de censeur</p>
+                    <p class="dialogue-line">Qui viendra me donner des leçons de labeur !</p>
+                </div>
+                
+                <div class="dialogue">
+                    <p class="dialogue-character">TOINETTE</p>
+                    <p class="dialogue-line">Des leçons de labeur ? Non pas, Monsieur, d'éthique.</p>
+                    <p class="dialogue-line">Car votre documentaire est pure rhétorique.</p>
+                    <p class="dialogue-line">Vous avez pris des pauvres, les avez exposés,</p>
+                    <p class="dialogue-line">Et devant quatre cent mille, les avez accusés.</p>
+                    <p class="dialogue-line">Laetitia, cette femme, que dit-elle aujourd'hui ?</p>
+                    <p class="dialogue-line">Qu'on l'insulte dans la rue, que sa vie est détruite !</p>
+                </div>
+                
+                <p class="stage-direction">(Un silence. Argan-Deborsu s'assoit, troublé.)</p>
+                
+                <div class="dialogue">
+                    <p class="dialogue-character">ARGAN-DEBORSU</p>
+                    <p class="dialogue-line">Je... je ne voulais point lui faire aucun tort.</p>
+                    <p class="dialogue-line">Je filmais la réalité, je montrais le décor...</p>
+                </div>
+                
+                <div class="dialogue">
+                    <p class="dialogue-character">TOINETTE</p>
+                    <p class="dialogue-line">La réalité, Monsieur, n'est pas un décor qu'on choisit.</p>
+                    <p class="dialogue-line">Elle est complexe et vaste, pas un simple récit.</p>
+                    <p class="dialogue-line">Une heure de parole pour trente secondes gardées :</p>
+                    <p class="dialogue-line">Ce n'est plus du réel, c'est du réel tronqué.</p>
+                </div>
+                
+                <p class="stage-direction">(Entre LE MÉDECIN DIAFOIRUS, représentant les Experts Médiatiques.)</p>
+                
+                <div class="dialogue">
+                    <p class="dialogue-character">DIAFOIRUS</p>
+                    <p class="dialogue-line">Ah ! Monsieur Argan ! Cher confrère en images !</p>
+                    <p class="dialogue-line">J'accours à votre aide, armé de mes suffrages.</p>
+                    <p class="dialogue-line">Ces plaintes ne sont rien : le peuple est ignorant.</p>
+                    <p class="dialogue-line">Il ne comprend pas l'art du montage savant.</p>
+                    <p class="dialogue-line">Laissez donc les croquants s'égosiller en vain :</p>
+                    <p class="dialogue-line">Nous, experts entre nous, savons que c'est très bien.</p>
+                </div>
+                
+                <div class="dialogue">
+                    <p class="dialogue-character">TOINETTE</p>
+                    <p class="dialogue-line">Voilà bien le problème, et voilà l'entre-soi :</p>
+                    <p class="dialogue-line">Les experts se défendent, c'est toujours ainsi ma foi.</p>
+                    <p class="dialogue-line">Mais quatre cents citoyens ne sont pas ignorants :</p>
+                    <p class="dialogue-line">Ils ont vu, ils ont compris, ils sont persévérants.</p>
+                </div>
+                
+                <p class="stage-direction">(Tous se figent. Noir. Une voix off.)</p>
+                
+                <div class="verse">
+                    <p><strong>LE MALADE N'ÉTAIT POINT MALADE,</strong></p>
+                    <p><strong>LE FRAUDEUR N'ÉTAIT POINT FRAUDEUR :</strong></p>
+                    <p><strong>C'EST LE MÉDECIN QUI ÉTAIT MALADE,</strong></p>
+                    <p><strong>ET LE JOURNALISTE QUI ÉTAIT FRAUDEUR.</strong></p>
+                </div>
+                
+                <p class="no-indent" style="text-align: center; font-style: italic;">FIN</p>
+            </div>
+        </article>
+        
+        <!-- III. LA FONTAINE -->
+        <article class="pastiche" id="lafontaine">
+            <header class="pastiche-header">
+                <div class="pastiche-number">— III —</div>
+                <h2 class="pastiche-title">Fables</h2>
+                <p class="pastiche-subtitle">Trois apologues pour temps de propagande</p>
+                <p class="pastiche-author">d'après Jean de La Fontaine</p>
+            </header>
+            
+            <div class="pastiche-content">
+                <h3 style="font-family: 'Playfair Display', serif; font-size: 20px; text-align: center; margin: 40px 0 24px;">LE JOURNALISTE ET LES PAUVRES</h3>
+                
+                <div class="verse">
+                    <div class="stanza">
+                        <p>Un Journaliste de renom,</p>
+                        <p>Manquant de sujets et de nom,</p>
+                        <p>Alla filmer dans la rue</p>
+                        <p>Des gens de condition nue.</p>
+                    </div>
+                    <div class="stanza">
+                        <p>"Je vais montrer, dit-il, la fraude,</p>
+                        <p>Ces profiteurs que l'on applaudit !</p>
+                        <p>Ma caméra sera la maraude</p>
+                        <p>Qui révèle ce qu'on nous dit."</p>
+                    </div>
+                    <div class="stanza">
+                        <p>Il filma donc, une heure entière,</p>
+                        <p>Une mère en son logis.</p>
+                        <p>Elle conta son histoire amère,</p>
+                        <p>Ses combats, ses soucis.</p>
+                    </div>
+                    <div class="stanza">
+                        <p>Mais au montage, l'heure devint</p>
+                        <p>Trente secondes, pas plus ;</p>
+                        <p>Et ce qui resta de l'entretien</p>
+                        <p>Fit d'elle une statue d'abus.</p>
+                    </div>
+                    <div class="stanza">
+                        <p>Quatre cent mille téléspectateurs</p>
+                        <p>Virent la femme ainsi montrée.</p>
+                        <p>Le lendemain, des harceleurs</p>
+                        <p>L'injuriaient dans sa vallée.</p>
+                    </div>
+                    <div class="stanza">
+                        <p><em>Moralité :</em></p>
+                        <p><em>Qui filme les pauvres pour mieux les blâmer</em></p>
+                        <p><em>Est plus fraudeur que ceux qu'il veut diffamer.</em></p>
+                    </div>
+                </div>
+                
+                <h3 style="font-family: 'Playfair Display', serif; font-size: 20px; text-align: center; margin: 40px 0 24px;">LE LION ET LE RAT D'ALLOCATIONS</h3>
+                
+                <div class="verse">
+                    <div class="stanza">
+                        <p>Entre les pattes d'un Lion médiatique</p>
+                        <p>Un Rat sortit de terre assez à l'étourdie.</p>
+                        <p>Le Roi des studios d'une griffe authentique</p>
+                        <p>Allait l'occire et finir sa vie.</p>
+                    </div>
+                    <div class="stanza">
+                        <p>"Sire, dit le Rat, je vis d'allocations,</p>
+                        <p>Je suis chômeur, malade, ou mère isolée.</p>
+                        <p>Épargnez-moi ; de mes petites portions</p>
+                        <p>Votre grandeur n'est pas intéressée."</p>
+                    </div>
+                    <div class="stanza">
+                        <p>Le Lion sourit : "Petit, tu me fais rire !</p>
+                        <p>Ta misère fait audience, c'est là tout ton empire.</p>
+                        <p>Je te filmerai donc, et mon documentaire</p>
+                        <p>Fera de toi le fraudeur exemplaire."</p>
+                    </div>
+                    <div class="stanza">
+                        <p>Il advint qu'au sortir de ce reportage</p>
+                        <p>Le Lion se trouva pris dans un grand orage.</p>
+                        <p>Quatre cents plaintes, comme autant de liens,</p>
+                        <p>L'empêchèrent de rugir : il ne put plus rien.</p>
+                    </div>
+                    <div class="stanza">
+                        <p>Le Rat accourut, et fit tant par ses dents</p>
+                        <p>Qu'une maille rongée emporta tout l'ouvrage.</p>
+                        <p><em>Patience et longueur de temps</em></p>
+                        <p><em>Font plus que force ni que rage.</em></p>
+                    </div>
+                    <div class="stanza">
+                        <p><em>Moralité :</em></p>
+                        <p><em>Le puissant qui méprise le petit</em></p>
+                        <p><em>Découvre un jour que le petit grandit.</em></p>
+                    </div>
+                </div>
+                
+                <h3 style="font-family: 'Playfair Display', serif; font-size: 20px; text-align: center; margin: 40px 0 24px;">LA CIGALE ET LE JOURNALISTE</h3>
+                
+                <div class="verse">
+                    <div class="stanza">
+                        <p>La Cigale, ayant chanté</p>
+                        <p>Tout l'été,</p>
+                        <p>Se trouva fort dépourvue</p>
+                        <p>Quand la bise fut venue :</p>
+                        <p>Pas un seul petit morceau</p>
+                        <p>De mouche ou de vermisseau.</p>
+                    </div>
+                    <div class="stanza">
+                        <p>Elle alla crier famine</p>
+                        <p>Chez le Journaliste son voisin,</p>
+                        <p>Le priant de lui faire l'aumône</p>
+                        <p>D'un reportage opportun.</p>
+                    </div>
+                    <div class="stanza">
+                        <p>"Filmez-moi, dit-elle, je vous conterai</p>
+                        <p>Comment le système m'a oubliée,</p>
+                        <p>Comment les pièges de l'emploi</p>
+                        <p>M'ont laissée sans foi ni loi."</p>
+                    </div>
+                    <div class="stanza">
+                        <p>Le Journaliste n'est pas prêteur :</p>
+                        <p>C'est là son moindre défaut.</p>
+                        <p>"Que faisiez-vous au temps chaud ?</p>
+                        <p>Dit-il à cette emprunteuse.</p>
+                    </div>
+                    <div class="stanza">
+                        <p>— Nuit et jour, à tout venant,</p>
+                        <p>Je cherchais du travail, vraiment.</p>
+                        <p>— Vous cherchiez ? J'en suis fort aise.</p>
+                        <p>Eh bien ! Fraudez maintenant."</p>
+                    </div>
+                    <div class="stanza">
+                        <p>Et il monta son documentaire</p>
+                        <p>Où la Cigale, soudain,</p>
+                        <p>Devint profiteuse, salaire en l'air,</p>
+                        <p>Symbole du mal quotidien.</p>
+                    </div>
+                    <div class="stanza">
+                        <p><em>Moralité :</em></p>
+                        <p><em>Quand le récit est déjà fait d'avance,</em></p>
+                        <p><em>Toute victime devient nuisance.</em></p>
+                    </div>
+                </div>
+            </div>
+        </article>
+        
+        <!-- IV. ORWELL -->
+        <article class="pastiche" id="orwell">
+            <header class="pastiche-header">
+                <div class="pastiche-number">— IV —</div>
+                <h2 class="pastiche-title">La Ferme des Médias</h2>
+                <p class="pastiche-subtitle">Conte satirique</p>
+                <p class="pastiche-author">d'après George Orwell</p>
+            </header>
+            
+            <div class="pastiche-content">
+                <p><span class="dropcap">M</span>r. Jones, de la Ferme du Manoir Télévisuel, avait verrouillé les poulaillers pour la nuit, mais il était trop ivre pour se rappeler de fermer les trappes. La lumière de sa lanterne dansait de droite et de gauche tandis qu'il traversait la cour en titubant ; il se débarrassa de ses bottes devant la porte de derrière, se versa un dernier verre de bière du tonneau dans l'arrière-cuisine, puis se traîna jusqu'à son lit où Mrs. Jones ronflait déjà.</p>
+                
+                <p>Aussitôt la lumière de la chambre éteinte, il y eut de l'agitation dans toute la ferme. Dans la journée, la rumeur s'était répandue que le vieux Major — un cochon primé, ancêtre de tous les journalistes du domaine — avait fait un rêve étrange la nuit précédente et souhaitait le communiquer aux autres animaux.</p>
+                
+                <p>Le vieux Major prit la parole : "Camarades, j'ai compris ! Notre ennemi n'est pas l'humain — c'est le pauvre ! C'est l'allocataire ! C'est le chômeur ! Voyez comme ils vivent, ces profiteurs, pendant que nous travaillons !"</p>
+                
+                <p>Les autres cochons hochèrent la tête avec enthousiasme. Quelques moutons, dans le fond de la grange, commencèrent à bêler : "Quatre pattes bon, deux allocations mauvais ! Quatre pattes bon, deux allocations mauvais !"</p>
+                
+                <div class="commandments">
+                    <div class="commandments-title">LES SEPT COMMANDEMENTS DU JOURNALISME DE LA FERME</div>
+                    <ol>
+                        <li>Tout allocataire est un fraudeur potentiel.</li>
+                        <li>Nul ne montrera le contexte.</li>
+                        <li>Nul ne donnera la parole contradictoire.</li>
+                        <li>Nul ne citera le taux réel de fraude.</li>
+                        <li>Nul ne mentionnera la fraude fiscale.</li>
+                        <li>Nul ne déclarera ses conflits d'intérêts familiaux.</li>
+                        <li>Tous les médias sont égaux, mais certains sont plus égaux que d'autres.</li>
+                    </ol>
+                </div>
+                
+                <p>Les années passèrent. Les cochons apprirent à marcher sur deux pattes, à porter des costumes, à présenter des documentaires. Ils avaient même adopté un nouveau nom : ils s'appelaient maintenant "journalistes d'investigation".</p>
+                
+                <p>Un soir, les animaux de la ferme regardèrent par la fenêtre de la maison. Une conférence s'y tenait entre les cochons et les humains d'une ferme voisine appelée "Gouvernement Arizona". On portait des toasts, on riait grassement.</p>
+                
+                <p>Les créatures du dehors regardaient du cochon à l'homme, et de l'homme au cochon, et de nouveau du cochon à l'homme ; mais déjà il était impossible de distinguer l'un de l'autre.</p>
+                
+                <p>Et sur le mur de la grange, là où avaient été écrits les Sept Commandements, on ne pouvait plus lire qu'une seule phrase :</p>
+                
+                <blockquote style="text-align: center; font-size: 24px; font-weight: 700;">
+                    TOUS LES PAUVRES SONT DES FRAUDEURS,<br>
+                    MAIS CERTAINS FRAUDEURS<br>
+                    SONT PLUS FRAUDEURS QUE D'AUTRES.
+                </blockquote>
+            </div>
+        </article>
+        
+        <!-- V. CAMUS -->
+        <article class="pastiche" id="camus">
+            <header class="pastiche-header">
+                <div class="pastiche-number">— V —</div>
+                <h2 class="pastiche-title">L'Étranger</h2>
+                <p class="pastiche-subtitle">ou Le Monteur</p>
+                <p class="pastiche-author">d'après Albert Camus</p>
+            </header>
+            
+            <div class="pastiche-content">
+                <p><span class="dropcap">A</span>ujourd'hui, j'ai diffusé un documentaire. Ou peut-être hier, je ne sais pas. J'ai reçu un message du CSA : "Enquête ouverte. Vous serez convoqué." Cela ne veut rien dire. C'était peut-être hier.</p>
+                
+                <p>J'ai filmé une femme. Elle s'appelait Laetitia. Elle vivait dans une rue qu'on dit pauvre. Je l'ai filmée pendant une heure. Au montage, j'ai gardé trente secondes. Pourquoi trente ? Pourquoi pas quarante ou vingt ? Cela m'était égal. Trente secondes, c'était suffisant pour ce que je voulais montrer. Ce que je voulais montrer, d'ailleurs, je ne sais plus très bien.</p>
+                
+                <p>Le soleil tapait fort ce jour-là, à Verviers. C'est peut-être à cause du soleil que j'ai fait ce reportage. Le soleil et la chaleur qui déforme tout. Ou peut-être que je l'aurais fait quand même. Cela m'est égal.</p>
+                
+                <p>On m'a dit que quatre cents personnes avaient porté plainte. Quatre cents, c'est beaucoup. Ou pas. Je ne sais pas ce que c'est, quatre cents personnes. Des visages, des noms, des vies. Tout cela m'est étranger.</p>
+                
+                <p>Laetitia m'a parlé de ses enfants. Trois enfants. Elle m'a dit qu'elle avait honte, parfois. Honte de ne pas trouver de travail. Honte de dépendre du CPAS. Honte d'exister, presque. J'ai coupé tout ça. La honte, ça ne fait pas d'audience. Ce qui fait de l'audience, c'est l'indignation. L'indignation du téléspectateur qui regarde et qui se dit : "Moi, je ne suis pas comme ça."</p>
+                
+                <p>Le procureur, si procureur il y a, me demandera pourquoi. Pourquoi ce montage. Pourquoi ce timing. Pourquoi ce lien familial non déclaré. Je répondrai : le soleil. C'est à cause du soleil. Et du fait que rien n'a vraiment d'importance.</p>
+                
+                <p>Ma mère aussi recevait des aides, autrefois. Je ne suis pas allé à son enterrement. Ou peut-être que si. Cela m'est égal maintenant.</p>
+                
+                <p>Ce soir, devant ma table de montage vide, je comprends enfin ce que ma mère disait souvent : qu'on finit toujours par s'habituer à tout. Même à être celui qui détruit les autres. Même à être étranger à sa propre conscience.</p>
+                
+                <p>Je me suis senti prêt à tout revivre. Comme si cette grande colère — les quatre cents plaintes, la tempête médiatique — m'avait lavé du mal, vidé d'espoir, devant cette nuit chargée de signes et d'étoiles, je m'ouvrais pour la première fois à la tendre indifférence du monde.</p>
+                
+                <p>Pour que tout soit consommé, pour que je me sente moins seul, il me restait à souhaiter qu'il y ait beaucoup de spectateurs le jour de mon procès public, et qu'ils m'accueillent avec des cris de haine.</p>
+            </div>
+        </article>
+        
+        <!-- VI. SHAKESPEARE -->
+        <article class="pastiche" id="shakespeare">
+            <header class="pastiche-header">
+                <div class="pastiche-number">— VI —</div>
+                <h2 class="pastiche-title">La Tragédie de Macborsu</h2>
+                <p class="pastiche-subtitle">Drame en cinq plaintes</p>
+                <p class="pastiche-author">d'après William Shakespeare</p>
+            </header>
+            
+            <div class="pastiche-content">
+                <p class="stage-direction no-indent">ACTE III, SCÈNE II — Un plateau de télévision, la nuit.</p>
+                <p class="stage-direction">(Entre MACBORSU, seul, une télécommande à la main.)</p>
+                
+                <div class="dialogue">
+                    <p class="dialogue-character">MACBORSU</p>
+                    <p class="dialogue-line">Diffuser, ou ne pas diffuser : là est la question.</p>
+                    <p class="dialogue-line">Est-il plus noble pour l'audience de supporter</p>
+                    <p class="dialogue-line">Les flèches et les frondes d'une fortune outragée,</p>
+                    <p class="dialogue-line">Ou de prendre les armes contre une mer de pauvres,</p>
+                    <p class="dialogue-line">Et, en les filmant, y mettre fin ? Montrer — monter —</p>
+                    <p class="dialogue-line">Rien de plus ; et dire que par un montage nous mettons fin</p>
+                    <p class="dialogue-line">Aux mille nuances naturelles dont la chair est héritière :</p>
+                    <p class="dialogue-line">C'est une consommation dévotement à souhaiter.</p>
+                </div>
+                
+                <p class="stage-direction">(Entre LADY MACBORSU, son épouse et directrice éditoriale.)</p>
+                
+                <div class="dialogue">
+                    <p class="dialogue-character">LADY MACBORSU</p>
+                    <p class="dialogue-line">Quoi ! Mon seigneur hésite encore ?</p>
+                    <p class="dialogue-line">Le documentaire est prêt, l'heure est venue,</p>
+                    <p class="dialogue-line">Et vous restez là comme une laitue ?</p>
+                    <p class="dialogue-line">Les fraudeurs ne se dénonceront pas eux-mêmes !</p>
+                </div>
+                
+                <div class="dialogue">
+                    <p class="dialogue-character">MACBORSU</p>
+                    <p class="dialogue-line">Mais s'ils ne sont point fraudeurs, ma dame ?</p>
+                    <p class="dialogue-line">Le taux réel, dit-on, n'est que de trois pour cent...</p>
+                </div>
+                
+                <div class="dialogue">
+                    <p class="dialogue-character">LADY MACBORSU</p>
+                    <p class="dialogue-line">Trois pour cent ! Et quoi ? La perception, mon seigneur,</p>
+                    <p class="dialogue-line">Vaut plus que la réalité ! Faites-les fraudeurs,</p>
+                    <p class="dialogue-line">Et fraudeurs ils seront aux yeux de tous !</p>
+                    <p class="dialogue-line">Le montage est l'arme des puissants, usez-en !</p>
+                </div>
+                
+                <p class="stage-direction">(Macborsu s'approche de la table de montage.)</p>
+                
+                <div class="dialogue">
+                    <p class="dialogue-character">MACBORSU</p>
+                    <p class="dialogue-line">Est-ce un micro que je vois devant moi,</p>
+                    <p class="dialogue-line">Le manche vers ma main ? Viens, que je t'empoigne.</p>
+                    <p class="dialogue-line">Je ne te tiens pas, et pourtant je te vois toujours.</p>
+                    <p class="dialogue-line">N'es-tu pas, vision fatale, sensible</p>
+                    <p class="dialogue-line">Au toucher comme à la vue ? Ou n'es-tu</p>
+                    <p class="dialogue-line">Qu'un micro de l'esprit, une fausse création</p>
+                    <p class="dialogue-line">Issue d'un cerveau oppressé par l'audience ?</p>
+                </div>
+                
+                <p class="stage-direction">(Il appuie sur le bouton de diffusion.)</p>
+                
+                <div class="dialogue">
+                    <p class="dialogue-character">MACBORSU</p>
+                    <p class="dialogue-line">C'est fait. Le documentaire est parti.</p>
+                    <p class="dialogue-line">Quatre cent mille âmes le verront cette nuit.</p>
+                    <p class="dialogue-line">Et demain, et après-demain, et tous les jours qui suivent,</p>
+                    <p class="dialogue-line">Il rampe à ce petit pas, de jour en jour,</p>
+                    <p class="dialogue-line">Jusqu'à la dernière syllabe du temps enregistré.</p>
+                </div>
+                
+                <p class="stage-direction">(Plus tard. Macborsu, seul, hagard. Des notifications s'accumulent.)</p>
+                
+                <div class="dialogue">
+                    <p class="dialogue-character">MACBORSU</p>
+                    <p class="dialogue-line">Demain, et demain, et demain</p>
+                    <p class="dialogue-line">Se traîne à pas feutrés de jour en jour</p>
+                    <p class="dialogue-line">Jusqu'à la dernière plainte du temps prescrit ;</p>
+                    <p class="dialogue-line">Et tous nos hiers n'ont fait qu'éclairer des pauvres</p>
+                    <p class="dialogue-line">Le chemin de la honte publique. Éteins-toi, éteins-toi,</p>
+                    <p class="dialogue-line">Brève chandelle ! La vie n'est qu'un documentaire ambulant,</p>
+                    <p class="dialogue-line">Un pauvre journaliste qui se pavane et s'agite</p>
+                    <p class="dialogue-line">Durant son heure sur la scène, puis qu'on n'entend plus ;</p>
+                    <p class="dialogue-line">C'est un récit conté par un monteur,</p>
+                    <p class="dialogue-line">Plein de bruit et de fureur,</p>
+                    <p class="dialogue-line">Et qui ne signifie rien.</p>
+                </div>
+                
+                <p class="stage-direction">(Entre un MESSAGER.)</p>
+                
+                <div class="dialogue">
+                    <p class="dialogue-character">MESSAGER</p>
+                    <p class="dialogue-line">Mon seigneur, le bois de Birnam se met en marche.</p>
+                </div>
+                
+                <div class="dialogue">
+                    <p class="dialogue-character">MACBORSU</p>
+                    <p class="dialogue-line">Le bois de Birnam ?</p>
+                </div>
+                
+                <div class="dialogue">
+                    <p class="dialogue-character">MESSAGER</p>
+                    <p class="dialogue-line">Quatre cents plaintes, mon seigneur.</p>
+                    <p class="dialogue-line">Elles marchent vers vous. Et chacune porte</p>
+                    <p class="dialogue-line">Une branche de vérité pour se camoufler.</p>
+                </div>
+                
+                <div class="dialogue">
+                    <p class="dialogue-character">MACBORSU</p>
+                    <p class="dialogue-line">Menteur et esclave !</p>
+                </div>
+                
+                <div class="dialogue">
+                    <p class="dialogue-character">MESSAGER</p>
+                    <p class="dialogue-line">Que je subisse votre colère si ce n'est vrai.</p>
+                    <p class="dialogue-line">À trois lieues d'ici vous pouvez les voir venir :</p>
+                    <p class="dialogue-line">Un bois qui marche, quatre cents consciences debout.</p>
+                </div>
+                
+                <div class="dialogue">
+                    <p class="dialogue-character">MACBORSU</p>
+                    <p class="dialogue-line">Si cela est vrai, inutile de fuir ou de rester.</p>
+                    <p class="dialogue-line">Je commence à être las du soleil médiatique,</p>
+                    <p class="dialogue-line">Et je voudrais que l'état de l'univers se défît.</p>
+                    <p class="dialogue-line">Sonnez l'alarme ! Au moins nous mourrons le harnais sur le dos.</p>
+                </div>
+                
+                <p class="no-indent" style="text-align: center; margin-top: 32px; font-style: italic;">EXEUNT. Fin de l'acte.</p>
+            </div>
+        </article>
+        
+        <!-- VII. DANTE -->
+        <article class="pastiche" id="dante">
+            <header class="pastiche-header">
+                <div class="pastiche-number">— VII —</div>
+                <h2 class="pastiche-title">L'Enfer des Journalistes</h2>
+                <p class="pastiche-subtitle">Extrait du Chant des Manipulateurs</p>
+                <p class="pastiche-author">d'après Dante Alighieri</p>
+            </header>
+            
+            <div class="pastiche-content">
+                <p><span class="dropcap">A</span>u milieu du chemin de notre audimat, je me trouvai dans une forêt obscure, car la voie droite était perdue. Ah ! qu'il est dur de dire combien cette forêt était sauvage, âpre et dense, elle qui, à la pensée, renouvelle ma peur !</p>
+                
+                <p>C'est alors qu'un fantôme m'apparut. "Je suis Virgile-Zola", dit-il, "et je serai ton guide à travers les cercles de l'Enfer Médiatique. Car tu dois voir ce qui attend ceux qui manipulent la vérité."</p>
+                
+                <p>Nous franchîmes la porte sur laquelle était inscrit :</p>
+                
+                <div class="verse" style="background: #111; color: #ddd; padding: 32px; margin: 32px 0; font-family: 'Cinzel', serif;">
+                    <p>PAR MOI L'ON VA DANS LA CITÉ DOLENTE,</p>
+                    <p>PAR MOI L'ON VA DANS L'ÉTERNELLE DOULEUR,</p>
+                    <p>PAR MOI L'ON VA PARMI LA GENT PERDUE.</p>
+                    <p>LE MONTAGE M'A FAIT, LA SUPRÊME AUDIENCE,</p>
+                    <p>LE PREMIER AUDIMAT ET LA HAUTE TROMPERIE.</p>
+                    <p>AVANT MOI NE FUT RIEN CRÉÉ QUE D'ÉTERNEL,</p>
+                    <p>ET MOI ÉTERNELLEMENT JE DURE :</p>
+                    <p>VOUS QUI ENTREZ, LAISSEZ TOUTE DÉONTOLOGIE.</p>
+                </div>
+                
+                <div class="circle">
+                    <div class="circle-title">PREMIER CERCLE — LES OMETTEURS</div>
+                    <p>Ici souffrent ceux qui ont péché par omission. Ils n'ont point menti directement, mais ont caché les faits qui nuançaient leur récit. Je vis des producteurs, des rédacteurs en chef, des monteurs, tournant éternellement autour d'un écran qui ne diffusait qu'une partie de l'image.</p>
+                    <p>"Leur supplice, dit Virgile-Zola, est de voir éternellement ce qu'ils ont coupé."</p>
+                </div>
+                
+                <div class="circle">
+                    <div class="circle-title">DEUXIÈME CERCLE — LES SYNCHRONISATEURS</div>
+                    <p>Plus bas, je vis ceux qui avaient synchronisé leurs contenus avec des agendas politiques. Ils étaient attachés à des horloges géantes dont les aiguilles leur perçaient la chair à chaque minute.</p>
+                    <p>"Cinq jours, murmuraient-ils. Cinq jours entre le documentaire et les lettres. Coïncidence, coïncidence..."</p>
+                </div>
+                
+                <div class="circle">
+                    <div class="circle-title">TROISIÈME CERCLE — LES FAUX SOURÇEURS</div>
+                    <p>Ici gisaient ceux qui avaient inventé des sources ou cité des études inexistantes. L'IWEPS était là, sous forme de spectre, répétant sans cesse : "Nous n'avons jamais dit cela. Nous n'avons jamais dit cela."</p>
+                    <p>Les damnés devaient boire éternellement une encre noire qui leur brûlait la gorge.</p>
+                </div>
+                
+                <div class="circle">
+                    <div class="circle-title">QUATRIÈME CERCLE — LES CONFLITS D'INTÉRÊTS</div>
+                    <p>Ici souffraient ceux qui avaient caché leurs liens familiaux ou financiers. Ils portaient des masques transparents que tous pouvaient voir, sauf eux-mêmes.</p>
+                    <p>Un oncle et sa nièce députée tournaient ensemble, attachés par une chaîne d'or.</p>
+                </div>
+                
+                <div class="circle">
+                    <div class="circle-title">CINQUIÈME CERCLE — LES MONTEURS TRAÎTRES</div>
+                    <p>Le plus profond cercle. Là où gèlent éternellement ceux qui ont trahi la confiance des interviewés.</p>
+                    <p>Je vis un homme enfoncé dans la glace jusqu'à la taille. Devant lui, un écran diffusait en boucle : une heure d'interview, puis trente secondes. Une heure, trente secondes. Une heure, trente secondes.</p>
+                    <p>"Qui est-ce ?", demandai-je à mon guide.</p>
+                    <p>"C'est celui qui a transformé la confiance en trahison, l'interview en procès, la nuance en caricature. Son nom est connu des quatre cents plaignants."</p>
+                    <p>Et je vis que de ses yeux gelés coulaient des larmes qui se transformaient aussitôt en glace sur ses joues.</p>
+                </div>
+                
+                <p>Nous remontâmes enfin vers la lumière, par un passage secret que mon guide connaissait. Et de là, nous sortîmes à revoir les étoiles.</p>
+                
+                <p>Mais avant de partir, Virgile-Zola se tourna vers moi :</p>
+                
+                <blockquote>
+                    "Souviens-toi de ce que tu as vu. Et écris-le. Car l'Enfer n'est pas seulement pour les morts : il est aussi pour ceux qui, vivants, choisissent de tuer la vérité."
+                </blockquote>
+            </div>
+        </article>
+        
+        <!-- COLOPHON -->
+        <footer class="colophon">
+            <p class="colophon-text">
+                Ce recueil a été composé dans la nuit du 29 au 30 janvier 2026,<br>
+                en hommage aux géants de la littérature qui ont su, en leur temps,<br>
+                manier la satire comme une arme de lumière contre l'obscurantisme.
+            </p>
+            <p class="colophon-text" style="margin-top: 16px;">
+                <em>Kafka nous a appris que la culpabilité peut être kafkaïenne.<br>
+                Molière que le ridicule tue.<br>
+                La Fontaine que les fables disent vrai.<br>
+                Orwell que le langage est pouvoir.<br>
+                Camus que l'indifférence est un crime.<br>
+                Shakespeare que l'ambition dévore.<br>
+                Dante que l'Enfer a des cercles pour chaque péché.</em>
+            </p>
+            
+            <div class="colophon-warning">
+                ⚠️ ŒUVRE DE FICTION SATIRIQUE — Pastiches littéraires à vocation humoristique et critique.<br>
+                Aucune diffamation. Liberté d'expression. Tradition pamphlétaire.<br>
+                "La satire est la dernière arme des peuples libres."<br>
+                ouaisfi.eu — CC BY-NC-SA 4.0
+            </div>
+        </footer>
+    </div>
+</body>
