@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comprendre la politique envers les malades de longue durée — Guide pratique</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-cream: #fdfbf7;
+            --bg-white: #ffffff;
+            --text-dark: #2d2d2d;
+            --text-body: #4a4a4a;
+            --accent-burgundy: #8b2942;
+            --accent-blue: #1e5a8a;
+            --accent-green: #2d6a4f;
+            --border: #e0dcd5;
+            --shadow: rgba(0,0,0,0.08);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            font-size: 20px; /* Base plus grande pour lisibilité */
+        }
+
+        body {
+            font-family: 'Open Sans', -apple-system, sans-serif;
+            background: var(--bg-cream);
+            color: var(--text-body);
+            line-height: 1.8;
+        }
+
+        /* Header simple et clair */
+        header {
+            background: var(--bg-white);
+            border-bottom: 3px solid var(--accent-burgundy);
+            padding: 40px 30px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-family: 'Libre Baskerville', Georgia, serif;
+            font-size: 2rem;
+            color: var(--text-dark);
+            margin-bottom: 15px;
+            line-height: 1.3;
+        }
+
+        header p {
+            font-size: 1.1rem;
+            color: var(--text-body);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* Navigation très simple */
+        nav {
+            background: var(--accent-burgundy);
+            padding: 20px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-inner {
+            max-width: 900px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            padding: 12px 25px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 8px;
+            font-weight: 500;
+            transition: background 0.2s;
+        }
+
+        nav a:hover {
+            background: rgba(255,255,255,0.25);
+        }
+
+        /* Contenu principal */
+        main {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 50px 30px;
+        }
+
+        /* Encadré résumé */
+        .summary-box {
+            background: linear-gradient(to right, var(--accent-burgundy), #a83550);
+            color: white;
+            padding: 40px;
+            border-radius: 12px;
+            margin-bottom: 50px;
+        }
+
+        .summary-box h2 {
+            font-family: 'Libre Baskerville', serif;
+            font-size: 1.4rem;
+            margin-bottom: 20px;
+        }
+
+        .summary-box p {
+            font-size: 1.1rem;
+            line-height: 1.7;
+            margin-bottom: 15px;
+        }
+
+        .summary-box p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Sections */
+        section {
+            background: var(--bg-white);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 40px;
+            margin-bottom: 40px;
+            box-shadow: 0 4px 15px var(--shadow);
+        }
+
+        section h2 {
+            font-family: 'Libre Baskerville', serif;
+            font-size: 1.5rem;
+            color: var(--accent-burgundy);
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--border);
+        }
+
+        section h3 {
+            font-size: 1.15rem;
+            color: var(--text-dark);
+            margin: 30px 0 15px;
+            font-weight: 600;
+        }
+
+        p {
+            margin-bottom: 20px;
+        }
+
+        /* Encadré important */
+        .important-box {
+            background: #fff8f0;
+            border-left: 5px solid var(--accent-burgundy);
+            padding: 25px 30px;
+            margin: 30px 0;
+        }
+
+        .important-box h4 {
+            color: var(--accent-burgundy);
+            font-size: 1.1rem;
+            margin-bottom: 12px;
+        }
+
+        .important-box p {
+            margin-bottom: 0;
+        }
+
+        /* Encadré conseil */
+        .conseil-box {
+            background: #f0f7f4;
+            border-left: 5px solid var(--accent-green);
+            padding: 25px 30px;
+            margin: 30px 0;
+        }
+
+        .conseil-box h4 {
+            color: var(--accent-green);
+            font-size: 1.1rem;
+            margin-bottom: 12px;
+        }
+
+        /* Chiffres clés */
+        .chiffres-cles {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .chiffre-item {
+            background: var(--bg-cream);
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            padding: 25px;
+            text-align: center;
+        }
+
+        .chiffre-item .nombre {
+            font-family: 'Libre Baskerville', serif;
+            font-size: 2.2rem;
+            color: var(--accent-burgundy);
+            font-weight: 700;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .chiffre-item .description {
+            font-size: 0.95rem;
+            color: var(--text-body);
+        }
+
+        /* Citation */
+        blockquote {
+            background: var(--bg-cream);
+            border-left: 4px solid var(--accent-blue);
+            padding: 25px 30px;
+            margin: 30px 0;
+            font-style: italic;
+        }
+
+        blockquote p {
+            font-family: 'Libre Baskerville', serif;
+            font-size: 1.05rem;
+            color: var(--text-dark);
+            margin-bottom: 12px;
+        }
+
+        blockquote cite {
+            font-style: normal;
+            font-size: 0.9rem;
+            color: var(--accent-blue);
+        }
+
+        /* Tableau simple */
+        .tableau {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+        }
+
+        .tableau th,
+        .tableau td {
+            padding: 18px 20px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .tableau th {
+            background: var(--accent-burgundy);
+            color: white;
+            font-weight: 600;
+        }
+
+        .tableau tr:hover {
+            background: var(--bg-cream);
+        }
+
+        /* Liste */
+        ul, ol {
+            margin: 20px 0 20px 25px;
+        }
+
+        li {
+            margin-bottom: 12px;
+        }
+
+        /* Bouton imprimer */
+        .print-btn {
+            display: inline-block;
+            background: var(--accent-blue);
+            color: white;
+            padding: 15px 35px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            text-decoration: none;
+            margin-top: 20px;
+        }
+
+        .print-btn:hover {
+            background: #164a73;
+        }
+
+        /* Timeline simple */
+        .timeline {
+            margin: 30px 0;
+        }
+
+        .timeline-item {
+            display: flex;
+            margin-bottom: 25px;
+            padding-bottom: 25px;
+            border-bottom: 1px dashed var(--border);
+        }
+
+        .timeline-item:last-child {
+            border-bottom: none;
+        }
+
+        .timeline-date {
+            flex-shrink: 0;
+            width: 140px;
+            font-weight: 600;
+            color: var(--accent-burgundy);
+        }
+
+        .timeline-content h4 {
+            font-size: 1.05rem;
+            color: var(--text-dark);
+            margin-bottom: 8px;
+        }
+
+        .timeline-content p {
+            font-size: 0.95rem;
+            margin-bottom: 0;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--text-dark);
+            color: white;
+            padding: 50px 30px;
+            text-align: center;
+        }
+
+        footer h3 {
+            font-family: 'Libre Baskerville', serif;
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+        }
+
+        footer p {
+            opacity: 0.8;
+            font-size: 0.95rem;
+            max-width: 600px;
+            margin: 0 auto 20px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            html {
+                font-size: 18px;
+            }
+
+            header, section {
+                padding: 30px 25px;
+            }
+
+            .nav-inner {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            nav a {
+                width: 100%;
+                max-width: 300px;
+                text-align: center;
+            }
+
+            .timeline-item {
+                flex-direction: column;
+            }
+
+            .timeline-date {
+                width: 100%;
+                margin-bottom: 10px;
+            }
+        }
+
+        @media print {
+            nav, .print-btn {
+                display: none;
+            }
+
+            section {
+                box-shadow: none;
+                border: 1px solid #ccc;
+                page-break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Comprendre la politique envers les malades de longue durée</h1>
+        <p>Un guide clair et accessible pour comprendre les réformes en cours et leurs conséquences pour les personnes concernées</p>
+    </header>
+
+    <nav>
+        <div class="nav-inner">
+            <a href="#essentiel">L'essentiel</a>
+            <a href="#reformes">Les réformes</a>
+            <a href="#concerne">Qui est concerné</a>
+            <a href="#droits">Vos droits</a>
+            <a href="#ressources">Ressources</a>
+        </div>
+    </nav>
+
+    <main>
+        <!-- Résumé -->
+        <div class="summary-box">
+            <h2>Ce qu'il faut savoir en bref</h2>
+            <p>Depuis 2021, le gouvernement belge renforce les contrôles et les sanctions envers les personnes en incapacité de travail de longue durée. L'objectif affiché est de ramener <strong>100 000 personnes</strong> vers l'emploi d'ici 2029.</p>
+            <p>Ces mesures touchent particulièrement les personnes souffrant de troubles psychiques (dépression, burn-out) qui représentent <strong>37% des invalides</strong>. Les syndicats, les mutuelles et les médecins expriment de vives inquiétudes sur les effets de ces réformes.</p>
+        </div>
+
+        <!-- L'essentiel -->
+        <section id="essentiel">
+            <h2>L'essentiel de la situation</h2>
+            
+            <p>La Belgique compte aujourd'hui <strong>549 996 personnes en invalidité</strong> — c'est-à-dire des personnes qui ne peuvent pas travailler à cause de leur état de santé depuis plus d'un an. Ce nombre a doublé depuis 2008.</p>
+
+            <div class="chiffres-cles">
+                <div class="chiffre-item">
+                    <span class="nombre">550 000</span>
+                    <span class="description">personnes en invalidité fin 2024</span>
+                </div>
+                <div class="chiffre-item">
+                    <span class="nombre">2,4 millions</span>
+                    <span class="description">de bénéficiaires de l'intervention majorée (BIM)</span>
+                </div>
+                <div class="chiffre-item">
+                    <span class="nombre">9 milliards €</span>
+                    <span class="description">coût annuel pour la sécurité sociale</span>
+                </div>
+            </div>
+
+            <h3>Pourquoi cette augmentation ?</h3>
+            <p>Plusieurs facteurs expliquent cette évolution :</p>
+            <ul>
+                <li><strong>Le relèvement de l'âge de la pension</strong> : les travailleurs plus âgés s'usent davantage (+49% de malades longue durée chez les 60-64 ans)</li>
+                <li><strong>La dégradation des conditions de travail</strong> : stress, pression, horaires décalés</li>
+                <li><strong>L'augmentation des troubles psychiques</strong> : dépression et burn-out touchent de plus en plus de personnes</li>
+            </ul>
+
+            <div class="important-box">
+                <h4>À savoir</h4>
+                <p>Les femmes représentent <strong>60% des personnes en invalidité</strong> et <strong>69% des cas de burn-out</strong>. Les ouvrières ont un taux d'incapacité de 19,6%, soit presque le double de la moyenne.</p>
+            </div>
+        </section>
+
+        <!-- Les réformes -->
+        <section id="reformes">
+            <h2>Les réformes depuis 2021</h2>
+            
+            <p>Le ministre Frank Vandenbroucke a mis en place plusieurs vagues de réformes visant à favoriser le "retour au travail". Ces mesures ont été renforcées par le gouvernement Arizona, entré en fonction début 2025.</p>
+
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-date">2021</div>
+                    <div class="timeline-content">
+                        <h4>Première vague</h4>
+                        <p>Création de coordinateurs "Retour au Travail" dans les mutualités pour accompagner les personnes.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">Janvier 2023</div>
+                    <div class="timeline-content">
+                        <h4>Deuxième vague</h4>
+                        <p>Convocations obligatoires aux 4e, 7e et 11e mois de maladie. Première sanction : 2,5% de réduction des indemnités en cas de non-coopération.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">Janvier 2026</div>
+                    <div class="timeline-content">
+                        <h4>Troisième vague (gouvernement Arizona)</h4>
+                        <p>Certificats médicaux limités à 3 mois. <strong>Sanction portée à 10%</strong> (au lieu de 2,5%). Suspension des indemnités en cas d'absence à une convocation.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">2027 (prévu)</div>
+                    <div class="timeline-content">
+                        <h4>Quatrième vague annoncée</h4>
+                        <p>Premier certificat limité à 3 semaines. Renouvellement annuel obligatoire de la reconnaissance d'invalidité.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="important-box">
+                <h4>Ce qui a changé concrètement</h4>
+                <p>La sanction financière a été <strong>multipliée par quatre</strong> : de 2,5% en 2023 à 10% en 2026. Une absence non justifiée à un rendez-vous médical peut entraîner la suspension complète des indemnités.</p>
+            </div>
+        </section>
+
+        <!-- Qui est concerné -->
+        <section id="concerne">
+            <h2>Qui est concerné par ces mesures ?</h2>
+
+            <p>Ces réformes touchent toutes les personnes en incapacité de travail, quelle que soit la nature de leur maladie. Les personnes les plus vulnérables sont particulièrement affectées.</p>
+
+            <h3>Les bénéficiaires de l'intervention majorée (BIM)</h3>
+            <p>Les BIM représentent aujourd'hui <strong>21% de la population belge</strong>, soit 2,4 millions de personnes. Cette population a un risque <strong>68% plus élevé</strong> de voir son incapacité se prolonger en invalidité.</p>
+
+            <h3>Les personnes souffrant de troubles psychiques</h3>
+            <div class="chiffres-cles">
+                <div class="chiffre-item">
+                    <span class="nombre">37%</span>
+                    <span class="description">des invalides ont des troubles psychosociaux</span>
+                </div>
+                <div class="chiffre-item">
+                    <span class="nombre">66%</span>
+                    <span class="description">de ces troubles sont des dépressions ou burn-out</span>
+                </div>
+            </div>
+
+            <blockquote>
+                <p>« Générer du stress à l'aide d'un processus infantilisant et à caractère obligatoire ne peut qu'aggraver la santé des personnes concernées. »</p>
+                <cite>— Solidaris (mutuelle socialiste)</cite>
+            </blockquote>
+
+            <h3>Les travailleurs âgés</h3>
+            <p>Le relèvement de l'âge de la pension a provoqué une hausse de <strong>48,8%</strong> des malades longue durée chez les 60-64 ans. Ces personnes, souvent usées par des années de travail, se retrouvent dans un système de contrôle qui ne prend pas en compte leur situation particulière.</p>
+        </section>
+
+        <!-- Vos droits -->
+        <section id="droits">
+            <h2>Vos droits et recours</h2>
+
+            <p>Malgré le durcissement des règles, vous conservez des droits importants. Voici ce qu'il faut savoir.</p>
+
+            <h3>Vos obligations</h3>
+            <ul>
+                <li>Vous présenter aux convocations du médecin-conseil de votre mutuelle</li>
+                <li>Coopérer au trajet de réintégration si vous en êtes capable</li>
+                <li>Fournir les certificats médicaux dans les délais</li>
+            </ul>
+
+            <h3>Vos droits</h3>
+            <ul>
+                <li><strong>Vous pouvez contester une décision</strong> de votre mutuelle auprès du tribunal du travail</li>
+                <li><strong>Votre médecin traitant reste votre référent</strong> pour évaluer votre état de santé</li>
+                <li><strong>Vous pouvez demander un accompagnement</strong> adapté à votre situation</li>
+                <li><strong>Les absences justifiées</strong> (maladie grave, hospitalisation) ne peuvent pas être sanctionnées</li>
+            </ul>
+
+            <div class="conseil-box">
+                <h4>Conseil pratique</h4>
+                <p>En cas de difficulté pour vous rendre à une convocation, <strong>prévenez votre mutuelle à l'avance</strong> et demandez un certificat médical à votre médecin expliquant pourquoi vous ne pouvez pas vous déplacer. Gardez une copie de toute correspondance.</p>
+            </div>
+
+            <h3>Ce que disent les experts</h3>
+            <p>Les mutuelles elles-mêmes expriment des réserves sur ces réformes. Le Conseil national du Travail a établi que <strong>les sanctions sont contre-productives</strong> et que l'accompagnement bienveillant est plus efficace.</p>
+
+            <blockquote>
+                <p>« On crée un vrai risque de responsabiliser uniquement le patient alors que le patient est dans une situation où il entre en incapacité de travail parce qu'il est en situation de maladie. »</p>
+                <cite>— Élise Derroitte, vice-présidente de la Mutualité chrétienne</cite>
+            </blockquote>
+        </section>
+
+        <!-- Ressources -->
+        <section id="ressources">
+            <h2>Ressources et contacts utiles</h2>
+
+            <p>N'hésitez pas à vous faire accompagner. Voici les organismes qui peuvent vous aider :</p>
+
+            <table class="tableau">
+                <tr>
+                    <th>Organisme</th>
+                    <th>Rôle</th>
+                </tr>
+                <tr>
+                    <td><strong>Votre mutuelle</strong></td>
+                    <td>Premier interlocuteur pour toute question sur votre dossier</td>
+                </tr>
+                <tr>
+                    <td><strong>Votre médecin traitant</strong></td>
+                    <td>Peut attester de votre état de santé et vous accompagner</td>
+                </tr>
+                <tr>
+                    <td><strong>Les syndicats (FGTB, CSC, CGSLB)</strong></td>
+                    <td>Peuvent vous conseiller et vous défendre</td>
+                </tr>
+                <tr>
+                    <td><strong>Le service de médiation fédéral</strong></td>
+                    <td>En cas de litige avec l'administration</td>
+                </tr>
+                <tr>
+                    <td><strong>Le tribunal du travail</strong></td>
+                    <td>Pour contester une décision (gratuit avec l'aide juridique)</td>
+                </tr>
+            </table>
+
+            <div class="conseil-box">
+                <h4>Important</h4>
+                <p>Si vous traversez une période difficile, parlez-en à votre médecin ou contactez le <strong>Centre de Prévention du Suicide : 0800 32 123</strong> (gratuit, 24h/24). Vous n'êtes pas seul(e).</p>
+            </div>
+
+            <p style="text-align: center; margin-top: 40px;">
+                <button class="print-btn" onclick="window.print()">🖨️ Imprimer ce guide</button>
+            </p>
+        </section>
+
+        <!-- Conclusion -->
+        <section>
+            <h2>En conclusion</h2>
+
+            <p>Les réformes en cours visent à réduire le nombre de malades de longue durée, mais elles suscitent de nombreuses inquiétudes parmi les professionnels de santé, les mutuelles et les syndicats.</p>
+
+            <p>L'expérience internationale, notamment au Royaume-Uni, montre que les politiques de pression sur les malades peuvent avoir des effets néfastes sur leur santé, parfois dramatiques.</p>
+
+            <blockquote>
+                <p>« La réponse à l'explosion des maladies de longue durée se trouve peut-être moins dans le contrôle des malades que dans l'examen des conditions qui les rendent malades. »</p>
+            </blockquote>
+
+            <p>Quelle que soit votre situation, <strong>vous avez des droits</strong>. N'hésitez pas à vous faire accompagner et à demander conseil auprès de votre mutuelle, de votre médecin ou d'un syndicat.</p>
+        </section>
+    </main>
+
+    <footer>
+        <h3>Guide pratique — Janvier 2026</h3>
+        <p>Ce document a été réalisé à partir de sources officielles et d'études publiées. Il ne remplace pas un conseil juridique personnalisé.</p>
+        <p><em>AOUCH — Information citoyenne</em></p>
+    </footer>
+</body>
+</html>
