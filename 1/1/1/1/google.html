@@ -1,0 +1,1118 @@
+<!DOCTYPE html>
+<html lang="fr-BE">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Statuts ASBL | Modèle complet conforme CSA 2019 | Lien PAC + Indépendance + Protection bénévoles BIM</title>
+    <meta name="description" content="Modèle de statuts d'ASBL belge avec lien historique PAC, indépendance structurelle garantie, et protection des bénévoles en situation de précarité (BIM).">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --blue: #1e40af;
+            --blue-light: #3b82f6;
+            --gray-50: #f9fafb;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-500: #6b7280;
+            --gray-700: #374151;
+            --gray-900: #111827;
+            --green: #059669;
+            --orange: #d97706;
+            --red: #dc2626;
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--gray-50);
+            color: var(--gray-900);
+            font-size: 16px;
+            line-height: 1.7;
+        }
+        
+        /* HEADER */
+        header {
+            background: var(--blue);
+            color: white;
+            padding: 48px 24px;
+        }
+        
+        .header-inner {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        .header-badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            padding: 6px 14px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 16px;
+        }
+        
+        h1 {
+            font-family: 'Source Serif 4', Georgia, serif;
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+        
+        .header-subtitle {
+            color: rgba(255,255,255,0.8);
+            font-size: 17px;
+        }
+        
+        /* NAV */
+        nav {
+            background: white;
+            border-bottom: 1px solid var(--gray-200);
+            padding: 12px 24px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .nav-inner {
+            max-width: 900px;
+            margin: 0 auto;
+            display: flex;
+            gap: 20px;
+            overflow-x: auto;
+            font-size: 14px;
+        }
+        
+        .nav-inner a {
+            color: var(--gray-500);
+            text-decoration: none;
+            white-space: nowrap;
+            padding: 8px 0;
+            border-bottom: 2px solid transparent;
+        }
+        
+        .nav-inner a:hover {
+            color: var(--blue);
+            border-bottom-color: var(--blue);
+        }
+        
+        /* MAIN */
+        main {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 48px 24px;
+        }
+        
+        /* SECTIONS */
+        section {
+            margin-bottom: 48px;
+        }
+        
+        h2 {
+            font-family: 'Source Serif 4', Georgia, serif;
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--blue);
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid var(--gray-200);
+        }
+        
+        h3 {
+            font-size: 18px;
+            font-weight: 600;
+            margin: 28px 0 12px;
+            color: var(--gray-900);
+        }
+        
+        h4 {
+            font-size: 16px;
+            font-weight: 600;
+            margin: 20px 0 8px;
+            color: var(--gray-700);
+        }
+        
+        p {
+            margin-bottom: 16px;
+            color: var(--gray-700);
+        }
+        
+        /* ALERTS */
+        .alert {
+            padding: 20px 24px;
+            border-radius: 8px;
+            margin: 24px 0;
+        }
+        
+        .alert-blue {
+            background: #eff6ff;
+            border-left: 4px solid var(--blue);
+        }
+        
+        .alert-green {
+            background: #ecfdf5;
+            border-left: 4px solid var(--green);
+        }
+        
+        .alert-orange {
+            background: #fffbeb;
+            border-left: 4px solid var(--orange);
+        }
+        
+        .alert-red {
+            background: #fef2f2;
+            border-left: 4px solid var(--red);
+        }
+        
+        .alert-title {
+            font-weight: 600;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .alert p:last-child {
+            margin-bottom: 0;
+        }
+        
+        /* STATUTS BOX */
+        .statuts {
+            background: white;
+            border: 1px solid var(--gray-200);
+            border-radius: 8px;
+            padding: 40px;
+            margin: 32px 0;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        .statuts-header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 24px;
+            border-bottom: 2px solid var(--gray-200);
+        }
+        
+        .statuts-header h2 {
+            border: none;
+            padding: 0;
+            margin-bottom: 8px;
+            color: var(--gray-900);
+        }
+        
+        .statuts-header p {
+            color: var(--gray-500);
+            font-size: 14px;
+        }
+        
+        /* ARTICLES */
+        .article {
+            margin-bottom: 32px;
+            padding-bottom: 24px;
+            border-bottom: 1px solid var(--gray-100);
+        }
+        
+        .article:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        
+        .article-header {
+            display: flex;
+            align-items: baseline;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+        
+        .article-num {
+            font-weight: 700;
+            color: var(--blue);
+            font-size: 14px;
+            text-transform: uppercase;
+        }
+        
+        .article-title {
+            font-weight: 600;
+            font-size: 17px;
+        }
+        
+        .article-content {
+            padding-left: 0;
+        }
+        
+        .article-content p {
+            margin-bottom: 12px;
+        }
+        
+        .article-content ol, .article-content ul {
+            margin: 12px 0 12px 24px;
+            color: var(--gray-700);
+        }
+        
+        .article-content li {
+            margin-bottom: 8px;
+        }
+        
+        /* PREAMBULE */
+        .preambule {
+            background: var(--gray-50);
+            padding: 24px;
+            border-radius: 8px;
+            margin-bottom: 32px;
+            font-style: italic;
+            color: var(--gray-700);
+        }
+        
+        .preambule p {
+            margin-bottom: 12px;
+        }
+        
+        .preambule p:last-child {
+            margin-bottom: 0;
+        }
+        
+        /* HIGHLIGHT */
+        .highlight {
+            background: #fef3c7;
+            padding: 2px 6px;
+            border-radius: 3px;
+        }
+        
+        .highlight-blue {
+            background: #dbeafe;
+        }
+        
+        .highlight-green {
+            background: #d1fae5;
+        }
+        
+        /* CHECKLIST */
+        .checklist {
+            background: white;
+            border: 1px solid var(--gray-200);
+            border-radius: 8px;
+            padding: 24px;
+            margin: 24px 0;
+        }
+        
+        .checklist h4 {
+            margin-top: 0;
+        }
+        
+        .checklist ul {
+            list-style: none;
+            margin: 0;
+        }
+        
+        .checklist li {
+            padding: 8px 0;
+            padding-left: 28px;
+            position: relative;
+            border-bottom: 1px solid var(--gray-100);
+        }
+        
+        .checklist li:last-child {
+            border-bottom: none;
+        }
+        
+        .checklist li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: var(--green);
+            font-weight: 700;
+        }
+        
+        /* FAQ */
+        .faq-item {
+            background: white;
+            border: 1px solid var(--gray-200);
+            border-radius: 8px;
+            margin-bottom: 12px;
+            overflow: hidden;
+        }
+        
+        .faq-question {
+            padding: 16px 20px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .faq-question::after {
+            content: "+";
+            font-size: 20px;
+            color: var(--gray-500);
+        }
+        
+        .faq-item.open .faq-question::after {
+            content: "−";
+        }
+        
+        .faq-answer {
+            display: none;
+            padding: 0 20px 16px;
+            color: var(--gray-700);
+        }
+        
+        .faq-item.open .faq-answer {
+            display: block;
+        }
+        
+        /* TABLE */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 14px;
+        }
+        
+        th, td {
+            border: 1px solid var(--gray-200);
+            padding: 12px;
+            text-align: left;
+        }
+        
+        th {
+            background: var(--gray-50);
+            font-weight: 600;
+        }
+        
+        /* FOOTER */
+        footer {
+            background: var(--gray-900);
+            color: white;
+            padding: 48px 24px;
+            text-align: center;
+        }
+        
+        footer p {
+            color: #9ca3af;
+            font-size: 14px;
+        }
+        
+        /* PRINT */
+        @media print {
+            nav, header, footer, .alert, .no-print { display: none; }
+            .statuts { box-shadow: none; border: 1px solid #000; }
+            body { font-size: 12pt; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-inner">
+            <div class="header-badge">Modèle juridique</div>
+            <h1>Statuts d'ASBL — Modèle complet</h1>
+            <p class="header-subtitle">Conforme au Code des Sociétés et des Associations (CSA 2019) — Lien historique PAC + Indépendance structurelle + Protection bénévoles BIM</p>
+        </div>
+    </header>
+    
+    <nav>
+        <div class="nav-inner">
+            <a href="#intro">Introduction</a>
+            <a href="#points-cles">Points clés</a>
+            <a href="#statuts">Statuts complets</a>
+            <a href="#bim">Protection BIM</a>
+            <a href="#pac">Lien PAC</a>
+            <a href="#faq">FAQ</a>
+            <a href="#checklist">Checklist</a>
+        </div>
+    </nav>
+    
+    <main>
+        <!-- INTRO -->
+        <section id="intro">
+            <h2>Introduction</h2>
+            
+            <p>Ce document contient un modèle complet de statuts d'ASBL (association sans but lucratif) de droit belge, spécialement conçu pour :</p>
+            
+            <ul>
+                <li><strong>Établir un lien historique et philosophique avec Présence et Action Culturelles (PAC)</strong> tout en garantissant une indépendance structurelle totale</li>
+                <li><strong>Protéger les bénévoles en situation de précarité</strong>, notamment les bénéficiaires de l'intervention majorée (BIM)</li>
+                <li><strong>Être juridiquement solide</strong> et conforme au Code des Sociétés et des Associations (CSA) entré en vigueur en 2019</li>
+            </ul>
+            
+            <div class="alert alert-orange">
+                <div class="alert-title">⚠️ Avertissement juridique</div>
+                <p>Ce modèle est fourni à titre informatif. Il est fortement recommandé de le faire relire par un notaire ou un avocat spécialisé avant dépôt au greffe du tribunal de l'entreprise. Les statuts doivent être adaptés à votre situation spécifique.</p>
+            </div>
+        </section>
+        
+        <!-- POINTS CLÉS -->
+        <section id="points-cles">
+            <h2>Points clés de ce modèle</h2>
+            
+            <h3>1. Indépendance structurelle garantie</h3>
+            <p>L'indépendance par rapport à PAC (ou toute autre organisation) est garantie par :</p>
+            <ul>
+                <li>Aucun siège réservé au conseil d'administration pour PAC</li>
+                <li>Aucun droit de veto accordé à PAC</li>
+                <li>Aucune obligation de financement par PAC</li>
+                <li>Aucune obligation de validation des décisions par PAC</li>
+                <li>Patrimoine propre et distinct</li>
+                <li>Clause explicite d'indépendance dans les statuts</li>
+            </ul>
+            
+            <h3>2. Lien historique préservé</h3>
+            <p>Le lien avec PAC est établi uniquement au niveau :</p>
+            <ul>
+                <li>Du préambule (valeur déclarative, non contraignante)</li>
+                <li>De l'inspiration philosophique (éducation permanente, émancipation)</li>
+                <li>De la possibilité de collaborations ponctuelles (sans obligation)</li>
+            </ul>
+            
+            <h3>3. Protection des bénévoles BIM</h3>
+            <p>Les statuts prévoient explicitement :</p>
+            <ul>
+                <li>Le bénévolat comme mode d'engagement privilégié</li>
+                <li>Le remboursement des frais réels sur justificatifs (pas de forfait)</li>
+                <li>L'absence de rémunération obligatoire</li>
+                <li>La valorisation de l'engagement non-monétaire</li>
+                <li>La protection contre toute requalification en emploi</li>
+            </ul>
+        </section>
+        
+        <!-- STATUTS -->
+        <section id="statuts">
+            <h2>Statuts complets</h2>
+            
+            <div class="statuts">
+                <div class="statuts-header">
+                    <h2>STATUTS</h2>
+                    <p>Association sans but lucratif de droit belge<br>Conformes au Code des Sociétés et des Associations</p>
+                </div>
+                
+                <!-- PRÉAMBULE -->
+                <div class="preambule">
+                    <p><strong>PRÉAMBULE</strong></p>
+                    <p>Les membres fondateurs, réunis en assemblée constituante, déclarent :</p>
+                    <p>Que la présente association s'inscrit dans la continuité historique et philosophique du mouvement d'éducation permanente porté notamment par Présence et Action Culturelles (PAC) depuis 1969, dont elle partage les valeurs d'émancipation citoyenne, d'esprit critique et de transformation sociale ;</p>
+                    <p>Que cette filiation intellectuelle et historique n'emporte aucune dépendance juridique, financière, organisationnelle ou décisionnelle à l'égard de PAC ou de toute autre organisation ;</p>
+                    <p>Que l'association est et demeure une entité juridique distincte, autonome et indépendante, disposant de son patrimoine propre et de sa gouvernance propre ;</p>
+                    <p>Qu'ils souhaitent créer un espace où toute personne, quelle que soit sa situation sociale ou économique, puisse contribuer activement à l'intérêt général et trouver dans cet engagement une source de dignité et d'utilité sociale.</p>
+                </div>
+                
+                <!-- TITRE I -->
+                <h3>TITRE I — DÉNOMINATION, SIÈGE, OBJET, DURÉE</h3>
+                
+                <div class="article">
+                    <div class="article-header">
+                        <span class="article-num">Article 1</span>
+                        <span class="article-title">Dénomination</span>
+                    </div>
+                    <div class="article-content">
+                        <p>L'association est dénommée : <span class="highlight">[NOM DE L'ASBL]</span></p>
+                        <p>Cette dénomination doit figurer sur tous les actes, factures, annonces, publications et autres documents émanant de l'association, immédiatement précédée ou suivie des mots "association sans but lucratif" ou du sigle "ASBL".</p>
+                    </div>
+                </div>
+                
+                <div class="article">
+                    <div class="article-header">
+                        <span class="article-num">Article 2</span>
+                        <span class="article-title">Siège social</span>
+                    </div>
+                    <div class="article-content">
+                        <p>Le siège social de l'association est établi dans la Région <span class="highlight">[Région de Bruxelles-Capitale / wallonne / flamande]</span>.</p>
+                        <p>L'adresse du siège est fixée par l'organe d'administration et publiée aux annexes du Moniteur belge. Tout changement d'adresse au sein de la même région peut être décidé par l'organe d'administration.</p>
+                        <p>Le transfert du siège dans une autre région linguistique requiert une modification des statuts par l'assemblée générale.</p>
+                    </div>
+                </div>
+                
+                <div class="article">
+                    <div class="article-header">
+                        <span class="article-num">Article 3</span>
+                        <span class="article-title">Objet social et but désintéressé</span>
+                    </div>
+                    <div class="article-content">
+                        <p>L'association poursuit un but désintéressé et a pour objet :</p>
+                        <ol>
+                            <li>La promotion de l'éducation permanente, de l'esprit critique et de la citoyenneté active ;</li>
+                            <li>La lutte contre la désinformation et la manipulation médiatique ;</li>
+                            <li>La défense des droits fondamentaux, en particulier ceux des personnes en situation de précarité ;</li>
+                            <li>La création d'outils et de ressources accessibles au plus grand nombre pour favoriser la participation citoyenne ;</li>
+                            <li>L'organisation d'activités culturelles, éducatives et de sensibilisation ;</li>
+                            <li><span class="highlight-green">La valorisation de l'engagement bénévole comme vecteur d'inclusion sociale et de dignité, notamment pour les personnes éloignées du marché de l'emploi ;</span></li>
+                            <li>Toute activité contribuant directement ou indirectement à la réalisation des objectifs précités.</li>
+                        </ol>
+                        <p>L'association peut accomplir tous les actes se rapportant directement ou indirectement à son objet. Elle peut notamment prêter son concours et s'intéresser à toute activité similaire à son objet.</p>
+                    </div>
+                </div>
+                
+                <div class="article">
+                    <div class="article-header">
+                        <span class="article-num">Article 4</span>
+                        <span class="article-title">Indépendance</span>
+                    </div>
+                    <div class="article-content">
+                        <p><span class="highlight-blue">L'association est juridiquement, financièrement et structurellement indépendante de toute autre personne morale, organisation, parti politique, syndicat, mouvement philosophique ou religieux.</span></p>
+                        <p>L'inspiration historique et philosophique mentionnée au préambule, notamment la référence à Présence et Action Culturelles (PAC), n'emporte aucune conséquence juridique et ne crée aucun lien de subordination, de contrôle ou de dépendance.</p>
+                        <p>En particulier :</p>
+                        <ol>
+                            <li>Aucune organisation extérieure ne dispose d'un droit de nomination, de révocation ou de veto concernant les membres de l'organe d'administration ;</li>
+                            <li>Aucune organisation extérieure ne dispose d'un droit de regard ou d'approbation sur les décisions de l'assemblée générale ou de l'organe d'administration ;</li>
+                            <li>L'association ne reçoit aucun financement structurel dont le maintien serait conditionné à l'application de directives externes ;</li>
+                            <li>Le patrimoine de l'association est distinct et ne peut être confondu avec celui d'aucune autre entité.</li>
+                        </ol>
+                        <p>Toute collaboration avec d'autres organisations, y compris PAC, relève de la liberté contractuelle et requiert l'approbation de l'organe d'administration au cas par cas.</p>
+                    </div>
+                </div>
+                
+                <div class="article">
+                    <div class="article-header">
+                        <span class="article-num">Article 5</span>
+                        <span class="article-title">Durée</span>
+                    </div>
+                    <div class="article-content">
+                        <p>L'association est constituée pour une durée illimitée.</p>
+                        <p>Elle peut être dissoute à tout moment conformément aux dispositions légales et statutaires.</p>
+                    </div>
+                </div>
+                
+                <!-- TITRE II -->
+                <h3>TITRE II — MEMBRES</h3>
+                
+                <div class="article">
+                    <div class="article-header">
+                        <span class="article-num">Article 6</span>
+                        <span class="article-title">Catégories de membres</span>
+                    </div>
+                    <div class="article-content">
+                        <p>L'association se compose de :</p>
+                        <ol>
+                            <li><strong>Membres effectifs</strong> : personnes physiques ou morales admises en cette qualité par l'organe d'administration et disposant du droit de vote à l'assemblée générale. Le nombre de membres effectifs ne peut être inférieur à deux.</li>
+                            <li><strong>Membres adhérents</strong> : personnes physiques ou morales qui soutiennent l'association sans disposer du droit de vote. Ils peuvent assister à l'assemblée générale avec voix consultative.</li>
+                        </ol>
+                        <p>Seuls les membres effectifs jouissent de la plénitude des droits accordés aux membres par la loi et les présents statuts.</p>
+                    </div>
+                </div>
+                
+                <div class="article">
+                    <div class="article-header">
+                        <span class="article-num">Article 7</span>
+                        <span class="article-title">Admission des membres</span>
+                    </div>
+                    <div class="article-content">
+                        <p>Toute personne physique ou morale peut devenir membre de l'association, sans discrimination fondée sur l'origine, le sexe, l'orientation sexuelle, les convictions philosophiques ou religieuses, le handicap, <span class="highlight-green">la situation économique ou le statut social</span>.</p>
+                        <p>La demande d'admission comme membre effectif est adressée par écrit (courrier ou courriel) à l'organe d'administration, qui statue souverainement et sans avoir à motiver sa décision.</p>
+                        <p>La qualité de membre adhérent est acquise par simple inscription auprès de l'association.</p>
+                    </div>
+                </div>
+                
+                <div class="article">
+                    <div class="article-header">
+                        <span class="article-num">Article 8</span>
+                        <span class="article-title">Cotisations</span>
+                    </div>
+                    <div class="article-content">
+                        <p>Les membres effectifs et adhérents sont tenus au paiement d'une cotisation annuelle dont le montant est fixé par l'assemblée générale, sans pouvoir excéder <span class="highlight">[montant maximum, ex: 100 euros]</span>.</p>
+                        <p><span class="highlight-green">L'assemblée générale peut prévoir des dispenses ou réductions de cotisation pour les personnes en situation de précarité, notamment les bénéficiaires de l'intervention majorée (BIM), du revenu d'intégration sociale (RIS), ou de toute autre aide sociale. Cette dispense ne prive pas le membre de ses droits.</span></p>
+                    </div>
+                </div>
+                
+                <div class="article">
+                    <div class="article-header">
+                        <span class="article-num">Article 9</span>
+                        <span class="article-title">Démission et exclusion</span>
+                    </div>
+                    <div class="article-content">
+                        <p><strong>Démission</strong> : Tout membre peut démissionner de l'association en adressant sa démission par écrit à l'organe d'administration. La démission prend effet immédiatement, sauf disposition contraire.</p>
+                        <p><strong>Exclusion</strong> : L'exclusion d'un membre effectif ne peut être prononcée que par l'assemblée générale, statuant à la majorité des deux tiers des voix présentes ou représentées, après avoir entendu le membre concerné ou l'avoir dûment convoqué. Le membre concerné peut se faire assister d'un conseil.</p>
+                        <p><strong>Décès ou dissolution</strong> : La qualité de membre se perd automatiquement par le décès de la personne physique ou la dissolution de la personne morale.</p>
+                        <p>Le membre démissionnaire ou exclu n'a aucun droit sur le patrimoine de l'association et ne peut réclamer le remboursement des cotisations versées.</p>
+                    </div>
+                </div>
+                
+                <div class="article">
+                    <div class="article-header">
+                        <span class="article-num">Article 10</span>
+                        <span class="article-title">Registre des membres</span>
+                    </div>
+                    <div class="article-content">
+                        <p>L'organe d'administration tient un registre des membres effectifs au siège de l'association. Ce registre mentionne les nom, prénom, domicile (ou siège social pour les personnes morales) et date d'admission de chaque membre effectif.</p>
+                        <p>Tout membre peut consulter ce registre sur demande écrite adressée à l'organe d'administration.</p>
+                    </div>
+                </div>
+                
+                <!-- TITRE III -->
+                <h3>TITRE III — ASSEMBLÉE GÉNÉRALE</h3>
+                
+                <div class="article">
+                    <div class="article-header">
+                        <span class="article-num">Article 11</span>
+                        <span class="article-title">Composition et compétences</span>
+                    </div>
+                    <div class="article-content">
+                        <p>L'assemblée générale est composée de tous les membres effectifs. Elle est le pouvoir souverain de l'association.</p>
+                        <p>Sont de la compétence exclusive de l'assemblée générale :</p>
+                        <ol>
+                            <li>La modification des statuts ;</li>
+                            <li>La nomination et la révocation des administrateurs et la fixation de leur éventuelle rémunération ;</li>
+                            <li>La nomination et la révocation des commissaires et la fixation de leur rémunération ;</li>
+                            <li>La décharge aux administrateurs et aux commissaires ;</li>
+                            <li>L'approbation des comptes annuels et du budget ;</li>
+                            <li>La dissolution de l'association ;</li>
+                            <li>L'exclusion d'un membre ;</li>
+                            <li>La transformation de l'ASBL en AISBL, en société coopérative agréée comme entreprise sociale, ou en société coopérative entreprise sociale agréée ;</li>
+                            <li>Tous les cas où les statuts l'exigent.</li>
+                        </ol>
+                    </div>
+                </div>
+                
+                <div class="article">
+                    <div class="article-header">
+                        <span class="article-num">Article 12</span>
+                        <span class="article-title">Réunions</span>
+                    </div>
+                    <div class="article-content">
+                        <p>L'assemblée générale ordinaire se réunit au moins une fois par an, dans les six mois de la clôture de l'exercice social, sur convocation de l'organe d'administration.</p>
+                        <p>L'assemblée générale extraordinaire peut être convoquée à tout moment par l'organe d'administration ou à la demande d'un cinquième des membres effectifs.</p>
+                        <p>Les convocations sont adressées à tous les membres au moins quinze jours avant la réunion, par courrier ordinaire ou électronique. Elles mentionnent l'ordre du jour, le lieu, la date et l'heure de la réunion.</p>
+                        <p><span class="highlight-green">L'assemblée générale peut se tenir en présentiel, en visioconférence, ou selon un mode hybride. Le recours à la visioconférence vise notamment à faciliter la participation des personnes à mobilité réduite ou ne disposant pas des moyens de se déplacer.</span></p>
+                    </div>
+                </div>
+                
+                <div class="article">
+                    <div class="article-header">
+                        <span class="article-num">Article 13</span>
+                        <span class="article-title">Délibérations et vote</span>
+                    </div>
+                    <div class="article-content">
+                        <p>L'assemblée générale est présidée par le président de l'organe d'administration ou, à défaut, par l'administrateur le plus âgé présent.</p>
+                        <p>Chaque membre effectif dispose d'une voix. Le vote par procuration est autorisé, chaque membre ne pouvant être porteur que d'une seule procuration.</p>
+                        <p>Sauf disposition légale ou statutaire contraire, l'assemblée générale délibère valablement quel que soit le nombre de membres présents ou représentés et les décisions sont prises à la majorité simple des voix.</p>
+                        <p>Les modifications statutaires requièrent la présence ou la représentation d'au moins deux tiers des membres et une majorité des deux tiers des voix. Si le quorum n'est pas atteint, une seconde assemblée peut être convoquée et délibérera valablement quel que soit le nombre de présents.</p>
+                        <p>La dissolution de l'association requiert une majorité des quatre cinquièmes des voix.</p>
+                    </div>
+                </div>
+                
+                <div class="article">
+                    <div class="article-header">
+                        <span class="article-num">Article 14</span>
+                        <span class="article-title">Procès-verbaux</span>
+                    </div>
+                    <div class="article-content">
+                        <p>Les décisions de l'assemblée générale sont consignées dans un registre de procès-verbaux, signé par le président et le secrétaire. Ce registre est conservé au siège social.</p>
+                        <p>Tout membre peut consulter ce registre sur demande écrite, sans déplacement du registre.</p>
+                    </div>
+                </div>
+                
+                <!-- TITRE IV -->
+                <h3>TITRE IV — ORGANE D'ADMINISTRATION</h3>
+                
+                <div class="article">
+                    <div class="article-header">
+                        <span class="article-num">Article 15</span>
+                        <span class="article-title">Composition</span>
+                    </div>
+                    <div class="article-content">
+                        <p>L'association est administrée par un organe d'administration (conseil d'administration) composé de <span class="highlight">[minimum 3]</span> administrateurs au moins, personnes physiques ou morales, membres effectifs ou non de l'association.</p>
+                        <p>Les administrateurs sont nommés par l'assemblée générale pour une durée de <span class="highlight">[durée, ex: 3 ans]</span>, renouvelable.</p>
+                        <p><span class="highlight-blue">Aucun siège au sein de l'organe d'administration n'est réservé à une organisation extérieure. Les administrateurs sont choisis intuitu personae, sans considération de leur appartenance éventuelle à d'autres organisations.</span></p>
+                    </div>
+                </div>
+                
+                <div class="article">
+                    <div class="article-header">
+                        <span class="article-num">Article 16</span>
+                        <span class="article-title">Fonctions</span>
+                    </div>
+                    <div class="article-content">
+                        <p>L'organe d'administration élit en son sein un président, un secrétaire et un trésorier. Ces fonctions peuvent être cumulées si le nombre d'administrateurs le permet.</p>
+                        <p>En cas d'empêchement du président, ses fonctions sont exercées par l'administrateur le plus âgé.</p>
+                    </div>
+                </div>
+                
+                <div class="article">
+                    <div class="article-header">
+                        <span class="article-num">Article 17</span>
+                        <span class="article-title">Pouvoirs</span>
+                    </div>
+                    <div class="article-content">
+                        <p>L'organe d'administration est compétent pour accomplir tous les actes nécessaires ou utiles à la réalisation de l'objet de l'association, à l'exception de ceux réservés à l'assemblée générale par la loi ou les présents statuts.</p>
+                        <p>Il peut notamment :</p>
+                        <ol>
+                            <li>Engager et licencier le personnel ;</li>
+                            <li>Gérer les finances et le patrimoine de l'association ;</li>
+                            <li>Représenter l'association dans tous les actes judiciaires et extrajudiciaires ;</li>
+                            <li>Déléguer des pouvoirs spécifiques à un ou plusieurs administrateurs ou à des tiers ;</li>
+                            <li>Établir le règlement d'ordre intérieur et le modifier ;</li>
+                            <li>Admettre les nouveaux membres effectifs.</li>
+                        </ol>
+                    </div>
+                </div>
+                
+                <div class="article">
+                    <div class="article-header">
+                        <span class="article-num">Article 18</span>
+                        <span class="article-title">Réunions et délibérations</span>
+                    </div>
+                    <div class="article-content">
+                        <p>L'organe d'administration se réunit chaque fois que l'intérêt de l'association l'exige, et au moins <span class="highlight">[fréquence, ex: deux fois par an]</span>, sur convocation du président ou de deux administrateurs.</p>
+                        <p>Il délibère valablement lorsque la majorité de ses membres est présente ou représentée. Les décisions sont prises à la majorité simple. En cas de partage, la voix du président est prépondérante.</p>
+                        <p>Les décisions peuvent être prises par écrit (y compris par courriel) si tous les administrateurs marquent leur accord sur cette procédure et sur la décision.</p>
+                    </div>
+                </div>
+                
+                <div class="article">
+                    <div class="article-header">
+                        <span class="article-num">Article 19</span>
+                        <span class="article-title">Gratuité des mandats</span>
+                    </div>
+                    <div class="article-content">
+                        <p>Les mandats d'administrateur sont exercés à titre gratuit, sauf décision contraire de l'assemblée générale.</p>
+                        <p>Les administrateurs peuvent obtenir le remboursement des frais exposés dans l'exercice de leur mandat, sur présentation de justificatifs.</p>
+                    </div>
+                </div>
+                
+                <div class="article">
+                    <div class="article-header">
+                        <span class="article-num">Article 20</span>
+                        <span class="article-title">Représentation</span>
+                    </div>
+                    <div class="article-content">
+                        <p>L'association est valablement représentée dans tous les actes, y compris ceux où intervient un fonctionnaire public ou un officier ministériel, et en justice, par deux administrateurs agissant conjointement, qui n'auront pas à justifier d'une décision préalable de l'organe d'administration.</p>
+                        <p>Pour les actes de gestion journalière, l'association peut être représentée par le président agissant seul ou par toute personne désignée par l'organe d'administration.</p>
+                    </div>
+                </div>
+                
+                <!-- TITRE V -->
+                <h3>TITRE V — BÉNÉVOLAT ET ENGAGEMENT CITOYEN</h3>
+                
+                <div class="article">
+                    <div class="article-header">
+                        <span class="article-num">Article 21</span>
+                        <span class="article-title">Valorisation du bénévolat</span>
+                    </div>
+                    <div class="article-content">
+                        <p><span class="highlight-green">L'association reconnaît le bénévolat comme une forme essentielle d'engagement citoyen et de participation à la vie sociale. Elle s'engage à valoriser cet engagement indépendamment de toute contrepartie financière.</span></p>
+                        <p>Le bénévolat au sein de l'association est ouvert à toute personne, <span class="highlight-green">y compris les personnes en situation de précarité, les bénéficiaires de revenus de remplacement, d'allocations sociales ou de l'intervention majorée (BIM)</span>.</p>
+                        <p>L'association veille à ce que l'engagement bénévole soit une source de dignité, d'inclusion sociale et de développement personnel, et non une source de précarisation ou de perte de droits.</p>
+                    </div>
+                </div>
+                
+                <div class="article">
+                    <div class="article-header">
+                        <span class="article-num">Article 22</span>
+                        <span class="article-title">Statut des bénévoles</span>
+                    </div>
+                    <div class="article-content">
+                        <p>Les bénévoles ne sont pas liés à l'association par un contrat de travail. Leur engagement est libre, volontaire et non rémunéré, conformément à la loi du 3 juillet 2005 relative aux droits des volontaires.</p>
+                        <p><span class="highlight-green">L'association s'interdit expressément :</span></p>
+                        <ol>
+                            <li><span class="highlight-green">De verser aux bénévoles toute somme qui pourrait être requalifiée en rémunération ;</span></li>
+                            <li><span class="highlight-green">D'imposer aux bénévoles des horaires ou des obligations incompatibles avec le caractère volontaire de leur engagement ;</span></li>
+                            <li><span class="highlight-green">De créer une relation de subordination caractéristique du contrat de travail.</span></li>
+                        </ol>
+                    </div>
+                </div>
+                
+                <div class="article">
+                    <div class="article-header">
+                        <span class="article-num">Article 23</span>
+                        <span class="article-title">Remboursement des frais</span>
+                    </div>
+                    <div class="article-content">
+                        <p>Les bénévoles peuvent obtenir le remboursement des frais qu'ils ont exposés pour le compte de l'association.</p>
+                        <p><span class="highlight-green">Ce remboursement s'effectue exclusivement sur présentation de justificatifs (tickets, factures, etc.) et correspond aux frais réellement engagés. L'association n'applique pas le système du forfait journalier ou kilométrique sans justificatifs.</span></p>
+                        <p>Cette disposition vise à protéger les bénévoles en situation de précarité contre tout risque de requalification de ces remboursements en revenus par les organismes de sécurité sociale.</p>
+                    </div>
+                </div>
+                
+                <div class="article">
+                    <div class="article-header">
+                        <span class="article-num">Article 24</span>
+                        <span class="article-title">Assurance</span>
+                    </div>
+                    <div class="article-content">
+                        <p>L'association souscrit une assurance couvrant la responsabilité civile des bénévoles dans l'exercice de leurs activités pour l'association, conformément à la loi.</p>
+                    </div>
+                </div>
+                
+                <!-- TITRE VI -->
+                <h3>TITRE VI — COMPTES ANNUELS, BUDGET, PATRIMOINE</h3>
+                
+                <div class="article">
+                    <div class="article-header">
+                        <span class="article-num">Article 25</span>
+                        <span class="article-title">Exercice social</span>
+                    </div>
+                    <div class="article-content">
+                        <p>L'exercice social commence le <span class="highlight">[date, ex: 1er janvier]</span> et se termine le <span class="highlight">[date, ex: 31 décembre]</span> de chaque année.</p>
+                    </div>
+                </div>
+                
+                <div class="article">
+                    <div class="article-header">
+                        <span class="article-num">Article 26</span>
+                        <span class="article-title">Comptes et budget</span>
+                    </div>
+                    <div class="article-content">
+                        <p>Chaque année, l'organe d'administration établit les comptes annuels de l'exercice écoulé et le budget de l'exercice suivant, qu'il soumet à l'approbation de l'assemblée générale.</p>
+                        <p>Les comptes annuels sont établis conformément aux dispositions légales applicables à l'association en fonction de sa taille (micro, petite ou grande ASBL).</p>
+                    </div>
+                </div>
+                
+                <div class="article">
+                    <div class="article-header">
+                        <span class="article-num">Article 27</span>
+                        <span class="article-title">Patrimoine</span>
+                    </div>
+                    <div class="article-content">
+                        <p>Le patrimoine de l'association est constitué par les cotisations, les dons et legs, les subsides, les revenus de ses activités et, généralement, par toutes les ressources autorisées par la loi.</p>
+                        <p><span class="highlight-blue">Le patrimoine de l'association est distinct de celui de toute autre personne morale. Il ne peut être confondu avec le patrimoine de PAC ou de toute autre organisation, même en cas de collaboration.</span></p>
+                    </div>
+                </div>
+                
+                <!-- TITRE VII -->
+                <h3>TITRE VII — DISSOLUTION, LIQUIDATION</h3>
+                
+                <div class="article">
+                    <div class="article-header">
+                        <span class="article-num">Article 28</span>
+                        <span class="article-title">Dissolution</span>
+                    </div>
+                    <div class="article-content">
+                        <p>L'association peut être dissoute par décision de l'assemblée générale délibérant conformément aux dispositions légales et statutaires.</p>
+                        <p>La dissolution requiert une majorité des quatre cinquièmes des voix des membres présents ou représentés.</p>
+                    </div>
+                </div>
+                
+                <div class="article">
+                    <div class="article-header">
+                        <span class="article-num">Article 29</span>
+                        <span class="article-title">Liquidation et affectation du patrimoine</span>
+                    </div>
+                    <div class="article-content">
+                        <p>En cas de dissolution, l'assemblée générale désigne un ou plusieurs liquidateurs et détermine leurs pouvoirs.</p>
+                        <p><span class="highlight-blue">L'actif net subsistant après apurement du passif sera affecté à une ou plusieurs fins désintéressées, aussi proches que possible de l'objet de l'association dissoute, à désigner par l'assemblée générale.</span></p>
+                        <p><span class="highlight-blue">En aucun cas, le patrimoine ne peut être réparti entre les membres ou dévolu à une organisation à but lucratif.</span></p>
+                    </div>
+                </div>
+                
+                <!-- TITRE VIII -->
+                <h3>TITRE VIII — DISPOSITIONS DIVERSES</h3>
+                
+                <div class="article">
+                    <div class="article-header">
+                        <span class="article-num">Article 30</span>
+                        <span class="article-title">Règlement d'ordre intérieur</span>
+                    </div>
+                    <div class="article-content">
+                        <p>L'organe d'administration peut établir un règlement d'ordre intérieur. Ce règlement et ses modifications sont communiqués aux membres.</p>
+                        <p>Le règlement d'ordre intérieur ne peut contenir de dispositions contraires aux présents statuts ou à la loi.</p>
+                    </div>
+                </div>
+                
+                <div class="article">
+                    <div class="article-header">
+                        <span class="article-num">Article 31</span>
+                        <span class="article-title">Droit applicable</span>
+                    </div>
+                    <div class="article-content">
+                        <p>Pour tout ce qui n'est pas prévu aux présents statuts, il est fait application du Code des Sociétés et des Associations et de ses arrêtés d'exécution.</p>
+                    </div>
+                </div>
+                
+                <!-- SIGNATURES -->
+                <div style="margin-top: 48px; padding-top: 32px; border-top: 2px solid var(--gray-200);">
+                    <p><strong>Fait à <span class="highlight">[Ville]</span>, le <span class="highlight">[Date]</span></strong></p>
+                    <p style="margin-top: 24px;">Les membres fondateurs :</p>
+                    <div style="margin-top: 32px; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 32px;">
+                        <div>
+                            <p style="border-bottom: 1px solid var(--gray-300); padding-bottom: 48px; margin-bottom: 8px;"></p>
+                            <p style="font-size: 14px; color: var(--gray-500);">Nom, prénom, signature</p>
+                        </div>
+                        <div>
+                            <p style="border-bottom: 1px solid var(--gray-300); padding-bottom: 48px; margin-bottom: 8px;"></p>
+                            <p style="font-size: 14px; color: var(--gray-500);">Nom, prénom, signature</p>
+                        </div>
+                        <div>
+                            <p style="border-bottom: 1px solid var(--gray-300); padding-bottom: 48px; margin-bottom: 8px;"></p>
+                            <p style="font-size: 14px; color: var(--gray-500);">Nom, prénom, signature</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- PROTECTION BIM -->
+        <section id="bim">
+            <h2>Protection des bénévoles BIM</h2>
+            
+            <p>Les personnes bénéficiaires de l'intervention majorée (BIM) peuvent faire du bénévolat sans perdre leurs droits, à condition de respecter certaines règles. Ces statuts sont conçus pour maximiser cette protection.</p>
+            
+            <div class="alert alert-green">
+                <div class="alert-title">✓ Ce que ces statuts garantissent</div>
+                <ul>
+                    <li>Le bénévolat est explicitement distingué du travail salarié (art. 21-22)</li>
+                    <li>Aucune rémunération n'est versée aux bénévoles (art. 22)</li>
+                    <li>Seuls les frais réels sur justificatifs sont remboursés (art. 23)</li>
+                    <li>Aucune subordination n'est créée (art. 22)</li>
+                    <li>Le statut BIM est explicitement mentionné et protégé (art. 7, 8, 21)</li>
+                </ul>
+            </div>
+            
+            <h3>Pourquoi le remboursement sur frais réels ?</h3>
+            <p>La loi sur le volontariat permet deux systèmes de remboursement :</p>
+            
+            <table>
+                <tr>
+                    <th>Forfait (déconseillé pour BIM)</th>
+                    <th>Frais réels (recommandé)</th>
+                </tr>
+                <tr>
+                    <td>Jusqu'à 40,67€/jour et 1.626,77€/an (2024) sans justificatifs</td>
+                    <td>Montant illimité mais uniquement sur justificatifs</td>
+                </tr>
+                <tr>
+                    <td>⚠️ Peut être considéré comme un "avantage" par la mutuelle</td>
+                    <td>✓ Ne constitue jamais un revenu (c'est un remboursement)</td>
+                </tr>
+                <tr>
+                    <td>⚠️ Risque de contrôle et de requalification</td>
+                    <td>✓ Totalement sécurisé si justificatifs conservés</td>
+                </tr>
+            </table>
+            
+            <div class="alert alert-orange">
+                <div class="alert-title">⚠️ Important</div>
+                <p>Les personnes BIM doivent déclarer leur activité bénévole à leur mutuelle. Cette déclaration est une formalité et n'entraîne généralement pas de conséquences si le bénévolat est correctement encadré (pas de rémunération, pas de lien de subordination).</p>
+            </div>
+        </section>
+        
+        <!-- LIEN PAC -->
+        <section id="pac">
+            <h2>Lien avec PAC : historique mais pas structurel</h2>
+            
+            <p>Ces statuts permettent de revendiquer une filiation intellectuelle avec Présence et Action Culturelles tout en garantissant une indépendance juridique totale.</p>
+            
+            <h3>Ce que le préambule permet</h3>
+            <ul>
+                <li>Affirmer publiquement l'inspiration philosophique (éducation permanente, émancipation)</li>
+                <li>Se situer dans un courant de pensée et une histoire</li>
+                <li>Faciliter d'éventuelles collaborations futures avec PAC</li>
+            </ul>
+            
+            <h3>Ce que l'article 4 empêche</h3>
+            <ul>
+                <li>Toute nomination d'administrateur par PAC</li>
+                <li>Tout droit de veto de PAC sur les décisions</li>
+                <li>Toute dépendance financière structurelle</li>
+                <li>Toute confusion de patrimoine</li>
+                <li>Toute obligation de rendre des comptes à PAC</li>
+            </ul>
+            
+            <div class="alert alert-blue">
+                <div class="alert-title">📌 Juridiquement blindé</div>
+                <p>L'article 4 est rédigé de manière à résister à toute tentative de requalification. Le préambule a une valeur déclarative et interprétative, mais l'article 4 a une valeur normative qui prime. En cas de litige, un juge se baserait sur l'article 4, pas sur le préambule.</p>
+            </div>
+        </section>
+        
+        <!-- FAQ -->
+        <section id="faq">
+            <h2>Questions fréquentes</h2>
+            
+            <div class="faq-item">
+                <div class="faq-question">Combien coûte la création d'une ASBL ?</div>
+                <div class="faq-answer">
+                    <p>Le dépôt des statuts au greffe du tribunal de l'entreprise coûte environ 150-200€ pour la publication au Moniteur belge. Si vous passez par un notaire (non obligatoire mais recommandé), comptez 500-1500€ supplémentaires selon la complexité.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">Faut-il un notaire ?</div>
+                <div class="faq-answer">
+                    <p>Non, ce n'est pas obligatoire pour une ASBL (contrairement aux sociétés). Vous pouvez déposer les statuts sous seing privé. Cependant, un notaire ou un avocat peut sécuriser juridiquement vos statuts et vous conseiller.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">Combien de membres fondateurs minimum ?</div>
+                <div class="faq-answer">
+                    <p>Deux membres effectifs minimum selon le CSA (contre trois avant 2019). Mais pour une gouvernance saine, trois personnes ou plus sont recommandées.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">Une personne au BIM peut-elle être administrateur ?</div>
+                <div class="faq-answer">
+                    <p>Oui, si le mandat est exercé à titre gratuit (ce qui est le cas dans ces statuts, art. 19). Un mandat d'administrateur bénévole n'affecte pas le statut BIM.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">PAC peut-elle contester ces statuts ?</div>
+                <div class="faq-answer">
+                    <p>Non. Le préambule mentionne PAC de manière purement historique et philosophique. PAC n'a aucun droit sur cette mention et ne peut empêcher une association de s'inspirer de ses valeurs. L'article 4 précise explicitement l'indépendance.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">Peut-on modifier le préambule plus tard ?</div>
+                <div class="faq-answer">
+                    <p>Oui, comme toute modification statutaire, cela requiert une décision de l'assemblée générale (majorité des 2/3).</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- CHECKLIST -->
+        <section id="checklist">
+            <h2>Checklist de création</h2>
+            
+            <div class="checklist">
+                <h4>Avant le dépôt</h4>
+                <ul>
+                    <li>Choisir un nom (vérifier qu'il n'existe pas déjà sur la BCE)</li>
+                    <li>Réunir au moins 2 membres fondateurs</li>
+                    <li>Compléter les zones en surbrillance dans les statuts</li>
+                    <li>Faire relire par un juriste (recommandé)</li>
+                    <li>Désigner les premiers administrateurs</li>
+                    <li>Fixer l'adresse du siège social</li>
+                </ul>
+            </div>
+            
+            <div class="checklist">
+                <h4>Le dépôt</h4>
+                <ul>
+                    <li>Remplir le formulaire I sur e-greffe (www.egreffe.be)</li>
+                    <li>Joindre les statuts signés (PDF)</li>
+                    <li>Joindre la liste des administrateurs (formulaire II-A)</li>
+                    <li>Payer les frais de publication (~200€)</li>
+                </ul>
+            </div>
+            
+            <div class="checklist">
+                <h4>Après le dépôt</h4>
+                <ul>
+                    <li>Recevoir le numéro d'entreprise (BCE)</li>
+                    <li>Ouvrir un compte bancaire au nom de l'ASBL</li>
+                    <li>Souscrire une assurance RC bénévoles</li>
+                    <li>Déclarer l'ASBL à la TVA si nécessaire (seuil de franchise)</li>
+                    <li>Tenir le registre des membres</li>
+                </ul>
+            </div>
+        </section>
+    </main>
+    
+    <footer>
+        <p>Ce modèle est fourni à titre informatif. Il ne constitue pas un avis juridique.</p>
+        <p style="margin-top: 8px;">Consultez un professionnel du droit pour l'adapter à votre situation.</p>
+        <p style="margin-top: 16px; color: #6b7280;">ouaisfi.eu — CC BY-NC-SA 4.0 — Janvier 2026</p>
+    </footer>
+    
+    <script>
+        document.querySelectorAll('.faq-question').forEach(q => {
+            q.addEventListener('click', () => q.parentElement.classList.toggle('open'));
+        });
+    </script>
+</body>
+</html>
