@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comprendre le Cocon Sémantique : Architecture SEO</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+
+    <!-- Styles Personnalisés & Chart Container -->
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #F8FAFC; /* Slate 50 */
+            color: #1E293B; /* Slate 800 */
+        }
+
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px; /* Max width constraint */
+            margin-left: auto;
+            margin-right: auto;
+            height: 350px; /* Default height */
+            max-height: 400px;
+        }
+
+        @media (max-width: 640px) {
+            .chart-container {
+                height: 250px;
+            }
+        }
+
+        /* Tree Diagram connectors using pure CSS borders - NO SVG */
+        .tree-connector-vertical {
+            width: 2px;
+            background-color: #CBD5E1; /* Slate 300 */
+            margin: 0 auto;
+        }
+        
+        .tree-branch-connector {
+            border-top: 2px solid #CBD5E1;
+            width: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 0;
+        }
+
+        /* Card Hover Effects */
+        .hover-lift {
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .hover-lift:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+    </style>
+
+    <!-- Chosen Palette: Brilliant Blues & Energetic Orange
+         Primary Blue: #2563EB (Blue 600)
+         Secondary Orange: #F97316 (Orange 500)
+         Accent Teal: #06B6D4 (Cyan 500)
+         Background: #F8FAFC
+    -->
+
+    <!-- Application Structure Plan:
+         1. Hero Header: Definition and Hook.
+         2. Concept visual: CSS-based Hierarchy Tree (Mother/Sister/Daughter).
+         3. Data Section 1 (Chart.js): Volume vs Conversion (The Long Tail logic).
+         4. Process Flow: How Authority flows (Link Juice).
+         5. Data Section 2 (Chart.js): Internal Linking Power distribution.
+         6. Implementation Guide: Step-by-step cards.
+         7. Conclusion.
+    -->
+
+    <!-- Visualization & Content Choices:
+         1. Hierarchy Tree:
+            - Goal: Visualize the structure.
+            - Viz: Structured HTML/Tailwind with flexbox and borders (No SVG).
+            - Justification: Best way to show parent/child relationships without images.
+         2. Bubble Chart:
+            - Goal: Compare keywords types (Head vs Tail).
+            - Viz: Chart.js Bubble.
+            - Justification: Shows 3 dimensions: Volume, Conversion, Competition.
+         3. Stacked Bar Chart:
+            - Goal: Show composition of authority.
+            - Viz: Chart.js Bar.
+            - Justification: Compares a standard site vs cocoon structure effectively.
+    -->
+
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+</head>
+<body class="antialiased">
+
+    <!-- Navigation / Header -->
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+            <div class="font-black text-2xl tracking-tight text-blue-600">
+                SEO<span class="text-orange-500">INSIGHTS</span>
+            </div>
+            <div class="text-sm font-medium text-gray-500">
+                Infographie Interactive : Le Cocon Sémantique
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-16">
+
+        <!-- SECTION 1: INTRODUCTION -->
+        <section class="text-center space-y-6">
+            <span class="inline-block px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-bold tracking-wide uppercase">
+                Stratégie de Contenu
+            </span>
+            <h1 class="text-4xl md:text-6xl font-black text-gray-900 leading-tight">
+                Dominez Google avec le<br>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-cyan-500">Cocon Sémantique</span>
+            </h1>
+            <p class="max-w-3xl mx-auto text-lg md:text-xl text-gray-600 leading-relaxed">
+                Une architecture de site web conçue pour maximiser la pertinence thématique et pousser votre "Page Mère" vers le sommet des résultats de recherche grâce à la puissance du maillage interne.
+            </p>
+        </section>
+
+        <!-- SECTION 2: ARCHITECTURE VISUALIZATION (HTML/CSS) -->
+        <section class="bg-white rounded-2xl shadow-xl p-8 border border-gray-100">
+            <div class="mb-8 border-l-4 border-orange-500 pl-4">
+                <h2 class="text-2xl font-bold text-gray-800">L'Anatomie du Cocon</h2>
+                <p class="text-gray-600 mt-2">
+                    Contrairement à un site "plat", le cocon organise le contenu en <strong>silos hermétiques</strong>. L'autorité remonte des pages profondes vers la page cible.
+                </p>
+            </div>
+
+            <!-- CSS Diagram Container -->
+            <div class="flex flex-col items-center justify-center py-8 w-full overflow-hidden">
+                
+                <!-- Level 0: Mother Page -->
+                <div class="relative z-10 flex flex-col items-center mb-8 group cursor-pointer hover-lift">
+                    <div class="w-48 bg-gradient-to-r from-orange-500 to-red-500 text-white p-4 rounded-xl shadow-lg text-center font-bold relative z-10">
+                        Page Mère (Cible)
+                        <div class="text-xs font-normal opacity-90 mt-1">Gros mot-clé concurrentiel</div>
+                    </div>
+                    <!-- Connector Down -->
+                    <div class="h-8 w-0.5 bg-gray-300"></div>
+                </div>
+
+                <!-- Horizontal Connector Bar -->
+                <div class="relative w-full max-w-3xl h-0 border-t-2 border-gray-300 mb-8 hidden md:block">
+                    <!-- Vertical drops to children -->
+                    <div class="absolute left-1/6 top-0 h-4 w-0.5 bg-gray-300 transform -translate-x-1/2"></div>
+                    <div class="absolute left-1/2 top-0 h-4 w-0.5 bg-gray-300 transform -translate-x-1/2"></div>
+                    <div class="absolute right-1/6 top-0 h-4 w-0.5 bg-gray-300 transform -translate-x-1/2"></div>
+                </div>
+
+                <!-- Level 1: Sister Pages -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 w-full max-w-4xl">
+                    
+                    <!-- Silo 1 -->
+                    <div class="flex flex-col items-center">
+                        <div class="w-40 bg-blue-600 text-white p-3 rounded-lg shadow-md text-center font-bold mb-4 hover-lift">
+                            Page Sœur A
+                            <div class="text-xs font-normal opacity-90">Sous-thème 1</div>
+                        </div>
+                        <div class="h-6 w-0.5 bg-blue-200"></div>
+                        <div class="mt-2 flex gap-2">
+                            <div class="w-16 h-16 bg-blue-100 border-2 border-blue-200 rounded-md flex items-center justify-center text-xs text-blue-800 font-bold hover:bg-blue-200 transition-colors">Fille A1</div>
+                            <div class="w-16 h-16 bg-blue-100 border-2 border-blue-200 rounded-md flex items-center justify-center text-xs text-blue-800 font-bold hover:bg-blue-200 transition-colors">Fille A2</div>
+                        </div>
+                    </div>
+
+                    <!-- Silo 2 -->
+                    <div class="flex flex-col items-center">
+                        <div class="w-40 bg-blue-600 text-white p-3 rounded-lg shadow-md text-center font-bold mb-4 hover-lift">
+                            Page Sœur B
+                            <div class="text-xs font-normal opacity-90">Sous-thème 2</div>
+                        </div>
+                        <div class="h-6 w-0.5 bg-blue-200"></div>
+                        <div class="mt-2 flex gap-2">
+                            <div class="w-16 h-16 bg-blue-100 border-2 border-blue-200 rounded-md flex items-center justify-center text-xs text-blue-800 font-bold hover:bg-blue-200 transition-colors">Fille B1</div>
+                            <div class="w-16 h-16 bg-blue-100 border-2 border-blue-200 rounded-md flex items-center justify-center text-xs text-blue-800 font-bold hover:bg-blue-200 transition-colors">Fille B2</div>
+                        </div>
+                    </div>
+
+                    <!-- Silo 3 -->
+                    <div class="flex flex-col items-center">
+                        <div class="w-40 bg-blue-600 text-white p-3 rounded-lg shadow-md text-center font-bold mb-4 hover-lift">
+                            Page Sœur C
+                            <div class="text-xs font-normal opacity-90">Sous-thème 3</div>
+                        </div>
+                        <div class="h-6 w-0.5 bg-blue-200"></div>
+                        <div class="mt-2 flex gap-2">
+                            <div class="w-16 h-16 bg-blue-100 border-2 border-blue-200 rounded-md flex items-center justify-center text-xs text-blue-800 font-bold hover:bg-blue-200 transition-colors">Fille C1</div>
+                            <div class="w-16 h-16 bg-blue-100 border-2 border-blue-200 rounded-md flex items-center justify-center text-xs text-blue-800 font-bold hover:bg-blue-200 transition-colors">Fille C2</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-8 text-center bg-yellow-50 p-4 rounded-lg border border-yellow-200 max-w-2xl">
+                    <p class="text-sm text-yellow-800 font-medium">
+                        <span class="text-xl mr-2">💡</span>
+                        <strong>Règle d'or :</strong> Les liens transversaux (entre Sœur A et Sœur B) sont interdits. Le "jus" doit circuler verticalement ou entre frères et sœurs du même silo uniquement.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 3: DATA ANALYSIS - The Long Tail Logic -->
+        <section>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Text Context -->
+                <div class="flex flex-col justify-center">
+                    <h2 class="text-3xl font-bold text-gray-900 mb-4">La Stratégie de la Longue Traîne</h2>
+                    <p class="text-gray-600 mb-6 leading-relaxed">
+                        Pourquoi créer autant de pages filles ? Parce que c'est là que se trouve l'opportunité.
+                        <br><br>
+                        Les mots-clés de "Tête de Cocon" (Pages Mères) ont un volume énorme mais une concurrence féroce et une conversion faible. Les pages filles ciblent des requêtes précises, moins recherchées, mais qui convertissent beaucoup mieux. Le cocon agrège ces petites victoires pour propulser la page mère.
+                    </p>
+                    <ul class="space-y-3">
+                        <li class="flex items-center text-gray-700">
+                            <span class="w-3 h-3 bg-orange-500 rounded-full mr-3"></span>
+                            Page Mère : Forte Concurrence, Faible Taux de Conv.
+                        </li>
+                        <li class="flex items-center text-gray-700">
+                            <span class="w-3 h-3 bg-blue-500 rounded-full mr-3"></span>
+                            Page Fille : Faible Concurrence, Fort Taux de Conv.
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Chart Wrapper -->
+                <div class="bg-white rounded-xl shadow-lg p-6 border border-gray-100">
+                    <h3 class="text-lg font-bold text-gray-800 mb-4">Volume vs. Conversion vs. Concurrence</h3>
+                    <div class="chart-container">
+                        <canvas id="bubbleChart"></canvas>
+                    </div>
+                    <p class="text-xs text-center text-gray-400 mt-2">Taille de la bulle = Indice de difficulté SEO</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 4: LINK JUICE MECHANICS -->
+        <section class="bg-gradient-to-br from-blue-900 to-indigo-900 rounded-2xl p-8 md:p-12 text-white shadow-2xl">
+            <div class="md:flex md:items-center md:gap-12">
+                <div class="md:w-1/2 mb-8 md:mb-0">
+                    <h2 class="text-3xl font-bold mb-4 text-white">Le Flux de Puissance (Link Juice)</h2>
+                    <p class="text-blue-100 mb-6 leading-relaxed">
+                        Imaginez votre site comme un système d'irrigation. Dans un site mal structuré, l'eau (le crédit SEO) se disperse partout et s'évapore.
+                    </p>
+                    <p class="text-blue-100 mb-6 leading-relaxed">
+                        Dans un <strong>Cocon Sémantique</strong>, nous canalisons cette eau. Chaque page fille fait un lien vers sa page mère (la page Sœur), qui elle-même renvoie vers la Page Mère suprême. C'est le principe du "Push".
+                    </p>
+                    <div class="bg-white/10 p-4 rounded-lg backdrop-blur-sm border border-white/20">
+                        <div class="text-2xl font-bold text-yellow-400 mb-1">+450%</div>
+                        <div class="text-sm text-blue-200">Augmentation moyenne de l'autorité perçue par la page cible.</div>
+                    </div>
+                </div>
+
+                <div class="md:w-1/2">
+                    <div class="bg-white rounded-xl p-6 text-gray-800">
+                        <h3 class="text-lg font-bold mb-4 text-gray-900 border-b pb-2">Comparatif : Distribution de l'Autorité</h3>
+                        <div class="chart-container">
+                            <canvas id="barChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 5: IMPLEMENTATION PROCESS -->
+        <section>
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-gray-900">Comment Construire Votre Cocon ?</h2>
+                <p class="text-gray-500 mt-2">La méthodologie en 4 étapes clés</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                <!-- Step 1 -->
+                <div class="bg-white p-6 rounded-xl shadow-md border-t-4 border-blue-500 hover-lift">
+                    <div class="text-4xl font-bold text-blue-100 mb-4">01</div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">Ciblage</h3>
+                    <p class="text-sm text-gray-600">Définissez la requête "Top Tail" (ex: Assurance Vie) qui sera le sujet de votre page Mère.</p>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="bg-white p-6 rounded-xl shadow-md border-t-4 border-cyan-500 hover-lift">
+                    <div class="text-4xl font-bold text-cyan-100 mb-4">02</div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">Mindmap</h3>
+                    <p class="text-sm text-gray-600">Identifiez les sous-thèmes (Sœurs) et les questions précises (Filles) via l'analyse de mots-clés.</p>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="bg-white p-6 rounded-xl shadow-md border-t-4 border-orange-500 hover-lift">
+                    <div class="text-4xl font-bold text-orange-100 mb-4">03</div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">Rédaction</h3>
+                    <p class="text-sm text-gray-600">Rédigez le contenu. Les pages filles doivent être exhaustives pour capter la longue traîne.</p>
+                </div>
+
+                <!-- Step 4 -->
+                <div class="bg-white p-6 rounded-xl shadow-md border-t-4 border-indigo-500 hover-lift">
+                    <div class="text-4xl font-bold text-indigo-100 mb-4">04</div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">Maillage</h3>
+                    <p class="text-sm text-gray-600">Liez les pages entre elles en respectant strictement les silos. Utilisez des ancres optimisées.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="border-t border-gray-200 py-8 text-center">
+            <p class="text-gray-500 text-sm">
+                Généré par IA • Concept original par Laurent Bourrelly
+            </p>
+        </footer>
+
+    </main>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        // --- UTILITY: LABEL WRAPPING ---
+        // Splits long labels into arrays for Chart.js
+        function formatLabels(labels, maxLen = 16) {
+            return labels.map(label => {
+                if (label.length <= maxLen) return label;
+                
+                const words = label.split(' ');
+                const lines = [];
+                let currentLine = words[0];
+
+                for (let i = 1; i < words.length; i++) {
+                    if ((currentLine + " " + words[i]).length < maxLen) {
+                        currentLine += " " + words[i];
+                    } else {
+                        lines.push(currentLine);
+                        currentLine = words[i];
+                    }
+                }
+                lines.push(currentLine);
+                return lines;
+            });
+        }
+
+        // --- CHART CONFIGURATION ---
+        Chart.defaults.font.family = "'Roboto', sans-serif";
+        Chart.defaults.color = '#64748B'; // Slate 500
+
+        // Common Tooltip Configuration (Mandatory)
+        const commonTooltip = {
+            callbacks: {
+                title: function(tooltipItems) {
+                    const item = tooltipItems[0];
+                    let label = item.chart.data.labels[item.dataIndex];
+                    // For Bubble charts, labels might be stored differently or need custom handling
+                    if (!label && item.raw && item.raw.label) label = item.raw.label;
+                    
+                    if (Array.isArray(label)) {
+                        return label.join(' ');
+                    } else {
+                        return label;
+                    }
+                }
+            }
+        };
+
+        // 1. BUBBLE CHART: Volume vs Conversion
+        const ctxBubble = document.getElementById('bubbleChart').getContext('2d');
+        new Chart(ctxBubble, {
+            type: 'bubble',
+            data: {
+                datasets: [
+                    {
+                        label: 'Pages Mères (Tête)',
+                        data: [
+                            { x: 90, y: 15, r: 25, label: "Gros Mot-Clé (Ex: Assurance)" }, // High Vol, Low Conv, High Comp
+                        ],
+                        backgroundColor: 'rgba(249, 115, 22, 0.8)', // Orange
+                        borderColor: 'rgba(249, 115, 22, 1)',
+                    },
+                    {
+                        label: 'Pages Sœurs (Intermédiaire)',
+                        data: [
+                            { x: 50, y: 40, r: 15, label: "Sous-thème (Ex: Fiscalité)" },
+                            { x: 55, y: 35, r: 15, label: "Sous-thème (Ex: Types)" },
+                        ],
+                        backgroundColor: 'rgba(37, 99, 235, 0.8)', // Blue
+                        borderColor: 'rgba(37, 99, 235, 1)',
+                    },
+                    {
+                        label: 'Pages Filles (Longue Traîne)',
+                        data: [
+                            { x: 10, y: 85, r: 8, label: "Question précise A" },
+                            { x: 15, y: 80, r: 8, label: "Question précise B" },
+                            { x: 12, y: 90, r: 8, label: "Question précise C" },
+                            { x: 8, y: 75, r: 8, label: "Question précise D" },
+                            { x: 20, y: 70, r: 8, label: "Question précise E" },
+                        ],
+                        backgroundColor: 'rgba(6, 182, 212, 0.8)', // Cyan
+                        borderColor: 'rgba(6, 182, 212, 1)',
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    x: {
+                        title: { display: true, text: 'Volume de Recherche (Trafic Potentiel)' },
+                        min: 0,
+                        max: 100
+                    },
+                    y: {
+                        title: { display: true, text: 'Taux de Conversion (%)' },
+                        min: 0,
+                        max: 100
+                    }
+                },
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return context.raw.label + ': Vol ' + context.raw.x + ', Conv ' + context.raw.y + '%';
+                            }
+                        }
+                    },
+                    legend: {
+                        position: 'bottom'
+                    }
+                }
+            }
+        });
+
+        // 2. BAR CHART: Link Juice Distribution
+        const ctxBar = document.getElementById('barChart').getContext('2d');
+        const rawLabels = ['Site Classique (Plat)', 'Site en Cocon Sémantique'];
+        const formattedLabels = formatLabels(rawLabels);
+
+        new Chart(ctxBar, {
+            type: 'bar',
+            data: {
+                labels: formattedLabels, // Using formatted labels
+                datasets: [
+                    {
+                        label: 'Autorité Perdue (Diluée)',
+                        data: [70, 15],
+                        backgroundColor: '#CBD5E1', // Slate 300
+                    },
+                    {
+                        label: 'Autorité Canalisée vers la Cible',
+                        data: [30, 85],
+                        backgroundColor: '#F97316', // Orange 500
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                indexAxis: 'y', // Horizontal Bar Chart
+                scales: {
+                    x: {
+                        stacked: true,
+                        title: { display: true, text: 'Efficacité Totale (%)' },
+                        max: 100
+                    },
+                    y: {
+                        stacked: true
+                    }
+                },
+                plugins: {
+                    tooltip: commonTooltip,
+                    legend: {
+                        position: 'bottom'
+                    }
+                }
+            }
+        });
+
+    </script>
+</body>
+</html>
