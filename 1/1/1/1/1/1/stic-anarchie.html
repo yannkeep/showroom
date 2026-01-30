@@ -1,0 +1,943 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FOCUS — Cellules Citoyennes Autonomes</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=JetBrains+Mono:wght@300;400;500&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --void: #000000;
+            --dark: #0a0a0f;
+            --surface: #111118;
+            --border: #1a1a24;
+            --green: #00ff9d;
+            --green-dim: #00cc7d;
+            --blue: #00d4ff;
+            --pink: #ff0080;
+            --yellow: #ffea00;
+            --text: #e0e0e0;
+            --text-dim: #666680;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'JetBrains Mono', monospace;
+            background: var(--void);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* === GRAIN OVERLAY === */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+            opacity: 0.03;
+            pointer-events: none;
+            z-index: 10000;
+        }
+
+        /* === SCANLINES === */
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 2px,
+                rgba(0, 255, 157, 0.01) 2px,
+                rgba(0, 255, 157, 0.01) 4px
+            );
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        /* === NAVIGATION === */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 900;
+            font-size: 1.2rem;
+            color: var(--green);
+            text-shadow: 0 0 20px var(--green);
+            letter-spacing: 0.2em;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: var(--text-dim);
+            text-decoration: none;
+            font-size: 0.75rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--green);
+            transition: width 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--green);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* === HERO === */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 6rem 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(ellipse 80% 50% at 50% 0%, rgba(0, 255, 157, 0.08) 0%, transparent 50%),
+                radial-gradient(ellipse 60% 40% at 80% 80%, rgba(0, 212, 255, 0.05) 0%, transparent 50%),
+                radial-gradient(ellipse 40% 30% at 20% 60%, rgba(255, 0, 128, 0.03) 0%, transparent 50%);
+            z-index: -1;
+        }
+
+        .hero-grid {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                linear-gradient(rgba(0, 255, 157, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 255, 157, 0.03) 1px, transparent 1px);
+            background-size: 60px 60px;
+            z-index: -1;
+            animation: gridPulse 4s ease-in-out infinite;
+        }
+
+        @keyframes gridPulse {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: rgba(255, 234, 0, 0.1);
+            border: 1px solid var(--yellow);
+            color: var(--yellow);
+            font-size: 0.65rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin-bottom: 2rem;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .hero-badge::before {
+            content: '⚡';
+        }
+
+        .hero-title {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 900;
+            font-size: clamp(3rem, 10vw, 8rem);
+            text-align: center;
+            line-height: 0.9;
+            margin-bottom: 1.5rem;
+            animation: fadeInUp 0.8s ease-out 0.1s both;
+        }
+
+        .hero-title .line1 {
+            display: block;
+            color: var(--green);
+            text-shadow: 
+                0 0 40px var(--green),
+                0 0 80px rgba(0, 255, 157, 0.5);
+        }
+
+        .hero-title .line2 {
+            display: block;
+            font-size: 0.35em;
+            color: var(--text);
+            letter-spacing: 0.3em;
+            margin-top: 0.5rem;
+        }
+
+        .hero-subtitle {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(1rem, 2.5vw, 1.4rem);
+            font-weight: 300;
+            color: var(--text-dim);
+            max-width: 600px;
+            text-align: center;
+            margin-bottom: 3rem;
+            animation: fadeInUp 0.8s ease-out 0.2s both;
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            animation: fadeInUp 0.8s ease-out 0.3s both;
+        }
+
+        .btn {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 500;
+            letter-spacing: 0.15em;
+            padding: 1rem 2rem;
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+            text-transform: uppercase;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary {
+            background: var(--green);
+            color: var(--void);
+        }
+
+        .btn-primary:hover {
+            box-shadow: 0 0 30px var(--green), 0 0 60px rgba(0, 255, 157, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--blue);
+            border: 1px solid var(--blue);
+        }
+
+        .btn-secondary:hover {
+            background: var(--blue);
+            color: var(--void);
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.4);
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* === STATS BAR === */
+        .stats-bar {
+            display: flex;
+            justify-content: center;
+            gap: 4rem;
+            padding: 3rem 2rem;
+            background: var(--dark);
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--green);
+            text-shadow: 0 0 20px var(--green);
+        }
+
+        .stat-label {
+            font-size: 0.7rem;
+            color: var(--text-dim);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-top: 0.5rem;
+        }
+
+        /* === FEATURES === */
+        .features {
+            padding: 8rem 2rem;
+            background: var(--surface);
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 5rem;
+        }
+
+        .section-tag {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.65rem;
+            color: var(--blue);
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+
+        .section-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 1rem;
+        }
+
+        .section-desc {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.1rem;
+            color: var(--text-dim);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .feature-card {
+            background: var(--dark);
+            border: 1px solid var(--border);
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, var(--green), var(--blue));
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s;
+        }
+
+        .feature-card:hover {
+            border-color: var(--green);
+            transform: translateY(-5px);
+        }
+
+        .feature-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            display: block;
+        }
+
+        .feature-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--green);
+            margin-bottom: 0.75rem;
+        }
+
+        .feature-desc {
+            font-size: 0.85rem;
+            color: var(--text-dim);
+            line-height: 1.7;
+        }
+
+        /* === DEMO SECTION === */
+        .demo-section {
+            padding: 8rem 2rem;
+            background: var(--void);
+            position: relative;
+        }
+
+        .demo-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 1px;
+            height: 100px;
+            background: linear-gradient(to bottom, transparent, var(--green));
+        }
+
+        .demo-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .demo-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .demo-title-block {
+            flex: 1;
+        }
+
+        .demo-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.4rem 0.8rem;
+            background: rgba(0, 255, 157, 0.1);
+            border: 1px solid var(--green);
+            font-size: 0.6rem;
+            color: var(--green);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+
+        .demo-badge .pulse {
+            width: 6px;
+            height: 6px;
+            background: var(--green);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; box-shadow: 0 0 0 0 var(--green); }
+            50% { opacity: 0.7; box-shadow: 0 0 0 8px transparent; }
+        }
+
+        .demo-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .demo-actions {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .demo-frame-wrapper {
+            position: relative;
+            background: var(--dark);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .demo-frame-header {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1rem;
+            background: var(--surface);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .demo-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+
+        .demo-dot.red { background: #ff5f56; }
+        .demo-dot.yellow { background: #ffbd2e; }
+        .demo-dot.green { background: #27c93f; }
+
+        .demo-url {
+            flex: 1;
+            text-align: center;
+            font-size: 0.7rem;
+            color: var(--text-dim);
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .demo-iframe {
+            width: 100%;
+            height: 700px;
+            border: none;
+            background: var(--void);
+        }
+
+        .demo-fullscreen-btn {
+            position: absolute;
+            bottom: 1rem;
+            right: 1rem;
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid var(--green);
+            color: var(--green);
+            padding: 0.5rem 1rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            z-index: 10;
+        }
+
+        .demo-fullscreen-btn:hover {
+            background: var(--green);
+            color: var(--void);
+        }
+
+        /* === HOW IT WORKS === */
+        .how-it-works {
+            padding: 8rem 2rem;
+            background: var(--dark);
+        }
+
+        .steps-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .step {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 2rem;
+            margin-bottom: 3rem;
+            align-items: start;
+        }
+
+        .step-number {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3rem;
+            font-weight: 900;
+            color: var(--border);
+            line-height: 1;
+            position: relative;
+        }
+
+        .step-number::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 100%;
+            width: 2px;
+            height: 40px;
+            background: linear-gradient(to bottom, var(--border), transparent);
+        }
+
+        .step:last-child .step-number::after {
+            display: none;
+        }
+
+        .step-content h3 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.2rem;
+            color: var(--green);
+            margin-bottom: 0.75rem;
+        }
+
+        .step-content p {
+            color: var(--text-dim);
+            font-size: 0.9rem;
+            line-height: 1.8;
+        }
+
+        /* === CTA SECTION === */
+        .cta-section {
+            padding: 8rem 2rem;
+            background: var(--surface);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(0, 255, 157, 0.1) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .cta-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        .cta-desc {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.1rem;
+            color: var(--text-dim);
+            max-width: 500px;
+            margin: 0 auto 2rem;
+            position: relative;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            position: relative;
+        }
+
+        /* === FOOTER === */
+        footer {
+            padding: 3rem 2rem;
+            background: var(--void);
+            border-top: 1px solid var(--border);
+            text-align: center;
+        }
+
+        .footer-logo {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            font-size: 1rem;
+            color: var(--green);
+            margin-bottom: 1rem;
+        }
+
+        .footer-text {
+            font-size: 0.75rem;
+            color: var(--text-dim);
+            margin-bottom: 1rem;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+        }
+
+        .footer-links a {
+            font-size: 0.7rem;
+            color: var(--text-dim);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--green);
+        }
+
+        /* === RESPONSIVE === */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .stats-bar {
+                flex-wrap: wrap;
+                gap: 2rem;
+            }
+
+            .stat {
+                flex: 1 1 40%;
+            }
+
+            .step {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .step-number::after {
+                display: none;
+            }
+
+            .demo-iframe {
+                height: 500px;
+            }
+
+            .demo-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- NAVIGATION -->
+    <nav>
+        <div class="nav-logo">FOCUS</div>
+        <div class="nav-links">
+            <a href="#features">Fonctionnalités</a>
+            <a href="#demo">Démo</a>
+            <a href="#how">Comment ça marche</a>
+            <a href="https://github.com/yannkeep" target="_blank">GitHub</a>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero">
+        <div class="hero-bg"></div>
+        <div class="hero-grid"></div>
+        <div class="hero-badge">Mode Autonome Activé</div>
+        <h1 class="hero-title">
+            <span class="line1">FOCUS</span>
+            <span class="line2">Cellules Citoyennes</span>
+        </h1>
+        <p class="hero-subtitle">
+            Plateforme d'auto-organisation citoyenne. Créez, coordonnez et fédérez des cellules locales sans infrastructure centralisée.
+        </p>
+        <div class="hero-cta">
+            <a href="#demo" class="btn btn-primary">Voir la Démo</a>
+            <a href="#features" class="btn btn-secondary">En Savoir Plus</a>
+        </div>
+    </section>
+
+    <!-- STATS -->
+    <div class="stats-bar">
+        <div class="stat">
+            <div class="stat-value">100%</div>
+            <div class="stat-label">Hors-ligne</div>
+        </div>
+        <div class="stat">
+            <div class="stat-value">0</div>
+            <div class="stat-label">Serveur Central</div>
+        </div>
+        <div class="stat">
+            <div class="stat-value">P2P</div>
+            <div class="stat-label">Fédération</div>
+        </div>
+        <div class="stat">
+            <div class="stat-value">∞</div>
+            <div class="stat-label">Autonomie</div>
+        </div>
+    </div>
+
+    <!-- FEATURES -->
+    <section class="features" id="features">
+        <div class="section-header">
+            <div class="section-tag">Fonctionnalités</div>
+            <h2 class="section-title">Outils d'Auto-Organisation</h2>
+            <p class="section-desc">Une suite complète pour coordonner l'action citoyenne locale sans dépendance technologique.</p>
+        </div>
+        <div class="features-grid">
+            <div class="feature-card">
+                <span class="feature-icon">🗺️</span>
+                <h3 class="feature-title">Cartographie Interactive</h3>
+                <p class="feature-desc">Visualisez toutes les cellules actives sur une carte. Identifiez les zones à fort potentiel et coordonnez les actions territoriales.</p>
+            </div>
+            <div class="feature-card">
+                <span class="feature-icon">🔗</span>
+                <h3 class="feature-title">Fédération P2P</h3>
+                <p class="feature-desc">Échangez des données entre cellules via QR codes ou fichiers. Aucun serveur central requis. Synchronisation pair-à-pair.</p>
+            </div>
+            <div class="feature-card">
+                <span class="feature-icon">📴</span>
+                <h3 class="feature-title">Mode Autonome</h3>
+                <p class="feature-desc">Fonctionne intégralement hors-ligne. Toutes les données restent en local. Souveraineté totale sur vos informations.</p>
+            </div>
+            <div class="feature-card">
+                <span class="feature-icon">📅</span>
+                <h3 class="feature-title">Gestion d'Ateliers</h3>
+                <p class="feature-desc">Planifiez et suivez vos ateliers thématiques. Timeline de progression, participants, objectifs atteints.</p>
+            </div>
+            <div class="feature-card">
+                <span class="feature-icon">📊</span>
+                <h3 class="feature-title">Visualisation Réseau</h3>
+                <p class="feature-desc">Vue graphe des connexions entre cellules. Identifiez les clusters, les ponts stratégiques et les zones d'expansion.</p>
+            </div>
+            <div class="feature-card">
+                <span class="feature-icon">🏷️</span>
+                <h3 class="feature-title">Thématiques Ciblées</h3>
+                <p class="feature-desc">Mobilité, environnement, social, numérique, culture... Catégorisez vos cellules par domaine d'action prioritaire.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- DEMO -->
+    <section class="demo-section" id="demo">
+        <div class="demo-container">
+            <div class="demo-header">
+                <div class="demo-title-block">
+                    <div class="demo-badge">
+                        <span class="pulse"></span>
+                        Démo Interactive
+                    </div>
+                    <h2 class="demo-title">Testez Focus en Direct</h2>
+                </div>
+                <div class="demo-actions">
+                    <a href="https://yannkeep.github.io/showroom/test-propagande.html" target="_blank" class="btn btn-secondary">Ouvrir en Plein Écran ↗</a>
+                </div>
+            </div>
+            <div class="demo-frame-wrapper">
+                <div class="demo-frame-header">
+                    <span class="demo-dot red"></span>
+                    <span class="demo-dot yellow"></span>
+                    <span class="demo-dot green"></span>
+                    <span class="demo-url">yannkeep.github.io/showroom/test-propagande.html</span>
+                </div>
+                <iframe 
+                    src="https://yannkeep.github.io/showroom/test-propagande.html" 
+                    class="demo-iframe"
+                    title="Focus Demo"
+                    loading="lazy"
+                ></iframe>
+                <button class="demo-fullscreen-btn" onclick="document.querySelector('.demo-iframe').requestFullscreen()">
+                    ⛶ Plein Écran
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- HOW IT WORKS -->
+    <section class="how-it-works" id="how">
+        <div class="section-header">
+            <div class="section-tag">Processus</div>
+            <h2 class="section-title">Comment ça Marche</h2>
+            <p class="section-desc">De l'idée à l'action collective en 4 étapes simples.</p>
+        </div>
+        <div class="steps-container">
+            <div class="step">
+                <div class="step-number">01</div>
+                <div class="step-content">
+                    <h3>Créez une Cellule</h3>
+                    <p>Cliquez sur la carte pour positionner votre cellule. Définissez un nom, une thématique prioritaire et une description. Votre cellule est immédiatement opérationnelle.</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-number">02</div>
+                <div class="step-content">
+                    <h3>Recrutez des Participants</h3>
+                    <p>Ajoutez les membres de votre cellule avec leurs coordonnées. Suivez qui est actif, qui peut contribuer. Chaque cellule est autonome dans sa gestion.</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-number">03</div>
+                <div class="step-content">
+                    <h3>Organisez des Ateliers</h3>
+                    <p>Planifiez des sessions de travail thématiques. Suivez l'avancement avec la timeline intégrée. Documentez les décisions et actions.</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-number">04</div>
+                <div class="step-content">
+                    <h3>Fédérez le Réseau</h3>
+                    <p>Exportez vos données via QR code ou fichier JSON. Importez les cellules d'autres groupes. Construisez un maillage territorial sans infrastructure centrale.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-section">
+        <h2 class="cta-title">Prêt à Organiser l'Action Citoyenne ?</h2>
+        <p class="cta-desc">Focus est open-source, gratuit, et conçu pour l'autonomie. Aucune inscription, aucun tracking, aucune dépendance.</p>
+        <div class="cta-buttons">
+            <a href="https://yannkeep.github.io/showroom/test-propagande.html" class="btn btn-primary" target="_blank">Lancer Focus</a>
+            <a href="https://github.com/yannkeep" class="btn btn-secondary" target="_blank">Code Source</a>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-logo">FOCUS</div>
+        <p class="footer-text">Outil d'auto-organisation citoyenne — Projet ouaisfieu</p>
+        <div class="footer-links">
+            <a href="https://github.com/yannkeep">GitHub</a>
+            <a href="#demo">Démo</a>
+            <a href="#features">Fonctionnalités</a>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth reveal on scroll
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.feature-card, .step').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(el);
+        });
+
+        // Nav background on scroll
+        window.addEventListener('scroll', () => {
+            const nav = document.querySelector('nav');
+            if (window.scrollY > 100) {
+                nav.style.background = 'rgba(0, 0, 0, 0.95)';
+            } else {
+                nav.style.background = 'rgba(0, 0, 0, 0.9)';
+            }
+        });
+    </script>
+</body>
+</html>
