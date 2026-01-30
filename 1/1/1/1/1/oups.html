@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analyse Interactive : Le Cocon Sémantique</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #fcfbf9; color: #2d3748; }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e0; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #a0aec0; }
+
+        /* Canvas container for charts */
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 100%;
+            margin: 0 auto;
+            height: 300px;
+        }
+
+        /* Node Animations */
+        .node { transition: all 0.3s ease; cursor: pointer; }
+        .node:hover { transform: scale(1.1); box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); }
+        .node.active { border-color: #ed8936; border-width: 3px; transform: scale(1.15); }
+
+        /* Connecting Lines Canvas (Background) */
+        #networkCanvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+        
+        #networkContainer {
+            position: relative;
+            z-index: 10;
+        }
+
+        .juice-flow {
+            animation: dash 1s linear infinite;
+        }
+
+        /* Utility */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+    </style>
+    <!-- Chosen Palette: Warm Neutrals with subtle Orange/Teal accents.
+         Background: #fcfbf9 (Off-white/Sand)
+         Primary Text: #2d3748 (Dark Grey)
+         Accent 1 (Mother Page): #c05621 (Burnt Orange)
+         Accent 2 (Child Page): #319795 (Teal)
+         Accent 3 (Link Juice): #ecc94b (Yellow/Gold)
+    -->
+
+    <!-- Application Structure Plan:
+         1. Header: Introduction to the concept based on the user's query.
+         2. Main Interactive Zone (Split Layout):
+            - Left: Visual Tree (The Cocoon). Users click nodes to understand hierarchy.
+            - Right: Info/Context Panel. Updates dynamically based on selection.
+         3. Analysis Dashboard (Chart.js):
+            - Scatter Plot: Volume vs. Conversion (Why we make cocoons).
+            - Bar Chart: Content Depth distribution.
+         4. Educational Section: Text blocks explaining "Maillage", "Siloing", "Glissement".
+         
+         Interaction Flow:
+         User sees the tree -> Clicks a 'Top Level' node -> Info panel explains it's the "Page Mère" (Mother) -> User clicks "Toggle Juice" -> Canvas draws animated lines showing authority flow.
+    -->
+
+    <!-- Visualization & Content Choices:
+         1. Structure Tree (HTML Divs + Canvas Lines):
+            - Goal: Visualize hierarchy (Mother -> Daughter -> Granddaughter).
+            - Method: Absolute positioned divs for nodes, HTML5 Canvas for drawing connecting lines.
+            - Interaction: Click to select, hover effects.
+         2. Charts (Chart.js):
+            - Goal: Show quantitative value of the strategy (Long tail aggregation).
+            - Method: Bubble chart for Keyword Strategy.
+         3. Text:
+            - Goal: Explain the "Source Report" concepts (SEO definitions).
+            - Method: Dynamic HTML injection based on state.
+    -->
+    
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+</head>
+<body class="antialiased min-h-screen flex flex-col">
+
+    <!-- Navbar -->
+    <nav class="w-full bg-white border-b border-gray-200 sticky top-0 z-50 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <span class="text-2xl font-bold text-gray-800 tracking-tight">Cocon<span class="text-orange-600">Sémantique</span>.io</span>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <span class="text-sm text-gray-500 hidden md:block">Basé sur l'analyse de structure profonde</span>
+                    <button onclick="app.resetView()" class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200 transition-colors">Réinitialiser</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
+
+        <!-- Header / Intro -->
+        <div class="text-center mb-10">
+            <h1 class="text-4xl font-extrabold text-gray-900 sm:text-5xl sm:tracking-tight lg:text-6xl">
+                Anatomie d'une <span class="text-orange-600">Stratégie SEO</span>
+            </h1>
+            <p class="mt-5 max-w-xl mx-auto text-xl text-gray-500">
+                Vous avez demandé : <em>"C'est ça un cocon sémantique ?"</em><br>
+                La réponse est <strong>OUI</strong>. Explorez cette démo interactive pour comprendre comment le maillage interne propulse votre visibilité.
+            </p>
+        </div>
+
+        <!-- Interactive Visualizer Section -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-16">
+            
+            <!-- Left: Visualization (Canvas + Nodes) -->
+            <div class="lg:col-span-8 bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden relative h-[600px]" id="cocoon-container">
+                <div class="absolute top-4 left-4 z-20 bg-white/90 p-2 rounded-md shadow-sm border border-gray-200">
+                    <h3 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Visualisation Structurelle</h3>
+                    <div class="flex items-center gap-2 mb-1">
+                        <div class="w-3 h-3 rounded-full bg-orange-600"></div><span class="text-xs text-gray-600">Page Mère (Cible)</span>
+                    </div>
+                    <div class="flex items-center gap-2 mb-1">
+                        <div class="w-3 h-3 rounded-full bg-teal-500"></div><span class="text-xs text-gray-600">Page Sœur (Interm.)</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <div class="w-3 h-3 rounded-full bg-gray-300"></div><span class="text-xs text-gray-600">Page Fille (Détail)</span>
+                    </div>
+                </div>
+
+                <div class="absolute bottom-4 right-4 z-20 flex flex-col gap-2">
+                     <button id="toggleJuiceBtn" class="bg-gray-800 hover:bg-black text-white px-4 py-2 rounded-lg text-sm font-semibold shadow-lg transition-all flex items-center gap-2">
+                        <span>⚡ Simuler le "Jus SEO"</span>
+                    </button>
+                </div>
+
+                <!-- Canvas for Lines -->
+                <canvas id="networkCanvas"></canvas>
+
+                <!-- Nodes Container -->
+                <div id="networkContainer" class="w-full h-full relative">
+                    <!-- Nodes injected by JS -->
+                </div>
+            </div>
+
+            <!-- Right: Context Panel -->
+            <div class="lg:col-span-4 flex flex-col gap-6">
+                <!-- Info Card -->
+                <div id="infoPanel" class="bg-white rounded-2xl shadow-lg border border-gray-100 p-6 flex-1 transition-all">
+                    <div class="h-full flex flex-col justify-center items-center text-center text-gray-400" id="emptyState">
+                        <span class="text-4xl mb-2">👆</span>
+                        <p>Sélectionnez un nœud dans le cocon pour voir son analyse.</p>
+                    </div>
+                    <div id="detailsContent" class="hidden">
+                        <span id="detailBadge" class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-orange-100 text-orange-800 mb-4">
+                            Type
+                        </span>
+                        <h2 id="detailTitle" class="text-2xl font-bold text-gray-900 mb-2">Titre de la Page</h2>
+                        <p id="detailDesc" class="text-gray-600 mb-6 leading-relaxed">Description...</p>
+                        
+                        <div class="border-t border-gray-100 pt-4">
+                            <h4 class="text-sm font-bold text-gray-900 uppercase tracking-wide mb-3">Métriques Clés</h4>
+                            <div class="grid grid-cols-2 gap-4">
+                                <div class="bg-gray-50 p-3 rounded-lg">
+                                    <div class="text-xs text-gray-500">Vol. Recherche</div>
+                                    <div id="metricVol" class="text-lg font-bold text-gray-800">-</div>
+                                </div>
+                                <div class="bg-gray-50 p-3 rounded-lg">
+                                    <div class="text-xs text-gray-500">Difficulté</div>
+                                    <div id="metricDiff" class="text-lg font-bold text-gray-800">-</div>
+                                </div>
+                                <div class="bg-gray-50 p-3 rounded-lg col-span-2">
+                                    <div class="text-xs text-gray-500">Rôle dans le Cocon</div>
+                                    <div id="metricRole" class="text-sm font-medium text-gray-800 mt-1">-</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-6 bg-orange-50 border border-orange-100 p-4 rounded-lg">
+                            <h4 class="text-sm font-bold text-orange-800 mb-1">Conseil d'Architecture</h4>
+                            <p id="detailTip" class="text-sm text-orange-700">Conseil...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Analysis Section Introduction -->
+        <div class="bg-white rounded-xl p-8 shadow-sm border border-gray-100 mb-12">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4">Pourquoi structurer en Cocon ?</h2>
+            <p class="text-gray-600 text-lg leading-relaxed">
+                Le principe du Cocon Sémantique (théorisé par Laurent Bourrelly) repose sur une architecture en <strong>silos étanches</strong>. 
+                L'objectif est de répondre à l'intention de l'utilisateur avec une précision chirurgicale. Plutôt que de tout mélanger, on crée des familles de pages (Père/Mère > Fils/Filles) 
+                liées par une proximité sémantique forte (le glissement sémantique). Cela permet de faire remonter la popularité (PageRank) des pages de "longue traîne" (faciles à positionner) vers la page cible (très concurrentielle).
+            </p>
+        </div>
+
+        <!-- Charts Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
+            
+            <!-- Chart 1: Volume vs Conversion -->
+            <div class="bg-white rounded-2xl shadow-lg border border-gray-100 p-6">
+                <div class="mb-6">
+                    <h3 class="text-lg font-bold text-gray-900">Stratégie de Mots-Clés</h3>
+                    <p class="text-sm text-gray-500">Les pages profondes (Niveau 3) ont moins de volume mais convertissent mieux.</p>
+                </div>
+                <div class="chart-container">
+                    <canvas id="scatterChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Chart 2: Link Structure -->
+            <div class="bg-white rounded-2xl shadow-lg border border-gray-100 p-6">
+                <div class="mb-6">
+                    <h3 class="text-lg font-bold text-gray-900">Distribution de l'Autorité (Link Juice)</h3>
+                    <p class="text-sm text-gray-500">Simulation de l'accumulation de puissance vers la Tête de Cocon.</p>
+                </div>
+                <div class="chart-container">
+                    <canvas id="barChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="text-center text-gray-400 py-8 border-t border-gray-200">
+            <p class="text-sm">Généré par Canvas Create Webapp • Analyse basée sur le concept de Cocon Sémantique</p>
+        </footer>
+
+    </main>
+
+    <script>
+        // --- Data & State Management ---
+        const appState = {
+            selectedNodeId: null,
+            isJuiceFlowing: false,
+            nodes: [
+                // Level 0: Tête de Cocon
+                { id: 0, x: 50, y: 15, level: 0, type: 'mere', label: 'Tête de Cocon', title: 'Page Cible (Stratégique)', desc: "C'est la page que vous voulez positionner sur une requête très concurrentielle (ex: 'Assurance Vie'). Elle reçoit la puissance de tout le cocon.", vol: 'Haute', diff: 'Extrême', role: 'Conversion', tip: "Ne faites de liens sortants que vers les pages sœurs directes." },
+                
+                // Level 1: Pages Soeurs (Intermediate)
+                { id: 1, x: 20, y: 45, level: 1, type: 'soeur', label: 'Sujet A', title: 'Page Intermédiaire A', desc: "Cette page traite d'un sous-aspect général (ex: 'Fiscalité Assurance Vie'). Elle contextualise la page mère.", vol: 'Moyenne', diff: 'Haute', role: 'Mixte', tip: "Liez vers la Mère et vers vos propres filles." },
+                { id: 2, x: 50, y: 45, level: 1, type: 'soeur', label: 'Sujet B', title: 'Page Intermédiaire B', desc: "Un autre pilier du sujet principal (ex: 'Comparatif taux'). Elle sert de hub pour ses propres pages filles.", vol: 'Moyenne', diff: 'Haute', role: 'Mixte', tip: "Étanchéité : ne liez pas vers le Sujet A sauf si nécessaire." },
+                { id: 3, x: 80, y: 45, level: 1, type: 'soeur', label: 'Sujet C', title: 'Page Intermédiaire C', desc: "Troisième angle d'attaque. Elle capture une intention de recherche différente mais connexe.", vol: 'Moyenne', diff: 'Haute', role: 'Mixte', tip: "Utilisez des ancres de liens variées mais précises." },
+
+                // Level 2: Pages Filles (Long Tail)
+                { id: 4, x: 10, y: 75, parent: 1, level: 2, type: 'fille', label: 'Détail A1', title: 'Question Spécifique A1', desc: "Réponse à une question précise (ex: 'Impôt sur rachat partiel'). Faible concurrence, trafic qualifié.", vol: 'Faible', diff: 'Faible', role: 'Acquisition', tip: "Faites un lien contextuel fort vers la page Sujet A." },
+                { id: 5, x: 30, y: 75, parent: 1, level: 2, type: 'fille', label: 'Détail A2', title: 'Question Spécifique A2', desc: "Une autre variation longue traîne. Elle attire des visiteurs très ciblés.", vol: 'Faible', diff: 'Faible', role: 'Acquisition', tip: "Contenu dense et expert nécessaire." },
+                
+                { id: 6, x: 45, y: 75, parent: 2, level: 2, type: 'fille', label: 'Détail B1', title: 'Question Spécifique B1', desc: "Focus sur un détail technique du Sujet B. C'est la base de la pyramide.", vol: 'Faible', diff: 'Faible', role: 'Acquisition', tip: "Maillage horizontal possible entre B1 et B2." },
+                { id: 7, x: 55, y: 75, parent: 2, level: 2, type: 'fille', label: 'Détail B2', title: 'Question Spécifique B2', desc: "Autre point d'entrée. Cumulées, ces pages apportent beaucoup de volume.", vol: 'Faible', diff: 'Faible', role: 'Acquisition', tip: "C'est ici que commence le 'Push' sémantique." },
+
+                { id: 8, x: 75, y: 75, parent: 3, level: 2, type: 'fille', label: 'Détail C1', title: 'Question Spécifique C1', desc: "Page de niche pour le Sujet C. Répond à une douleur précise de l'utilisateur.", vol: 'Faible', diff: 'Faible', role: 'Acquisition', tip: "Optimisez pour les Featured Snippets." },
+                { id: 9, x: 90, y: 75, parent: 3, level: 2, type: 'fille', label: 'Détail C2', title: 'Question Spécifique C2', desc: "Dernier point d'entrée du cocon. Elle complète la sémantique globale.", vol: 'Faible', diff: 'Faible', role: 'Acquisition', tip: "Mettez à jour régulièrement." },
+            ],
+            links: [
+                { source: 0, target: 1 }, { source: 0, target: 2 }, { source: 0, target: 3 },
+                { source: 1, target: 4 }, { source: 1, target: 5 },
+                { source: 2, target: 6 }, { source: 2, target: 7 },
+                { source: 3, target: 8 }, { source: 3, target: 9 },
+                // Cross links (Siblings) - simplified
+                { source: 4, target: 5, type: 'sibling' },
+                { source: 6, target: 7, type: 'sibling' },
+                { source: 8, target: 9, type: 'sibling' }
+            ]
+        };
+
+        // --- Core Interactions ---
+        const app = {
+            init: () => {
+                app.renderNodes();
+                app.drawConnections();
+                app.initCharts();
+                window.addEventListener('resize', () => {
+                    app.drawConnections(); // Redraw lines on resize
+                });
+
+                document.getElementById('toggleJuiceBtn').addEventListener('click', app.toggleJuice);
+            },
+
+            renderNodes: () => {
+                const container = document.getElementById('networkContainer');
+                container.innerHTML = ''; // Clear
+
+                appState.nodes.forEach(node => {
+                    const el = document.createElement('div');
+                    el.className = `node absolute flex items-center justify-center rounded-full shadow-md font-bold text-xs select-none z-10`;
+                    
+                    // Style based on type
+                    let sizeClass = 'w-16 h-16';
+                    let colorClass = 'bg-gray-200 text-gray-700';
+                    
+                    if (node.type === 'mere') {
+                        sizeClass = 'w-24 h-24 text-sm';
+                        colorClass = 'bg-orange-600 text-white border-4 border-orange-200';
+                    } else if (node.type === 'soeur') {
+                        sizeClass = 'w-20 h-20';
+                        colorClass = 'bg-teal-500 text-white border-2 border-teal-200';
+                    } else {
+                        sizeClass = 'w-14 h-14';
+                        colorClass = 'bg-white text-gray-600 border border-gray-300';
+                    }
+
+                    el.className += ` ${sizeClass} ${colorClass}`;
+                    el.style.left = `calc(${node.x}% - 3rem)`; // Center offset approx
+                    el.style.top = `calc(${node.y}% - 3rem)`;
+                    el.innerText = node.label;
+                    el.id = `node-${node.id}`;
+
+                    el.addEventListener('click', () => app.selectNode(node));
+
+                    container.appendChild(el);
+                });
+            },
+
+            drawConnections: () => {
+                const canvas = document.getElementById('networkCanvas');
+                const container = document.getElementById('cocoon-container');
+                const ctx = canvas.getContext('2d');
+
+                // Resize canvas to match container
+                canvas.width = container.offsetWidth;
+                canvas.height = container.offsetHeight;
+
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+                appState.links.forEach(link => {
+                    const sourceNode = appState.nodes.find(n => n.id === link.source);
+                    const targetNode = appState.nodes.find(n => n.id === link.target);
+
+                    // Calculate positions relative to canvas
+                    const sx = (sourceNode.x / 100) * canvas.width;
+                    const sy = (sourceNode.y / 100) * canvas.height;
+                    const tx = (targetNode.x / 100) * canvas.width;
+                    const ty = (targetNode.y / 100) * canvas.height;
+
+                    ctx.beginPath();
+                    ctx.moveTo(sx, sy);
+                    ctx.lineTo(tx, ty);
+
+                    if (appState.isJuiceFlowing) {
+                        ctx.strokeStyle = '#ecc94b'; // Gold juice
+                        ctx.lineWidth = 4;
+                        ctx.setLineDash([10, 10]); // Dashed line
+                        ctx.lineDashOffset = -Date.now() / 20; // Animate dash
+                    } else {
+                        ctx.strokeStyle = link.type === 'sibling' ? '#cbd5e0' : '#a0aec0';
+                        ctx.lineWidth = link.type === 'sibling' ? 1 : 2;
+                        ctx.setLineDash([]);
+                        if(link.type === 'sibling') ctx.setLineDash([5, 5]);
+                    }
+
+                    ctx.stroke();
+                });
+
+                if (appState.isJuiceFlowing) {
+                    requestAnimationFrame(app.drawConnections);
+                }
+            },
+
+            selectNode: (node) => {
+                // Highlight UI
+                document.querySelectorAll('.node').forEach(el => el.classList.remove('active'));
+                document.getElementById(`node-${node.id}`).classList.add('active');
+
+                // Update Info Panel
+                document.getElementById('emptyState').classList.add('hidden');
+                document.getElementById('detailsContent').classList.remove('hidden');
+
+                // Populate Text
+                document.getElementById('detailTitle').innerText = node.title;
+                document.getElementById('detailDesc').innerText = node.desc;
+                document.getElementById('metricVol').innerText = node.vol;
+                document.getElementById('metricDiff').innerText = node.diff;
+                document.getElementById('metricRole').innerText = node.role;
+                document.getElementById('detailTip').innerText = node.tip;
+
+                // Update Badge color
+                const badge = document.getElementById('detailBadge');
+                if (node.type === 'mere') {
+                    badge.className = "inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-orange-100 text-orange-800 mb-4";
+                    badge.innerText = "Page Mère (Niveau 0)";
+                } else if (node.type === 'soeur') {
+                    badge.className = "inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-teal-100 text-teal-800 mb-4";
+                    badge.innerText = "Page Sœur (Niveau 1)";
+                } else {
+                    badge.className = "inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800 mb-4";
+                    badge.innerText = "Page Fille (Niveau 2)";
+                }
+            },
+
+            toggleJuice: () => {
+                appState.isJuiceFlowing = !appState.isJuiceFlowing;
+                const btn = document.getElementById('toggleJuiceBtn');
+                
+                if (appState.isJuiceFlowing) {
+                    btn.classList.add('bg-yellow-500');
+                    btn.classList.remove('bg-gray-800');
+                    btn.innerHTML = '<span>⚡ Arrêter la simulation</span>';
+                    app.drawConnections(); // Start animation loop
+                } else {
+                    btn.classList.remove('bg-yellow-500');
+                    btn.classList.add('bg-gray-800');
+                    btn.innerHTML = '<span>⚡ Simuler le "Jus SEO"</span>';
+                    app.drawConnections(); // Stop loop, draw once static
+                }
+            },
+            
+            resetView: () => {
+                document.querySelectorAll('.node').forEach(el => el.classList.remove('active'));
+                document.getElementById('emptyState').classList.remove('hidden');
+                document.getElementById('detailsContent').classList.add('hidden');
+                appState.isJuiceFlowing = false;
+                app.drawConnections();
+            },
+
+            initCharts: () => {
+                // Chart 1: Scatter (Volume vs Conversion)
+                const ctxScatter = document.getElementById('scatterChart').getContext('2d');
+                new Chart(ctxScatter, {
+                    type: 'bubble',
+                    data: {
+                        datasets: [{
+                            label: 'Pages du Cocon',
+                            data: [
+                                { x: 90, y: 10, r: 25, type: 'Mère' }, // High Vol, Low Conv Rate (Generic)
+                                { x: 50, y: 30, r: 15, type: 'Sœur' },
+                                { x: 55, y: 25, r: 15, type: 'Sœur' },
+                                { x: 45, y: 35, r: 15, type: 'Sœur' },
+                                { x: 10, y: 80, r: 8, type: 'Fille' }, // Low Vol, High Conv (Specific)
+                                { x: 15, y: 75, r: 8, type: 'Fille' },
+                                { x: 12, y: 85, r: 8, type: 'Fille' },
+                                { x: 8, y: 70, r: 8, type: 'Fille' },
+                                { x: 20, y: 65, r: 8, type: 'Fille' },
+                                { x: 18, y: 78, r: 8, type: 'Fille' }
+                            ],
+                            backgroundColor: (context) => {
+                                const val = context.raw;
+                                if (!val) return '#ccc';
+                                if (val.type === 'Mère') return 'rgba(192, 86, 33, 0.7)'; // Orange
+                                if (val.type === 'Sœur') return 'rgba(49, 151, 149, 0.7)'; // Teal
+                                return 'rgba(160, 174, 192, 0.7)'; // Grey
+                            }
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            tooltip: {
+                                callbacks: {
+                                    label: (ctx) => `${ctx.raw.type}: Vol ${ctx.raw.x}, Conv ${ctx.raw.y}%`
+                                }
+                            },
+                            legend: { display: false }
+                        },
+                        scales: {
+                            x: { 
+                                title: { display: true, text: 'Volume de Recherche (Traffic)' },
+                                min: 0, max: 100 
+                            },
+                            y: { 
+                                title: { display: true, text: 'Probabilité de Conversion (%)' },
+                                min: 0, max: 100 
+                            }
+                        }
+                    }
+                });
+
+                // Chart 2: Bar (Authority Distribution)
+                const ctxBar = document.getElementById('barChart').getContext('2d');
+                new Chart(ctxBar, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Page Mère', 'Pages Sœurs', 'Pages Filles'],
+                        datasets: [
+                            {
+                                label: 'Puissance SEO Initiale',
+                                data: [100, 40, 10], // Natural authority
+                                backgroundColor: 'rgba(203, 213, 224, 0.5)',
+                            },
+                            {
+                                label: 'Puissance APRÈS Maillage',
+                                data: [350, 150, 15], // After internal linking boost
+                                backgroundColor: [
+                                    'rgba(192, 86, 33, 0.8)',
+                                    'rgba(49, 151, 149, 0.8)',
+                                    'rgba(160, 174, 192, 0.8)'
+                                ],
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            y: { beginAtZero: true, title: { display: true, text: 'Indice de Puissance (PageRank)' } }
+                        }
+                    }
+                });
+            }
+        };
+
+        // Initialize App
+        document.addEventListener('DOMContentLoaded', app.init);
+
+    </script>
+</body>
+</html>
