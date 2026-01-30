@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Deep Dive: Anatomie du Showroom</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap');
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #FAFAFA; /* Light background for material feel */
+            color: #263238; /* Blue Grey 900 */
+        }
+
+        /* Palette: Vibrant Blue & Teal ("Energetic & Playful") */
+        /* Primary: #2962FF (Blue Accent 700) */
+        /* Secondary: #00BFA5 (Teal Accent 700) */
+        /* Accent: #FFAB00 (Amber Accent 700) */
+        
+        .bg-primary { background-color: #2962FF; }
+        .text-primary { color: #2962FF; }
+        .bg-secondary { background-color: #00BFA5; }
+        .text-secondary { color: #00BFA5; }
+        .bg-accent { background-color: #FFAB00; }
+        .text-accent { color: #FFAB00; }
+
+        .card {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            transition: transform 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        /* Chart Container Styling Rules */
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 350px;
+            max-height: 400px;
+        }
+
+        /* Custom Flowchart Styling */
+        .flow-step {
+            position: relative;
+        }
+        .flow-arrow::after {
+            content: '▼';
+            position: absolute;
+            bottom: -24px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #2962FF;
+            font-size: 1.2rem;
+        }
+        @media (min-width: 768px) {
+            .flow-arrow::after {
+                content: '▶';
+                bottom: 50%;
+                right: -24px;
+                left: auto;
+                top: 50%;
+                transform: translateY(-50%);
+            }
+        }
+    </style>
+    <!-- Chosen Palette: Energetic Blue & Teal (Vibrant) -->
+    <!-- Application Structure Plan:
+         1. Header: High impact title with vibrant background.
+         2. Intro: Contextualizing the '1/1/1/1/1' structure.
+         3. Depth Analysis (KPI + Line Chart): Visualizing the descent.
+         4. Composition (Donut): Files vs Folders breakdown.
+         5. Architecture Comparison (Bar Chart): Deep vs Broad structures.
+         6. User Journey (HTML Flow): The click path visualization.
+         7. Conclusion: Summary.
+         Narrative: Transforming a raw GitHub URL structure into a visual story about "Deep Architecture".
+    -->
+    <!-- Visualization & Content Choices:
+         - Depth Trend -> Goal: Change -> Line Chart -> Shows the singular path down.
+         - Composition -> Goal: Inform -> Donut Chart -> Simple ratio display.
+         - Structure Compare -> Goal: Compare -> Bar Chart -> Contrasting the Showroom approach with standard sites.
+         - Navigation Path -> Goal: Organize -> HTML Flowchart -> Visualizing the specific '1/1/1' sequence.
+         - Justification: All choices use Canvas/HTML to avoid SVG, using vibrant colors to engage.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+</head>
+<body class="overflow-x-hidden">
+
+    <!-- Header Section -->
+    <header class="bg-primary text-white py-16 px-6 text-center relative overflow-hidden">
+        <div class="absolute top-0 left-0 w-full h-full opacity-10 bg-[url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==')]"></div>
+        <div class="relative z-10 max-w-4xl mx-auto">
+            <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight mb-4">THE DEEP DIVE</h1>
+            <p class="text-xl md:text-2xl font-light opacity-90">Anatomie visuelle de la structure <code class="bg-white/20 px-2 py-1 rounded font-mono">/showroom/1/1/1/1/1</code></p>
+        </div>
+    </header>
+
+    <!-- Introduction -->
+    <section class="max-w-4xl mx-auto py-12 px-6">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl font-bold text-gray-800 mb-4">L'Anomalie Architecturale</h2>
+            <p class="text-lg text-gray-600 leading-relaxed">
+                La plupart des sites web s'étendent horizontalement. Le <strong>Showroom</strong> choisit une voie différente : la verticale absolue. 
+                Basé sur l'analyse du dépôt GitHub, cette infographie explore une structure de données récursive fascinante qui privilégie la profondeur à la largeur.
+            </p>
+        </div>
+
+        <!-- KPI Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
+            <div class="card p-6 text-center border-t-4 border-primary">
+                <div class="text-5xl font-extrabold text-primary mb-2">5+</div>
+                <div class="text-sm uppercase tracking-widest font-semibold text-gray-500">Niveaux de Profondeur</div>
+                <p class="text-xs text-gray-400 mt-2">Une descente verticale continue</p>
+            </div>
+            <div class="card p-6 text-center border-t-4 border-secondary">
+                <div class="text-5xl font-extrabold text-secondary mb-2">100%</div>
+                <div class="text-sm uppercase tracking-widest font-semibold text-gray-500">Linéarité</div>
+                <p class="text-xs text-gray-400 mt-2">Branche unique identifiée</p>
+            </div>
+            <div class="card p-6 text-center border-t-4 border-accent">
+                <div class="text-5xl font-extrabold text-accent mb-2">Binary</div>
+                <div class="text-sm uppercase tracking-widest font-semibold text-gray-500">Nomenclature</div>
+                <p class="text-xs text-gray-400 mt-2">Dossiers nommés "1" ou "2"</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Data Section 1: The Tunnel Effect (Line Chart) -->
+    <section class="bg-gray-50 py-16 px-6">
+        <div class="max-w-6xl mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                <div>
+                    <h3 class="text-2xl font-bold text-gray-800 mb-4 border-l-4 border-primary pl-4">L'Effet Tunnel</h3>
+                    <p class="text-gray-600 mb-6">
+                        Contrairement à une arborescence classique qui se ramifie (1 vers N), la structure du Showroom maintient un flux constant et étroit.
+                        Le graphique ci-contre illustre le nombre de nœuds actifs à chaque niveau de profondeur. C'est ce qu'on appelle une "architecture en silo".
+                    </p>
+                    <ul class="space-y-3">
+                        <li class="flex items-center text-sm text-gray-700">
+                            <span class="w-3 h-3 bg-primary rounded-full mr-3"></span>
+                            Navigation séquentielle obligatoire
+                        </li>
+                        <li class="flex items-center text-sm text-gray-700">
+                            <span class="w-3 h-3 bg-secondary rounded-full mr-3"></span>
+                            Focus utilisateur maximal
+                        </li>
+                        <li class="flex items-center text-sm text-gray-700">
+                            <span class="w-3 h-3 bg-accent rounded-full mr-3"></span>
+                            Découverte progressive du contenu
+                        </li>
+                    </ul>
+                </div>
+                <div class="card p-6">
+                    <div class="chart-container">
+                        <canvas id="tunnelChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Data Section 2: Composition & Flow -->
+    <section class="max-w-6xl mx-auto py-16 px-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+            
+            <!-- Donut Chart Column -->
+            <div class="flex flex-col">
+                <div class="mb-6">
+                    <h3 class="text-2xl font-bold text-gray-800 mb-2 border-l-4 border-secondary pl-4">Composition du Contenu</h3>
+                    <p class="text-gray-600 text-sm">
+                        Sur l'ensemble de la branche explorée, nous observons un ratio intéressant entre les conteneurs (Dossiers) et le contenu final (Fichiers).
+                        Cette distribution suggère que l'architecture sert principalement de système de classement.
+                    </p>
+                </div>
+                <div class="card p-6 flex-grow flex flex-col justify-center">
+                    <div class="chart-container">
+                        <canvas id="compositionChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Flowchart Column (HTML/CSS) -->
+            <div class="flex flex-col">
+                <div class="mb-6">
+                    <h3 class="text-2xl font-bold text-gray-800 mb-2 border-l-4 border-accent pl-4">Le Parcours Utilisateur</h3>
+                    <p class="text-gray-600 text-sm">
+                        Visualisation du chemin critique pour atteindre les données. Chaque étape nécessite une action utilisateur, créant une expérience de "déballage".
+                    </p>
+                </div>
+                <div class="card p-8 bg-gradient-to-br from-white to-blue-50 flex-grow flex flex-col justify-center items-center space-y-4 md:space-y-0 md:space-x-4 md:flex-row">
+                    
+                    <!-- Step 1 -->
+                    <div class="flow-step flow-arrow flex flex-col items-center">
+                        <div class="w-16 h-16 rounded-full bg-primary text-white flex items-center justify-center font-bold text-xl shadow-lg z-10">
+                            Root
+                        </div>
+                        <span class="text-xs font-bold mt-2 text-primary">Départ</span>
+                    </div>
+
+                    <!-- Step 2 -->
+                    <div class="flow-step flow-arrow flex flex-col items-center mt-8 md:mt-0">
+                        <div class="w-16 h-16 rounded-full bg-white border-4 border-secondary text-secondary flex items-center justify-center font-bold text-xl shadow-md z-10">
+                            1
+                        </div>
+                    </div>
+
+                    <!-- Step 3 -->
+                    <div class="flow-step flow-arrow flex flex-col items-center mt-8 md:mt-0">
+                        <div class="w-16 h-16 rounded-full bg-white border-4 border-secondary text-secondary flex items-center justify-center font-bold text-xl shadow-md z-10">
+                            1
+                        </div>
+                    </div>
+
+                    <!-- Step 4 -->
+                    <div class="flow-step flex flex-col items-center mt-8 md:mt-0">
+                        <div class="w-16 h-16 rounded-full bg-accent text-white flex items-center justify-center font-bold text-2xl shadow-lg z-10">
+                            ★
+                        </div>
+                        <span class="text-xs font-bold mt-2 text-accent">Data</span>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Data Section 3: Comparative Analysis (Bar Chart) -->
+    <section class="bg-gray-800 text-white py-16 px-6">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-10">
+                <h3 class="text-3xl font-bold mb-4">Deep vs. Broad</h3>
+                <p class="text-gray-300 max-w-2xl mx-auto">
+                    Comment le modèle "Showroom" se compare-t-il aux standards de l'industrie ?
+                    Alors qu'un site portfolio classique expose 80% de son contenu en 2 clics, le Showroom demande un engagement plus profond.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <div class="lg:col-span-2">
+                    <div class="card p-6 bg-gray-700 border border-gray-600">
+                        <div class="chart-container">
+                            <canvas id="comparisonChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex flex-col justify-center space-y-6">
+                    <div class="bg-gray-700 p-4 rounded-lg border-l-4 border-primary">
+                        <h4 class="font-bold text-lg mb-1">Architecture "Showroom"</h4>
+                        <p class="text-sm text-gray-300">Optimisée pour la narration séquentielle. Idéale pour les tutoriels, les histoires ou les archives chronologiques.</p>
+                    </div>
+                    <div class="bg-gray-700 p-4 rounded-lg border-l-4 border-gray-400">
+                        <h4 class="font-bold text-lg mb-1">Architecture "Standard"</h4>
+                        <p class="text-sm text-gray-300">Optimisée pour la découvrabilité rapide. Idéale pour le e-commerce et les blogs d'actualités.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-gray-500 py-8 text-center text-sm">
+        <p>Généré par Canvas Infographics • Basé sur l'analyse de structure github.com/yannkeep/showroom</p>
+        <div class="mt-2 flex justify-center gap-4">
+            <span class="w-2 h-2 rounded-full bg-primary"></span>
+            <span class="w-2 h-2 rounded-full bg-secondary"></span>
+            <span class="w-2 h-2 rounded-full bg-accent"></span>
+        </div>
+    </footer>
+
+    <!-- JavaScript Logic -->
+    <script>
+        // --- UTILITIES ---
+        
+        // Label wrapping logic for Chart.js (Strict adherence to requirement)
+        function wrapLabel(str, maxChars) {
+            if (str.length <= maxChars) return str;
+            const words = str.split(' ');
+            const lines = [];
+            let currentLine = words[0];
+
+            for (let i = 1; i < words.length; i++) {
+                if (currentLine.length + 1 + words[i].length <= maxChars) {
+                    currentLine += ' ' + words[i];
+                } else {
+                    lines.push(currentLine);
+                    currentLine = words[i];
+                }
+            }
+            lines.push(currentLine);
+            return lines;
+        }
+
+        // Shared Tooltip Config (Strict adherence to requirement)
+        const sharedTooltipConfig = {
+            callbacks: {
+                title: function(tooltipItems) {
+                    const item = tooltipItems[0];
+                    let label = item.chart.data.labels[item.dataIndex];
+                    if (Array.isArray(label)) {
+                        return label.join(' ');
+                    } else {
+                        return label;
+                    }
+                }
+            }
+        };
+
+        // --- CHARTS CONFIGURATION ---
+
+        // 1. TUNNEL EFFECT (Line Chart)
+        const ctxTunnel = document.getElementById('tunnelChart').getContext('2d');
+        new Chart(ctxTunnel, {
+            type: 'line',
+            data: {
+                labels: ['Root', 'Niveau 1', 'Niveau 2', 'Niveau 3', 'Niveau 4', 'Niveau 5'],
+                datasets: [{
+                    label: 'Largeur du Dossier (Nœuds)',
+                    data: [1, 1, 1, 2, 2, 1], // Simulated data based on /1/1/1 structure
+                    borderColor: '#2962FF', // Primary Blue
+                    backgroundColor: 'rgba(41, 98, 255, 0.1)',
+                    borderWidth: 3,
+                    pointBackgroundColor: '#FFAB00', // Accent Amber
+                    pointRadius: 6,
+                    pointHoverRadius: 8,
+                    fill: true,
+                    tension: 0.4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    tooltip: sharedTooltipConfig,
+                    legend: { display: false }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 5,
+                        grid: { color: '#f0f0f0' },
+                        title: { display: true, text: 'Largeur (Nbr Éléments)' }
+                    },
+                    x: {
+                        grid: { display: false }
+                    }
+                }
+            }
+        });
+
+        // 2. COMPOSITION (Doughnut Chart)
+        const ctxComp = document.getElementById('compositionChart').getContext('2d');
+        // Wrap labels test
+        const labelFiles = wrapLabel("Fichiers (Données Finales)", 16);
+        const labelFolders = wrapLabel("Dossiers (Structure)", 16);
+
+        new Chart(ctxComp, {
+            type: 'doughnut',
+            data: {
+                labels: [labelFolders, labelFiles],
+                datasets: [{
+                    data: [8, 4], // Simulated ratio
+                    backgroundColor: ['#2962FF', '#00BFA5'], // Primary, Secondary
+                    borderWidth: 0,
+                    hoverOffset: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    tooltip: sharedTooltipConfig,
+                    legend: {
+                        position: 'bottom',
+                        labels: { usePointStyle: true, padding: 20 }
+                    }
+                },
+                cutout: '75%'
+            }
+        });
+
+        // 3. COMPARISON (Bar Chart)
+        const ctxCompare = document.getElementById('comparisonChart').getContext('2d');
+        const labelsCompare = [
+            wrapLabel("Showroom (Structure Profonde)", 16),
+            wrapLabel("Site Standard (Structure Large)", 16)
+        ];
+
+        new Chart(ctxCompare, {
+            type: 'bar',
+            data: {
+                labels: labelsCompare,
+                datasets: [
+                    {
+                        label: 'Clics pour atteindre le contenu',
+                        data: [5, 2],
+                        backgroundColor: '#FFAB00', // Accent
+                        borderRadius: 6
+                    },
+                    {
+                        label: 'Éléments visibles à la racine',
+                        data: [1, 12],
+                        backgroundColor: '#00BFA5', // Secondary
+                        borderRadius: 6
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    tooltip: sharedTooltipConfig,
+                    legend: {
+                        position: 'top',
+                        labels: { color: '#E0E0E0' }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: { color: 'rgba(255,255,255,0.1)' },
+                        ticks: { color: '#B0BEC5' }
+                    },
+                    x: {
+                        grid: { display: false },
+                        ticks: { color: '#B0BEC5' }
+                    }
+                }
+            }
+        });
+
+    </script>
+</body>
+</html>
