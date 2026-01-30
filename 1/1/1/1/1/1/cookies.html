@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🥁 BEAT ME — Le Rythme de la Résistance</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@400;600;700&family=Fira+Code:wght@400;700&family=Press+Start+2P&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --beat-red: #ff1744;
+            --beat-orange: #ff6d00;
+            --beat-yellow: #ffea00;
+            --beat-white: #ffffff;
+            --heart-pink: #ff4081;
+            --bg-black: #0a0a0a;
+            --bg-dark: #141414;
+            --text: #f0f0f0;
+            --text-dim: #808080;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        @keyframes heartbeat { 0%, 100% { transform: scale(1); } 14% { transform: scale(1.1); } 28% { transform: scale(1); } 42% { transform: scale(1.1); } 70% { transform: scale(1); } }
+        @keyframes pulse-ring { 0% { transform: scale(1); opacity: 0.8; } 100% { transform: scale(2); opacity: 0; } }
+        @keyframes glitch { 0% { transform: translate(0); } 20% { transform: translate(-2px, 2px); } 40% { transform: translate(-2px, -2px); } 60% { transform: translate(2px, 2px); } 80% { transform: translate(2px, -2px); } 100% { transform: translate(0); } }
+        @keyframes beat-bar { 0%, 100% { height: 20%; } 50% { height: 80%; } }
+        @keyframes slide-in { from { transform: translateX(-100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+        body { background: var(--bg-black); color: var(--text); font-family: 'Oswald', sans-serif; font-size: 18px; line-height: 1.6; overflow-x: hidden; }
+        body::before { content: ''; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,255,255,0.02) 2px, rgba(255,255,255,0.02) 4px); pointer-events: none; z-index: 9999; }
+        main { position: relative; z-index: 10; max-width: 1000px; margin: 0 auto; padding: 60px 20px; }
+        .hero { text-align: center; padding: 80px 0; position: relative; }
+        .heart-container { position: relative; display: inline-block; margin-bottom: 30px; }
+        .heart { font-size: 5rem; animation: heartbeat 1.2s infinite; display: block; color: var(--beat-red); text-shadow: 0 0 30px var(--beat-red), 0 0 60px var(--heart-pink); }
+        .pulse-ring { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 120px; height: 120px; border: 3px solid var(--beat-red); border-radius: 50%; animation: pulse-ring 1.2s infinite; }
+        .title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(3rem, 10vw, 6rem); font-weight: 400; color: var(--beat-white); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 10px; text-shadow: 0 0 20px rgba(255,23,68,0.5); }
+        .subtitle { font-family: 'Oswald', sans-serif; font-size: 1.5rem; font-weight: 400; color: var(--beat-red); letter-spacing: 0.3em; text-transform: uppercase; margin-bottom: 30px; }
+        .beat-quote { font-style: italic; color: var(--text-dim); max-width: 600px; margin: 0 auto; padding: 25px; border: 2px solid var(--beat-red); position: relative; }
+        .beat-quote::before, .beat-quote::after { content: ''; position: absolute; width: 20px; height: 20px; border: 2px solid var(--beat-red); }
+        .beat-quote::before { top: -10px; left: -10px; border-right: none; border-bottom: none; }
+        .beat-quote::after { bottom: -10px; right: -10px; border-left: none; border-top: none; }
+        section { margin: 60px 0; padding: 40px; background: var(--bg-dark); border-left: 4px solid var(--beat-red); position: relative; }
+        section::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, rgba(255,23,68,0.03) 0%, transparent 50%); pointer-events: none; }
+        .section-title { font-family: 'Bebas Neue', sans-serif; font-size: 2.5rem; color: var(--beat-red); margin-bottom: 25px; display: flex; align-items: center; gap: 15px; text-transform: uppercase; letter-spacing: 0.05em; }
+        .section-title .icon { font-size: 2rem; }
+        .arsenal-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; margin-top: 30px; }
+        .weapon-card { background: var(--bg-black); border: 2px solid var(--card-color, var(--beat-red)); padding: 25px; position: relative; transition: all 0.3s; overflow: hidden; }
+        .weapon-card::before { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,23,68,0.1), transparent); transition: left 0.5s; }
+        .weapon-card:hover::before { left: 100%; }
+        .weapon-card:hover { transform: translateY(-5px); box-shadow: 0 10px 30px rgba(255,23,68,0.3); }
+        .weapon-card.legal { --card-color: var(--beat-yellow); }
+        .weapon-card.media { --card-color: var(--beat-orange); }
+        .weapon-card.network { --card-color: var(--heart-pink); }
+        .weapon-card.creative { --card-color: #00e5ff; }
+        .weapon-level { font-family: 'Press Start 2P', cursive; font-size: 0.6rem; color: var(--card-color); margin-bottom: 10px; }
+        .weapon-name { font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; color: var(--card-color); margin-bottom: 10px; letter-spacing: 0.05em; }
+        .weapon-desc { font-size: 0.95rem; color: var(--text); margin-bottom: 15px; }
+        .weapon-stats { display: flex; gap: 15px; flex-wrap: wrap; font-family: 'Fira Code', monospace; font-size: 0.75rem; color: var(--text-dim); }
+        .weapon-stats span { background: rgba(255,255,255,0.05); padding: 3px 8px; border-radius: 3px; }
+        .combo-section { background: linear-gradient(135deg, var(--bg-dark) 0%, rgba(255,23,68,0.1) 100%); border-color: var(--beat-orange); }
+        .combo-list { list-style: none; margin-top: 20px; }
+        .combo-item { display: flex; align-items: center; gap: 15px; padding: 20px; margin: 15px 0; background: var(--bg-black); border-left: 3px solid var(--beat-orange); }
+        .combo-keys { font-family: 'Press Start 2P', cursive; font-size: 0.7rem; color: var(--beat-yellow); display: flex; gap: 5px; flex-wrap: wrap; }
+        .combo-keys span { background: var(--bg-dark); padding: 5px 10px; border: 1px solid var(--beat-yellow); }
+        .combo-name { font-family: 'Bebas Neue', sans-serif; font-size: 1.3rem; color: var(--beat-white); }
+        .combo-effect { font-size: 0.9rem; color: var(--text-dim); }
+        .boss-section { background: var(--bg-black); border: 2px solid var(--beat-red); position: relative; }
+        .boss-section::before { content: '⚠️ BOSS FIGHT'; position: absolute; top: -15px; left: 30px; background: var(--beat-red); padding: 5px 15px; font-family: 'Press Start 2P', cursive; font-size: 0.6rem; color: var(--bg-black); }
+        .boss-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-top: 30px; }
+        .boss-card { background: rgba(255,23,68,0.1); border: 1px solid rgba(255,23,68,0.3); padding: 20px; text-align: center; }
+        .boss-icon { font-size: 2.5rem; margin-bottom: 10px; }
+        .boss-name { font-family: 'Bebas Neue', sans-serif; font-size: 1.2rem; color: var(--beat-red); margin-bottom: 5px; }
+        .boss-weakness { font-family: 'Fira Code', monospace; font-size: 0.75rem; color: var(--beat-yellow); }
+        .manifesto { background: linear-gradient(135deg, rgba(255,23,68,0.1) 0%, var(--bg-dark) 100%); border: none; text-align: center; padding: 60px 40px; }
+        .manifesto-title { font-family: 'Bebas Neue', sans-serif; font-size: 3rem; color: var(--beat-white); margin-bottom: 30px; text-transform: uppercase; letter-spacing: 0.1em; }
+        .manifesto-text { font-size: 1.3rem; color: var(--text); max-width: 700px; margin: 0 auto; line-height: 2; }
+        .manifesto-text strong { color: var(--beat-red); }
+        .call-to-action { margin-top: 40px; }
+        .cta-button { display: inline-block; font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; color: var(--bg-black); background: var(--beat-red); padding: 15px 40px; text-decoration: none; text-transform: uppercase; letter-spacing: 0.1em; transition: all 0.3s; border: none; cursor: pointer; }
+        .cta-button:hover { background: var(--beat-white); transform: scale(1.05); box-shadow: 0 0 30px rgba(255,23,68,0.5); }
+        .rhythm-section { position: relative; overflow: hidden; }
+        .beat-visualizer { display: flex; justify-content: center; gap: 5px; height: 60px; margin: 30px 0; }
+        .beat-bar { width: 8px; background: var(--beat-red); animation: beat-bar 0.5s infinite; }
+        .beat-bar:nth-child(1) { animation-delay: 0s; }
+        .beat-bar:nth-child(2) { animation-delay: 0.1s; }
+        .beat-bar:nth-child(3) { animation-delay: 0.2s; }
+        .beat-bar:nth-child(4) { animation-delay: 0.3s; }
+        .beat-bar:nth-child(5) { animation-delay: 0.4s; }
+        .beat-bar:nth-child(6) { animation-delay: 0.3s; }
+        .beat-bar:nth-child(7) { animation-delay: 0.2s; }
+        .beat-bar:nth-child(8) { animation-delay: 0.1s; }
+        .signature { text-align: center; padding: 50px 20px; margin-top: 60px; border-top: 2px solid var(--beat-red); }
+        .signature-icon { font-size: 3rem; margin-bottom: 20px; animation: heartbeat 1.2s infinite; }
+        .signature-text { font-style: italic; color: var(--text-dim); max-width: 500px; margin: 0 auto 20px; }
+        .signature-author { font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; color: var(--beat-red); letter-spacing: 0.1em; }
+        .nav-links { display: flex; justify-content: center; gap: 20px; margin-top: 30px; flex-wrap: wrap; }
+        .nav-link { font-family: 'Fira Code', monospace; font-size: 0.85rem; color: var(--beat-red); text-decoration: none; padding: 8px 15px; border: 2px solid var(--beat-red); transition: all 0.3s; }
+        .nav-link:hover { background: var(--beat-red); color: var(--bg-black); }
+        @media (max-width: 768px) { section { padding: 25px; } .title { font-size: 3rem; } }
+    </style>
+</head>
+<body>
+    <main>
+        <section class="hero" style="background: transparent; border: none;">
+            <div class="heart-container">
+                <div class="pulse-ring"></div>
+                <span class="heart">❤️</span>
+            </div>
+            <h1 class="title">BEAT ME</h1>
+            <p class="subtitle">Le Rythme de la Résistance</p>
+            <blockquote class="beat-quote">
+                « Le cœur a ses raisons que la raison ne connaît point. »<br>
+                Mais la résistance a ses rythmes que le pouvoir ne peut pas arrêter.<br><br>
+                — Le Battement de ouaisfieu
+            </blockquote>
+        </section>
+
+        <section class="rhythm-section">
+            <h2 class="section-title"><span class="icon">🥁</span> Le Rythme du Combat</h2>
+            <div class="beat-visualizer">
+                <div class="beat-bar"></div>
+                <div class="beat-bar"></div>
+                <div class="beat-bar"></div>
+                <div class="beat-bar"></div>
+                <div class="beat-bar"></div>
+                <div class="beat-bar"></div>
+                <div class="beat-bar"></div>
+                <div class="beat-bar"></div>
+            </div>
+            <p>La résistance est un rythme. Un battement. Une pulsation qui ne s'arrête jamais. Apprendre à résister, c'est apprendre le tempo — savoir quand frapper, quand esquiver, quand encaisser, quand contre-attaquer.</p>
+            <p style="margin-top: 15px;">Ce grimoire contient les <strong style="color: var(--beat-red);">armes du citoyen</strong>. Pas pour détruire. Pour construire. Pour battre le système à son propre jeu.</p>
+        </section>
+
+        <section>
+            <h2 class="section-title"><span class="icon">⚔️</span> L'Arsenal Citoyen</h2>
+            <p style="margin-bottom: 20px;">Les armes légales, pacifiques, mais redoutables du citoyen éclairé.</p>
+            <div class="arsenal-grid">
+                <div class="weapon-card legal">
+                    <span class="weapon-level">LVL 1 — ARME DE BASE</span>
+                    <h3 class="weapon-name">Le Vote Éclairé</h3>
+                    <p class="weapon-desc">Pas juste voter. Voter en sachant exactement ce que chaque parti a fait, pas promis. Consulter les votes nominatifs.</p>
+                    <div class="weapon-stats">
+                        <span>📊 lachambre.be</span>
+                        <span>🗳️ Tous les 4-5 ans</span>
+                    </div>
+                </div>
+                <div class="weapon-card legal">
+                    <span class="weapon-level">LVL 2 — ARME INTERMÉDIAIRE</span>
+                    <h3 class="weapon-name">La Plainte Administrative</h3>
+                    <p class="weapon-desc">CSA, CDJ, Médiateur fédéral, UNIA... Chaque institution a ses recours. Les utiliser, c'est les faire vivre.</p>
+                    <div class="weapon-stats">
+                        <span>⚖️ Gratuit</span>
+                        <span>📝 Écrit = trace</span>
+                    </div>
+                </div>
+                <div class="weapon-card media">
+                    <span class="weapon-level">LVL 3 — ARME DE PRESSION</span>
+                    <h3 class="weapon-name">L'Interpellation Publique</h3>
+                    <p class="weapon-desc">Question parlementaire via ton député. Tweet public. Lettre ouverte. Forcer la réponse en rendant le silence impossible.</p>
+                    <div class="weapon-stats">
+                        <span>📢 Viralité</span>
+                        <span>⏰ Timing crucial</span>
+                    </div>
+                </div>
+                <div class="weapon-card network">
+                    <span class="weapon-level">LVL 4 — ARME COLLECTIVE</span>
+                    <h3 class="weapon-name">L'Organisation</h3>
+                    <p class="weapon-desc">Rejoindre ou créer un collectif. La force du nombre. ASBL, coopérative, mouvement. Seul tu vas vite, ensemble on va loin.</p>
+                    <div class="weapon-stats">
+                        <span>👥 Force collective</span>
+                        <span>🔗 Réseau</span>
+                    </div>
+                </div>
+                <div class="weapon-card creative">
+                    <span class="weapon-level">LVL 5 — ARME ULTIME</span>
+                    <h3 class="weapon-name">La Documentation</h3>
+                    <p class="weapon-desc">Archiver. Sourcer. Publier. Créer la preuve irréfutable. OSINT citoyen. Ce qui est documenté ne peut pas être nié.</p>
+                    <div class="weapon-stats">
+                        <span>📁 Archive</span>
+                        <span>🔍 OSINT</span>
+                    </div>
+                </div>
+                <div class="weapon-card creative">
+                    <span class="weapon-level">LVL ∞ — ARME SECRÈTE</span>
+                    <h3 class="weapon-name">L'Humour & la Satire</h3>
+                    <p class="weapon-desc">Le pouvoir déteste le ridicule. Il peut ignorer la colère, pas le rire. Détourner, parodier, moquer — avec style.</p>
+                    <div class="weapon-stats">
+                        <span>😂 Viral</span>
+                        <span>🎭 Inattaquable</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="combo-section">
+            <h2 class="section-title"><span class="icon">🎮</span> Les Combos</h2>
+            <p>Les armes seules sont utiles. Combinées, elles deviennent dévastatrices.</p>
+            <ul class="combo-list">
+                <li class="combo-item">
+                    <div class="combo-keys"><span>📁</span><span>+</span><span>📢</span><span>+</span><span>⚖️</span></div>
+                    <div>
+                        <h4 class="combo-name">Le Dossier Public</h4>
+                        <p class="combo-effect">Documenter → Publier → Porter plainte. Force le traitement officiel.</p>
+                    </div>
+                </li>
+                <li class="combo-item">
+                    <div class="combo-keys"><span>👥</span><span>+</span><span>📢</span><span>+</span><span>😂</span></div>
+                    <div>
+                        <h4 class="combo-name">L'Essaim Viral</h4>
+                        <p class="combo-effect">Mobiliser → Interpeller → Moquer. Crée un momentum impossible à ignorer.</p>
+                    </div>
+                </li>
+                <li class="combo-item">
+                    <div class="combo-keys"><span>⚖️</span><span>+</span><span>📁</span><span>+</span><span>🗳️</span></div>
+                    <div>
+                        <h4 class="combo-name">Le Précédent</h4>
+                        <p class="combo-effect">Plainte → Documentation → Mémoire électorale. Ce qui est enregistré devient l'histoire.</p>
+                    </div>
+                </li>
+            </ul>
+        </section>
+
+        <section class="boss-section">
+            <h2 class="section-title"><span class="icon">👾</span> Les Boss à Combattre</h2>
+            <p>Connaître l'ennemi, c'est déjà à moitié gagner.</p>
+            <div class="boss-grid">
+                <div class="boss-card">
+                    <div class="boss-icon">🎭</div>
+                    <h4 class="boss-name">L'Indifférence</h4>
+                    <p class="boss-weakness">Faiblesse: la persistance</p>
+                </div>
+                <div class="boss-card">
+                    <div class="boss-icon">🌫️</div>
+                    <h4 class="boss-name">La Confusion</h4>
+                    <p class="boss-weakness">Faiblesse: la clarté</p>
+                </div>
+                <div class="boss-card">
+                    <div class="boss-icon">😴</div>
+                    <h4 class="boss-name">La Résignation</h4>
+                    <p class="boss-weakness">Faiblesse: l'exemple</p>
+                </div>
+                <div class="boss-card">
+                    <div class="boss-icon">🔇</div>
+                    <h4 class="boss-name">Le Silence Médiatique</h4>
+                    <p class="boss-weakness">Faiblesse: la viralité</p>
+                </div>
+                <div class="boss-card">
+                    <div class="boss-icon">⏳</div>
+                    <h4 class="boss-name">L'Usure</h4>
+                    <p class="boss-weakness">Faiblesse: le relais</p>
+                </div>
+                <div class="boss-card">
+                    <div class="boss-icon">🤡</div>
+                    <h4 class="boss-name">La Dérision</h4>
+                    <p class="boss-weakness">Faiblesse: les faits</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="manifesto">
+            <h2 class="manifesto-title">Le Manifeste du Battement</h2>
+            <div class="manifesto-text">
+                <p>
+                    Le cœur bat. <strong>Toujours.</strong><br><br>
+                    Même quand tout semble perdu.<br>
+                    Même quand le silence est assourdissant.<br>
+                    Même quand la fatigue te dit d'abandonner.<br><br>
+                    Le cœur bat parce qu'il ne sait pas faire autrement.<br>
+                    La résistance est pareille.<br><br>
+                    Tu ne résistes pas parce que tu vas gagner.<br>
+                    Tu résistes parce que <strong>c'est qui tu es</strong>.<br><br>
+                    Alors bats. Bats le rythme. Bats le système.<br>
+                    Bats la mesure de ta propre liberté.
+                </p>
+            </div>
+            <div class="call-to-action">
+                <a href="https://ouaisfi.eu" class="cta-button">Rejoins le Battement</a>
+            </div>
+        </section>
+
+        <div class="signature">
+            <div class="signature-icon">❤️</div>
+            <p class="signature-text">« Le pouvoir craint ceux qui battent leur propre rythme. »</p>
+            <p class="signature-author">— Le Batteur de ouaisfieu</p>
+            <nav class="nav-links">
+                <a href="odyssee-ouaisfieu.html" class="nav-link">← README</a>
+                <a href="drinkme.html" class="nav-link">DRINKME</a>
+                <a href="smokeme.html" class="nav-link">SMOKEME</a>
+            </nav>
+        </div>
+    </main>
+    <script>
+        // Heartbeat sound simulation (visual only for accessibility)
+        let heartbeatInterval;
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('%c❤️ BEAT ME — Le Rythme de la Résistance', 'color: #ff1744; font-size: 18px; font-weight: bold;');
+            console.log('%c♪ ♫ ♪ ♫ ♪ ♫', 'color: #ff4081; font-size: 14px;');
+            console.log('%cLe cœur bat. Toujours.', 'color: #fff; font-size: 12px;');
+        });
+    </script>
+</body>
+</html>
