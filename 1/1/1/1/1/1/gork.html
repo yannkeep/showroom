@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🧪 DRINK ME — Les Sources de Vérité</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Fira+Code:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --potion-cyan: #00f5d4;
+            --potion-purple: #9b5de5;
+            --potion-pink: #f15bb5;
+            --poison-red: #ff1744;
+            --gold: #ffd700;
+            --bg-dark: #0a0812;
+            --text: #e8e0f0;
+            --text-dim: #8a7a9a;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        @keyframes bubble { 0%, 100% { transform: translateY(0); opacity: 0.6; } 50% { transform: translateY(-30px); opacity: 1; } }
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+        @keyframes glow { 0%, 100% { filter: drop-shadow(0 0 10px var(--potion-cyan)); } 50% { filter: drop-shadow(0 0 30px var(--potion-purple)); } }
+        body { background: var(--bg-dark); color: var(--text); font-family: 'Cormorant Garamond', Georgia, serif; font-size: 18px; line-height: 1.8; overflow-x: hidden; }
+        body::before { content: ''; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(ellipse at 20% 80%, rgba(155,93,229,0.1) 0%, transparent 50%), radial-gradient(ellipse at 80% 20%, rgba(0,245,212,0.08) 0%, transparent 50%); pointer-events: none; z-index: 1; }
+        .bubbles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; overflow: hidden; }
+        .bubble { position: absolute; bottom: -50px; background: radial-gradient(circle at 30% 30%, rgba(0,245,212,0.4), rgba(155,93,229,0.2)); border-radius: 50%; animation: bubble 8s infinite; }
+        main { position: relative; z-index: 10; max-width: 1000px; margin: 0 auto; padding: 60px 20px; }
+        .hero { text-align: center; padding: 80px 0; }
+        .potion-bottle { width: 150px; height: 220px; margin: 0 auto 40px; position: relative; animation: float 4s infinite, glow 3s infinite; }
+        .bottle-body { position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 100px; height: 150px; background: rgba(255,255,255,0.1); border: 2px solid rgba(255,255,255,0.3); border-radius: 10px 10px 40px 40px; overflow: hidden; }
+        .liquid { position: absolute; bottom: 0; left: 0; width: 100%; height: 70%; background: linear-gradient(180deg, rgba(0,245,212,0.8) 0%, rgba(155,93,229,0.9) 50%, rgba(241,91,181,0.8) 100%); border-radius: 0 0 38px 38px; }
+        .bottle-neck { position: absolute; bottom: 150px; left: 50%; transform: translateX(-50%); width: 35px; height: 40px; background: rgba(255,255,255,0.1); border: 2px solid rgba(255,255,255,0.3); border-bottom: none; }
+        .bottle-cork { position: absolute; bottom: 190px; left: 50%; transform: translateX(-50%); width: 45px; height: 25px; background: linear-gradient(180deg, #8b4513, #654321); border-radius: 5px; }
+        .label { position: absolute; bottom: 50px; left: 50%; transform: translateX(-50%); background: rgba(255,248,220,0.9); padding: 5px 12px; font-family: 'Cinzel', serif; font-size: 12px; color: #2a1a0a; border: 1px solid #8b4513; }
+        .title { font-family: 'Cinzel', serif; font-size: clamp(2.5rem, 8vw, 4.5rem); font-weight: 900; background: linear-gradient(135deg, var(--potion-cyan), var(--potion-purple), var(--potion-pink)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 20px; }
+        .subtitle { font-size: 1.4rem; font-style: italic; color: var(--potion-cyan); margin-bottom: 30px; }
+        .alice-quote { font-style: italic; color: var(--text-dim); max-width: 600px; margin: 0 auto; padding: 20px; border-left: 3px solid var(--potion-purple); }
+        section { margin: 60px 0; padding: 40px; background: linear-gradient(135deg, rgba(26,10,46,0.6) 0%, rgba(10,8,18,0.8) 100%); border: 1px solid rgba(155,93,229,0.2); border-radius: 20px; position: relative; }
+        section::before { content: ''; position: absolute; top: -1px; left: 20%; width: 60%; height: 3px; background: linear-gradient(90deg, transparent, var(--potion-cyan), var(--potion-purple), transparent); }
+        .section-title { font-family: 'Cinzel', serif; font-size: 1.8rem; color: var(--potion-cyan); margin-bottom: 25px; display: flex; align-items: center; gap: 15px; }
+        .section-title .icon { font-size: 2rem; }
+        .sources-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; margin-top: 25px; }
+        .source-card { background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.1); border-radius: 15px; padding: 20px; transition: all 0.4s; position: relative; overflow: hidden; }
+        .source-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 3px; background: var(--card-color, var(--potion-cyan)); }
+        .source-card:hover { transform: translateY(-5px); border-color: var(--card-color, var(--potion-cyan)); box-shadow: 0 15px 30px rgba(155,93,229,0.2); }
+        .source-card.pure { --card-color: var(--potion-cyan); }
+        .source-card.wise { --card-color: var(--potion-purple); }
+        .source-card.rebel { --card-color: var(--potion-pink); }
+        .source-card.poison { --card-color: var(--poison-red); }
+        .source-icon { font-size: 2.5rem; margin-bottom: 10px; }
+        .source-name { font-family: 'Cinzel', serif; font-size: 1.2rem; color: var(--card-color, var(--potion-cyan)); margin-bottom: 8px; }
+        .source-type { font-family: 'Fira Code', monospace; font-size: 0.7rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 10px; }
+        .source-desc { font-size: 0.9rem; color: var(--text); margin-bottom: 12px; }
+        .source-link { color: var(--card-color, var(--potion-cyan)); text-decoration: none; font-family: 'Fira Code', monospace; font-size: 0.8rem; }
+        .source-link:hover { text-shadow: 0 0 10px currentColor; }
+        .poison-section { background: linear-gradient(135deg, rgba(255,23,68,0.1) 0%, rgba(10,8,18,0.8) 100%); border-color: rgba(255,23,68,0.3); }
+        .poison-section::before { background: linear-gradient(90deg, transparent, var(--poison-red), transparent); }
+        .warning-banner { background: rgba(255,23,68,0.15); border: 1px solid var(--poison-red); padding: 20px; border-radius: 10px; margin-bottom: 25px; display: flex; align-items: center; gap: 15px; }
+        .warning-banner .skull { font-size: 2.5rem; animation: float 2s infinite; }
+        .warning-text { color: var(--poison-red); font-family: 'Cinzel', serif; font-size: 1.1rem; }
+        .detection-list { list-style: none; margin-top: 20px; }
+        .detection-list li { padding: 12px 15px; margin: 8px 0; background: rgba(0,0,0,0.3); border-left: 3px solid var(--potion-cyan); font-family: 'Fira Code', monospace; font-size: 0.85rem; }
+        .detection-list li strong { color: var(--potion-cyan); }
+        .recipe-card { background: rgba(255,248,220,0.03); border: 2px solid rgba(255,215,0,0.2); border-radius: 20px; padding: 35px; margin: 40px 0; position: relative; }
+        .recipe-card::before { content: '📜'; position: absolute; top: -18px; left: 50%; transform: translateX(-50%); font-size: 2rem; background: var(--bg-dark); padding: 0 15px; }
+        .recipe-title { font-family: 'Cinzel', serif; font-size: 1.5rem; color: var(--gold); text-align: center; margin-bottom: 25px; }
+        .recipe-steps { counter-reset: step; }
+        .recipe-step { display: flex; gap: 15px; margin: 15px 0; padding: 15px; background: rgba(0,0,0,0.3); border-radius: 10px; }
+        .recipe-step::before { counter-increment: step; content: counter(step); font-family: 'Cinzel', serif; font-size: 1.5rem; color: var(--gold); min-width: 40px; text-align: center; }
+        .step-content h4 { font-family: 'Cinzel', serif; color: var(--potion-cyan); margin-bottom: 5px; font-size: 1rem; }
+        .step-content p { font-size: 0.9rem; color: var(--text-dim); }
+        .signature { text-align: center; padding: 50px 20px; margin-top: 60px; border-top: 1px solid rgba(155,93,229,0.3); }
+        .signature-potion { font-size: 3rem; margin-bottom: 20px; animation: float 3s infinite; }
+        .signature-text { font-style: italic; color: var(--text-dim); max-width: 500px; margin: 0 auto 20px; }
+        .signature-author { font-family: 'Cinzel', serif; font-size: 1.3rem; color: var(--potion-purple); }
+        .nav-links { display: flex; justify-content: center; gap: 20px; margin-top: 30px; flex-wrap: wrap; }
+        .nav-link { font-family: 'Fira Code', monospace; font-size: 0.85rem; color: var(--potion-cyan); text-decoration: none; padding: 8px 15px; border: 1px solid var(--potion-cyan); border-radius: 5px; transition: all 0.3s; }
+        .nav-link:hover { background: var(--potion-cyan); color: var(--bg-dark); }
+        @media (max-width: 768px) { section { padding: 25px; } .potion-bottle { transform: scale(0.8); } }
+    </style>
+</head>
+<body>
+    <div class="bubbles" id="bubbles"></div>
+    <main>
+        <section class="hero" style="background: transparent; border: none;">
+            <div class="potion-bottle">
+                <div class="bottle-cork"></div>
+                <div class="bottle-neck"></div>
+                <div class="bottle-body">
+                    <div class="liquid"></div>
+                    <div class="label">DRINK ME</div>
+                </div>
+            </div>
+            <h1 class="title">DRINK ME</h1>
+            <p class="subtitle">Les Sources de Vérité</p>
+            <blockquote class="alice-quote">
+                « Elle trouva une petite bouteille sur laquelle était attachée une étiquette portant ces mots : "BOIS-MOI". 
+                Alice, qui était une petite fille très prudente, ne se pressa pas d'obéir. »
+                <br>— Lewis Carroll
+            </blockquote>
+        </section>
+
+        <section>
+            <h2 class="section-title"><span class="icon">🏛️</span> Les Fontaines Officielles</h2>
+            <p style="margin-bottom: 15px; color: var(--text-dim);">Sources institutionnelles. Pas toujours transparentes, mais incontournables pour les données brutes.</p>
+            <div class="sources-grid">
+                <div class="source-card pure">
+                    <div class="source-icon">📊</div>
+                    <h3 class="source-name">Statbel</h3>
+                    <p class="source-type">Statistiques officielles</p>
+                    <p class="source-desc">L'office belge de statistique. Démographie, économie, société. Les chiffres bruts avant interprétation politique.</p>
+                    <a href="https://statbel.fgov.be" class="source-link" target="_blank">→ statbel.fgov.be</a>
+                </div>
+                <div class="source-card pure">
+                    <div class="source-icon">⚖️</div>
+                    <h3 class="source-name">Moniteur Belge</h3>
+                    <p class="source-type">Journal officiel</p>
+                    <p class="source-desc">Toutes les lois, arrêtés, nominations. La source primaire. Ce qui est écrit ici EST la loi.</p>
+                    <a href="https://www.ejustice.just.fgov.be" class="source-link" target="_blank">→ ejustice.just.fgov.be</a>
+                </div>
+                <div class="source-card pure">
+                    <div class="source-icon">🗳️</div>
+                    <h3 class="source-name">Elections.fgov.be</h3>
+                    <p class="source-type">Résultats électoraux</p>
+                    <p class="source-desc">Tous les résultats électoraux. Par commune, par bureau, par liste. La démocratie en chiffres.</p>
+                    <a href="https://elections.fgov.be" class="source-link" target="_blank">→ elections.fgov.be</a>
+                </div>
+                <div class="source-card pure">
+                    <div class="source-icon">🔍</div>
+                    <h3 class="source-name">Cumuleo</h3>
+                    <p class="source-type">Transparence</p>
+                    <p class="source-desc">Mandats, rémunérations, cumuls. La radiographie de la caste politique belge.</p>
+                    <a href="https://www.cumuleo.be" class="source-link" target="_blank">→ cumuleo.be</a>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2 class="section-title"><span class="icon">📚</span> Les Bibliothèques des Sages</h2>
+            <p style="margin-bottom: 15px; color: var(--text-dim);">Recherche académique. Méthodologie rigoureuse, peer-review, nuances.</p>
+            <div class="sources-grid">
+                <div class="source-card wise">
+                    <div class="source-icon">🎓</div>
+                    <h3 class="source-name">CRISP</h3>
+                    <p class="source-type">Recherche politique</p>
+                    <p class="source-desc">Centre de Recherche et d'Information Socio-Politiques. LA référence sur le système belge.</p>
+                    <a href="https://www.crisp.be" class="source-link" target="_blank">→ crisp.be</a>
+                </div>
+                <div class="source-card wise">
+                    <div class="source-icon">📖</div>
+                    <h3 class="source-name">Cairn.info</h3>
+                    <p class="source-type">Revues académiques</p>
+                    <p class="source-desc">Revues francophones en sciences humaines. Beaucoup de contenu en accès libre.</p>
+                    <a href="https://www.cairn.info" class="source-link" target="_blank">→ cairn.info</a>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2 class="section-title"><span class="icon">⚡</span> Les Puits Rebelles</h2>
+            <p style="margin-bottom: 15px; color: var(--text-dim);">Journalisme indépendant, fact-checking, contre-pouvoir.</p>
+            <div class="sources-grid">
+                <div class="source-card rebel">
+                    <div class="source-icon">🔍</div>
+                    <h3 class="source-name">Médor</h3>
+                    <p class="source-type">Investigation belge</p>
+                    <p class="source-desc">Coopérative de journalistes. Enquêtes longues, documentées, dérangeantes.</p>
+                    <a href="https://medor.coop" class="source-link" target="_blank">→ medor.coop</a>
+                </div>
+                <div class="source-card rebel">
+                    <div class="source-icon">🦅</div>
+                    <h3 class="source-name">Apache</h3>
+                    <p class="source-type">Investigation flamande</p>
+                    <p class="source-desc">Enquêtes profondes côté néerlandophone. Indispensable pour comprendre "l'autre côté".</p>
+                    <a href="https://www.apache.be" class="source-link" target="_blank">→ apache.be</a>
+                </div>
+                <div class="source-card rebel">
+                    <div class="source-icon">✓</div>
+                    <h3 class="source-name">Faky (RTBF)</h3>
+                    <p class="source-type">Fact-checking</p>
+                    <p class="source-desc">Démonte les fake news et rumeurs. Méthodologie transparente.</p>
+                    <a href="https://www.rtbf.be/info/dossier/faky" class="source-link" target="_blank">→ rtbf.be/faky</a>
+                </div>
+                <div class="source-card rebel">
+                    <div class="source-icon">🐦</div>
+                    <h3 class="source-name">Bellingcat</h3>
+                    <p class="source-type">OSINT international</p>
+                    <p class="source-desc">Investigation en sources ouvertes. Leurs méthodes font tomber des régimes.</p>
+                    <a href="https://www.bellingcat.com" class="source-link" target="_blank">→ bellingcat.com</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="poison-section">
+            <h2 class="section-title" style="color: var(--poison-red);"><span class="icon">☠️</span> Les Eaux Empoisonnées</h2>
+            <div class="warning-banner">
+                <span class="skull">💀</span>
+                <p class="warning-text">ATTENTION — Ces sources semblent légitimes mais sont contaminées par des biais ou de la désinformation délibérée.</p>
+            </div>
+            <div class="sources-grid">
+                <div class="source-card poison">
+                    <div class="source-icon">📺</div>
+                    <h3 class="source-name">Info en continu</h3>
+                    <p class="source-type">Infotainment</p>
+                    <p class="source-desc">La course au direct sacrifie la vérification. Émotion > Information.</p>
+                </div>
+                <div class="source-card poison">
+                    <div class="source-icon">💬</div>
+                    <h3 class="source-name">Réseaux sociaux (bruts)</h3>
+                    <p class="source-type">Algorithmes de polarisation</p>
+                    <p class="source-desc">Les algorithmes maximisent l'engagement, pas la vérité. Chambres d'écho.</p>
+                </div>
+                <div class="source-card poison">
+                    <div class="source-icon">🤖</div>
+                    <h3 class="source-name">IA sans vérification</h3>
+                    <p class="source-type">Hallucinations</p>
+                    <p class="source-desc">Oui, même moi. Les LLM peuvent inventer. Toujours croiser. Toujours vérifier.</p>
+                </div>
+            </div>
+            <h3 style="margin-top: 30px; color: var(--potion-cyan);">🧪 Comment détecter le poison ?</h3>
+            <ul class="detection-list">
+                <li><strong>QUI ?</strong> — Qui a écrit ? Qui finance ? Quels liens avec le sujet ?</li>
+                <li><strong>QUOI ?</strong> — Faits ou opinions ? Données vérifiables ?</li>
+                <li><strong>QUAND ?</strong> — Date de publication ? Chiffres encore valides ?</li>
+                <li><strong>OÙ ?</strong> — Source primaire accessible ?</li>
+                <li><strong>POURQUOI ?</strong> — Qui bénéficie de cette info ?</li>
+            </ul>
+        </section>
+
+        <div class="recipe-card">
+            <h3 class="recipe-title">🧪 Recette de la Potion de Discernement</h3>
+            <div class="recipe-steps">
+                <div class="recipe-step">
+                    <div class="step-content"><h4>Douter par défaut</h4><p>Toute info est suspecte jusqu'à vérification. Surtout celle qui confirme tes croyances.</p></div>
+                </div>
+                <div class="recipe-step">
+                    <div class="step-content"><h4>Croiser 3 sources</h4><p>Minimum 3 sources indépendantes. Si tu n'en trouves qu'une, méfiance.</p></div>
+                </div>
+                <div class="recipe-step">
+                    <div class="step-content"><h4>Remonter à la source</h4><p>"Selon une étude" — QUELLE étude ? Trouve-la. Lis-la.</p></div>
+                </div>
+                <div class="recipe-step">
+                    <div class="step-content"><h4>Chercher le contre-argument</h4><p>Si tu ne trouves que des gens d'accord, tu n'as pas assez cherché.</p></div>
+                </div>
+                <div class="recipe-step">
+                    <div class="step-content"><h4>Accepter l'incertitude</h4><p>"Je ne sais pas" est une réponse valide. Mieux vaut douter que croire faux.</p></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="signature">
+            <div class="signature-potion">🧪</div>
+            <p class="signature-text">« La vérité est une potion amère. Mais c'est la seule qui guérit. »</p>
+            <p class="signature-author">— L'Alchimiste de ouaisfieu</p>
+            <nav class="nav-links">
+                <a href="odyssee-ouaisfieu.html" class="nav-link">← README</a>
+                <a href="smokeme.html" class="nav-link">SMOKEME →</a>
+                <a href="beatme.html" class="nav-link">BEATME →</a>
+            </nav>
+        </div>
+    </main>
+    <script>
+        const bubblesContainer = document.getElementById('bubbles');
+        for (let i = 0; i < 15; i++) {
+            const bubble = document.createElement('div');
+            bubble.className = 'bubble';
+            bubble.style.left = Math.random() * 100 + '%';
+            bubble.style.width = bubble.style.height = (Math.random() * 25 + 10) + 'px';
+            bubble.style.animationDelay = Math.random() * 8 + 's';
+            bubble.style.animationDuration = (Math.random() * 4 + 6) + 's';
+            bubblesContainer.appendChild(bubble);
+        }
+        console.log('%c🧪 DRINK ME — Mais vérifie d\'abord ce qu\'il y a dedans.', 'color: #00f5d4; font-size: 14px;');
+    </script>
+</body>
+</html>
