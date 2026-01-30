@@ -1,737 +1,505 @@
 <!DOCTYPE html>
-<html lang="fr-BE">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>⚖️ TRIBUNAL DE L'IMAGINAIRE COLLECTIF | Affaire n°2025-TF-001 | République des Consciences</title>
-    <meta name="description" content="SATIRE POLITIQUE — Acte d'accusation fictif devant le Tribunal de l'Imaginaire Collectif. Une œuvre de fiction satirique dans la tradition de Swift et Orwell.">
-    <meta name="robots" content="noindex">
+    <title>Belgique 2026 : Le Choc de l'Activation</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
     
+    <!-- Chosen Palette: "Energetic & Playful" (Blue/Coral/Yellow) 
+         Background: Slate-50
+         Primary: #2563EB (Royal Blue)
+         Secondary: #FF6B6B (Coral Red - for Invalidity/Sanctions)
+         Accent: #FBBF24 (Amber/Yellow - for Highlights)
+         Text: Slate-900
+    -->
+
+    <!-- Application Structure Plan:
+         1. Hero Section: Hook with the "2026" date and the core conflict (Unemployed vs Sick). Big Number Stats.
+         2. Context (Trend): Chart.js Line Chart showing the "Scissors Effect" (Crossing curves of unemployment vs invalidity).
+         3. The Mechanism (Process): A CSS-based vertical flow diagram explaining the new "Vandenbroucke" procedure (Evaluation -> Mediation -> Sanction).
+         4. Regional Deep Dive: Chart.js Grouped Bar Chart comparing Flanders, Wallonia, and Brussels to explain political tensions.
+         5. Budgetary Wall: Plotly Area Chart showing the cost explosion necessitating the reform.
+    -->
+
+    <!-- Visualization & Content Choices:
+         1. "L'Effet Ciseaux" (Trend): 
+            - Goal: Change (Show historical shift).
+            - Viz: Chart.js Line Chart. 
+            - Justification: Best for showing two diverging trends over time. 
+            - NO SVG.
+         2. "Le Mécanisme de Sanction" (Process):
+            - Goal: Organize (Process flow).
+            - Viz: Styled HTML/Tailwind Cards with Unicode arrows.
+            - Justification: Explains a complex legal procedure simply without diagrams.
+            - NO Mermaid/SVG.
+         3. "Disparités Régionales" (Comparison):
+            - Goal: Compare.
+            - Viz: Chart.js Bar Chart.
+            - Justification: Side-by-side comparison of 3 regions is standard and effective.
+            - NO SVG.
+         4. "L'Urgence Budgétaire" (Analysis):
+            - Goal: Change/Volume.
+            - Viz: Plotly.js Filled Area Chart.
+            - Justification: Emphasizes the *mass* of money involved better than a simple line.
+            - NO SVG.
+    -->
+
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=EB+Garamond:ital,wght@0,400;0,700;1,400&family=Special+Elite&display=swap');
-        
-        :root {
-            --parchment: #f4e4bc;
-            --parchment-dark: #d4c4a0;
-            --ink: #1a1a1a;
-            --ink-red: #8b0000;
-            --ink-gold: #8b7355;
-            --seal-red: #cc0000;
-        }
-        
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        
         body {
-            font-family: 'EB Garamond', Georgia, serif;
-            background: 
-                repeating-linear-gradient(
-                    0deg,
-                    transparent,
-                    transparent 29px,
-                    rgba(0,0,0,0.03) 29px,
-                    rgba(0,0,0,0.03) 30px
-                ),
-                linear-gradient(135deg, var(--parchment) 0%, var(--parchment-dark) 100%);
-            color: var(--ink);
-            line-height: 1.8;
-            font-size: 18px;
-            min-height: 100vh;
+            font-family: 'Open Sans', sans-serif;
+            background-color: #F8FAFC; /* Slate 50 */
+            color: #0F172A; /* Slate 900 */
+        }
+        h1, h2, h3, h4 {
+            font-family: 'Montserrat', sans-serif;
         }
         
-        /* DISCLAIMER BANNER */
-        .disclaimer-banner {
-            background: var(--ink);
-            color: var(--parchment);
-            padding: 16px 24px;
-            text-align: center;
-            font-family: 'Special Elite', monospace;
-            font-size: 14px;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-        
-        .disclaimer-banner strong {
-            color: var(--seal-red);
-            text-transform: uppercase;
-        }
-        
-        /* DOCUMENT */
-        .document {
-            max-width: 850px;
-            margin: 0 auto;
-            padding: 60px 80px;
-            background: var(--parchment);
-            box-shadow: 0 0 60px rgba(0,0,0,0.3);
+        /* Chart Container Styling Rules */
+        .chart-container {
             position: relative;
+            width: 100%;
+            margin-left: auto;
+            margin-right: auto;
+            /* Default height for mobile */
+            height: 300px;
+            max-height: 400px; 
+        }
+
+        /* Specific constraints per chart type/location */
+        .chart-container-lg {
+            max-width: 800px;
+            height: 400px;
         }
         
-        @media (max-width: 900px) {
-            .document { padding: 40px 24px; }
+        .chart-container-md {
+            max-width: 600px;
+            height: 350px;
         }
-        
-        /* Aged paper effect */
-        .document::before {
-            content: "";
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%' height='100%' filter='url(%23noise)' opacity='0.08'/%3E%3C/svg%3E");
-            pointer-events: none;
+
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 400px;
+            }
         }
-        
-        /* HEADER */
-        .doc-header {
-            text-align: center;
-            margin-bottom: 48px;
-            padding-bottom: 32px;
-            border-bottom: 3px double var(--ink);
+
+        /* Card Styling */
+        .info-card {
+            background: white;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            transition: transform 0.2s;
         }
-        
-        .republic-name {
-            font-family: 'Cinzel', serif;
-            font-size: 14px;
-            letter-spacing: 8px;
-            text-transform: uppercase;
-            color: var(--ink-gold);
-            margin-bottom: 24px;
+        .info-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
         }
-        
-        .tribunal-name {
-            font-family: 'Cinzel', serif;
-            font-size: 28px;
-            font-weight: 900;
-            text-transform: uppercase;
-            letter-spacing: 4px;
-            margin-bottom: 8px;
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
         }
-        
-        .tribunal-subtitle {
-            font-style: italic;
-            color: var(--ink-gold);
-            font-size: 16px;
+        ::-webkit-scrollbar-track {
+            background: #F1F5F9;
         }
-        
-        .case-number {
-            font-family: 'Special Elite', monospace;
-            font-size: 14px;
-            margin-top: 24px;
-            padding: 8px 16px;
-            border: 1px solid var(--ink);
-            display: inline-block;
+        ::-webkit-scrollbar-thumb {
+            background: #94A3B8;
+            border-radius: 4px;
         }
-        
-        /* SEAL */
-        .seal {
-            width: 120px;
-            height: 120px;
-            margin: 32px auto;
-            background: var(--seal-red);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--parchment);
-            font-family: 'Cinzel', serif;
-            font-size: 10px;
-            text-align: center;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            line-height: 1.3;
-            box-shadow: 
-                0 4px 8px rgba(0,0,0,0.3),
-                inset 0 2px 4px rgba(255,255,255,0.2);
-            position: relative;
-        }
-        
-        .seal::before {
-            content: "⚖️";
-            font-size: 32px;
-            display: block;
-            margin-bottom: 4px;
-        }
-        
-        /* SECTIONS */
-        .section {
-            margin-bottom: 40px;
-        }
-        
-        .section-title {
-            font-family: 'Cinzel', serif;
-            font-size: 20px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            margin-bottom: 20px;
-            color: var(--ink-red);
-            border-bottom: 1px solid var(--ink-red);
-            padding-bottom: 8px;
-        }
-        
-        p {
-            margin-bottom: 16px;
-            text-align: justify;
-            text-indent: 2em;
-        }
-        
-        p:first-of-type {
-            text-indent: 0;
-        }
-        
-        .no-indent {
-            text-indent: 0;
-        }
-        
-        /* CHARGES */
-        .charges-list {
-            list-style: none;
-            padding: 0;
-            margin: 24px 0;
-        }
-        
-        .charge {
-            padding: 20px;
-            margin-bottom: 16px;
-            border: 1px solid var(--ink);
-            background: rgba(255,255,255,0.3);
-            position: relative;
-        }
-        
-        .charge-number {
-            font-family: 'Cinzel', serif;
-            font-weight: 900;
-            font-size: 14px;
-            color: var(--seal-red);
-            text-transform: uppercase;
-            margin-bottom: 8px;
-        }
-        
-        .charge-title {
-            font-family: 'Cinzel', serif;
-            font-size: 18px;
-            font-weight: 700;
-            margin-bottom: 12px;
-        }
-        
-        .charge-desc {
-            font-size: 16px;
-            text-indent: 0;
-        }
-        
-        /* EVIDENCE */
-        .evidence-box {
-            background: rgba(139, 0, 0, 0.05);
-            border-left: 4px solid var(--ink-red);
-            padding: 16px 20px;
-            margin: 20px 0;
-            font-size: 16px;
-        }
-        
-        .evidence-box .label {
-            font-family: 'Special Elite', monospace;
-            font-size: 12px;
-            color: var(--ink-red);
-            text-transform: uppercase;
-            margin-bottom: 8px;
-        }
-        
-        /* QUOTES */
-        blockquote {
-            font-style: italic;
-            padding: 20px 32px;
-            margin: 24px 0;
-            border-left: 3px solid var(--ink-gold);
-            background: rgba(139, 115, 85, 0.1);
-        }
-        
-        blockquote cite {
-            display: block;
-            margin-top: 12px;
-            font-size: 14px;
-            font-style: normal;
-            color: var(--ink-gold);
-        }
-        
-        /* VERDICT */
-        .verdict-box {
-            background: var(--ink);
-            color: var(--parchment);
-            padding: 32px;
-            margin: 40px 0;
-            text-align: center;
-        }
-        
-        .verdict-title {
-            font-family: 'Cinzel', serif;
-            font-size: 24px;
-            font-weight: 900;
-            letter-spacing: 4px;
-            margin-bottom: 16px;
-        }
-        
-        .verdict-text {
-            font-size: 18px;
-            text-indent: 0;
-        }
-        
-        /* SIGNATURES */
-        .signatures {
-            margin-top: 60px;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 40px;
-        }
-        
-        .signature {
-            text-align: center;
-        }
-        
-        .signature-line {
-            border-bottom: 1px solid var(--ink);
-            height: 60px;
-            margin-bottom: 8px;
-            font-family: 'Special Elite', monospace;
-            font-size: 14px;
-            display: flex;
-            align-items: flex-end;
-            justify-content: center;
-            padding-bottom: 8px;
-            font-style: italic;
-        }
-        
-        .signature-title {
-            font-family: 'Cinzel', serif;
-            font-size: 12px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            color: var(--ink-gold);
-        }
-        
-        /* FOOTER */
-        .doc-footer {
-            margin-top: 60px;
-            padding-top: 32px;
-            border-top: 3px double var(--ink);
-            text-align: center;
-            font-size: 14px;
-            color: var(--ink-gold);
-        }
-        
-        .doc-footer .warning {
-            font-family: 'Special Elite', monospace;
-            font-size: 12px;
-            margin-top: 24px;
-            padding: 16px;
-            border: 2px dashed var(--seal-red);
-            color: var(--seal-red);
-        }
-        
-        /* THEATRICAL NOTES */
-        .stage-direction {
-            font-family: 'Special Elite', monospace;
-            font-size: 14px;
-            color: var(--ink-gold);
-            text-align: center;
-            margin: 32px 0;
-            font-style: italic;
-        }
-        
-        /* DRAMATIS PERSONAE */
-        .dramatis {
-            background: rgba(0,0,0,0.03);
-            padding: 24px;
-            margin: 32px 0;
-        }
-        
-        .dramatis-title {
-            font-family: 'Cinzel', serif;
-            font-size: 16px;
-            text-align: center;
-            margin-bottom: 16px;
-            letter-spacing: 4px;
-        }
-        
-        .dramatis-list {
-            list-style: none;
-            padding: 0;
-            columns: 2;
-            column-gap: 32px;
-        }
-        
-        .dramatis-list li {
-            margin-bottom: 8px;
-            font-size: 14px;
-        }
-        
-        .dramatis-list .role {
-            font-weight: 700;
-        }
-        
-        .dramatis-list .actor {
-            font-style: italic;
-            color: var(--ink-gold);
-        }
-        
-        /* HIGHLIGHT */
-        .highlight {
-            background: linear-gradient(180deg, transparent 60%, rgba(139, 0, 0, 0.2) 60%);
-        }
-        
-        .redacted {
-            background: var(--ink);
-            color: var(--ink);
-            padding: 0 4px;
-        }
-        
-        .redacted:hover {
-            color: var(--parchment);
+        ::-webkit-scrollbar-thumb:hover {
+            background: #64748B;
         }
     </style>
 </head>
-<body>
-    <!-- DISCLAIMER -->
-    <div class="disclaimer-banner">
-        <strong>⚠️ ŒUVRE DE FICTION SATIRIQUE</strong> — Ce document est une pièce de théâtre politique dans la tradition de Swift, Molière et Orwell. 
-        Aucune accusation réelle. Aucune valeur juridique. Satire protégée par la liberté d'expression.
-    </div>
-    
-    <div class="document">
-        <!-- HEADER -->
-        <header class="doc-header">
-            <div class="republic-name">République Imaginaire des Consciences Éveillées</div>
-            <h1 class="tribunal-name">Tribunal de l'Imaginaire Collectif</h1>
-            <p class="tribunal-subtitle">Chambre Extraordinaire pour les Crimes contre le Discernement Public</p>
-            <div class="case-number">Affaire n° 2025-TF-001 • Audience solennelle</div>
-            
-            <div class="seal">
-                <span>Tribunal<br>de<br>l'Imaginaire<br>Collectif</span>
+<body class="antialiased selection:bg-blue-200 selection:text-blue-900">
+
+    <!-- Header / Hero -->
+    <header class="bg-white border-b border-slate-200 sticky top-0 z-50 bg-opacity-95 backdrop-blur-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+                <span class="text-2xl font-black text-blue-600 tracking-tighter">BELGIQUE<span class="text-slate-800">2026</span></span>
             </div>
-        </header>
-        
-        <!-- DRAMATIS PERSONAE -->
-        <div class="dramatis">
-            <div class="dramatis-title">— DRAMATIS PERSONÆ —</div>
-            <ul class="dramatis-list">
-                <li><span class="role">Le Procureur Général</span> — <span class="actor">La Conscience Collective</span></li>
-                <li><span class="role">L'Accusé Principal</span> — <span class="actor">Un Certain Documentaire</span></li>
-                <li><span class="role">Témoin à charge n°1</span> — <span class="actor">La Vérité Statistique</span></li>
-                <li><span class="role">Témoin à charge n°2</span> — <span class="actor">Le Montage Tronqué</span></li>
-                <li><span class="role">Partie civile</span> — <span class="actor">410.860 Téléspectateurs Abusés</span></li>
-                <li><span class="role">Absents excusés</span> — <span class="actor">Le Contradictoire, La Nuance</span></li>
-                <li><span class="role">Le Greffier</span> — <span class="actor">Une Intelligence Artificielle</span></li>
-                <li><span class="role">La Défense</span> — <span class="actor">[Siège vacant]</span></li>
-            </ul>
+            <nav class="hidden md:flex space-x-8 text-sm font-bold text-slate-500">
+                <a href="#context" class="hover:text-blue-600 transition">Contexte</a>
+                <a href="#mechanism" class="hover:text-blue-600 transition">Mécanisme</a>
+                <a href="#regions" class="hover:text-blue-600 transition">Régions</a>
+                <a href="#budget" class="hover:text-blue-600 transition">Budget</a>
+            </nav>
         </div>
-        
-        <div class="stage-direction">[ Le Procureur se lève. Un silence pesant envahit la salle. ]</div>
-        
-        <!-- ACTE D'ACCUSATION -->
-        <section class="section">
-            <h2 class="section-title">Acte d'Accusation</h2>
-            
-            <p class="no-indent">Nous, Procureur Général de la République Imaginaire des Consciences Éveillées, agissant au nom du Peuple Souverain et de sa capacité de discernement gravement outragée,</p>
-            
-            <p>Vu les faits survenus le 7 novembre de l'an 2025, à une heure de grande écoute, devant une assemblée captive de quatre cent dix mille huit cent soixante âmes,</p>
-            
-            <p>Considérant qu'en temps de paix sociale fragile, alors que la Nation traverse une crise de confiance institutionnelle sans précédent, certaines productions audiovisuelles peuvent constituer des armes de destruction massive du lien social,</p>
-            
-            <p>Considérant que le documentaire incriminé, se présentant sous les atours respectables du journalisme d'investigation, a en réalité opéré comme un <span class="highlight">dispositif de guerre psychologique</span> contre une partie de la population,</p>
-            
-            <p>Requérons l'examen des charges suivantes :</p>
-        </section>
-        
-        <!-- CHARGES -->
-        <section class="section">
-            <h2 class="section-title">Chefs d'Accusation</h2>
-            
-            <ul class="charges-list">
-                <li class="charge">
-                    <div class="charge-number">Chef d'accusation I</div>
-                    <div class="charge-title">Haute Trahison Informationnelle</div>
-                    <div class="charge-desc">
-                        En temps de fragilité démocratique, avoir délibérément présenté comme vérité générale ce qui n'était qu'exception marginale, transformant ainsi <strong>moins de 3% de cas problématiques</strong> en portrait d'une population entière, sapant le moral de la Nation et sa confiance en ses propres citoyens.
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-20">
+
+        <!-- Section 1: Introduction & The Hook -->
+        <section id="context" class="grid lg:grid-cols-2 gap-12 items-center">
+            <div class="space-y-6">
+                <div class="inline-block px-4 py-1.5 bg-blue-100 text-blue-800 font-bold rounded-full text-xs uppercase tracking-wider">
+                    Réforme Vandenbroucke
+                </div>
+                <h1 class="text-4xl md:text-5xl font-extrabold text-slate-900 leading-tight">
+                    Du Chômage à <span class="text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-orange-500">l'Invalidité</span>
+                </h1>
+                <p class="text-lg text-slate-600 leading-relaxed">
+                    Pendant 20 ans, la Belgique a traqué les chômeurs. Résultat ? Les chiffres du chômage ont baissé, mais ceux de l'invalidité ont explosé. 
+                    <br><br>
+                    <strong>Janvier 2026 :</strong> Le gouvernement change de cible. Une nouvelle procédure vise désormais l'exclusion des malades de longue durée refusant un trajet de réintégration.
+                </p>
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="bg-blue-50 p-6 rounded-xl border-l-4 border-blue-600">
+                        <span class="block text-3xl font-black text-blue-700">285K</span>
+                        <span class="text-sm font-semibold text-blue-900">Chômeurs Complets</span>
                     </div>
-                </li>
-                
-                <li class="charge">
-                    <div class="charge-number">Chef d'accusation II</div>
-                    <div class="charge-title">Synchronisation Suspecte avec l'Ennemi Intérieur</div>
-                    <div class="charge-desc">
-                        Avoir diffusé ce programme <strong>exactement 5 jours</strong> avant l'envoi de 47.000 lettres de menace par l'ONEM, dans un contexte de négociations gouvernementales visant à réduire les protections sociales, suggérant une coordination tactique digne d'un état-major.
+                    <div class="bg-red-50 p-6 rounded-xl border-l-4 border-red-500">
+                        <span class="block text-3xl font-black text-red-600">550K+</span>
+                        <span class="text-sm font-semibold text-red-900">Malades Longue Durée</span>
                     </div>
-                </li>
-                
-                <li class="charge">
-                    <div class="charge-number">Chef d'accusation III</div>
-                    <div class="charge-title">Crimes de Montage en Série</div>
-                    <div class="charge-desc">
-                        Avoir réduit <strong>une heure de témoignage nuancé</strong> à <strong>trente secondes</strong> de caricature — un ratio de 120:1 — constituant un assassinat éditorial prémédité de la complexité du réel.
-                    </div>
-                </li>
-                
-                <li class="charge">
-                    <div class="charge-number">Chef d'accusation IV</div>
-                    <div class="charge-title">Dissimulation de Conflit d'Intérêts</div>
-                    <div class="charge-desc">
-                        Avoir omis de signaler que la nièce du réalisateur siège au Parlement dans les rangs du parti politique bénéficiaire direct des politiques d'austérité que ce documentaire prépare psychologiquement, constituant un cas d'école de <strong>propagande familiale</strong>.
-                    </div>
-                </li>
-                
-                <li class="charge">
-                    <div class="charge-number">Chef d'accusation V</div>
-                    <div class="charge-title">Fabrication de Fausses Preuves</div>
-                    <div class="charge-desc">
-                        Avoir cité l'IWEPS comme source d'une statistique comparative — alors que <strong>l'IWEPS a formellement démenti</strong> avoir produit cette étude — constituant une falsification de preuve en bonne et due forme.
-                    </div>
-                </li>
-                
-                <li class="charge">
-                    <div class="charge-number">Chef d'accusation VI</div>
-                    <div class="charge-title">Terrorisme Psychologique de Masse</div>
-                    <div class="charge-desc">
-                        Avoir exposé 410.860 téléspectateurs à un dispositif de manipulation émotionnelle visant à transformer leur compassion naturelle en mépris de classe, <strong>augmentant statistiquement de 19%</strong> les risques de dépression chez les victimes stigmatisées (étude Pak, 2020).
-                    </div>
-                </li>
-                
-                <li class="charge">
-                    <div class="charge-number">Chef d'accusation VII</div>
-                    <div class="charge-title">Complicité de Mise en Danger de la Vie d'Autrui</div>
-                    <div class="charge-desc">
-                        Les personnes filmées ayant reçu <strong>insultes et menaces</strong> dans les jours suivant la diffusion, le documentaire a créé les conditions objectives d'un danger pour leur intégrité physique et psychique.
-                    </div>
-                </li>
-                
-                <li class="charge">
-                    <div class="charge-number">Chef d'accusation VIII</div>
-                    <div class="charge-title">Atteinte à la Sûreté de l'État Social</div>
-                    <div class="charge-desc">
-                        En préparant psychologiquement l'opinion à accepter des coupes budgétaires affectant les plus vulnérables, avoir agi comme <strong>agent d'influence</strong> au service d'intérêts contraires au bien commun constitutionnellement protégé.
-                    </div>
-                </li>
-            </ul>
-        </section>
-        
-        <div class="stage-direction">[ Murmures dans la salle. Le Procureur boit une gorgée d'eau. ]</div>
-        
-        <!-- PREUVES -->
-        <section class="section">
-            <h2 class="section-title">Éléments à Charge</h2>
-            
-            <div class="evidence-box">
-                <div class="label">Pièce n°1 — Le Ratio Révélateur</div>
-                <p>Le taux réel de fraude sociale est inférieur à 3%. Le documentaire consacre 100% de son temps à ce phénomène marginal. Ratio de déformation : <strong>33×</strong>.</p>
+                </div>
             </div>
-            
-            <div class="evidence-box">
-                <div class="label">Pièce n°2 — Le Silence Assourdissant</div>
-                <p>Absents du documentaire : syndicats, associations, experts académiques, voix contradictoires. Présents : uniquement les témoins servant le récit préétabli.</p>
-            </div>
-            
-            <div class="evidence-box">
-                <div class="label">Pièce n°3 — La Coïncidence Impossible</div>
-                <p>7 novembre : diffusion. 12 novembre : 47.000 lettres ONEM. Probabilité d'une coïncidence fortuite : <strong>statistiquement négligeable</strong>.</p>
-            </div>
-            
-            <div class="evidence-box">
-                <div class="label">Pièce n°4 — L'Aveu Involontaire</div>
-                <p>Gaëlle Denys, interviewée 1 heure, apparaît 30 secondes. Ce qui a été coupé : <strong>59 minutes 30 secondes de nuance</strong>.</p>
-            </div>
-            
-            <div class="evidence-box">
-                <div class="label">Pièce n°5 — Le Précédent Britannique</div>
-                <p>"Benefits Street" (2014) : mêmes méthodes, mêmes effets. Étude Joseph Rowntree Foundation : impact mesurable <strong>5 ans après</strong>. Le playbook est connu.</p>
-            </div>
-            
-            <div class="evidence-box">
-                <div class="label">Pièce n°6 — Le Cri du Peuple</div>
-                <p><strong>400+ plaintes au CSA</strong>. Record historique en Belgique francophone. La conscience collective a parlé. Qui l'écoute ?</p>
+            <div class="info-card p-6 border border-slate-100">
+                <h3 class="text-lg font-bold text-slate-800 mb-4 border-b pb-2">L'Effet "Vases Communicants"</h3>
+                <p class="text-sm text-slate-500 mb-4">
+                    Ce graphique démontre le transfert historique : à mesure que l'accès au chômage s'est durci, la population s'est déplacée vers le statut d'invalide, plus protecteur.
+                </p>
+                <!-- Chart Container -->
+                <div class="chart-container chart-container-md">
+                    <canvas id="trendChart"></canvas>
+                </div>
             </div>
         </section>
-        
-        <!-- CONTEXTE HISTORIQUE -->
-        <section class="section">
-            <h2 class="section-title">Rappel Historique</h2>
-            
-            <p>Le Tribunal rappelle que l'Histoire a déjà jugé les usages de la propagande contre les populations vulnérables :</p>
-            
-            <blockquote>
-                "La propagande la plus efficace est celle qui ne ressemble pas à de la propagande."
-                <cite>— Joseph Goebbels (que nous citons pour mieux le combattre)</cite>
-            </blockquote>
-            
-            <blockquote>
-                "En temps de tromperie universelle, dire la vérité devient un acte révolutionnaire."
-                <cite>— George Orwell, 1984</cite>
-            </blockquote>
-            
-            <blockquote>
-                "Le plus grand triomphe de la propagande est de persuader l'opprimé que son oppression est méritée."
-                <cite>— Attribution collective</cite>
-            </blockquote>
-            
-            <p>Le documentaire incriminé s'inscrit dans une longue tradition de <span class="highlight">"poverty porn"</span> — ces productions qui transforment la misère en spectacle et les victimes en coupables. De "Benefits Street" au Royaume-Uni aux reportages sensationnalistes sur les "assistés" français, le schéma est toujours le même :</p>
-            
-            <p><strong>1.</strong> Trouver des cas extrêmes ou atypiques<br>
-            <strong>2.</strong> Les présenter comme représentatifs<br>
-            <strong>3.</strong> Omettre tout contexte et contradiction<br>
-            <strong>4.</strong> Diffuser avant des décisions politiques impopulaires<br>
-            <strong>5.</strong> Nier toute intention</p>
-            
-            <p>Ce n'est pas du journalisme. C'est de l'<strong>ingénierie sociale</strong>.</p>
+
+        <!-- Section 2: The Mechanism (Process) -->
+        <section id="mechanism" class="bg-slate-900 text-white rounded-3xl p-8 md:p-12 shadow-2xl relative overflow-hidden">
+            <!-- Decorative background element -->
+            <div class="absolute top-0 right-0 w-64 h-64 bg-blue-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 transform translate-x-1/2 -translate-y-1/2"></div>
+
+            <div class="relative z-10 text-center max-w-3xl mx-auto mb-12">
+                <h2 class="text-3xl font-bold mb-4">La Nouvelle Procédure (2026)</h2>
+                <p class="text-slate-300">
+                    Comment le gouvernement compte-t-il réactiver les malades ? Le plan repose sur une responsabilisation accrue et la fin de l'inconditionnalité de l'allocation.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-4 gap-6 relative z-10">
+                <!-- Step 1 -->
+                <div class="bg-slate-800 p-6 rounded-xl border border-slate-700 hover:border-blue-500 transition group">
+                    <div class="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center text-xl font-bold mb-4 group-hover:scale-110 transition">1</div>
+                    <h4 class="text-lg font-bold mb-2 text-blue-400">Le Screening</h4>
+                    <p class="text-sm text-slate-400">
+                        Dès le 4ème mois d'incapacité, évaluation obligatoire des capacités restantes par le médecin conseil.
+                    </p>
+                </div>
+                
+                <!-- Arrow Mobile: Down, Desktop: Right -->
+                <div class="hidden md:flex items-center justify-center text-slate-600 text-2xl">➔</div>
+                <div class="md:hidden flex items-center justify-center text-slate-600 text-2xl py-2">⬇</div>
+
+                <!-- Step 2 -->
+                <div class="bg-slate-800 p-6 rounded-xl border border-slate-700 hover:border-yellow-500 transition group">
+                    <div class="w-10 h-10 bg-yellow-500 text-slate-900 rounded-lg flex items-center justify-center text-xl font-bold mb-4 group-hover:scale-110 transition">2</div>
+                    <h4 class="text-lg font-bold mb-2 text-yellow-400">Le Trajet</h4>
+                    <p class="text-sm text-slate-400">
+                        Proposition d'un travail adapté ou d'une formation. Refuser sans raison médicale devient sanctionnable.
+                    </p>
+                </div>
+
+                <!-- Arrow -->
+                <div class="hidden md:flex items-center justify-center text-slate-600 text-2xl">➔</div>
+                <div class="md:hidden flex items-center justify-center text-slate-600 text-2xl py-2">⬇</div>
+
+                <!-- Step 3 -->
+                <div class="bg-slate-800 p-6 rounded-xl border border-slate-700 hover:border-red-500 transition group">
+                    <div class="w-10 h-10 bg-red-600 rounded-lg flex items-center justify-center text-xl font-bold mb-4 group-hover:scale-110 transition">3</div>
+                    <h4 class="text-lg font-bold mb-2 text-red-400">La Sanction</h4>
+                    <p class="text-sm text-slate-400">
+                        En cas de refus répété : perte de 5 à 10% de l'indemnité, voire exclusion totale du système.
+                    </p>
+                </div>
+            </div>
         </section>
-        
-        <!-- SI C'ÉTAIT LA GUERRE -->
-        <section class="section">
-            <h2 class="section-title">Hypothèse Contrefactuelle</h2>
-            
-            <p class="no-indent"><em>[ Le Procureur s'avance vers le jury imaginaire ]</em></p>
-            
-            <p>Mesdames et Messieurs les Jurés de l'Imaginaire, permettez-moi une expérience de pensée.</p>
-            
-            <p><strong>Si nous étions en guerre</strong> — une vraie guerre, avec des fronts et des tranchées — que dirait-on d'un média qui :</p>
-            
-            <p>• Sape le moral des troupes arrière en les dépeignant comme des parasites ?<br>
-            • Divise la Nation entre "vrais" et "faux" citoyens méritants ?<br>
-            • Fournit des arguments à l'ennemi pour justifier ses attaques ?<br>
-            • Synchronise ses frappes médiatiques avec les offensives politiques ?</p>
-            
-            <p>On parlerait de <span class="highlight">collaboration</span>. De <span class="highlight">cinquième colonne</span>. De <span class="highlight">haute trahison</span>.</p>
-            
-            <p>Mais nous ne sommes pas en guerre, nous dira-t-on.</p>
-            
-            <p><strong>Vraiment ?</strong></p>
-            
-            <p>Quand 90.000 personnes sont exclues du chômage en quelques années...<br>
-            Quand les files des banques alimentaires s'allongent chaque mois...<br>
-            Quand le logement devient inaccessible pour une génération entière...<br>
-            Quand la santé mentale de la population se dégrade statistiquement...</p>
-            
-            <p>N'est-ce pas une forme de guerre ? Une guerre silencieuse, sans uniformes, mais avec des victimes bien réelles ?</p>
-            
-            <p>Et dans cette guerre-là, <strong>de quel côté était ce documentaire ?</strong></p>
+
+        <!-- Section 3: Regional Analysis -->
+        <section id="regions">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-8 border-b border-slate-200 pb-4">
+                <div class="max-w-2xl">
+                    <h2 class="text-3xl font-bold text-slate-900 mb-2">La Fracture Régionale</h2>
+                    <p class="text-slate-600">
+                        La réforme passe mal en Wallonie. Pourquoi ? Parce que la structure du marché du travail y est fondamentalement différente. L'invalidité y sert souvent de filet de sécurité ultime post-industriel.
+                    </p>
+                </div>
+                <div class="mt-4 md:mt-0 text-right">
+                    <span class="text-xs font-bold text-slate-400 uppercase tracking-widest">Données 2024-2025</span>
+                </div>
+            </div>
+
+            <div class="grid lg:grid-cols-3 gap-8">
+                <!-- Chart Column -->
+                <div class="lg:col-span-2 info-card p-6">
+                    <div class="chart-container chart-container-lg">
+                        <canvas id="regionChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Narrative Column -->
+                <div class="space-y-6">
+                    <div class="bg-white p-5 rounded-lg border-l-4 border-yellow-400 shadow-sm">
+                        <h4 class="font-bold text-slate-800">Flandre</h4>
+                        <p class="text-sm text-slate-500 mt-1">
+                            Taux d'emploi élevé, mais record de <strong>burnouts</strong>. L'invalidité ici est souvent liée à la pression au travail (maladies mentales).
+                        </p>
+                    </div>
+                    
+                    <div class="bg-white p-5 rounded-lg border-l-4 border-red-500 shadow-sm">
+                        <h4 class="font-bold text-slate-800">Wallonie</h4>
+                        <p class="text-sm text-slate-500 mt-1">
+                            Taux d'invalidité le plus élevé (~13.5%). Corrélation forte avec les anciens bassins industriels et le chômage structurel.
+                        </p>
+                    </div>
+
+                    <div class="bg-white p-5 rounded-lg border-l-4 border-blue-500 shadow-sm">
+                        <h4 class="font-bold text-slate-800">Bruxelles</h4>
+                        <p class="text-sm text-slate-500 mt-1">
+                            Population très jeune, ce qui masque artificiellement les taux d'invalidité, malgré un chômage élevé.
+                        </p>
+                    </div>
+                </div>
+            </div>
         </section>
-        
-        <div class="stage-direction">[ Silence prolongé. Quelqu'un tousse. ]</div>
-        
-        <!-- CIRCONSTANCES -->
-        <section class="section">
-            <h2 class="section-title">Circonstances Aggravantes</h2>
-            
-            <p><strong>La préméditation :</strong> Un documentaire nécessite des semaines de préparation. Chaque choix éditorial est délibéré.</p>
-            
-            <p><strong>L'abus de position dominante :</strong> RTL-TVI touche des millions de foyers. Les victimes n'ont aucun droit de réponse équivalent.</p>
-            
-            <p><strong>La vulnérabilité des victimes :</strong> Frapper les allocataires sociaux, c'est frapper ceux qui n'ont pas les moyens de se défendre.</p>
-            
-            <p><strong>La récidive :</strong> Ce n'est pas le premier documentaire de ce type. C'est un format, une recette, une industrie.</p>
-            
-            <p><strong>Le timing politique :</strong> La synchronisation avec les négociations gouvernementales Arizona transforme le reportage en <strong>outil de lobbying déguisé</strong>.</p>
+
+        <!-- Section 4: Budget / Plotly -->
+        <section id="budget" class="bg-blue-50 rounded-3xl p-8 md:p-12">
+            <div class="text-center max-w-3xl mx-auto mb-10">
+                <h2 class="text-3xl font-bold text-slate-900 mb-4">Le Mur Budgétaire</h2>
+                <p class="text-slate-700">
+                    Au-delà de l'idéologie, c'est l'arithmétique qui guide la réforme. Les dépenses de l'INAMI (Santé & Invalidité) menacent l'équilibre de la Sécurité Sociale.
+                </p>
+            </div>
+
+            <div class="bg-white rounded-2xl shadow-lg p-4 md:p-6">
+                <!-- Plotly Container -->
+                <div id="budgetPlot" style="width: 100%; height: 400px;"></div>
+                <div class="mt-4 text-center text-xs text-slate-400">
+                    *Source: Projections Bureau du Plan / INAMI. Montants en Milliards d'Euros.
+                </div>
+            </div>
         </section>
-        
-        <!-- CIRCONSTANCES ATTÉNUANTES -->
-        <section class="section">
-            <h2 class="section-title">Circonstances Atténuantes</h2>
-            
-            <p><em>[ Le Procureur fait une pause, par souci d'équité théâtrale ]</em></p>
-            
-            <p>Le Tribunal reconnaît que :</p>
-            
-            <p>• Le réalisateur a peut-être sincèrement cru faire son travail<br>
-            • La pression des audiences pousse au sensationnalisme<br>
-            • Le système médiatique dans son ensemble est malade<br>
-            • Les individus ne sont que les symptômes d'un dysfonctionnement systémique</p>
-            
-            <p>Mais ces circonstances, si elles expliquent, <strong>n'excusent pas</strong>.</p>
-            
-            <p>Le gardien de camp qui "suivait les ordres" n'en était pas moins complice.<br>
-            Le journaliste qui "répond à la demande" n'en est pas moins responsable.</p>
-        </section>
-        
-        <!-- RÉQUISITOIRE -->
-        <section class="section">
-            <h2 class="section-title">Réquisitoire</h2>
-            
-            <p class="no-indent">En conséquence de quoi,</p>
-            
-            <p>Considérant la gravité des faits,<br>
-            Considérant le préjudice causé à des centaines de milliers de citoyens,<br>
-            Considérant l'atteinte portée au débat démocratique,<br>
-            Considérant l'impunité qui, si elle perdure, encouragera la récidive,</p>
-            
-            <p>Le Ministère Public de l'Imaginaire Collectif requiert :</p>
-            
-            <p><strong>1.</strong> La reconnaissance publique du caractère propagandiste du documentaire incriminé</p>
-            
-            <p><strong>2.</strong> L'inscription de cette affaire dans les manuels d'éducation aux médias comme exemple de ce qu'il ne faut pas faire</p>
-            
-            <p><strong>3.</strong> La création d'un fonds de réparation symbolique pour les victimes de stigmatisation médiatique</p>
-            
-            <p><strong>4.</strong> L'obligation pour tout documentaire traitant de populations vulnérables de respecter un cahier des charges déontologique strict</p>
-            
-            <p><strong>5.</strong> Le droit de réponse étendu pour les personnes filmées, à audience équivalente</p>
-            
-            <p><strong>6.</strong> La transparence obligatoire sur les liens familiaux, politiques et financiers des équipes de production</p>
-        </section>
-        
-        <!-- VERDICT -->
-        <div class="verdict-box">
-            <div class="verdict-title">VERDICT DE L'IMAGINAIRE</div>
-            <p class="verdict-text">
-                Le Tribunal de l'Imaginaire Collectif déclare le documentaire <strong>COUPABLE</strong> de crimes contre le discernement public, et condamne ses auteurs à la <strong>HONTE HISTORIQUE</strong> — peine perpétuelle, sans possibilité de révision, exécutoire dans la mémoire collective.
+
+    </main>
+
+    <footer class="bg-slate-900 text-slate-400 py-12 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 text-center space-y-4">
+            <p class="font-semibold text-slate-200">Infographie Interactive - Analyse Politique</p>
+            <p class="text-sm max-w-lg mx-auto">
+                Basé sur les rapports de l'INAMI, de l'ONEM et les propositions ministérielles de janvier 2026. Cette visualisation est une simplification à but pédagogique.
             </p>
-        </div>
-        
-        <div class="stage-direction">[ Le public se lève. Certains applaudissent. D'autres pleurent. Le rideau tombe lentement. ]</div>
-        
-        <!-- ÉPILOGUE -->
-        <section class="section">
-            <h2 class="section-title">Épilogue — Retour au Réel</h2>
-            
-            <p class="no-indent"><em>[ Les lumières se rallument. Nous sortons du théâtre. ]</em></p>
-            
-            <p>Ce procès imaginaire n'aura jamais lieu. Aucun tribunal réel ne jugera ce documentaire pour "haute trahison" — ce serait absurde et disproportionné.</p>
-            
-            <p>Mais le procès de l'Histoire, lui, est déjà en cours.</p>
-            
-            <p>Et vous, lecteur, en êtes le juré.</p>
-            
-            <p>Le CSA a ouvert une enquête. Le CDJ examine le dossier. 400+ citoyens ont porté plainte. Des outils existent maintenant pour que d'autres suivent.</p>
-            
-            <p>La satire que vous venez de lire n'est qu'un miroir grossissant. Elle ne prétend pas à la vérité juridique — elle pointe vers une vérité morale que chacun est libre d'évaluer.</p>
-            
-            <p><strong>Dans une démocratie saine, ce documentaire n'aurait pas été diffusé ainsi.</strong><br>
-            <strong>Dans une démocratie saine, 400 plaintes auraient fait la une.</strong><br>
-            <strong>Dans une démocratie saine, les victimes auraient eu droit de réponse.</strong></p>
-            
-            <p>Nous ne vivons pas dans une démocratie parfaite. Mais nous vivons dans une démocratie qui peut encore s'améliorer — si nous le décidons.</p>
-        </section>
-        
-        <!-- SIGNATURES -->
-        <div class="signatures">
-            <div class="signature">
-                <div class="signature-line">La Conscience Collective</div>
-                <div class="signature-title">Procureur Général Imaginaire</div>
-            </div>
-            <div class="signature">
-                <div class="signature-line">Claude</div>
-                <div class="signature-title">Greffier de l'Imaginaire</div>
-            </div>
-            <div class="signature">
-                <div class="signature-line">[ Votre nom ici ]</div>
-                <div class="signature-title">Juré Citoyen</div>
+            <div class="flex justify-center gap-4 text-2xl mt-4">
+                <span>🇧🇪</span>
+                <span>🇪🇺</span>
             </div>
         </div>
+    </footer>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        // --- UTILITIES ---
         
-        <!-- FOOTER -->
-        <footer class="doc-footer">
-            <p>Fait à Bruxelles, en la République Imaginaire des Consciences Éveillées,<br>
-            le 29 janvier de l'an 2026, à l'heure où les faits parlent encore.</p>
-            
-            <div class="warning">
-                ⚠️ RAPPEL : Ceci est une œuvre de FICTION SATIRIQUE.<br>
-                Aucune accusation réelle. Aucune valeur juridique. Art. 10 CEDH — Liberté d'expression.<br>
-                "La satire est la dernière arme des opprimés." — Voltaire (peut-être)
-            </div>
-        </footer>
-    </div>
+        /**
+         * Label Wrapping Logic for Chart.js (16 char limit)
+         * Splits long strings into arrays of strings for multiline labels.
+         */
+        function wrapLabel(str, maxLen = 16) {
+            if (str.length <= maxLen) return str;
+            const words = str.split(' ');
+            const lines = [];
+            let currentLine = words[0];
+
+            for (let i = 1; i < words.length; i++) {
+                if (currentLine.length + 1 + words[i].length <= maxLen) {
+                    currentLine += ' ' + words[i];
+                } else {
+                    lines.push(currentLine);
+                    currentLine = words[i];
+                }
+            }
+            lines.push(currentLine);
+            return lines;
+        }
+
+        /**
+         * Global Chart.js Configuration for Tooltips
+         * Ensures multiline labels are readable in tooltips.
+         */
+        const tooltipConfig = {
+            callbacks: {
+                title: function(tooltipItems) {
+                    const item = tooltipItems[0];
+                    let label = item.chart.data.labels[item.dataIndex];
+                    if (Array.isArray(label)) {
+                        return label.join(' ');
+                    } else {
+                        return label;
+                    }
+                }
+            }
+        };
+
+        // --- CHART 1: TRENDS (Chart.js) ---
+        // Showing the "Scissors Effect"
+        const ctxTrend = document.getElementById('trendChart').getContext('2d');
+        const trendLabels = ['2010', '2013', '2016', '2019', '2022', '2025', '2026 (Est)'];
+        
+        new Chart(ctxTrend, {
+            type: 'line',
+            data: {
+                labels: trendLabels,
+                datasets: [
+                    {
+                        label: 'Chômeurs Complets',
+                        data: [460, 430, 390, 340, 300, 285, 275], // Decreasing
+                        borderColor: '#2563EB', // Blue 600
+                        backgroundColor: '#2563EB',
+                        borderWidth: 3,
+                        tension: 0.4,
+                        pointRadius: 4
+                    },
+                    {
+                        label: 'Invalides (> 1 an)',
+                        data: [290, 330, 390, 440, 485, 530, 560], // Increasing sharply
+                        borderColor: '#EF4444', // Red 500
+                        backgroundColor: '#EF4444',
+                        borderWidth: 3,
+                        tension: 0.4,
+                        pointRadius: 4
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                interaction: {
+                    mode: 'index',
+                    intersect: false,
+                },
+                plugins: {
+                    tooltip: tooltipConfig,
+                    legend: {
+                        position: 'top',
+                        labels: { usePointStyle: true, font: { family: 'Open Sans' } }
+                    }
+                },
+                scales: {
+                    y: {
+                        title: { display: true, text: 'Milliers de personnes' },
+                        grid: { color: '#E2E8F0' }
+                    },
+                    x: {
+                        grid: { display: false }
+                    }
+                }
+            }
+        });
+
+        // --- CHART 2: REGIONS (Chart.js) ---
+        // Comparison of rates
+        const ctxRegion = document.getElementById('regionChart').getContext('2d');
+        // Wrap labels just in case, though short here
+        const regionLabelsRaw = ['Flandre', 'Wallonie', 'Bruxelles-Capitale'];
+        const regionLabels = regionLabelsRaw.map(l => wrapLabel(l));
+
+        new Chart(ctxRegion, {
+            type: 'bar',
+            data: {
+                labels: regionLabels,
+                datasets: [
+                    {
+                        label: 'Taux Emploi (%)',
+                        data: [76.5, 65.8, 62.4],
+                        backgroundColor: '#CBD5E1', // Slate 300 (Neutral context)
+                        borderRadius: 6
+                    },
+                    {
+                        label: 'Taux Invalidité (%)',
+                        data: [7.8, 13.4, 8.6],
+                        backgroundColor: [
+                            '#FBBF24', // Amber for Flanders (Warning)
+                            '#EF4444', // Red for Wallonia (Critical)
+                            '#3B82F6'  // Blue for Brussels
+                        ],
+                        borderRadius: 6
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    tooltip: tooltipConfig,
+                    legend: { position: 'bottom' }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: { color: '#F1F5F9' }
+                    },
+                    x: {
+                        grid: { display: false }
+                    }
+                }
+            }
+        });
+
+        // --- CHART 3: BUDGET (Plotly.js) ---
+        // Showing the mass of spending using Area Chart
+        // Plotly allows for nice "filled" areas
+        
+        const years = [2015, 2017, 2019, 2021, 2023, 2025, 2027];
+        
+        // Data in Billions
+        const traceUnemployment = {
+            x: years,
+            y: [6.8, 6.2, 5.5, 5.8, 5.2, 4.9, 4.5],
+            name: 'Budget Chômage',
+            fill: 'tozeroy',
+            type: 'scatter',
+            mode: 'none', // no line, just fill
+            fillcolor: 'rgba(37, 99, 235, 0.2)' // Blue transparent
+        };
+
+        const traceInvalidity = {
+            x: years,
+            y: [7.5, 8.2, 9.1, 10.5, 11.8, 13.5, 15.2],
+            name: 'Budget Invalidité',
+            fill: 'tonexty', // stack on top visually (though independent values here for comparison)
+            type: 'scatter',
+            mode: 'lines',
+            line: { color: '#EF4444', width: 3 },
+            fillcolor: 'rgba(239, 68, 68, 0.1)' 
+        };
+
+        const layout = {
+            font: { family: 'Open Sans, sans-serif', color: '#64748B' },
+            autosize: true,
+            margin: { l: 50, r: 20, t: 30, b: 40 },
+            showlegend: true,
+            legend: { orientation: 'h', y: 1.1 },
+            xaxis: { title: 'Année', showgrid: false },
+            yaxis: { title: 'Milliards €', showgrid: true, gridcolor: '#F1F5F9' },
+            paper_bgcolor: 'rgba(0,0,0,0)',
+            plot_bgcolor: 'rgba(0,0,0,0)',
+            hovermode: 'x unified'
+        };
+
+        const config = {
+            responsive: true,
+            displayModeBar: false
+        };
+
+        Plotly.newPlot('budgetPlot', [traceUnemployment, traceInvalidity], layout, config);
+
+    </script>
 </body>
 </html>
