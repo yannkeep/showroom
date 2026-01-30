@@ -1,0 +1,1007 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PAC-1160 FANTÔME | La Locale qui N'existe Pas (Encore)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&family=Noto+Sans+JP:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --akira-red: #ff1744;
+            --akira-blue: #00e5ff;
+            --akira-yellow: #ffea00;
+            --akira-dark: #0a0a0f;
+            --akira-darker: #050508;
+            --neon-glow-red: 0 0 10px #ff1744, 0 0 20px #ff1744, 0 0 40px #ff1744, 0 0 80px #ff1744;
+            --neon-glow-blue: 0 0 10px #00e5ff, 0 0 20px #00e5ff, 0 0 40px #00e5ff;
+            --scanline-opacity: 0.05;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: var(--akira-darker);
+            color: #fff;
+            font-family: 'Share Tech Mono', monospace;
+            overflow-x: hidden;
+            cursor: crosshair;
+        }
+
+        /* SCANLINES OVERLAY */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                0deg,
+                rgba(0, 0, 0, 0.1) 0px,
+                rgba(0, 0, 0, 0.1) 1px,
+                transparent 1px,
+                transparent 2px
+            );
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        /* NOISE TEXTURE */
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+            opacity: 0.03;
+            pointer-events: none;
+            z-index: 9998;
+        }
+
+        /* GLITCH ANIMATION */
+        @keyframes glitch {
+            0% { transform: translate(0); }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(-2px, -2px); }
+            60% { transform: translate(2px, 2px); }
+            80% { transform: translate(2px, -2px); }
+            100% { transform: translate(0); }
+        }
+
+        @keyframes glitch-skew {
+            0% { transform: skew(0deg); }
+            20% { transform: skew(2deg); }
+            40% { transform: skew(-2deg); }
+            60% { transform: skew(1deg); }
+            80% { transform: skew(-1deg); }
+            100% { transform: skew(0deg); }
+        }
+
+        @keyframes flicker {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+            75% { opacity: 0.95; }
+        }
+
+        @keyframes pulse-red {
+            0%, 100% { text-shadow: var(--neon-glow-red); }
+            50% { text-shadow: 0 0 5px #ff1744, 0 0 10px #ff1744, 0 0 20px #ff1744; }
+        }
+
+        @keyframes pulse-blue {
+            0%, 100% { text-shadow: var(--neon-glow-blue); }
+            50% { text-shadow: 0 0 5px #00e5ff, 0 0 10px #00e5ff; }
+        }
+
+        @keyframes slide-in-left {
+            from { transform: translateX(-100px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        @keyframes slide-in-right {
+            from { transform: translateX(100px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        @keyframes fade-up {
+            from { transform: translateY(30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        @keyframes rotate-slow {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes blink {
+            0%, 50%, 100% { opacity: 1; }
+            25%, 75% { opacity: 0; }
+        }
+
+        /* HERO SECTION */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            background: 
+                radial-gradient(ellipse at 20% 80%, rgba(255, 23, 68, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 20%, rgba(0, 229, 255, 0.1) 0%, transparent 50%),
+                var(--akira-darker);
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 200%;
+            height: 200%;
+            background: 
+                linear-gradient(90deg, transparent 49%, rgba(255, 23, 68, 0.03) 50%, transparent 51%),
+                linear-gradient(0deg, transparent 49%, rgba(0, 229, 255, 0.03) 50%, transparent 51%);
+            background-size: 60px 60px;
+            animation: rotate-slow 120s linear infinite;
+        }
+
+        /* KANJI BACKGROUND */
+        .kanji-bg {
+            position: absolute;
+            font-family: 'Noto Sans JP', sans-serif;
+            font-size: 20vw;
+            font-weight: 900;
+            color: rgba(255, 23, 68, 0.03);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            white-space: nowrap;
+            letter-spacing: -0.05em;
+        }
+
+        .logo-container {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+        }
+
+        .logo-glitch {
+            font-family: 'Anton', sans-serif;
+            font-size: clamp(3rem, 15vw, 12rem);
+            color: var(--akira-red);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            position: relative;
+            animation: flicker 4s infinite;
+            text-shadow: var(--neon-glow-red);
+        }
+
+        .logo-glitch::before,
+        .logo-glitch::after {
+            content: 'PAC-1160';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .logo-glitch::before {
+            color: var(--akira-blue);
+            animation: glitch 0.3s infinite;
+            clip-path: polygon(0 0, 100% 0, 100% 35%, 0 35%);
+            transform: translate(-2px, -2px);
+        }
+
+        .logo-glitch::after {
+            color: var(--akira-yellow);
+            animation: glitch 0.3s infinite reverse;
+            clip-path: polygon(0 65%, 100% 65%, 100% 100%, 0 100%);
+            transform: translate(2px, 2px);
+        }
+
+        .subtitle {
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(0.8rem, 3vw, 1.5rem);
+            color: var(--akira-blue);
+            letter-spacing: 0.5em;
+            margin-top: 1rem;
+            text-shadow: var(--neon-glow-blue);
+            animation: pulse-blue 3s infinite, fade-up 1s ease-out;
+        }
+
+        .tagline {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: clamp(0.7rem, 2vw, 1rem);
+            color: rgba(255, 255, 255, 0.6);
+            margin-top: 2rem;
+            max-width: 600px;
+            text-align: center;
+            line-height: 1.8;
+            animation: fade-up 1s ease-out 0.3s both;
+        }
+
+        .tagline .highlight {
+            color: var(--akira-red);
+            font-weight: bold;
+        }
+
+        /* STATUS BAR */
+        .status-bar {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 3rem;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--akira-blue);
+            opacity: 0.8;
+        }
+
+        .status-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--akira-red);
+            border-radius: 50%;
+            animation: blink 1s infinite;
+        }
+
+        .status-dot.active {
+            background: #00ff00;
+            box-shadow: 0 0 10px #00ff00;
+        }
+
+        /* NAV */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 1.5rem 3rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            background: linear-gradient(180deg, rgba(5, 5, 8, 0.95) 0%, transparent 100%);
+        }
+
+        .nav-brand {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1rem;
+            color: var(--akira-red);
+            text-decoration: none;
+            letter-spacing: 0.2em;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            font-size: 0.8rem;
+            letter-spacing: 0.1em;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--akira-red);
+            transition: width 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--akira-red);
+            text-shadow: 0 0 10px var(--akira-red);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* SECTIONS */
+        section {
+            padding: 8rem 5%;
+            position: relative;
+        }
+
+        .section-title {
+            font-family: 'Anton', sans-serif;
+            font-size: clamp(2rem, 8vw, 5rem);
+            color: var(--akira-red);
+            text-transform: uppercase;
+            margin-bottom: 3rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title::before {
+            content: '//';
+            color: var(--akira-blue);
+            margin-right: 1rem;
+            font-family: 'Share Tech Mono', monospace;
+        }
+
+        /* MANIFESTE SECTION */
+        .manifeste {
+            background: 
+                linear-gradient(135deg, rgba(255, 23, 68, 0.05) 0%, transparent 50%),
+                var(--akira-dark);
+        }
+
+        .manifeste-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 3rem;
+            margin-top: 3rem;
+        }
+
+        .manifeste-block {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 23, 68, 0.2);
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+
+        .manifeste-block::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 3px;
+            height: 100%;
+            background: var(--akira-red);
+            transform: scaleY(0);
+            transition: transform 0.3s;
+        }
+
+        .manifeste-block:hover {
+            background: rgba(255, 23, 68, 0.05);
+            border-color: var(--akira-red);
+            transform: translateX(5px);
+        }
+
+        .manifeste-block:hover::before {
+            transform: scaleY(1);
+        }
+
+        .manifeste-number {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3rem;
+            color: rgba(255, 23, 68, 0.2);
+            font-weight: 900;
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+        }
+
+        .manifeste-block h3 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.2rem;
+            color: var(--akira-blue);
+            margin-bottom: 1rem;
+            letter-spacing: 0.1em;
+        }
+
+        .manifeste-block p {
+            font-size: 0.9rem;
+            line-height: 1.8;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        /* OUTILS SECTION */
+        .outils {
+            background: var(--akira-darker);
+        }
+
+        .outils-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .outil-card {
+            background: linear-gradient(135deg, rgba(0, 229, 255, 0.05) 0%, transparent 100%);
+            border: 1px solid rgba(0, 229, 255, 0.2);
+            padding: 2rem;
+            position: relative;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .outil-card::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--akira-blue), transparent);
+            transform: scaleX(0);
+            transition: transform 0.3s;
+        }
+
+        .outil-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--akira-blue);
+            box-shadow: 0 20px 40px rgba(0, 229, 255, 0.1);
+        }
+
+        .outil-card:hover::after {
+            transform: scaleX(1);
+        }
+
+        .outil-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .outil-card h3 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1rem;
+            color: var(--akira-yellow);
+            margin-bottom: 0.5rem;
+            letter-spacing: 0.1em;
+        }
+
+        .outil-card p {
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.6);
+            line-height: 1.6;
+        }
+
+        .outil-link {
+            display: inline-block;
+            margin-top: 1rem;
+            color: var(--akira-blue);
+            text-decoration: none;
+            font-size: 0.8rem;
+            letter-spacing: 0.1em;
+            transition: all 0.3s;
+        }
+
+        .outil-link:hover {
+            color: var(--akira-red);
+            text-shadow: 0 0 10px var(--akira-red);
+        }
+
+        /* ACTIONS SECTION */
+        .actions {
+            background: 
+                radial-gradient(ellipse at 100% 0%, rgba(255, 234, 0, 0.05) 0%, transparent 50%),
+                var(--akira-dark);
+        }
+
+        .action-timeline {
+            position: relative;
+            margin-top: 3rem;
+            padding-left: 3rem;
+        }
+
+        .action-timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 2px;
+            height: 100%;
+            background: linear-gradient(180deg, var(--akira-red), var(--akira-blue), var(--akira-yellow));
+        }
+
+        .action-item {
+            position: relative;
+            padding: 2rem 0;
+            padding-left: 2rem;
+        }
+
+        .action-item::before {
+            content: '';
+            position: absolute;
+            left: -3rem;
+            top: 2.5rem;
+            width: 12px;
+            height: 12px;
+            background: var(--akira-dark);
+            border: 2px solid var(--akira-red);
+            transform: rotate(45deg);
+        }
+
+        .action-date {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.75rem;
+            color: var(--akira-blue);
+            letter-spacing: 0.2em;
+            margin-bottom: 0.5rem;
+        }
+
+        .action-title {
+            font-family: 'Anton', sans-serif;
+            font-size: 1.5rem;
+            color: #fff;
+            margin-bottom: 0.5rem;
+        }
+
+        .action-desc {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.6);
+            line-height: 1.6;
+        }
+
+        /* CONTACT / JOIN */
+        .join {
+            background: var(--akira-darker);
+            text-align: center;
+        }
+
+        .join-cta {
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(1rem, 4vw, 2rem);
+            color: rgba(255, 255, 255, 0.8);
+            max-width: 800px;
+            margin: 0 auto 3rem;
+            line-height: 1.8;
+        }
+
+        .join-cta .emphasis {
+            color: var(--akira-red);
+            text-shadow: 0 0 20px rgba(255, 23, 68, 0.5);
+        }
+
+        .btn-akira {
+            display: inline-block;
+            padding: 1.5rem 4rem;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1rem;
+            color: var(--akira-dark);
+            background: var(--akira-red);
+            border: none;
+            text-decoration: none;
+            letter-spacing: 0.2em;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .btn-akira::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn-akira:hover {
+            box-shadow: 0 0 30px var(--akira-red), 0 0 60px rgba(255, 23, 68, 0.5);
+            transform: scale(1.05);
+        }
+
+        .btn-akira:hover::before {
+            left: 100%;
+        }
+
+        /* FOOTER */
+        footer {
+            padding: 3rem 5%;
+            background: var(--akira-darker);
+            border-top: 1px solid rgba(255, 23, 68, 0.2);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+
+        .footer-brand {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .footer-brand span {
+            color: var(--akira-red);
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.4);
+            text-decoration: none;
+            font-size: 0.75rem;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--akira-blue);
+        }
+
+        .footer-ascii {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.6rem;
+            color: rgba(255, 23, 68, 0.3);
+            white-space: pre;
+            text-align: right;
+        }
+
+        /* SCROLL REVEAL */
+        .reveal {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            nav {
+                padding: 1rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            section {
+                padding: 5rem 5%;
+            }
+
+            .status-bar {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+
+            footer {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .footer-ascii {
+                display: none;
+            }
+        }
+
+        /* CUSTOM SCROLLBAR */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--akira-darker);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--akira-red);
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--akira-blue);
+        }
+
+        /* EASTER EGG - KONAMI */
+        .konami-active {
+            animation: glitch-skew 0.5s infinite;
+        }
+
+        .konami-active .logo-glitch {
+            animation: glitch 0.1s infinite;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="#" class="nav-brand">⬡ PAC-1160</a>
+        <ul class="nav-links">
+            <li><a href="#manifeste">MANIFESTE</a></li>
+            <li><a href="#outils">OUTILS</a></li>
+            <li><a href="#actions">ACTIONS</a></li>
+            <li><a href="#join">REJOINDRE</a></li>
+        </ul>
+    </nav>
+
+    <section class="hero">
+        <div class="kanji-bg">幽霊細胞</div>
+        
+        <div class="logo-container">
+            <h1 class="logo-glitch">PAC-1160</h1>
+            <p class="subtitle">▸ FANTÔME ◂</p>
+            <p class="tagline">
+                La locale qui <span class="highlight">n'existe pas</span> (encore).<br>
+                Cellule clandestine d'<span class="highlight">éveil citoyen</span> à Auderghem.<br>
+                On <span class="highlight">retourne le système</span> de l'intérieur.<br>
+                <br>
+                Fork. Hack. Spread.
+            </p>
+        </div>
+
+        <div class="status-bar">
+            <div class="status-item">
+                <span class="status-dot active"></span>
+                <span>SYSTÈME: EN INFILTRATION</span>
+            </div>
+            <div class="status-item">
+                <span class="status-dot"></span>
+                <span>DÉTECTION: INVISIBLE</span>
+            </div>
+            <div class="status-item">
+                <span class="status-dot active"></span>
+                <span>MISSION: ACTIVE</span>
+            </div>
+        </div>
+    </section>
+
+    <section class="manifeste" id="manifeste">
+        <h2 class="section-title reveal">Manifeste</h2>
+        
+        <div class="manifeste-content">
+            <div class="manifeste-block reveal">
+                <span class="manifeste-number">01</span>
+                <h3>ÉDUCATION = ARME</h3>
+                <p>L'éducation populaire n'est pas un service. C'est une arme de construction massive. On ne forme pas des consommateurs dociles, on arme des citoyens critiques. Chaque atelier est un acte de résistance.</p>
+            </div>
+            
+            <div class="manifeste-block reveal">
+                <span class="manifeste-number">02</span>
+                <h3>OPEN SOURCE TOUT</h3>
+                <p>Nos outils, nos méthodes, nos analyses : tout est libre. Pas de copyright sur la conscience citoyenne. Fork-nous. Améliore-nous. Dépasse-nous. L'information veut être libre.</p>
+            </div>
+            
+            <div class="manifeste-block reveal">
+                <span class="manifeste-number">03</span>
+                <h3>HACK LE SYSTÈME</h3>
+                <p>On ne combat pas le système depuis l'extérieur — on s'y infiltre. On utilise ses outils contre lui. L'éducation permanente, les subventions, les institutions : tout peut être retourné.</p>
+            </div>
+            
+            <div class="manifeste-block reveal">
+                <span class="manifeste-number">04</span>
+                <h3>LOCAL = GLOBAL</h3>
+                <p>Auderghem (1160) n'est pas une île. Chaque combat local est un fragment du combat global. La particratie belge, c'est le symptôme d'une maladie mondiale. On pense global, on frappe local.</p>
+            </div>
+            
+            <div class="manifeste-block reveal">
+                <span class="manifeste-number">05</span>
+                <h3>ZERO TRACKING</h3>
+                <p>Pas de cookies. Pas de pub. Pas de surveillance. On ne vend pas tes données, on protège ton anonymat. La liberté numérique est une liberté fondamentale.</p>
+            </div>
+            
+            <div class="manifeste-block reveal">
+                <span class="manifeste-number">06</span>
+                <h3>MANGA IS PRAXIS</h3>
+                <p>De AKIRA à Ghost in the Shell, la culture geek porte des messages politiques puissants. On ne sépare pas la culture pop de l'éducation politique. Le fun peut être radical.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="outils" id="outils">
+        <h2 class="section-title reveal">Arsenal Citoyen</h2>
+        
+        <div class="outils-grid">
+            <div class="outil-card reveal">
+                <div class="outil-icon">📡</div>
+                <h3>VEILLE CITOYENNE</h3>
+                <p>Système de monitoring des décisions politiques belges. Alertes en temps réel. Open data décortiquée.</p>
+                <a href="https://ouaisfi.eu" class="outil-link" target="_blank">→ OUAISFI.EU</a>
+            </div>
+            
+            <div class="outil-card reveal">
+                <div class="outil-icon">📚</div>
+                <h3>DOCTech</h3>
+                <p>Document d'Ordre Citoyen et Technique. La boîte à outils pour comprendre la Belgique, de la Constitution à la commune.</p>
+                <a href="#" class="outil-link">→ ACCÉDER</a>
+            </div>
+            
+            <div class="outil-card reveal">
+                <div class="outil-icon">🔬</div>
+                <h3>11·60 bis</h3>
+                <p>Dossiers d'actualité approfondis. Analyses critiques. Le journalisme citoyen que les médias mainstream n'osent pas faire.</p>
+                <a href="#" class="outil-link">→ EXPLORER</a>
+            </div>
+            
+            <div class="outil-card reveal">
+                <div class="outil-icon">🗺️</div>
+                <h3>BXL2030</h3>
+                <p>Cartographie des enjeux bruxellois. Urbanisme, mobilité, gentrification : les données qui révèlent les rapports de force.</p>
+                <a href="#" class="outil-link">→ CARTOGRAPHIER</a>
+            </div>
+            
+            <div class="outil-card reveal">
+                <div class="outil-icon">⚔️</div>
+                <h3>PLAIDOYERS</h3>
+                <p>Arguments clé-en-main pour défendre le modèle social belge. Contre l'Arizona. Contre l'austérité. Pour la dignité.</p>
+                <a href="#" class="outil-link">→ S'ARMER</a>
+            </div>
+            
+            <div class="outil-card reveal">
+                <div class="outil-icon">🧪</div>
+                <h3>LAB CITOYEN</h3>
+                <p>Espace expérimental. Prototypes d'outils numériques. Tests de méthodologies. L'innovation au service de l'émancipation.</p>
+                <a href="#" class="outil-link">→ EXPÉRIMENTER</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="actions" id="actions">
+        <h2 class="section-title reveal">Ligne du Temps</h2>
+        
+        <div class="action-timeline">
+            <div class="action-item reveal">
+                <div class="action-date">▸ MARS 2026</div>
+                <div class="action-title">Dépôt reconnaissance EP</div>
+                <div class="action-desc">Objectif : être reconnu comme association d'éducation permanente par la FWB. Infiltrer le système pour le transformer de l'intérieur.</div>
+            </div>
+            
+            <div class="action-item reveal">
+                <div class="action-date">▸ EN COURS</div>
+                <div class="action-title">Partenariats universités populaires</div>
+                <div class="action-desc">Tisser des alliances avec le réseau existant. Mutualiser les forces. Partager les savoirs et les ressources.</div>
+            </div>
+            
+            <div class="action-item reveal">
+                <div class="action-date">▸ PERMANENT</div>
+                <div class="action-title">Ateliers de décryptage</div>
+                <div class="action-desc">Sessions régulières à Auderghem. Comprendre la politique belge. Lire entre les lignes. Développer l'esprit critique.</div>
+            </div>
+            
+            <div class="action-item reveal">
+                <div class="action-date">▸ VISION</div>
+                <div class="action-title">Réseau de cellules fantômes</div>
+                <div class="action-desc">Essaimer le modèle. D'autres codes postaux, d'autres cellules. Un réseau décentralisé d'éducation populaire radicale.</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="join" id="join">
+        <h2 class="section-title reveal">Rejoindre le Réseau</h2>
+        
+        <p class="join-cta reveal">
+            Tu veux <span class="emphasis">hacker le système</span> avec nous ?<br>
+            Tu crois que l'éducation populaire peut <span class="emphasis">changer le monde</span> ?<br>
+            Tu as des compétences à partager ou juste l'envie d'<span class="emphasis">apprendre</span> ?
+        </p>
+        
+        <a href="https://dl.ouaisfi.eu/haha" class="btn-akira reveal">
+            ACTIVER LA CONNEXION
+        </a>
+    </section>
+
+    <footer>
+        <div class="footer-brand">
+            <span>PAC-1160 FANTÔME</span> — Auderghem, Belgique<br>
+            Une cellule de l'écosystème <a href="https://ouaisfi.eu" style="color: var(--akira-blue);">ouaisfieu</a>
+        </div>
+        
+        <div class="footer-links">
+            <a href="https://pac-g.be" target="_blank">PAC National</a>
+            <a href="https://github.com" target="_blank">GitHub</a>
+            <a href="#">Licence CC BY-NC-SA 4.0</a>
+        </div>
+        
+        <div class="footer-ascii">
+ ▄▀▀▄ ▄▀▀▄ ▄▀▀█▄   ▄▀▀▀▀▄ 
+█   █    █ ▐ ▄▀ ▀▄ █   ▀▄ 
+▐  █    █    █▄▄▄█ ▐    ▄▀
+  █    █    ▄▀   █     █  
+   ▀▄▄▄▄▀  █   ▄▀   ▄▀▀▀  
+           ▐   ▐           
+        </div>
+    </footer>
+
+    <script>
+        // SCROLL REVEAL
+        const reveals = document.querySelectorAll('.reveal');
+        
+        function checkReveal() {
+            reveals.forEach(el => {
+                const windowHeight = window.innerHeight;
+                const revealTop = el.getBoundingClientRect().top;
+                const revealPoint = 150;
+                
+                if (revealTop < windowHeight - revealPoint) {
+                    el.classList.add('active');
+                }
+            });
+        }
+        
+        window.addEventListener('scroll', checkReveal);
+        checkReveal();
+
+        // KONAMI CODE EASTER EGG
+        let konamiCode = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
+        let konamiIndex = 0;
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === konamiCode[konamiIndex]) {
+                konamiIndex++;
+                if (konamiIndex === konamiCode.length) {
+                    document.body.classList.add('konami-active');
+                    setTimeout(() => {
+                        document.body.classList.remove('konami-active');
+                        alert('🔴 TETSUO! 🔵\n\nTu as trouvé le code secret.\nBienvenue dans la résistance.');
+                    }, 500);
+                    konamiIndex = 0;
+                }
+            } else {
+                konamiIndex = 0;
+            }
+        });
+
+        // GLITCH ON HOVER FOR LOGO
+        const logo = document.querySelector('.logo-glitch');
+        logo.addEventListener('mouseenter', () => {
+            logo.style.animation = 'glitch 0.1s infinite, flicker 0.5s infinite';
+        });
+        logo.addEventListener('mouseleave', () => {
+            logo.style.animation = 'flicker 4s infinite';
+        });
+
+        // RANDOM GLITCH EFFECT
+        setInterval(() => {
+            if (Math.random() > 0.95) {
+                document.body.style.filter = 'hue-rotate(180deg)';
+                setTimeout(() => {
+                    document.body.style.filter = 'none';
+                }, 50);
+            }
+        }, 1000);
+
+        // CONSOLE EASTER EGG
+        console.log('%c' + `
+        ╔═══════════════════════════════════════════╗
+        ║                                           ║
+        ║   PAC-1160 FANTÔME                        ║
+        ║   La locale qui n'existe pas (encore)     ║
+        ║                                           ║
+        ║   Tu cherches quelque chose ?             ║
+        ║   Contact: contact@ouaisfi.eu             ║
+        ║                                           ║
+        ║   Fork. Hack. Spread.                     ║
+        ║                                           ║
+        ╚═══════════════════════════════════════════╝
+        `, 'color: #ff1744; font-family: monospace;');
+    </script>
+</body>
+</html>
