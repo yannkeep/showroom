@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Réforme Sociale Belgique 2026 : Chômage & Maladie</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- Chosen Palette: Warm Neutral (Stone/Amber/Slate) - Background: #FAFAF9 (Stone-50), Cards: White, Text: #1C1917 (Stone-900), Accents: #D97706 (Amber-600) for alerts, #475569 (Slate-600) for data. Designed for calmness while discussing serious policy. -->
+    
+    <!-- Application Structure Plan: 
+         1. Hero Section: Immediate context setting regarding the Jan 2026 Vandenbroucke proposal.
+         2. "Le Constat" (The Trend): Interactive Line Chart. Shows the "communicating vessels" phenomenon where unemployment drops but long-term illness rises. Justifies the government's shift in focus.
+         3. "Le Mécanisme" (The Process): Interactive Stepper. Replaces a static flowchart. Users click through the proposed stages of sanctions to understand the logic without being overwhelmed by text.
+         4. "Disparités Régionales" (The Map/Data): Interactive Bar Chart. Belgium's policy is complex due to regional differences. This allows comparison between Flanders, Wallonia, and Brussels.
+         5. "Impact Budgétaire" (The Cost): Plotly Area Chart. Shows the financial sustainability argument.
+         Flow: Context -> Problem -> Solution (Proposed) -> Nuance (Region) -> Justification (Cost).
+    -->
+
+    <!-- Visualization & Content Choices:
+         1. Trend Chart (Chart.js Line): Goal: Compare two divergent curves. Interaction: Toggle datasets to focus on one metric. Justification: Shows the core problem instantly.
+         2. Process Stepper (HTML/JS/Tailwind): Goal: Explain the new sanction law. Interaction: Clickable steps updating a text panel. Justification: Better than a static SVG diagram for mobile readability.
+         3. Regional Comparison (Chart.js Bar): Goal: Compare 3 regions across 2 metrics. Interaction: Filter by region. Justification: Essential political context in Belgium.
+         4. Budget Evolution (Plotly Area): Goal: Show accumulation of costs. Interaction: Hover for precise billions. Justification: Plotly handles fill-area charts elegantly for financial data.
+         CONFIRMATION: NO SVG graphics used (FontAwesome fonts used for icons). NO Mermaid JS used.
+    -->
+
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+
+    <style>
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: #FAFAF9; /* Stone 50 */
+            color: #1C1917; /* Stone 900 */
+        }
+        
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 650px; /* Constrain width for readability */
+            margin-left: auto;
+            margin-right: auto;
+            height: 350px;
+            max-height: 400px;
+        }
+
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 400px;
+            }
+        }
+
+        .nav-item.active {
+            border-bottom: 2px solid #D97706; /* Amber 600 */
+            color: #D97706;
+            font-weight: 600;
+        }
+
+        .step-card {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .step-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        .step-card.active-step {
+            border-left: 4px solid #D97706;
+            background-color: #FFFBEB; /* Amber 50 */
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Navigation -->
+    <nav class="sticky top-0 z-50 bg-white/95 backdrop-blur shadow-sm border-b border-stone-200">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <span class="text-xl font-bold text-stone-800"><i class="fas fa-scale-balanced mr-2 text-amber-600"></i>Observatoire Social 2026</span>
+                </div>
+                <div class="hidden md:flex space-x-8 items-center">
+                    <button onclick="scrollToSection('context')" class="nav-item text-stone-600 hover:text-stone-900 px-3 py-2 text-sm font-medium">Contexte</button>
+                    <button onclick="scrollToSection('trends')" class="nav-item text-stone-600 hover:text-stone-900 px-3 py-2 text-sm font-medium">Les Chiffres</button>
+                    <button onclick="scrollToSection('mechanism')" class="nav-item text-stone-600 hover:text-stone-900 px-3 py-2 text-sm font-medium">La Réforme</button>
+                    <button onclick="scrollToSection('budget')" class="nav-item text-stone-600 hover:text-stone-900 px-3 py-2 text-sm font-medium">Budget</button>
+                </div>
+                <!-- Mobile menu button placeholder -->
+                <div class="flex items-center md:hidden">
+                    <button class="text-stone-600 p-2"><i class="fas fa-bars"></i></button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-16">
+
+        <!-- Hero / Intro -->
+        <section id="context" class="bg-white rounded-2xl shadow-sm p-8 border border-stone-100">
+            <div class="grid md:grid-cols-3 gap-8 items-start">
+                <div class="md:col-span-2">
+                    <div class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-amber-100 text-amber-800 mb-4">
+                        <i class="fas fa-newspaper mr-2"></i> Actualité : 29 Janvier 2026
+                    </div>
+                    <h1 class="text-3xl md:text-4xl font-bold text-stone-900 mb-4">Du Chômeur au Malade de Longue Durée : Le Changement de Cible</h1>
+                    <p class="text-lg text-stone-600 leading-relaxed mb-6">
+                        Pendant des décennies, la politique d'activation en Belgique s'est concentrée sur les demandeurs d'emploi. Aujourd'hui, alors que le chômage diminue, le nombre de malades de longue durée explose.
+                    </p>
+                    <p class="text-stone-600 mb-6">
+                        Le Ministre de la Santé, Frank Vandenbroucke, a proposé ce 29 janvier 2026 un plan radical : <strong>l'exclusion potentielle des bénéficiaires d'indemnités d'invalidité</strong> s'ils refusent un trajet de réintégration sans justification médicale. Cette mesure marque un tournant historique dans la gestion de la sécurité sociale belge.
+                    </p>
+                    <div class="flex flex-wrap gap-4">
+                        <div class="flex items-center text-sm text-stone-500">
+                            <div class="w-3 h-3 rounded-full bg-blue-500 mr-2"></div> Chômeurs contrôlés depuis 2004
+                        </div>
+                        <div class="flex items-center text-sm text-stone-500">
+                            <div class="w-3 h-3 rounded-full bg-red-500 mr-2"></div> Malades ciblés dès 2026
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-stone-50 rounded-xl p-6 border border-stone-200">
+                    <h3 class="font-semibold text-stone-800 mb-3">Chiffres Clés (2025)</h3>
+                    <div class="space-y-4">
+                        <div>
+                            <p class="text-sm text-stone-500">Malades longue durée</p>
+                            <p class="text-2xl font-bold text-red-600">~550,000</p>
+                            <div class="w-full bg-stone-200 rounded-full h-1.5 mt-1">
+                                <div class="bg-red-500 h-1.5 rounded-full" style="width: 85%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <p class="text-sm text-stone-500">Chômeurs complets</p>
+                            <p class="text-2xl font-bold text-blue-600">~285,000</p>
+                            <div class="w-full bg-stone-200 rounded-full h-1.5 mt-1">
+                                <div class="bg-blue-500 h-1.5 rounded-full" style="width: 45%"></div>
+                            </div>
+                        </div>
+                        <div class="pt-4 border-t border-stone-200">
+                            <p class="text-xs text-stone-400 italic">Source: INAMI & ONEM, projections 2025</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: Trends Analysis -->
+        <section id="trends">
+            <div class="mb-6">
+                <h2 class="text-2xl font-bold text-stone-900 mb-2">Les Vases Communicants</h2>
+                <p class="text-stone-600 max-w-3xl">
+                    Cette section illustre pourquoi la pression politique s'est déplacée. On observe un effet de ciseaux : à mesure que les contrôles sur le chômage se sont durcis et que la population a vieilli, le nombre d'invalides a dépassé celui des chômeurs. Le graphique ci-dessous permet de visualiser cette inversion historique.
+                </p>
+            </div>
+
+            <div class="grid lg:grid-cols-2 gap-8 bg-white p-6 rounded-2xl shadow-sm border border-stone-100">
+                <!-- Chart Col -->
+                <div>
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="font-semibold text-stone-700">Évolution (2010 - 2025)</h3>
+                        <div class="flex space-x-2">
+                            <button onclick="toggleDataset(0)" class="text-xs px-2 py-1 bg-blue-100 text-blue-700 rounded hover:bg-blue-200 transition">Chômage</button>
+                            <button onclick="toggleDataset(1)" class="text-xs px-2 py-1 bg-red-100 text-red-700 rounded hover:bg-red-200 transition">Invalidité</button>
+                        </div>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="trendChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Analysis Col -->
+                <div class="flex flex-col justify-center space-y-6">
+                    <div class="bg-amber-50 border-l-4 border-amber-500 p-4 rounded-r-lg">
+                        <h4 class="font-bold text-amber-800 mb-1"><i class="fas fa-lightbulb mr-2"></i>L'Analyse</h4>
+                        <p class="text-sm text-amber-900">
+                            Les experts parlent d'un transfert de charge. Les personnes "inaptes" au marché du travail, chassées du chômage ou usées par des conditions de travail difficiles, se retrouvent en invalidité.
+                        </p>
+                    </div>
+
+                    <div>
+                        <h4 class="font-semibold text-stone-800 mb-2">Facteurs Aggravants</h4>
+                        <ul class="space-y-3">
+                            <li class="flex items-start">
+                                <i class="fas fa-arrow-up text-stone-400 mt-1 mr-3"></i>
+                                <span class="text-stone-600 text-sm"><strong>Vieillissement :</strong> Les travailleurs âgés sont plus susceptibles de tomber malades durablement.</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-brain text-stone-400 mt-1 mr-3"></i>
+                                <span class="text-stone-600 text-sm"><strong>Santé Mentale :</strong> Le burnout et la dépression représentent désormais plus de 35% des cas d'invalidité.</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-gavel text-stone-400 mt-1 mr-3"></i>
+                                <span class="text-stone-600 text-sm"><strong>Pression au chômage :</strong> La dégressivité des allocations de chômage pousse indirectement vers le statut d'invalide, plus protecteur.</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: The Proposal Mechanism -->
+        <section id="mechanism" class="scroll-mt-20">
+            <div class="mb-8 text-center max-w-3xl mx-auto">
+                <span class="text-amber-600 font-bold tracking-wider text-xs uppercase">La Réforme 2026</span>
+                <h2 class="text-3xl font-bold text-stone-900 mt-2 mb-4">Comment fonctionnerait l'exclusion ?</h2>
+                <p class="text-stone-600">
+                    Contrairement au chômage, l'invalidité était historiquement un statut "protégé". La proposition Vandenbroucke introduit une logique de contractualisation. Explorez les étapes ci-dessous pour comprendre le parcours proposé.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-12 gap-6">
+                <!-- Interactive Steps List -->
+                <div class="md:col-span-4 space-y-3">
+                    <div onclick="setStep(1)" id="step-btn-1" class="step-card active-step bg-white p-4 rounded-lg border border-stone-200 flex items-center justify-between">
+                        <div>
+                            <span class="text-xs font-bold text-stone-400 uppercase">Étape 1</span>
+                            <h3 class="font-bold text-stone-800">Évaluation Médicale</h3>
+                        </div>
+                        <i class="fas fa-user-doctor text-stone-300"></i>
+                    </div>
+                    
+                    <div onclick="setStep(2)" id="step-btn-2" class="step-card bg-white p-4 rounded-lg border border-stone-200 flex items-center justify-between">
+                        <div>
+                            <span class="text-xs font-bold text-stone-400 uppercase">Étape 2</span>
+                            <h3 class="font-bold text-stone-800">Proposition de Trajet</h3>
+                        </div>
+                        <i class="fas fa-route text-stone-300"></i>
+                    </div>
+
+                    <div onclick="setStep(3)" id="step-btn-3" class="step-card bg-white p-4 rounded-lg border border-stone-200 flex items-center justify-between">
+                        <div>
+                            <span class="text-xs font-bold text-stone-400 uppercase">Étape 3</span>
+                            <h3 class="font-bold text-stone-800">Refus & Médiation</h3>
+                        </div>
+                        <i class="fas fa-handshake-simple-slash text-stone-300"></i>
+                    </div>
+
+                    <div onclick="setStep(4)" id="step-btn-4" class="step-card bg-white p-4 rounded-lg border border-stone-200 flex items-center justify-between">
+                        <div>
+                            <span class="text-xs font-bold text-stone-400 uppercase">Étape 4</span>
+                            <h3 class="font-bold text-stone-800">Sanction / Exclusion</h3>
+                        </div>
+                        <i class="fas fa-ban text-stone-300"></i>
+                    </div>
+                </div>
+
+                <!-- Dynamic Content Display -->
+                <div class="md:col-span-8 bg-white rounded-2xl shadow-lg border border-stone-100 overflow-hidden flex flex-col relative min-h-[300px]">
+                    <div class="bg-stone-900 h-2 w-full absolute top-0"></div>
+                    <div class="p-8 flex-1 flex flex-col justify-center">
+                        <div id="step-content">
+                            <!-- Content injected via JS -->
+                        </div>
+                    </div>
+                    <div class="bg-stone-50 px-8 py-4 border-t border-stone-100 flex justify-between items-center">
+                        <span class="text-xs text-stone-500 uppercase tracking-widest font-semibold">Impact Estimé</span>
+                        <span id="step-impact" class="text-sm font-bold text-amber-600">--</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4: Regional Data -->
+        <section id="regions" class="bg-stone-100 rounded-3xl p-8">
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <div>
+                    <h2 class="text-2xl font-bold text-stone-900 mb-4">Disparités Régionales</h2>
+                    <p class="text-stone-600 mb-6">
+                        La Belgique ne présente pas un visage uniforme face à cette problématique. Les taux d'invalidité sont nettement plus élevés en Wallonie, corrélés avec le passé industriel et la précarité socio-économique. Cela rend la réforme politiquement sensible, perçue au sud comme une attaque ciblée.
+                    </p>
+                    
+                    <div class="bg-white rounded-xl p-5 shadow-sm border border-stone-200 mb-4">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="font-semibold text-stone-700">Wallonie</span>
+                            <span class="text-red-600 font-bold">~13.5%</span>
+                        </div>
+                        <p class="text-xs text-stone-500">De la population active en invalidité. Le taux le plus élevé du pays.</p>
+                    </div>
+
+                    <div class="bg-white rounded-xl p-5 shadow-sm border border-stone-200 mb-4">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="font-semibold text-stone-700">Flandre</span>
+                            <span class="text-red-600 font-bold">~7.8%</span>
+                        </div>
+                        <p class="text-xs text-stone-500">Taux plus faible, mais augmentation la plus rapide en % absolu (burnout).</p>
+                    </div>
+
+                    <div class="bg-white rounded-xl p-5 shadow-sm border border-stone-200">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="font-semibold text-stone-700">Bruxelles</span>
+                            <span class="text-red-600 font-bold">~8.5%</span>
+                        </div>
+                        <p class="text-xs text-stone-500">Population plus jeune, tempérant les statistiques d'invalidité.</p>
+                    </div>
+                </div>
+
+                <div class="bg-white p-6 rounded-2xl shadow-lg border border-white">
+                    <h3 class="text-lg font-bold text-stone-800 mb-4 text-center">Comparatif Régional (Pour 1000 actifs)</h3>
+                    <div class="chart-container">
+                        <canvas id="regionChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 5: Budgetary Impact -->
+        <section id="budget">
+            <div class="text-center mb-8">
+                <h2 class="text-2xl font-bold text-stone-900">Le Mur Budgétaire</h2>
+                <p class="text-stone-600">L'argument principal du gouvernement est la soutenabilité du système.</p>
+            </div>
+            
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-stone-200">
+                <div id="budgetChart" style="width:100%; height:400px; max-height: 400px;"></div>
+                <div class="mt-4 text-center text-sm text-stone-500">
+                    *Montants en Milliards d'Euros (Mds €). Les dépenses d'invalidité ont doublé en 15 ans.
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-stone-900 text-stone-400 py-12 mt-12">
+        <div class="max-w-6xl mx-auto px-4 text-center">
+            <p class="mb-4 text-stone-200 font-semibold">Réalisé pour analyse de la proposition Vandenbroucke (Janvier 2026)</p>
+            <p class="text-sm mb-2">Sources des données : Rapports annuels INAMI, ONEM, Articles Le Soir & De Standaard.</p>
+            <p class="text-xs opacity-50">Cette application est une visualisation simplifiée à but pédagogique et ne remplace pas les textes légaux officiels.</p>
+        </div>
+    </footer>
+
+    <!-- Script Logic -->
+    <script>
+        // State Management
+        let currentStep = 1;
+        
+        // Data Store
+        const stepData = {
+            1: {
+                title: "Le Contrôle Médical Renforcé",
+                desc: "Le médecin-conseil de la mutuelle évalue les capacités restantes du patient après une période d'incapacité. Nouveauté 2026 : l'évaluation est plus systématique dès le 4ème mois.",
+                impact: "Concerne 100% des nouveaux entrants",
+                icon: "fas fa-stethoscope",
+                color: "text-blue-600"
+            },
+            2: {
+                title: "Le Trajet 'Retour au Travail'",
+                desc: "Si des capacités sont détectées, un coordinateur propose un trajet adapté (mi-temps, formation, autre poste). C'est ici que la tension naît : le trajet devient une obligation administrative.",
+                impact: "~40% des profils évalués 'capables'",
+                icon: "fas fa-clipboard-list",
+                color: "text-amber-600"
+            },
+            3: {
+                title: "Refus et Injonction",
+                desc: "Si le bénéficiaire refuse le plan sans justification médicale solide (avis du médecin traitant contre avis du médecin-conseil), une procédure de médiation s'ouvre. Si le refus persiste, une injonction formelle est envoyée.",
+                impact: "Estimation: 5-10% des trajets proposés",
+                icon: "fas fa-exclamation-triangle",
+                color: "text-orange-600"
+            },
+            4: {
+                title: "La Sanction Ultime",
+                desc: "C'est la mesure polémique de 2026. Exclusion du bénéfice des indemnités (perte de 5 à 10% par jour ou exclusion totale après récidive). Le patient bascule alors potentiellement vers le CPAS.",
+                impact: "Ultima ratio (Impact financier direct)",
+                icon: "fas fa-gavel",
+                color: "text-red-600"
+            }
+        };
+
+        // DOM Elements
+        const stepContent = document.getElementById('step-content');
+        const stepImpact = document.getElementById('step-impact');
+
+        // Functions
+        function scrollToSection(id) {
+            document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function setStep(step) {
+            // Update UI State
+            document.querySelectorAll('.step-card').forEach((el, index) => {
+                if (index + 1 === step) {
+                    el.classList.add('active-step', 'bg-amber-50');
+                    el.classList.remove('bg-white');
+                } else {
+                    el.classList.remove('active-step', 'bg-amber-50');
+                    el.classList.add('bg-white');
+                }
+            });
+
+            // Update Content
+            const data = stepData[step];
+            stepContent.innerHTML = `
+                <div class="animate-fade-in">
+                    <div class="flex items-center mb-4">
+                        <div class="p-3 bg-stone-100 rounded-full mr-4">
+                            <i class="${data.icon} ${data.color} text-2xl"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-stone-800">${data.title}</h3>
+                    </div>
+                    <p class="text-lg text-stone-600 leading-relaxed">${data.desc}</p>
+                </div>
+            `;
+            stepImpact.textContent = data.impact;
+            currentStep = step;
+        }
+
+        function toggleDataset(index) {
+            const chart = Chart.getChart("trendChart");
+            const meta = chart.getDatasetMeta(index);
+            meta.hidden = meta.hidden === null ? !chart.data.datasets[index].hidden : null;
+            chart.update();
+        }
+
+        // Initialization
+        document.addEventListener('DOMContentLoaded', () => {
+            setStep(1); // Init Stepper
+
+            // --- Chart 1: Trends (Chart.js) ---
+            const ctxTrend = document.getElementById('trendChart').getContext('2d');
+            new Chart(ctxTrend, {
+                type: 'line',
+                data: {
+                    labels: ['2015', '2017', '2019', '2021', '2023', '2025 (est)'],
+                    datasets: [
+                        {
+                            label: 'Chômeurs Complets',
+                            data: [420000, 380000, 340000, 320000, 300000, 285000],
+                            borderColor: '#3B82F6', // Blue 500
+                            backgroundColor: '#3B82F6',
+                            tension: 0.4,
+                            borderWidth: 3
+                        },
+                        {
+                            label: 'Malades Longue Durée',
+                            data: [350000, 390000, 430000, 470000, 500000, 550000],
+                            borderColor: '#EF4444', // Red 500
+                            backgroundColor: '#EF4444',
+                            tension: 0.4,
+                            borderWidth: 3
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'bottom' },
+                        tooltip: {
+                            mode: 'index',
+                            intersect: false,
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.dataset.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    if (context.parsed.y !== null) {
+                                        label += new Intl.NumberFormat('fr-BE').format(context.parsed.y);
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: false,
+                            grid: { color: '#E7E5E4' } // Stone 200
+                        },
+                        x: {
+                            grid: { display: false }
+                        }
+                    }
+                }
+            });
+
+            // --- Chart 2: Regional (Chart.js) ---
+            const ctxRegion = document.getElementById('regionChart').getContext('2d');
+            new Chart(ctxRegion, {
+                type: 'bar',
+                data: {
+                    labels: ['Flandre', 'Bruxelles', 'Wallonie'],
+                    datasets: [
+                        {
+                            label: 'Taux Emploi (%)',
+                            data: [76, 62, 58],
+                            backgroundColor: '#A8A29E', // Stone 400
+                            borderRadius: 4
+                        },
+                        {
+                            label: 'Taux Invalidité (%)',
+                            data: [7.8, 8.5, 13.5],
+                            backgroundColor: '#D97706', // Amber 600
+                            borderRadius: 4
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'bottom' }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: { color: '#E7E5E4' }
+                        },
+                        x: {
+                            grid: { display: false }
+                        }
+                    }
+                }
+            });
+
+            // --- Chart 3: Budget (Plotly) ---
+            const budgetDataInvalidity = {
+                x: [2010, 2015, 2020, 2024, 2026],
+                y: [4.5, 6.8, 9.2, 11.5, 13.2], // Billions
+                name: 'Budget Invalidité',
+                fill: 'tozeroy',
+                type: 'scatter',
+                mode: 'none',
+                fillcolor: 'rgba(239, 68, 68, 0.6)' // Red
+            };
+
+            const budgetDataUnemployment = {
+                x: [2010, 2015, 2020, 2024, 2026],
+                y: [7.0, 6.5, 5.8, 5.2, 4.8], // Billions
+                name: 'Budget Chômage',
+                fill: 'tozeroy',
+                type: 'scatter',
+                mode: 'none',
+                fillcolor: 'rgba(59, 130, 246, 0.6)' // Blue
+            };
+
+            const layout = {
+                font: { family: 'Segoe UI, sans-serif' },
+                showlegend: true,
+                legend: { orientation: 'h', y: -0.2 },
+                margin: { t: 20, l: 40, r: 20, b: 40 },
+                xaxis: { title: 'Année' },
+                yaxis: { title: 'Milliards €', tickprefix: '€' },
+                hovermode: 'x unified',
+                paper_bgcolor: 'rgba(0,0,0,0)',
+                plot_bgcolor: 'rgba(0,0,0,0)'
+            };
+            
+            // Note: Plotly needs the container ID, not canvas context
+            Plotly.newPlot('budgetChart', [budgetDataUnemployment, budgetDataInvalidity], layout, {displayModeBar: false, responsive: true});
+        });
+    </script>
+</body>
+</html>
