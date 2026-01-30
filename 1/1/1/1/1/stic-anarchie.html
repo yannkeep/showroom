@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Politiques d'invalidité et système particratique belge — Analyse politologique</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #f9f9f9;
+            --bg-white: #ffffff;
+            --text-dark: #1a1a2e;
+            --text-body: #374151;
+            --text-muted: #6b7280;
+            --primary: #1e3a5f;
+            --primary-light: #e8f0f7;
+            --accent: #c9302c;
+            --accent-gold: #b8860b;
+            --border: #d1d5db;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Roboto', -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--text-body);
+            line-height: 1.75;
+            font-size: 17px;
+        }
+
+        /* Header institutionnel */
+        header {
+            background: var(--primary);
+            color: white;
+            padding: 60px 40px;
+        }
+
+        .header-inner {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .header-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            opacity: 0.8;
+            margin-bottom: 25px;
+        }
+
+        .header-tag::before {
+            content: '';
+            width: 40px;
+            height: 2px;
+            background: var(--accent);
+        }
+
+        header h1 {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 20px;
+            max-width: 850px;
+        }
+
+        header p {
+            font-family: 'Source Serif 4', serif;
+            font-size: 1.15rem;
+            opacity: 0.9;
+            max-width: 750px;
+        }
+
+        /* Navigation */
+        nav {
+            background: var(--bg-white);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-inner {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: flex;
+            overflow-x: auto;
+        }
+
+        nav a {
+            display: block;
+            padding: 18px 22px;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            white-space: nowrap;
+            border-bottom: 3px solid transparent;
+            transition: all 0.2s;
+        }
+
+        nav a:hover {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+        }
+
+        /* Main */
+        main {
+            max-width: 850px;
+            margin: 0 auto;
+            padding: 50px 30px;
+        }
+
+        /* Executive summary */
+        .executive-summary {
+            background: var(--primary-light);
+            border: 1px solid #c5d9ed;
+            border-left: 5px solid var(--primary);
+            padding: 35px 40px;
+            margin-bottom: 50px;
+        }
+
+        .executive-summary h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.2rem;
+            color: var(--primary);
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .executive-summary ul {
+            list-style: none;
+        }
+
+        .executive-summary li {
+            position: relative;
+            padding-left: 25px;
+            margin-bottom: 12px;
+        }
+
+        .executive-summary li::before {
+            content: '▸';
+            position: absolute;
+            left: 0;
+            color: var(--primary);
+            font-weight: bold;
+        }
+
+        /* Sections */
+        section {
+            margin-bottom: 60px;
+        }
+
+        section h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.7rem;
+            color: var(--text-dark);
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--primary);
+        }
+
+        section h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.25rem;
+            color: var(--text-dark);
+            margin: 35px 0 15px;
+        }
+
+        p {
+            margin-bottom: 18px;
+        }
+
+        /* Actor box */
+        .actor-box {
+            background: var(--bg-white);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            margin: 25px 0;
+            overflow: hidden;
+        }
+
+        .actor-header {
+            background: var(--primary);
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .actor-header .party {
+            background: rgba(255,255,255,0.2);
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .actor-header h4 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.1rem;
+        }
+
+        .actor-content {
+            padding: 20px 25px;
+        }
+
+        .actor-quote {
+            font-family: 'Source Serif 4', serif;
+            font-style: italic;
+            font-size: 1.05rem;
+            color: var(--text-dark);
+            border-left: 3px solid var(--accent);
+            padding-left: 20px;
+            margin: 15px 0;
+        }
+
+        .actor-position {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        /* Coalition diagram */
+        .coalition-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+            margin: 30px 0;
+        }
+
+        .coalition-party {
+            background: var(--bg-white);
+            border: 2px solid var(--border);
+            border-radius: 6px;
+            padding: 20px 15px;
+            text-align: center;
+        }
+
+        .coalition-party .name {
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 5px;
+        }
+
+        .coalition-party .family {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .coalition-party.nva { border-color: #ffb500; }
+        .coalition-party.mr { border-color: #0077b5; }
+        .coalition-party.cdv { border-color: #ff6600; }
+        .coalition-party.vooruit { border-color: #ff0000; }
+        .coalition-party.engages { border-color: #00a19a; }
+
+        /* Policy table */
+        .policy-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 25px 0;
+            font-size: 0.95rem;
+        }
+
+        .policy-table th,
+        .policy-table td {
+            padding: 15px 18px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .policy-table th {
+            background: var(--primary);
+            color: white;
+            font-weight: 500;
+        }
+
+        .policy-table tr:hover {
+            background: var(--primary-light);
+        }
+
+        /* Timeline politique */
+        .pol-timeline {
+            position: relative;
+            margin: 30px 0;
+            padding-left: 30px;
+        }
+
+        .pol-timeline::before {
+            content: '';
+            position: absolute;
+            left: 8px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--primary);
+        }
+
+        .pol-event {
+            position: relative;
+            margin-bottom: 30px;
+            padding-left: 30px;
+        }
+
+        .pol-event::before {
+            content: '';
+            position: absolute;
+            left: -26px;
+            top: 6px;
+            width: 14px;
+            height: 14px;
+            background: var(--bg-white);
+            border: 3px solid var(--primary);
+            border-radius: 50%;
+        }
+
+        .pol-event.key::before {
+            background: var(--accent);
+            border-color: var(--accent);
+        }
+
+        .pol-date {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+
+        .pol-event h4 {
+            font-size: 1rem;
+            color: var(--text-dark);
+            margin-bottom: 8px;
+        }
+
+        .pol-event p {
+            font-size: 0.95rem;
+            margin-bottom: 0;
+        }
+
+        /* Insight box */
+        .insight-box {
+            background: #fef3c7;
+            border: 1px solid #fcd34d;
+            border-left: 5px solid var(--accent-gold);
+            padding: 25px 30px;
+            margin: 30px 0;
+        }
+
+        .insight-box h4 {
+            font-family: 'Playfair Display', serif;
+            color: #92400e;
+            margin-bottom: 10px;
+        }
+
+        .insight-box p {
+            margin-bottom: 0;
+            color: #78350f;
+        }
+
+        /* Warning box */
+        .warning-box {
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            border-left: 5px solid var(--accent);
+            padding: 25px 30px;
+            margin: 30px 0;
+        }
+
+        .warning-box h4 {
+            color: var(--accent);
+            margin-bottom: 10px;
+        }
+
+        /* Blockquote */
+        blockquote {
+            font-family: 'Source Serif 4', serif;
+            font-size: 1.1rem;
+            font-style: italic;
+            color: var(--text-dark);
+            border-left: 4px solid var(--primary);
+            padding: 20px 25px;
+            margin: 30px 0;
+            background: var(--bg-white);
+        }
+
+        blockquote cite {
+            display: block;
+            font-style: normal;
+            font-size: 0.9rem;
+            color: var(--primary);
+            margin-top: 12px;
+        }
+
+        /* Data cards */
+        .data-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .data-card {
+            background: var(--bg-white);
+            border: 1px solid var(--border);
+            border-top: 4px solid var(--primary);
+            padding: 25px;
+            text-align: center;
+        }
+
+        .data-card .value {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .data-card .label {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-top: 8px;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--primary);
+            color: white;
+            padding: 50px 30px;
+            text-align: center;
+        }
+
+        footer p {
+            opacity: 0.8;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.8rem;
+            }
+
+            .coalition-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            main {
+                padding: 40px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-inner">
+            <div class="header-tag">Science politique • Belgique • 2026</div>
+            <h1>Les politiques d'invalidité comme révélateur du système particratique belge</h1>
+            <p>Analyse du processus décisionnel, des rapports de force au sein de la coalition Arizona et des tensions entre logique budgétaire, consensus social-chrétien et contestation sociale</p>
+        </div>
+    </header>
+
+    <nav>
+        <div class="nav-inner">
+            <a href="#cadre">Cadre institutionnel</a>
+            <a href="#arizona">Coalition Arizona</a>
+            <a href="#acteurs">Acteurs et positions</a>
+            <a href="#processus">Processus décisionnel</a>
+            <a href="#mobilisations">Mobilisations</a>
+            <a href="#conclusion">Conclusion</a>
+        </div>
+    </nav>
+
+    <main>
+        <!-- Executive Summary -->
+        <div class="executive-summary">
+            <h2>Points clés</h2>
+            <ul>
+                <li>Les réformes sur les malades de longue durée illustrent le fonctionnement de la <strong>particratie belge</strong> : négociation au sommet entre présidents de parti, accord de gouvernement contraignant, discipline de vote</li>
+                <li>La coalition Arizona (N-VA, MR, CD&V, Vooruit, Les Engagés) présente une tension structurelle entre droite libérale/nationaliste et héritage social-chrétien/socialiste</li>
+                <li>Frank Vandenbroucke (Vooruit) incarne le paradoxe d'un socialiste pilotant des réformes de rigueur, illustrant les contraintes du "compromis à la belge"</li>
+                <li>L'opposition massive des corps intermédiaires (mutuelles, syndicats, médecins) rappelle la persistance du modèle consociatif belge face à la gouvernementalité néolibérale</li>
+            </ul>
+        </div>
+
+        <!-- Cadre institutionnel -->
+        <section id="cadre">
+            <h2>1. Le cadre institutionnel belge</h2>
+
+            <h3>1.1 La particratie : définition et mécanismes</h3>
+            <p>La Belgique est régulièrement qualifiée de <strong>"particratie"</strong> — un régime où le pouvoir réel a glissé des institutions élues vers les états-majors des partis politiques. Ce concept, théorisé notamment par Wilfried Dewachter, désigne une configuration où :</p>
+            <ul style="margin-left: 25px;">
+                <li>Les <strong>présidents de parti</strong> sont les véritables décideurs, les ministres et parlementaires exécutant leurs arbitrages</li>
+                <li>L'<strong>accord de gouvernement</strong> prime sur la liberté parlementaire — tout écart est traité comme une rupture de contrat</li>
+                <li>La <strong>discipline de vote</strong> est quasi-absolue : un député votant contre la ligne du parti s'expose à une mort politique certaine</li>
+                <li>Le <strong>financement public des partis</strong> (parmi les plus généreux d'Europe) renforce leur centralité</li>
+            </ul>
+
+            <div class="insight-box">
+                <h4>L'article 42 de la Constitution vs la réalité</h4>
+                <p>La Constitution dispose que "les membres des deux Chambres représentent la Nation, et non uniquement ceux qui les ont élus" — interdisant le mandat impératif. Juridiquement, le député est libre. Sociologiquement, il est un "soldat du parti" dont la carrière dépend de sa place sur la liste électorale, déterminée par le bureau du parti.</p>
+            </div>
+
+            <h3>1.2 Le modèle consociatif et les corps intermédiaires</h3>
+            <p>La Belgique a historiquement géré ses clivages (philosophique, socio-économique, linguistique) par le <strong>consociationalisme</strong> — un mode de gouvernance reposant sur la négociation entre élites des différents "piliers" (chrétien, socialiste, libéral).</p>
+
+            <p>Les <strong>mutuelles</strong> sont un héritage direct de ce système : elles ne sont pas de simples exécutants administratifs mais des acteurs autonomes enracinés dans la société civile. Leur opposition aux réformes actuelles doit se lire à cette lumière : c'est une forme de résistance des corps intermédiaires face à une logique perçue comme étrangère au "pacte social" belge.</p>
+        </section>
+
+        <!-- Coalition Arizona -->
+        <section id="arizona">
+            <h2>2. La coalition Arizona : genèse et équilibres</h2>
+
+            <h3>2.1 Composition et formation</h3>
+            <p>Le gouvernement Arizona, formé le <strong>31 janvier 2025</strong>, réunit cinq partis aux traditions politiques distinctes :</p>
+
+            <div class="coalition-grid">
+                <div class="coalition-party nva">
+                    <div class="name">N-VA</div>
+                    <div class="family">Nationaliste flamand</div>
+                </div>
+                <div class="coalition-party mr">
+                    <div class="name">MR</div>
+                    <div class="family">Libéral francophone</div>
+                </div>
+                <div class="coalition-party cdv">
+                    <div class="name">CD&V</div>
+                    <div class="family">Chrétien-démocrate</div>
+                </div>
+                <div class="coalition-party vooruit">
+                    <div class="name">Vooruit</div>
+                    <div class="family">Socialiste flamand</div>
+                </div>
+                <div class="coalition-party engages">
+                    <div class="name">Les Engagés</div>
+                    <div class="family">Centre humaniste</div>
+                </div>
+            </div>
+
+            <p>Cette coalition présente une tension structurelle entre :</p>
+            <ul style="margin-left: 25px;">
+                <li>Une <strong>aile droite</strong> (N-VA, MR) favorable à une réduction des dépenses sociales et à une responsabilisation individuelle</li>
+                <li>Une <strong>aile sociale</strong> (Vooruit, CD&V, Les Engagés) attachée au modèle de protection sociale</li>
+            </ul>
+
+            <h3>2.2 L'accord de gouvernement comme norme suprême</h3>
+            <p>L'accord de gouvernement Arizona fixe des objectifs chiffrés contraignants :</p>
+
+            <table class="policy-table">
+                <thead>
+                    <tr>
+                        <th>Objectif</th>
+                        <th>Cible</th>
+                        <th>Échéance</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Retours au travail (malades longue durée)</td>
+                        <td>100 000 personnes</td>
+                        <td>2029</td>
+                    </tr>
+                    <tr>
+                        <td>Économies sur l'invalidité</td>
+                        <td>1,9 milliard €</td>
+                        <td>2029</td>
+                    </tr>
+                    <tr>
+                        <td>Taux d'emploi national</td>
+                        <td>80%</td>
+                        <td>2029</td>
+                    </tr>
+                    <tr>
+                        <td>Écart travail/non-travail</td>
+                        <td>Minimum 500 €</td>
+                        <td>Immédiat</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="insight-box">
+                <h4>Le "compromis Vooruit"</h4>
+                <p>La participation de Vooruit (socialiste) à la coalition était conditionnée au maintien de l'indexation des allocations sociales et de la norme de croissance des soins de santé. En échange, le parti accepte de piloter — via Vandenbroucke — les réformes de contrôle des malades. Ce "compromis" illustre la logique particratique : les partis acceptent des politiques éloignées de leur ADN en échange de garanties sur d'autres dossiers.</p>
+            </div>
+        </section>
+
+        <!-- Acteurs et positions -->
+        <section id="acteurs">
+            <h2>3. Cartographie des acteurs et positions</h2>
+
+            <h3>3.1 Au sein du gouvernement</h3>
+
+            <div class="actor-box">
+                <div class="actor-header">
+                    <span class="party">N-VA</span>
+                    <h4>Bart De Wever — Premier ministre</h4>
+                </div>
+                <div class="actor-content">
+                    <div class="actor-quote">« Les personnes en bonne santé et capables de travailler ne pourront plus bénéficier de systèmes trop avantageux. »</div>
+                    <p class="actor-position"><strong>Position :</strong> Ligne dure sur les dépenses sociales. Incarnation de la "responsabilisation individuelle" chère à la droite flamande. Le Premier ministre est le garant de l'accord de gouvernement et de son exécution.</p>
+                </div>
+            </div>
+
+            <div class="actor-box">
+                <div class="actor-header">
+                    <span class="party">MR</span>
+                    <h4>Georges-Louis Bouchez — Président du MR</h4>
+                </div>
+                <div class="actor-content">
+                    <div class="actor-quote">« Il faut aller plus loin en ce qui concerne les faux malades. Il y a des gens vraiment malades, qu'on doit aider, mais il y a des gens qui ne le sont pas. »</div>
+                    <p class="actor-position"><strong>Position :</strong> Position la plus dure de la coalition. Rhétorique du "faux malade" qui légitime le contrôle généralisé. Pression constante pour durcir les mesures.</p>
+                </div>
+            </div>
+
+            <div class="actor-box">
+                <div class="actor-header">
+                    <span class="party">Vooruit</span>
+                    <h4>Frank Vandenbroucke — Ministre de la Santé</h4>
+                </div>
+                <div class="actor-content">
+                    <div class="actor-quote">« On crée un droit à être réintégré dans la société. On se sent mieux quand on peut travailler. Mais ceux et celles qui ne peuvent pas encore travailler méritent d'avoir la certitude que la santé passe toujours avant. »</div>
+                    <p class="actor-position"><strong>Position :</strong> Figure paradoxale. Socialiste historique, théoricien de l'État-providence actif, il pilote des réformes de contrôle tout en les présentant comme "solidaires". Illustre les contraintes du compromis de coalition.</p>
+                </div>
+            </div>
+
+            <h3>3.2 Les corps intermédiaires : une opposition structurée</h3>
+
+            <div class="actor-box">
+                <div class="actor-header">
+                    <h4>Les mutuelles — Position critique</h4>
+                </div>
+                <div class="actor-content">
+                    <div class="actor-quote">« [Solidaris] ne sera en aucun cas complice d'un dispositif gouvernemental qui, pour des raisons purement budgétaires et idéologiques, vise à reléguer au rang de détail la question de la santé de citoyens malades. » — François Perl, Solidaris</div>
+                    <div class="actor-quote">« Un vrai risque de responsabiliser uniquement le patient alors que le patient est dans une situation où il entre en incapacité de travail parce qu'il est en situation de maladie. » — Élise Derroitte, Mutualité chrétienne</div>
+                    <p class="actor-position"><strong>Analyse :</strong> Les mutuelles (socialiste ET chrétienne) s'opposent — fait remarquable car elles sont chargées d'appliquer les contrôles. Cette résistance témoigne de la persistance de l'autonomie des corps intermédiaires dans le modèle belge.</p>
+                </div>
+            </div>
+
+            <div class="actor-box">
+                <div class="actor-header">
+                    <h4>Les syndicats — Opposition frontale</h4>
+                </div>
+                <div class="actor-content">
+                    <div class="actor-quote">« Ils sont en train de tuer tout ce qui fait le socle de notre société ! Quand ils sont vieux, les travailleurs ont besoin de leurs pensions. Quand ils sont malades, de l'assurance maladie. Or l'Arizona s'attaque justement à tout cela. » — Mathieu Verhaegen, FGTB</div>
+                    <p class="actor-position"><strong>Analyse :</strong> La FGTB et la CSC (front commun syndical) perçoivent les réformes comme une attaque systémique contre le modèle social belge, dépassant la seule question des malades de longue durée.</p>
+                </div>
+            </div>
+
+            <div class="actor-box">
+                <div class="actor-header">
+                    <h4>Le corps médical — Mobilisation exceptionnelle</h4>
+                </div>
+                <div class="actor-content">
+                    <div class="actor-quote">« On ouvre la porte à une forme de chasse aux sorcières. Dans quel pays vit-on ? On ne peut pas dresser les patients contre les médecins. » — Dr Paul De Munck, GBO/Cartel</div>
+                    <p class="actor-position"><strong>Analyse :</strong> Le préavis de grève déposé par l'ABSyM (7 juillet 2025) est un fait politique rare. Les médecins, traditionnellement conservateurs, rejoignent le mouvement de contestation — signe d'une perception d'atteinte à l'autonomie professionnelle.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Processus décisionnel -->
+        <section id="processus">
+            <h2>4. Processus décisionnel et chronologie politique</h2>
+
+            <h3>4.1 Les quatre vagues de réformes</h3>
+            <div class="pol-timeline">
+                <div class="pol-event">
+                    <div class="pol-date">2021 — Gouvernement De Croo (Vivaldi)</div>
+                    <h4>Vague 1 : Création des coordinateurs ReAT</h4>
+                    <p>Approche initialement "incitative" sous la coalition Vivaldi (sans N-VA). Vandenbroucke pose les bases d'une politique de réintégration.</p>
+                </div>
+                <div class="pol-event">
+                    <div class="pol-date">Janvier 2023 — Gouvernement De Croo</div>
+                    <h4>Vague 2 : Convocations obligatoires + première sanction (2,5%)</h4>
+                    <p>Premier durcissement. Sanction encore modérée. La logique de contrôle s'installe.</p>
+                </div>
+                <div class="pol-event key">
+                    <div class="pol-date">31 janvier 2025 — Formation Arizona</div>
+                    <h4>Changement de coalition</h4>
+                    <p>L'entrée de la N-VA et du MR modifie l'équilibre politique. L'accord de gouvernement fixe des objectifs chiffrés ambitieux (100 000 retours, 1,9 Md€ d'économies).</p>
+                </div>
+                <div class="pol-event key">
+                    <div class="pol-date">1er janvier 2026 — Gouvernement Arizona</div>
+                    <h4>Vague 3 : Durcissement majeur</h4>
+                    <p>Sanction ×4 (2,5% → 10%), certificats limités à 3 mois, suspension en cas d'absence. La logique punitive s'affirme.</p>
+                </div>
+                <div class="pol-event">
+                    <div class="pol-date">26 novembre 2025 — Conclave budgétaire</div>
+                    <h4>Annonce de la Vague 4 (2027+)</h4>
+                    <p>Certificat initial limité à 3 semaines, renouvellement annuel obligatoire de l'invalidité, réexamen de 218 000 dossiers. Réforme structurelle annoncée.</p>
+                </div>
+            </div>
+
+            <h3>4.2 L'articulation gouvernement-parlement</h3>
+            <p>Le cas des réformes invalidité illustre le fonctionnement particratique :</p>
+            <ul style="margin-left: 25px;">
+                <li>Les arbitrages clés sont pris lors des <strong>conclaves budgétaires</strong> réunissant les présidents de parti</li>
+                <li>Les ministres traduisent ces arbitrages en avant-projets de loi</li>
+                <li>Le passage au Parlement relève de la <strong>ratification formelle</strong>, la majorité votant en bloc</li>
+                <li>L'opposition parlementaire (PS, Ecolo, PTB, Défi) est structurellement impuissante face à la discipline de vote</li>
+            </ul>
+
+            <div class="warning-box">
+                <h4>Le rôle du Conseil d'État</h4>
+                <p>Le Conseil d'État a émis des avis critiques sur plusieurs projets Arizona (loi Quintin sur les associations, visites domiciliaires). Sur les réformes invalidité, son rôle reste celui d'un garde-fou juridique — mais ses avis ne sont pas contraignants.</p>
+            </div>
+        </section>
+
+        <!-- Mobilisations -->
+        <section id="mobilisations">
+            <h2>5. Mobilisations sociales et rapport de force</h2>
+
+            <h3>5.1 Chronologie des mobilisations 2025-2026</h3>
+
+            <div class="data-cards">
+                <div class="data-card">
+                    <div class="value">100K+</div>
+                    <div class="label">13 février 2025</div>
+                </div>
+                <div class="data-card">
+                    <div class="value">140K</div>
+                    <div class="label">14 octobre 2025</div>
+                </div>
+                <div class="data-card">
+                    <div class="value">3 jours</div>
+                    <div class="label">Grève générale novembre</div>
+                </div>
+                <div class="data-card">
+                    <div class="value">5 jours</div>
+                    <div class="label">Grève rail janvier 2026</div>
+                </div>
+            </div>
+
+            <p>L'ampleur des mobilisations (qualifiées d'"historiques" par les syndicats) témoigne d'une perception de menace systémique sur le modèle social belge. La grève générale des 24-26 novembre 2025 a paralysé successivement transports, services publics et secteur privé.</p>
+
+            <h3>5.2 Analyse du rapport de force</h3>
+            <p>Malgré l'ampleur des mobilisations, le gouvernement maintient son cap — illustrant plusieurs caractéristiques du système politique belge :</p>
+
+            <ul style="margin-left: 25px;">
+                <li><strong>Primat de l'accord de gouvernement</strong> : les engagements budgétaires contraignent les partis de la majorité</li>
+                <li><strong>Discipline de coalition</strong> : même Vooruit, proche des syndicats, reste solidaire du gouvernement</li>
+                <li><strong>Fenêtre politique</strong> : les prochaines élections fédérales (2029) sont lointaines, réduisant la pression électorale immédiate</li>
+                <li><strong>Contrainte budgétaire</strong> : la trajectoire de réduction du déficit limite les marges de manœuvre</li>
+            </ul>
+
+            <blockquote>
+                <p>« Avec votre projet, vous venez renforcer les sanctions, les obligations et la pression administrative des médecins. Comme si finalement faire culpabiliser les malades et leur mettre plus de pression pouvait les guérir. »</p>
+                <cite>— Caroline Désir (PS), opposition parlementaire</cite>
+            </blockquote>
+
+            <h3>5.3 L'enjeu de la légitimité</h3>
+            <p>Le conflit pose la question de la <strong>légitimité démocratique</strong> : le gouvernement dispose d'une majorité parlementaire, mais fait face à une contestation sociale massive et à l'opposition des corps intermédiaires (mutuelles, syndicats, médecins). Cette tension entre légitimité électorale et légitimité sociale est caractéristique du modèle consociatif belge — qui reposait traditionnellement sur l'inclusion des "piliers" dans la décision.</p>
+        </section>
+
+        <!-- Conclusion -->
+        <section id="conclusion">
+            <h2>Conclusion : les réformes invalidité comme analyseur du système politique belge</h2>
+
+            <p>L'analyse des politiques d'invalidité révèle plusieurs dynamiques structurelles du système politique belge :</p>
+
+            <p><strong>1. La persistance de la particratie</strong> — Les réformes sont décidées dans les cercles restreints des présidents de parti et des conclaves budgétaires. Le Parlement ratifie, les ministres exécutent. L'article 42 de la Constitution (liberté du parlementaire) reste lettre morte.</p>
+
+            <p><strong>2. Les tensions internes à la coalition</strong> — L'alliance entre droite libérale/nationaliste et héritage social-chrétien/socialiste produit des compromis instables. Vandenbroucke incarne cette tension : socialiste pilotant des réformes de rigueur au nom du "réalisme gouvernemental".</p>
+
+            <p><strong>3. La résistance des corps intermédiaires</strong> — L'opposition des mutuelles et des syndicats témoigne de la persistance du modèle consociatif. Ces acteurs ne sont pas de simples exécutants mais des partenaires historiques du "pacte social" belge.</p>
+
+            <p><strong>4. L'importation de modèles étrangers</strong> — Les réformes s'inspirent de logiques d'activation (workfare) développées dans les pays anglo-saxons et néerlandais. Le contre-exemple britannique (WCA) est largement ignoré dans le débat politique.</p>
+
+            <div class="insight-box">
+                <h4>Hypothèse conclusive</h4>
+                <p>Les réformes invalidité constituent un test de résistance du modèle social belge face à la gouvernementalité néolibérale. L'issue de ce conflit — capitulation des corps intermédiaires ou inflexion de la politique gouvernementale — déterminera en partie la trajectoire de l'État-providence belge dans les décennies à venir.</p>
+            </div>
+
+            <blockquote>
+                <p>« La réponse à l'explosion des maladies de longue durée se trouve peut-être moins dans le contrôle des malades que dans l'examen des conditions qui les rendent malades. »</p>
+            </blockquote>
+        </section>
+    </main>
+
+    <footer>
+        <p>Analyse politologique — AOUCH — Janvier 2026<br>
+        Document de travail — Sources : presse belge, documents parlementaires, communiqués syndicaux et mutualistes</p>
+    </footer>
+</body>
+</html>
