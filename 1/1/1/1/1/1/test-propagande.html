@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌫️ SMOKE ME — Les Écrans de Fumée</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=EB+Garamond:ital,wght@0,400;0,600;1,400&family=Fira+Code:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --smoke-purple: #7b2cbf;
+            --smoke-blue: #3a0ca3;
+            --smoke-teal: #4cc9f0;
+            --smoke-pink: #f72585;
+            --hookah-gold: #fca311;
+            --caterpillar-green: #80ed99;
+            --bg-void: #0d0221;
+            --text: #e0d6f0;
+            --text-dim: #8a7a9a;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        @keyframes smoke-rise { 0% { transform: translateY(0) scale(1) rotate(0deg); opacity: 0.4; } 50% { transform: translateY(-100px) scale(1.5) rotate(180deg); opacity: 0.2; } 100% { transform: translateY(-200px) scale(2) rotate(360deg); opacity: 0; } }
+        @keyframes pulse { 0%, 100% { opacity: 0.6; } 50% { opacity: 1; } }
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
+        @keyframes glow-text { 0%, 100% { text-shadow: 0 0 20px var(--smoke-purple); } 50% { text-shadow: 0 0 40px var(--smoke-purple), 0 0 60px var(--smoke-pink); } }
+        @keyframes caterpillar-breathe { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.02); } }
+        body { background: var(--bg-void); color: var(--text); font-family: 'EB Garamond', Georgia, serif; font-size: 18px; line-height: 1.8; overflow-x: hidden; min-height: 100vh; }
+        .smoke-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; overflow: hidden; }
+        .smoke-particle { position: absolute; bottom: -100px; background: radial-gradient(circle, rgba(123,44,191,0.3) 0%, transparent 70%); border-radius: 50%; animation: smoke-rise 12s infinite; filter: blur(20px); }
+        body::before { content: ''; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(ellipse at 50% 100%, rgba(123,44,191,0.15) 0%, transparent 60%), radial-gradient(ellipse at 30% 30%, rgba(58,12,163,0.1) 0%, transparent 50%); pointer-events: none; z-index: 1; }
+        main { position: relative; z-index: 10; max-width: 1000px; margin: 0 auto; padding: 60px 20px; }
+        .hero { text-align: center; padding: 80px 0; position: relative; }
+        .caterpillar { font-size: 6rem; margin-bottom: 30px; animation: caterpillar-breathe 4s infinite, float 6s infinite; display: block; }
+        .hookah { position: relative; display: inline-block; margin-bottom: 20px; }
+        .hookah-smoke { position: absolute; top: -30px; left: 50%; transform: translateX(-50%); font-size: 2rem; animation: smoke-rise 3s infinite; opacity: 0.6; }
+        .title { font-family: 'Cinzel', serif; font-size: clamp(2.5rem, 8vw, 4.5rem); font-weight: 900; background: linear-gradient(135deg, var(--smoke-purple), var(--smoke-pink), var(--smoke-teal)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; animation: glow-text 3s infinite; margin-bottom: 20px; }
+        .subtitle { font-size: 1.4rem; font-style: italic; color: var(--smoke-teal); margin-bottom: 30px; }
+        .caterpillar-quote { font-style: italic; color: var(--text-dim); max-width: 600px; margin: 0 auto; padding: 25px; border: 1px solid rgba(123,44,191,0.3); border-radius: 10px; background: rgba(0,0,0,0.3); position: relative; }
+        .caterpillar-quote::before { content: '"'; position: absolute; top: -20px; left: 20px; font-size: 4rem; color: var(--smoke-purple); opacity: 0.5; font-family: 'Cinzel', serif; }
+        section { margin: 60px 0; padding: 40px; background: linear-gradient(135deg, rgba(13,2,33,0.9) 0%, rgba(58,12,163,0.1) 100%); border: 1px solid rgba(123,44,191,0.2); border-radius: 20px; position: relative; overflow: hidden; }
+        section::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E"); pointer-events: none; }
+        .section-title { font-family: 'Cinzel', serif; font-size: 1.8rem; color: var(--smoke-teal); margin-bottom: 25px; display: flex; align-items: center; gap: 15px; position: relative; z-index: 1; }
+        .section-title .icon { font-size: 2rem; }
+        .question-box { background: rgba(0,0,0,0.4); border-left: 3px solid var(--caterpillar-green); padding: 25px; margin: 20px 0; font-family: 'Cinzel', serif; font-size: 1.3rem; color: var(--caterpillar-green); position: relative; }
+        .question-box::before { content: '🐛'; position: absolute; left: -15px; top: 50%; transform: translateY(-50%); font-size: 1.5rem; }
+        .manipulation-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; margin-top: 30px; }
+        .manipulation-card { background: rgba(0,0,0,0.4); border: 1px solid var(--card-color, var(--smoke-purple)); border-radius: 15px; padding: 25px; position: relative; transition: all 0.4s; }
+        .manipulation-card:hover { transform: translateY(-5px); box-shadow: 0 15px 40px rgba(123,44,191,0.3); }
+        .manipulation-card.distraction { --card-color: var(--smoke-pink); }
+        .manipulation-card.framing { --card-color: var(--smoke-teal); }
+        .manipulation-card.emotion { --card-color: var(--hookah-gold); }
+        .manipulation-card.repetition { --card-color: var(--smoke-purple); }
+        .card-number { font-family: 'Fira Code', monospace; font-size: 0.7rem; color: var(--card-color); text-transform: uppercase; letter-spacing: 0.2em; margin-bottom: 10px; }
+        .card-title { font-family: 'Cinzel', serif; font-size: 1.2rem; color: var(--card-color); margin-bottom: 15px; }
+        .card-example { background: rgba(0,0,0,0.3); padding: 15px; border-radius: 8px; margin: 15px 0; font-style: italic; font-size: 0.9rem; color: var(--text-dim); border-left: 2px solid var(--card-color); }
+        .card-antidote { font-family: 'Fira Code', monospace; font-size: 0.8rem; color: var(--caterpillar-green); margin-top: 15px; padding: 10px; background: rgba(128,237,153,0.1); border-radius: 5px; }
+        .smoke-timeline { position: relative; padding-left: 40px; margin-top: 30px; }
+        .smoke-timeline::before { content: ''; position: absolute; left: 15px; top: 0; bottom: 0; width: 2px; background: linear-gradient(180deg, var(--smoke-purple), var(--smoke-teal), var(--smoke-pink)); }
+        .timeline-item { position: relative; margin: 30px 0; padding: 20px; background: rgba(0,0,0,0.3); border-radius: 10px; }
+        .timeline-item::before { content: '💨'; position: absolute; left: -32px; top: 20px; font-size: 1.2rem; background: var(--bg-void); padding: 5px; }
+        .timeline-title { font-family: 'Cinzel', serif; color: var(--smoke-teal); margin-bottom: 10px; }
+        .existential-section { background: linear-gradient(135deg, rgba(128,237,153,0.05) 0%, rgba(13,2,33,0.9) 100%); border-color: rgba(128,237,153,0.3); text-align: center; }
+        .big-question { font-family: 'Cinzel', serif; font-size: clamp(1.5rem, 4vw, 2.5rem); color: var(--caterpillar-green); margin: 30px 0; line-height: 1.4; }
+        .sub-questions { list-style: none; margin: 30px auto; max-width: 600px; text-align: left; }
+        .sub-questions li { padding: 15px 20px; margin: 15px 0; background: rgba(0,0,0,0.3); border-left: 3px solid var(--smoke-purple); font-size: 1.1rem; }
+        .sub-questions li strong { color: var(--smoke-teal); }
+        .revelation { background: rgba(247,37,133,0.1); border: 1px solid var(--smoke-pink); padding: 30px; border-radius: 15px; margin: 40px 0; }
+        .revelation-title { font-family: 'Cinzel', serif; font-size: 1.3rem; color: var(--smoke-pink); margin-bottom: 15px; }
+        .signature { text-align: center; padding: 50px 20px; margin-top: 60px; border-top: 1px solid rgba(123,44,191,0.3); }
+        .signature-icon { font-size: 3rem; margin-bottom: 20px; animation: float 3s infinite; }
+        .signature-text { font-style: italic; color: var(--text-dim); max-width: 500px; margin: 0 auto 20px; }
+        .signature-author { font-family: 'Cinzel', serif; font-size: 1.3rem; color: var(--smoke-purple); }
+        .nav-links { display: flex; justify-content: center; gap: 20px; margin-top: 30px; flex-wrap: wrap; }
+        .nav-link { font-family: 'Fira Code', monospace; font-size: 0.85rem; color: var(--smoke-teal); text-decoration: none; padding: 8px 15px; border: 1px solid var(--smoke-teal); border-radius: 5px; transition: all 0.3s; }
+        .nav-link:hover { background: var(--smoke-teal); color: var(--bg-void); }
+        @media (max-width: 768px) { section { padding: 25px; } .caterpillar { font-size: 4rem; } }
+    </style>
+</head>
+<body>
+    <div class="smoke-bg" id="smoke-bg"></div>
+    <main>
+        <section class="hero" style="background: transparent; border: none;">
+            <span class="caterpillar">🐛</span>
+            <div class="hookah">
+                <span class="hookah-smoke">💨</span>
+                <span class="hookah-smoke" style="animation-delay: 1s;">💨</span>
+                <span class="hookah-smoke" style="animation-delay: 2s;">💨</span>
+            </div>
+            <h1 class="title">SMOKE ME</h1>
+            <p class="subtitle">Les Écrans de Fumée du Pouvoir</p>
+            <blockquote class="caterpillar-quote">
+                « Qui êtes-vous ? » dit la Chenille.<br>
+                Ce n'était pas un début de conversation très encourageant. Alice répondit, un peu intimidée : 
+                « Je... je ne sais plus très bien, Madame, du moins je savais qui j'étais ce matin en me levant, 
+                mais je crois avoir changé plusieurs fois depuis. »
+                <br><br>— Lewis Carroll
+            </blockquote>
+        </section>
+
+        <section>
+            <h2 class="section-title"><span class="icon">🌫️</span> L'Art de l'Enfumage</h2>
+            <p>La Chenille souffle sa fumée et pose des questions. Le pouvoir fait pareil — sauf que ses questions sont des réponses déguisées, et sa fumée obscurcit au lieu d'éclairer.</p>
+            <div class="question-box">
+                « Qui êtes-vous ? » — La vraie question n'est pas qui tu ES, mais qui on VEUT que tu sois.
+            </div>
+            <p style="margin-top: 20px;">Voici les techniques d'enfumage les plus courantes. Les connaître, c'est commencer à voir à travers.</p>
+        </section>
+
+        <section>
+            <h2 class="section-title"><span class="icon">🎭</span> Les 8 Techniques de Manipulation</h2>
+            <div class="manipulation-grid">
+                <div class="manipulation-card distraction">
+                    <span class="card-number">Technique #1</span>
+                    <h3 class="card-title">La Distraction</h3>
+                    <p>Attirer l'attention sur un sujet secondaire pour faire oublier l'essentiel.</p>
+                    <div class="card-example">"Regardez ce scandale people pendant qu'on vote une loi impopulaire à 3h du matin."</div>
+                    <div class="card-antidote">🛡️ Se demander: "De quoi ON NE parle PAS en ce moment?"</div>
+                </div>
+                <div class="manipulation-card framing">
+                    <span class="card-number">Technique #2</span>
+                    <h3 class="card-title">Le Cadrage (Framing)</h3>
+                    <p>Présenter les mêmes faits sous un angle qui oriente l'interprétation.</p>
+                    <div class="card-example">"Plan de flexibilisation" vs "Démantèlement des protections sociales" — même réalité, perception opposée.</div>
+                    <div class="card-antidote">🛡️ Reformuler l'info avec d'autres mots. Le sens change-t-il?</div>
+                </div>
+                <div class="manipulation-card emotion">
+                    <span class="card-number">Technique #3</span>
+                    <h3 class="card-title">L'Appel à l'Émotion</h3>
+                    <p>Court-circuiter la réflexion en provoquant peur, colère ou compassion.</p>
+                    <div class="card-example">"Documentaire avec musique dramatique et témoignages larmoyants = vérité indiscutable?"</div>
+                    <div class="card-antidote">🛡️ Couper le son. Relire les faits sans la mise en scène émotionnelle.</div>
+                </div>
+                <div class="manipulation-card repetition">
+                    <span class="card-number">Technique #4</span>
+                    <h3 class="card-title">La Répétition</h3>
+                    <p>Répéter un message jusqu'à ce qu'il devienne "évident".</p>
+                    <div class="card-example">"Les chômeurs fraudent." Répété 1000 fois = devient une "vérité" même sans preuve.</div>
+                    <div class="card-antidote">🛡️ Exiger les chiffres. Demander "combien?" "source?"</div>
+                </div>
+                <div class="manipulation-card distraction">
+                    <span class="card-number">Technique #5</span>
+                    <h3 class="card-title">Le Faux Dilemme</h3>
+                    <p>Présenter seulement 2 options quand il en existe d'autres.</p>
+                    <div class="card-example">"Soit on coupe dans le social, soit c'est la faillite." Et les autres options?</div>
+                    <div class="card-antidote">🛡️ Toujours chercher la 3e, 4e, 5e option qu'on ne vous présente pas.</div>
+                </div>
+                <div class="manipulation-card framing">
+                    <span class="card-number">Technique #6</span>
+                    <h3 class="card-title">L'Argument d'Autorité</h3>
+                    <p>Citer un "expert" pour clore le débat, même hors de son domaine.</p>
+                    <div class="card-example">"Un économiste de [grande banque] dit que..." — Quel est son intérêt?</div>
+                    <div class="card-antidote">🛡️ Qui parle? Qui le paie? Que disent les experts qui ne sont PAS d'accord?</div>
+                </div>
+                <div class="manipulation-card emotion">
+                    <span class="card-number">Technique #7</span>
+                    <h3 class="card-title">Le Bouc Émissaire</h3>
+                    <p>Désigner un groupe comme responsable de tous les maux.</p>
+                    <div class="card-example">"Les [groupe X] nous coûtent cher!" — Combien exactement? Comparé à quoi?</div>
+                    <div class="card-antidote">🛡️ Comparer aux vrais chiffres. La fraude fiscale vs la fraude sociale.</div>
+                </div>
+                <div class="manipulation-card repetition">
+                    <span class="card-number">Technique #8</span>
+                    <h3 class="card-title">Le Cherry-Picking</h3>
+                    <p>Sélectionner uniquement les données qui soutiennent la thèse.</p>
+                    <div class="card-example">"3 cas de fraude = tous fraudeurs." Les 97% de non-fraudeurs disparaissent.</div>
+                    <div class="card-antidote">🛡️ Demander les données COMPLÈTES, pas les anecdotes.</div>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2 class="section-title"><span class="icon">⏳</span> Anatomie d'un Écran de Fumée</h2>
+            <p>Comment se déroule une opération d'enfumage médiatique type?</p>
+            <div class="smoke-timeline">
+                <div class="timeline-item">
+                    <h4 class="timeline-title">Phase 1: L'Amorce</h4>
+                    <p>Un "fait divers" opportun émerge. Timing suspect (veille d'une décision impopulaire).</p>
+                </div>
+                <div class="timeline-item">
+                    <h4 class="timeline-title">Phase 2: L'Amplification</h4>
+                    <p>Les chaînes d'info reprennent en boucle. Les réseaux sociaux s'enflamment. L'émotion monte.</p>
+                </div>
+                <div class="timeline-item">
+                    <h4 class="timeline-title">Phase 3: La Généralisation</h4>
+                    <p>"Ce cas prouve que..." Un exemple devient la règle. Le débat rationnel est mort.</p>
+                </div>
+                <div class="timeline-item">
+                    <h4 class="timeline-title">Phase 4: La Solution Préparée</h4>
+                    <p>Comme par hasard, une "réforme" était déjà prête. Le public l'accepte maintenant.</p>
+                </div>
+                <div class="timeline-item">
+                    <h4 class="timeline-title">Phase 5: L'Oubli</h4>
+                    <p>Le sujet disparaît. La mesure reste. Personne ne fait le lien.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="existential-section">
+            <h2 class="section-title" style="justify-content: center;"><span class="icon">🐛</span> Les Questions de la Chenille</h2>
+            <p class="big-question">« Qui êtes-VOUS ? »</p>
+            <p>La Chenille ne demande pas ton nom. Elle demande: sais-tu encore qui tu es quand on a fini de te dire qui tu dois être?</p>
+            <ul class="sub-questions">
+                <li><strong>Tes opinions</strong> — sont-elles les tiennes, ou celles qu'on t'a injectées?</li>
+                <li><strong>Tes peurs</strong> — sont-elles fondées sur des faits, ou sur des récits répétés?</li>
+                <li><strong>Tes ennemis</strong> — les as-tu choisis, ou te les a-t-on désignés?</li>
+                <li><strong>Tes désirs</strong> — te rendent-ils heureux, ou nourrissent-ils une machine?</li>
+                <li><strong>Ton silence</strong> — est-il sagesse, ou est-il résignation?</li>
+            </ul>
+            <div class="revelation">
+                <h4 class="revelation-title">💡 La Révélation de la Fumée</h4>
+                <p>L'écran de fumée n'existe que si tu acceptes de ne pas voir à travers. La fumée se dissipe quand tu poses les bonnes questions. Et la première question, c'est toujours: <strong>« Qui bénéficie de cette histoire? »</strong></p>
+            </div>
+        </section>
+
+        <section>
+            <h2 class="section-title"><span class="icon">🔮</span> Voir à Travers</h2>
+            <p>La fumée est épaisse. Mais elle n'est pas opaque pour qui sait regarder.</p>
+            <div class="question-box" style="border-color: var(--smoke-teal); color: var(--smoke-teal);">
+                Quand la Chenille souffle sa fumée, elle ne cherche pas à t'aveugler. Elle t'invite à traverser le nuage — et à découvrir ce qu'il cache.
+            </div>
+            <p style="margin-top: 20px;"><strong>Les outils du Voyant:</strong></p>
+            <ul style="list-style: none; margin-top: 15px;">
+                <li style="padding: 10px 0; border-bottom: 1px solid rgba(123,44,191,0.2);">🔍 <strong>Cui bono?</strong> — À qui profite cette histoire?</li>
+                <li style="padding: 10px 0; border-bottom: 1px solid rgba(123,44,191,0.2);">⏰ <strong>Timing</strong> — Pourquoi maintenant?</li>
+                <li style="padding: 10px 0; border-bottom: 1px solid rgba(123,44,191,0.2);">🔢 <strong>Quantification</strong> — Combien exactement? Source?</li>
+                <li style="padding: 10px 0; border-bottom: 1px solid rgba(123,44,191,0.2);">🔄 <strong>Inversion</strong> — Et si c'était le contraire?</li>
+                <li style="padding: 10px 0;">🤐 <strong>Le silence</strong> — De quoi NE parle-t-on PAS?</li>
+            </ul>
+        </section>
+
+        <div class="signature">
+            <div class="signature-icon">🌫️</div>
+            <p class="signature-text">« La fumée cache, mais elle révèle aussi — si tu sais où regarder. »</p>
+            <p class="signature-author">— La Chenille de ouaisfieu</p>
+            <nav class="nav-links">
+                <a href="odyssee-ouaisfieu.html" class="nav-link">← README</a>
+                <a href="drinkme.html" class="nav-link">DRINKME</a>
+                <a href="beatme.html" class="nav-link">BEATME →</a>
+            </nav>
+        </div>
+    </main>
+    <script>
+        const smokeBg = document.getElementById('smoke-bg');
+        for (let i = 0; i < 10; i++) {
+            const smoke = document.createElement('div');
+            smoke.className = 'smoke-particle';
+            smoke.style.left = Math.random() * 100 + '%';
+            smoke.style.width = smoke.style.height = (Math.random() * 200 + 100) + 'px';
+            smoke.style.animationDelay = Math.random() * 12 + 's';
+            smoke.style.animationDuration = (Math.random() * 6 + 10) + 's';
+            smokeBg.appendChild(smoke);
+        }
+        console.log('%c🐛 "Qui êtes-VOUS?"', 'color: #80ed99; font-size: 18px; font-family: serif;');
+        console.log('%cLa Chenille attend ta réponse...', 'color: #7b2cbf; font-size: 12px;');
+    </script>
+</body>
+</html>
