@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="fr-BE">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🚨 CONVOCATION MUTUELLE | Journal de bord d'un BIM en sueur | J-12</title>
+    <meta name="description" content="Tu as reçu LA lettre. La convocation. Le 11 février. Guide de survie pour BIM paniqué mais pas encore mort.">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg: #0a0a0a;
+            --red: #ef4444;
+            --orange: #f97316;
+            --yellow: #eab308;
+            --green: #22c55e;
+            --blue: #3b82f6;
+            --gray: #71717a;
+            --white: #fafafa;
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background: var(--bg);
+            color: var(--white);
+            font-size: 17px;
+            line-height: 1.7;
+        }
+        
+        /* BREAKING BANNER */
+        .breaking {
+            background: var(--red);
+            color: white;
+            padding: 12px 24px;
+            text-align: center;
+            font-weight: 700;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+        }
+        
+        /* HEADER */
+        header {
+            padding: 60px 24px;
+            text-align: center;
+            border-bottom: 1px solid #222;
+        }
+        
+        .countdown {
+            display: inline-flex;
+            align-items: center;
+            gap: 16px;
+            background: #111;
+            padding: 16px 32px;
+            border-radius: 8px;
+            margin-bottom: 32px;
+            border: 1px solid #333;
+        }
+        
+        .countdown-num {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 48px;
+            font-weight: 700;
+            color: var(--red);
+        }
+        
+        .countdown-label {
+            font-size: 14px;
+            color: var(--gray);
+            text-transform: uppercase;
+        }
+        
+        h1 {
+            font-size: clamp(28px, 6vw, 48px);
+            font-weight: 700;
+            margin-bottom: 16px;
+            line-height: 1.2;
+        }
+        
+        h1 span {
+            color: var(--red);
+        }
+        
+        .subtitle {
+            color: var(--gray);
+            font-size: 18px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        /* MAIN */
+        main {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 48px 24px;
+        }
+        
+        /* LOG ENTRY */
+        .log {
+            margin-bottom: 48px;
+        }
+        
+        .log-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #222;
+        }
+        
+        .log-time {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            color: var(--green);
+            background: #111;
+            padding: 4px 12px;
+            border-radius: 4px;
+        }
+        
+        .log-title {
+            font-weight: 600;
+            font-size: 20px;
+        }
+        
+        .log-content {
+            color: #d4d4d4;
+        }
+        
+        .log-content p {
+            margin-bottom: 16px;
+        }
+        
+        /* PANIC LEVELS */
+        .panic-meter {
+            background: #111;
+            border-radius: 8px;
+            padding: 24px;
+            margin: 24px 0;
+            border: 1px solid #333;
+        }
+        
+        .panic-title {
+            font-size: 14px;
+            text-transform: uppercase;
+            color: var(--gray);
+            margin-bottom: 12px;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .panic-bar {
+            height: 8px;
+            background: #222;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .panic-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--green), var(--yellow), var(--orange), var(--red));
+            border-radius: 4px;
+            transition: width 0.5s;
+        }
+        
+        .panic-stages {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 8px;
+            font-size: 11px;
+            color: var(--gray);
+        }
+        
+        /* INNER VOICE */
+        .inner-voice {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            border-left: 4px solid var(--blue);
+            padding: 20px 24px;
+            margin: 24px 0;
+            font-style: italic;
+            color: #a5b4fc;
+        }
+        
+        .inner-voice::before {
+            content: "🧠 Voix intérieure :";
+            display: block;
+            font-style: normal;
+            font-weight: 600;
+            font-size: 12px;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+            color: var(--blue);
+        }
+        
+        /* REALITY CHECK */
+        .reality {
+            background: #111;
+            border: 1px solid var(--green);
+            border-radius: 8px;
+            padding: 24px;
+            margin: 24px 0;
+        }
+        
+        .reality::before {
+            content: "✓ REALITY CHECK";
+            display: block;
+            font-weight: 700;
+            font-size: 12px;
+            color: var(--green);
+            margin-bottom: 12px;
+        }
+        
+        .reality p {
+            margin-bottom: 12px;
+            color: #d4d4d4;
+        }
+        
+        .reality p:last-child {
+            margin-bottom: 0;
+        }
+        
+        /* LISTS */
+        ul, ol {
+            margin: 16px 0 16px 24px;
+            color: #d4d4d4;
+        }
+        
+        li {
+            margin-bottom: 8px;
+        }
+        
+        /* SCENARIO CARDS */
+        .scenarios {
+            display: grid;
+            gap: 16px;
+            margin: 24px 0;
+        }
+        
+        .scenario {
+            background: #111;
+            border-radius: 8px;
+            padding: 24px;
+            border: 1px solid #333;
+        }
+        
+        .scenario-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+        
+        .scenario-prob {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            padding: 4px 8px;
+            border-radius: 4px;
+        }
+        
+        .scenario-prob.high {
+            background: rgba(34, 197, 94, 0.2);
+            color: var(--green);
+        }
+        
+        .scenario-prob.medium {
+            background: rgba(234, 179, 8, 0.2);
+            color: var(--yellow);
+        }
+        
+        .scenario-prob.low {
+            background: rgba(239, 68, 68, 0.2);
+            color: var(--red);
+        }
+        
+        .scenario-title {
+            font-weight: 600;
+        }
+        
+        .scenario p {
+            color: var(--gray);
+            font-size: 15px;
+        }
+        
+        /* ACTION BOX */
+        .action-box {
+            background: linear-gradient(135deg, #14532d 0%, #166534 100%);
+            border-radius: 8px;
+            padding: 24px;
+            margin: 24px 0;
+        }
+        
+        .action-box h3 {
+            color: var(--green);
+            margin-bottom: 16px;
+            font-size: 18px;
+        }
+        
+        .action-box ul {
+            color: #bbf7d0;
+        }
+        
+        /* QUOTE */
+        blockquote {
+            border-left: 4px solid var(--orange);
+            padding: 16px 24px;
+            margin: 24px 0;
+            background: rgba(249, 115, 22, 0.1);
+            font-style: italic;
+        }
+        
+        blockquote cite {
+            display: block;
+            margin-top: 8px;
+            font-style: normal;
+            font-size: 14px;
+            color: var(--orange);
+        }
+        
+        /* TIMELINE */
+        .timeline {
+            margin: 32px 0;
+            position: relative;
+            padding-left: 32px;
+        }
+        
+        .timeline::before {
+            content: "";
+            position: absolute;
+            left: 8px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: #333;
+        }
+        
+        .timeline-item {
+            position: relative;
+            margin-bottom: 24px;
+        }
+        
+        .timeline-item::before {
+            content: "";
+            position: absolute;
+            left: -28px;
+            top: 6px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--blue);
+        }
+        
+        .timeline-item.done::before {
+            background: var(--green);
+        }
+        
+        .timeline-item.current::before {
+            background: var(--orange);
+            box-shadow: 0 0 12px var(--orange);
+        }
+        
+        .timeline-item.future::before {
+            background: #333;
+            border: 2px solid #555;
+        }
+        
+        .timeline-date {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            color: var(--gray);
+        }
+        
+        .timeline-title {
+            font-weight: 600;
+            margin: 4px 0;
+        }
+        
+        .timeline-desc {
+            font-size: 15px;
+            color: var(--gray);
+        }
+        
+        /* SURVIVAL KIT */
+        .kit {
+            background: #111;
+            border-radius: 8px;
+            padding: 32px;
+            margin: 32px 0;
+            border: 1px solid #333;
+        }
+        
+        .kit h3 {
+            margin-bottom: 24px;
+            color: var(--yellow);
+        }
+        
+        .kit-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+        }
+        
+        .kit-item {
+            background: #0a0a0a;
+            padding: 16px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        
+        .kit-icon {
+            font-size: 32px;
+            margin-bottom: 8px;
+        }
+        
+        .kit-name {
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        
+        .kit-why {
+            font-size: 13px;
+            color: var(--gray);
+        }
+        
+        /* FINAL */
+        .final {
+            text-align: center;
+            padding: 60px 24px;
+            border-top: 1px solid #222;
+            margin-top: 48px;
+        }
+        
+        .final h2 {
+            font-size: 28px;
+            margin-bottom: 16px;
+        }
+        
+        .final p {
+            color: var(--gray);
+            max-width: 500px;
+            margin: 0 auto 24px;
+        }
+        
+        .final-cta {
+            display: inline-block;
+            background: var(--green);
+            color: var(--bg);
+            padding: 14px 32px;
+            font-weight: 600;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: transform 0.2s;
+        }
+        
+        .final-cta:hover {
+            transform: scale(1.05);
+        }
+        
+        /* FOOTER */
+        footer {
+            text-align: center;
+            padding: 32px 24px;
+            font-size: 14px;
+            color: var(--gray);
+            border-top: 1px solid #222;
+        }
+    </style>
+</head>
+<body>
+    <div class="breaking">
+        🚨 ALERTE BIM — CONVOCATION REÇUE — NIVEAU DE MENACE : INDÉTERMINÉ 🚨
+    </div>
+    
+    <header>
+        <div class="countdown">
+            <div>
+                <div class="countdown-num" id="days">12</div>
+                <div class="countdown-label">jours</div>
+            </div>
+            <div style="color: var(--gray); font-size: 32px;">:</div>
+            <div>
+                <div class="countdown-num" id="hours">--</div>
+                <div class="countdown-label">heures</div>
+            </div>
+        </div>
+        
+        <h1>Journal de bord d'un <span>BIM en sueur</span></h1>
+        <p class="subtitle">Tu as reçu LA lettre. Celle qui dit "Nous vous invitons à vous présenter le 11 février...". Respire. On va gérer.</p>
+    </header>
+    
+    <main>
+        <!-- LOG 1 -->
+        <div class="log">
+            <div class="log-header">
+                <span class="log-time">30 JAN — 09:47</span>
+                <span class="log-title">La lettre</span>
+            </div>
+            <div class="log-content">
+                <p>Je vérifiais mes mails tranquille. Café à peine commencé. Et là : "Mutualité [REDACTED] — Convocation".</p>
+                
+                <p>Mon cœur a fait un truc bizarre. Genre il a oublié comment battre pendant une seconde et demie, puis il s'est rattrapé en mode panique.</p>
+                
+                <p>Le mail dit juste : "Nous vous invitons à vous présenter à nos bureaux le 11 février à 10h00 pour un entretien concernant votre dossier."</p>
+                
+                <p><strong>Concernant votre dossier.</strong> Quel dossier ? MON dossier ? Le dossier où y'a écrit que je suis pauvre ? Celui-là ?</p>
+                
+                <div class="panic-meter">
+                    <div class="panic-title">
+                        <span>NIVEAU DE PANIQUE</span>
+                        <span>78%</span>
+                    </div>
+                    <div class="panic-bar">
+                        <div class="panic-fill" style="width: 78%"></div>
+                    </div>
+                    <div class="panic-stages">
+                        <span>zen</span>
+                        <span>inquiet</span>
+                        <span>stressé</span>
+                        <span>DEFCON 1</span>
+                    </div>
+                </div>
+                
+                <div class="inner-voice">
+                    C'est le bénévolat. Ils ont vu que tu fais du bénévolat. Ils vont dire que c'est du travail déguisé. Ils vont te couper le BIM. Tu vas perdre tes médicaments à prix réduit. Tu vas mourir dans la rue. T'aurais dû rester chez toi à rien faire comme un bon pauvre.
+                </div>
+                
+                <div class="reality">
+                    <p><strong>Stop.</strong> Respire. Une convocation, ce n'est PAS une condamnation. C'est souvent juste une mise à jour administrative, une vérification de situation, ou une question sur un document.</p>
+                    <p>La mutuelle n'est pas l'ennemi. Elle gère un système compliqué avec des règles compliquées. Parfois elle a juste besoin de te poser une question.</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- LOG 2 -->
+        <div class="log">
+            <div class="log-header">
+                <span class="log-time">30 JAN — 10:23</span>
+                <span class="log-title">Pourquoi ils convoquent ?</span>
+            </div>
+            <div class="log-content">
+                <p>J'ai fait des recherches. Une convocation à la mutuelle pour un BIM peut avoir plusieurs raisons :</p>
+                
+                <div class="scenarios">
+                    <div class="scenario">
+                        <div class="scenario-header">
+                            <span class="scenario-prob high">70%</span>
+                            <span class="scenario-title">Mise à jour administrative</span>
+                        </div>
+                        <p>Vérification annuelle de ta situation (revenus, composition de ménage, domicile). C'est routinier. Ils font ça régulièrement.</p>
+                    </div>
+                    
+                    <div class="scenario">
+                        <div class="scenario-header">
+                            <span class="scenario-prob high">60%</span>
+                            <span class="scenario-title">Document manquant</span>
+                        </div>
+                        <p>Il manque un papier dans ton dossier. Une attestation, un avertissement-extrait de rôle, une composition de ménage récente.</p>
+                    </div>
+                    
+                    <div class="scenario">
+                        <div class="scenario-header">
+                            <span class="scenario-prob medium">30%</span>
+                            <span class="scenario-title">Changement de situation détecté</span>
+                        </div>
+                        <p>Ils ont reçu une info (Banque Carrefour, commune, SPF Finances) qui suggère un changement. Ils veulent clarifier.</p>
+                    </div>
+                    
+                    <div class="scenario">
+                        <div class="scenario-header">
+                            <span class="scenario-prob low">10%</span>
+                            <span class="scenario-title">Contrôle approfondi</span>
+                        </div>
+                        <p>Vérification plus poussée suite à un signalement ou une incohérence. Rare, mais possible. Pas la fin du monde même dans ce cas.</p>
+                    </div>
+                </div>
+                
+                <div class="inner-voice">
+                    Mais s'ils ont vu le bénévolat ? S'ils pensent que je travaille au noir ? S'ils ont lu mon profil LinkedIn où j'ai mis "fondateur d'une ASBL" pour me donner un peu de dignité ?
+                </div>
+                
+                <div class="reality">
+                    <p><strong>Le bénévolat est légal.</strong> La loi du 3 juillet 2005 le permet explicitement, même pour les BIM. Tu as le droit de faire du bénévolat. Point.</p>
+                    <p>Ce qui compte : pas de rémunération, pas de lien de subordination, pas d'horaires imposés. Si tu respectes ça, tu es dans ton droit.</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- LOG 3 -->
+        <div class="log">
+            <div class="log-header">
+                <span class="log-time">30 JAN — 14:15</span>
+                <span class="log-title">Le plan de survie</span>
+            </div>
+            <div class="log-content">
+                <p>OK. J'ai bu trois cafés de trop et j'ai élaboré un plan. Le voici.</p>
+                
+                <div class="timeline">
+                    <div class="timeline-item done">
+                        <div class="timeline-date">30 JAN — Aujourd'hui</div>
+                        <div class="timeline-title">Réception de la convocation</div>
+                        <div class="timeline-desc">Panique initiale. Recherches. Rédaction de ce journal.</div>
+                    </div>
+                    
+                    <div class="timeline-item current">
+                        <div class="timeline-date">31 JAN — 5 FÉV</div>
+                        <div class="timeline-title">Préparation du dossier</div>
+                        <div class="timeline-desc">Rassembler tous les documents potentiellement utiles.</div>
+                    </div>
+                    
+                    <div class="timeline-item future">
+                        <div class="timeline-date">6-10 FÉV</div>
+                        <div class="timeline-title">Répétition mentale</div>
+                        <div class="timeline-desc">Préparer les réponses aux questions probables.</div>
+                    </div>
+                    
+                    <div class="timeline-item future">
+                        <div class="timeline-date">11 FÉV — 10h00</div>
+                        <div class="timeline-title">⚔️ LE JOUR J</div>
+                        <div class="timeline-desc">Entretien. Rester calme. Répondre honnêtement.</div>
+                    </div>
+                </div>
+                
+                <div class="action-box">
+                    <h3>📁 Documents à préparer</h3>
+                    <ul>
+                        <li><strong>Carte d'identité</strong> — Évident mais on oublie toujours</li>
+                        <li><strong>Carte SIS / ISI+</strong> — Ta carte mutuelle</li>
+                        <li><strong>Composition de ménage récente</strong> — Moins de 3 mois</li>
+                        <li><strong>Dernier avertissement-extrait de rôle</strong> — Revenus officiels</li>
+                        <li><strong>Attestation CPAS/ONEM</strong> — Si tu reçois des allocations</li>
+                        <li><strong>Si bénévole : statuts de l'ASBL</strong> — Pour prouver que c'est du bénévolat</li>
+                        <li><strong>Preuves de remboursement de frais</strong> — Si tu as des tickets/factures</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <!-- LOG 4 -->
+        <div class="log">
+            <div class="log-header">
+                <span class="log-time">30 JAN — 16:42</span>
+                <span class="log-title">Ce qu'ils peuvent demander (et ce qu'ils ne peuvent PAS)</span>
+            </div>
+            <div class="log-content">
+                <p>J'ai creusé. Voilà ce que j'ai trouvé sur tes droits pendant l'entretien :</p>
+                
+                <h3 style="color: var(--green); margin: 24px 0 16px;">✓ Ils PEUVENT demander :</h3>
+                <ul>
+                    <li>Ta situation familiale actuelle</li>
+                    <li>Tes revenus (déclarés)</li>
+                    <li>Si tu travailles (même occasionnellement)</li>
+                    <li>Si tu fais du bénévolat et où</li>
+                    <li>Des documents officiels justificatifs</li>
+                </ul>
+                
+                <h3 style="color: var(--red); margin: 24px 0 16px;">✗ Ils NE PEUVENT PAS :</h3>
+                <ul>
+                    <li>Te forcer à répondre sans délai de réflexion</li>
+                    <li>Te menacer de suppression immédiate sans procédure</li>
+                    <li>Exiger des documents que tu n'as pas sous la main</li>
+                    <li>Te refuser le droit d'être accompagné (tu peux venir avec quelqu'un)</li>
+                    <li>Fouiller tes comptes bancaires sans autorisation officielle</li>
+                </ul>
+                
+                <blockquote>
+                    "Tu as le droit de dire : 'Je n'ai pas ce document sur moi, je peux vous l'envoyer la semaine prochaine.' Tu as le droit de dire : 'Je préfère réfléchir avant de répondre à cette question.' Tu as des droits."
+                    <cite>— Un travailleur social, probablement</cite>
+                </blockquote>
+                
+                <div class="reality">
+                    <p><strong>Tu peux être accompagné.</strong> Par un ami, un membre de ta famille, un travailleur social, ou un représentant d'une association. C'est ton droit. Utilise-le si tu te sens plus en sécurité.</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- LOG 5 -->
+        <div class="log">
+            <div class="log-header">
+                <span class="log-time">30 JAN — 19:08</span>
+                <span class="log-title">Le bénévolat : ce qu'il faut savoir</span>
+            </div>
+            <div class="log-content">
+                <p>Comme c'est probablement ça qui me stress le plus, j'ai fait le point sur les règles.</p>
+                
+                <h3 style="margin: 24px 0 16px;">Le bénévolat est légal pour les BIM si :</h3>
+                <ol>
+                    <li><strong>Pas de rémunération</strong> — Zéro. Nada. Que dalle.</li>
+                    <li><strong>Remboursement de frais RÉELS uniquement</strong> — Avec tickets/factures. Pas de forfait.</li>
+                    <li><strong>Pas de lien de subordination</strong> — Tu n'as pas de "patron" qui te donne des ordres.</li>
+                    <li><strong>Engagement libre</strong> — Tu viens quand tu veux, tu pars quand tu veux.</li>
+                    <li><strong>Déclaration à la mutuelle</strong> — Oui, il faut déclarer. Mais déclarer ≠ interdire.</li>
+                </ol>
+                
+                <div class="inner-voice">
+                    Merde. J'ai pas déclaré officiellement. Ils vont me crucifier. C'est fini. Adieu monde cruel.
+                </div>
+                
+                <div class="reality">
+                    <p><strong>Calme.</strong> Si tu n'as pas déclaré, ce n'est pas un crime. Tu peux régulariser. Dis simplement : "J'ai commencé récemment du bénévolat, je souhaitais vous en informer." Ils préfèrent ça à un mensonge.</p>
+                    <p>L'honnêteté est toujours la meilleure stratégie. Les mutuelles voient passer des centaines de dossiers. Elles savent faire la différence entre une erreur de bonne foi et une fraude intentionnelle.</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- LOG 6 -->
+        <div class="log">
+            <div class="log-header">
+                <span class="log-time">30 JAN — 21:33</span>
+                <span class="log-title">Kit de survie pour le Jour J</span>
+            </div>
+            <div class="log-content">
+                <div class="kit">
+                    <h3>🎒 Ce que j'emmène le 11 février</h3>
+                    <div class="kit-grid">
+                        <div class="kit-item">
+                            <div class="kit-icon">📁</div>
+                            <div class="kit-name">Pochette de documents</div>
+                            <div class="kit-why">Tous les papiers, triés, dans l'ordre</div>
+                        </div>
+                        <div class="kit-item">
+                            <div class="kit-icon">📝</div>
+                            <div class="kit-name">Carnet + stylo</div>
+                            <div class="kit-why">Pour noter ce qu'ils disent</div>
+                        </div>
+                        <div class="kit-item">
+                            <div class="kit-icon">🧘</div>
+                            <div class="kit-name">Exercices de respiration</div>
+                            <div class="kit-why">Mémorisés, pour avant d'entrer</div>
+                        </div>
+                        <div class="kit-item">
+                            <div class="kit-icon">👤</div>
+                            <div class="kit-name">Un.e ami.e</div>
+                            <div class="kit-why">Pour m'accompagner (mon droit)</div>
+                        </div>
+                        <div class="kit-item">
+                            <div class="kit-icon">💧</div>
+                            <div class="kit-name">Bouteille d'eau</div>
+                            <div class="kit-why">Bouche sèche = stress</div>
+                        </div>
+                        <div class="kit-item">
+                            <div class="kit-icon">📱</div>
+                            <div class="kit-name">Téléphone chargé</div>
+                            <div class="kit-why">Pour les numéros d'urgence / notes</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <h3 style="margin: 32px 0 16px;">Phrases utiles à répéter devant le miroir</h3>
+                <ul>
+                    <li>"Je fais du bénévolat dans une ASBL. C'est non rémunéré et je n'ai pas de lien de subordination."</li>
+                    <li>"Je n'ai pas ce document avec moi, mais je peux vous l'envoyer cette semaine."</li>
+                    <li>"Je préfère réfléchir avant de répondre à cette question."</li>
+                    <li>"Pouvez-vous m'expliquer exactement ce que vous souhaitez savoir ?"</li>
+                    <li>"J'aimerais un récapitulatif écrit de cet entretien."</li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- LOG 7 -->
+        <div class="log">
+            <div class="log-header">
+                <span class="log-time">30 JAN — 23:17</span>
+                <span class="log-title">Avant de dormir (LOL)</span>
+            </div>
+            <div class="log-content">
+                <p>Je vais essayer de dormir. Probablement échouer. Mais avant, un dernier message pour moi-même et pour toi qui lis ça :</p>
+                
+                <div class="reality" style="background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%); border-color: #6366f1;">
+                    <p><strong>Tu n'es pas un fraudeur parce que tu es pauvre.</strong></p>
+                    <p>Tu n'as pas à t'excuser d'exister. Tu n'as pas à justifier ta dignité. Tu n'as pas à te sentir coupable de vouloir être utile à la société alors que le marché du travail t'a recalé.</p>
+                    <p>Le bénévolat, c'est ta façon de dire : "Je refuse de n'être qu'un numéro de dossier. J'ai quelque chose à apporter."</p>
+                    <p>Et c'est <strong>légal</strong>. Et c'est <strong>noble</strong>. Et personne ne peut te l'enlever.</p>
+                </div>
+                
+                <p style="text-align: center; margin-top: 32px; color: var(--gray);">
+                    À suivre... (si je survis)
+                </p>
+            </div>
+        </div>
+        
+        <!-- FINAL -->
+        <div class="final">
+            <h2>T'es dans la même situation ?</h2>
+            <p>Tu peux t'en sortir. Prépare-toi, reste honnête, connais tes droits. Et rappelle-toi : une convocation n'est pas une condamnation.</p>
+            <a href="statuts-asbl-pac-bim.html" class="final-cta">Voir le guide complet BIM & bénévolat</a>
+        </div>
+    </main>
+    
+    <footer>
+        <p>Journal de bord fictif mais basé sur des situations réelles.</p>
+        <p>Les informations légales sont vérifiées mais consultez un service social pour votre cas spécifique.</p>
+        <p style="margin-top: 12px; color: #555;">ouaisfi.eu — Janvier 2026</p>
+    </footer>
+    
+    <script>
+        // Countdown
+        function updateCountdown() {
+            const target = new Date('2026-02-11T10:00:00');
+            const now = new Date();
+            const diff = target - now;
+            
+            if (diff > 0) {
+                const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                
+                document.getElementById('days').textContent = days;
+                document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
+            }
+        }
+        
+        updateCountdown();
+        setInterval(updateCountdown, 60000);
+    </script>
+</body>
+</html>
