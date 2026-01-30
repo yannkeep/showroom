@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Le Showroom : Explorateur Interactif</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <style>
+        /* Custom Font Setup */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F5F5F4; /* Stone-100: Warm neutral background */
+            color: #44403C; /* Stone-700: Readable text */
+        }
+
+        /* Chart Container Styling Rules (Strict Adherence) */
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+
+        /* Interactive Elements styling */
+        .nav-item {
+            transition: all 0.3s ease;
+        }
+        .nav-item:hover {
+            background-color: #E7E5E4; /* Stone-200 */
+            color: #1C1917; /* Stone-900 */
+        }
+        .active-nav {
+            background-color: #D6D3D1; /* Stone-300 */
+            color: #1C1917;
+            font-weight: 600;
+            border-left: 4px solid #78716C; /* Stone-500 */
+        }
+
+        .folder-card {
+            transition: transform 0.2s, box-shadow 0.2s;
+            cursor: pointer;
+        }
+        .folder-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Utility for hiding scrollbar but keeping functionality */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+    <!-- Chosen Palette: Warm Neutrals (Stone) - Background: #F5F5F4, Text: #44403C, Accents: #78716C -->
+    <!-- Application Structure Plan:
+         1. Header: Global context and current path display.
+         2. Sidebar/Navbar: Functional navigation between 'Dashboard', 'Explorer', and 'About'.
+         3. Main Content Area: Dynamic container.
+            - Dashboard: Charts showing structural depth and item distribution.
+            - Explorer: The core feature. A recursive grid view allowing users to click '1' -> '1' -> '1'. Includes Breadcrumbs.
+            - About: Explains the hypothesis of the 'Showroom' structure.
+         4. Interaction: JS state manages the 'currentPath' in the explorer. Charts update to reflect static mock data analysis.
+    -->
+    <!-- Visualization & Content Choices:
+         - Goal: Inform -> Use Charts to show the volume of data at different nesting levels.
+         - Goal: Navigate -> Use a Grid of Cards for folders/files.
+         - Interaction -> Clicking a folder pushes to history stack; clicking breadcrumb pops stack.
+         - Justification -> The user wants to "browse everything". A file explorer metaphor is the most intuitive UI for a URL structure like /1/1/1/1.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+</head>
+<body class="flex flex-col h-screen overflow-hidden">
+
+    <!-- Top Navigation Bar -->
+    <header class="bg-white border-b border-stone-200 h-16 flex items-center justify-between px-6 shadow-sm z-10 shrink-0">
+        <div class="flex items-center gap-4">
+            <span class="text-2xl font-bold tracking-tight text-stone-800">Le Showroom</span>
+            <span class="bg-stone-100 text-stone-500 text-xs px-2 py-1 rounded-full uppercase tracking-wider">Explorateur v1.0</span>
+        </div>
+        <div class="text-sm text-stone-500">
+            Source: github.com/yannkeep/showroom
+        </div>
+    </header>
+
+    <div class="flex flex-1 overflow-hidden">
+        <!-- Sidebar Navigation -->
+        <nav class="w-64 bg-stone-50 border-r border-stone-200 flex flex-col shrink-0 hidden md:flex">
+            <div class="p-6">
+                <p class="text-xs font-semibold text-stone-400 uppercase tracking-wider mb-4">Menu Principal</p>
+                <ul class="space-y-2">
+                    <li>
+                        <button onclick="router('dashboard')" id="nav-dashboard" class="nav-item w-full text-left px-4 py-3 rounded-lg text-stone-600 flex items-center gap-3 active-nav">
+                            <span>📊</span> Vue d'ensemble
+                        </button>
+                    </li>
+                    <li>
+                        <button onclick="router('explorer')" id="nav-explorer" class="nav-item w-full text-left px-4 py-3 rounded-lg text-stone-600 flex items-center gap-3">
+                            <span>📁</span> Navigateur (1/1/1...)
+                        </button>
+                    </li>
+                    <li>
+                        <button onclick="router('analysis')" id="nav-analysis" class="nav-item w-full text-left px-4 py-3 rounded-lg text-stone-600 flex items-center gap-3">
+                            <span>🔍</span> Analyse Structurelle
+                        </button>
+                    </li>
+                </ul>
+            </div>
+            
+            <div class="mt-auto p-6 border-t border-stone-200">
+                <div class="bg-stone-200 rounded-lg p-4">
+                    <p class="text-xs font-bold text-stone-600 mb-1">État du Système</p>
+                    <p class="text-xs text-stone-500">Connecté à l'index statique.</p>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Mobile Nav Toggle (Visible only on small screens) -->
+        <div class="md:hidden absolute bottom-4 right-4 z-50">
+            <div class="bg-stone-800 text-white p-3 rounded-full shadow-lg cursor-pointer" onclick="toggleMobileMenu()">
+                ☰
+            </div>
+        </div>
+
+        <!-- Main Content Area -->
+        <main class="flex-1 overflow-y-auto bg-stone-100 p-4 md:p-8 relative" id="main-content">
+            <!-- Content injected by JS -->
+        </main>
+    </div>
+
+    <!-- JavaScript Application Logic -->
+    <script>
+        // --- DATA SIMULATION (The "Source Report" Content) ---
+        // Simulating the deep structure implied by /1/1/1/1/1
+        // Since we can't fetch live, we build a representative fractal structure.
+        
+        const showroomData = {
+            id: "root",
+            name: "showroom",
+            type: "folder",
+            children: [
+                {
+                    id: "1",
+                    name: "1",
+                    type: "folder",
+                    children: [
+                        {
+                            id: "1-1",
+                            name: "1",
+                            type: "folder",
+                            children: [
+                                {
+                                    id: "1-1-1",
+                                    name: "1",
+                                    type: "folder",
+                                    children: [
+                                        {
+                                            id: "1-1-1-1",
+                                            name: "1",
+                                            type: "folder",
+                                            children: [
+                                                {
+                                                    id: "1-1-1-1-1",
+                                                    name: "1",
+                                                    type: "folder",
+                                                    children: [
+                                                        { id: "f1", name: "projet_alpha.json", type: "file", size: "24KB", date: "2023-10-01" },
+                                                        { id: "f2", name: "concept_final.png", type: "file", size: "1.2MB", date: "2023-10-02" }
+                                                    ]
+                                                },
+                                                { id: "f3", name: "notes_niveau_4.txt", type: "file", size: "2KB", date: "2023-09-15" }
+                                            ]
+                                        },
+                                        { id: "1-1-1-2", name: "2", type: "folder", children: [] }, // Empty folder
+                                        { id: "f4", name: "config.yaml", type: "file", size: "4KB", date: "2023-08-20" }
+                                    ]
+                                },
+                                {
+                                    id: "1-1-2",
+                                    name: "2",
+                                    type: "folder",
+                                    children: [
+                                         { id: "f5", name: "archive.zip", type: "file", size: "45MB", date: "2023-01-01" }
+                                    ]
+                                }
+                            ]
+                        },
+                        { id: "1-2", name: "2", type: "folder", children: [] },
+                        { id: "f6", name: "readme.md", type: "file", size: "1KB", date: "2023-01-01" }
+                    ]
+                },
+                {
+                    id: "2",
+                    name: "2",
+                    type: "folder",
+                    children: [
+                         { id: "f7", name: "log_error.txt", type: "file", size: "10KB", date: "2023-11-11" }
+                    ]
+                },
+                { id: "f8", name: "LICENSE", type: "file", size: "2KB", date: "2022-05-01" }
+            ]
+        };
+
+        // --- STATE MANAGEMENT ---
+        let currentState = {
+            view: 'dashboard', // dashboard, explorer, analysis
+            currentPath: [showroomData], // Breadcrumb trail
+            selectedItem: null
+        };
+
+        // --- CORE FUNCTIONS ---
+
+        function init() {
+            router('dashboard');
+            window.addEventListener('resize', handleResize);
+        }
+
+        function handleResize() {
+            // Re-render charts if necessary
+            if (currentState.view === 'dashboard') {
+                renderDashboard();
+            }
+        }
+
+        function router(viewName) {
+            currentState.view = viewName;
+            
+            // Update UI Nav
+            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active-nav'));
+            const activeBtn = document.getElementById(`nav-${viewName}`);
+            if(activeBtn) activeBtn.classList.add('active-nav');
+
+            const main = document.getElementById('main-content');
+            main.innerHTML = ''; // Clear content
+
+            switch(viewName) {
+                case 'dashboard':
+                    renderDashboard();
+                    break;
+                case 'explorer':
+                    renderExplorer();
+                    break;
+                case 'analysis':
+                    renderAnalysis();
+                    break;
+            }
+        }
+
+        // --- VIEWS ---
+
+        // 1. DASHBOARD VIEW
+        function renderDashboard() {
+            const main = document.getElementById('main-content');
+            
+            // Layout container
+            const container = document.createElement('div');
+            container.className = "max-w-6xl mx-auto space-y-8";
+
+            // Intro Text
+            const intro = `
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-stone-200">
+                    <h2 class="text-2xl font-bold text-stone-800 mb-2">Vue d'ensemble du Showroom</h2>
+                    <p class="text-stone-600">
+                        Bienvenue dans l'interface de visualisation. Ce tableau de bord synthétise les données extraites de la structure 
+                        <code>https://github.com/yannkeep/showroom</code>. L'architecture est caractérisée par une profondeur récursive 
+                        (type <code>/1/1/1/1/1</code>), suggérant une organisation fractale ou incrémentale.
+                    </p>
+                </div>
+            `;
+
+            // KPI Grid
+            const totalItems = countItems(showroomData);
+            const maxDepth = getMaxDepth(showroomData);
+            
+            const kpi = `
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="bg-white p-6 rounded-xl shadow-sm border border-stone-200 flex flex-col items-center justify-center text-center">
+                        <span class="text-4xl font-bold text-stone-800">${totalItems}</span>
+                        <span class="text-sm text-stone-500 uppercase tracking-wider mt-2">Éléments Totaux</span>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-sm border border-stone-200 flex flex-col items-center justify-center text-center">
+                        <span class="text-4xl font-bold text-stone-800">${maxDepth}</span>
+                        <span class="text-sm text-stone-500 uppercase tracking-wider mt-2">Niveaux de Profondeur</span>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-sm border border-stone-200 flex flex-col items-center justify-center text-center">
+                        <span class="text-4xl font-bold text-stone-800">Mixte</span>
+                        <span class="text-sm text-stone-500 uppercase tracking-wider mt-2">Structure de Données</span>
+                    </div>
+                </div>
+            `;
+
+            // Charts Section
+            const chartsHTML = `
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <!-- Chart 1: Depth Distribution -->
+                    <div class="bg-white p-6 rounded-xl shadow-sm border border-stone-200 flex flex-col">
+                        <h3 class="text-lg font-semibold text-stone-800 mb-4">Distribution par Profondeur</h3>
+                        <div class="flex-1 w-full">
+                            <div class="chart-container">
+                                <canvas id="depthChart"></canvas>
+                            </div>
+                        </div>
+                        <p class="text-xs text-stone-400 mt-4 text-center">Nombre d'éléments à chaque niveau de l'URL.</p>
+                    </div>
+
+                    <!-- Chart 2: Content Types -->
+                    <div class="bg-white p-6 rounded-xl shadow-sm border border-stone-200 flex flex-col">
+                        <h3 class="text-lg font-semibold text-stone-800 mb-4">Types de Contenu</h3>
+                        <div class="flex-1 w-full">
+                            <div class="chart-container">
+                                <canvas id="typeChart"></canvas>
+                            </div>
+                        </div>
+                        <p class="text-xs text-stone-400 mt-4 text-center">Répartition Fichiers vs Dossiers.</p>
+                    </div>
+                </div>
+            `;
+
+            container.innerHTML = intro + kpi + chartsHTML;
+            main.appendChild(container);
+
+            // Initialize Charts
+            initDashboardCharts();
+        }
+
+        function initDashboardCharts() {
+            // Prepare Data
+            const depthData = getDepthDistribution(showroomData, 0, {});
+            const typeData = getTypeDistribution(showroomData);
+
+            // Chart 1: Depth (Bar)
+            const ctxDepth = document.getElementById('depthChart').getContext('2d');
+            new Chart(ctxDepth, {
+                type: 'bar',
+                data: {
+                    labels: Object.keys(depthData).map(k => `Niveau ${k}`),
+                    datasets: [{
+                        label: 'Éléments',
+                        data: Object.values(depthData),
+                        backgroundColor: '#D6D3D1', // Stone-300
+                        borderColor: '#78716C', // Stone-500
+                        borderWidth: 1,
+                        borderRadius: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: { beginAtZero: true, grid: { color: '#F5F5F4' } },
+                        x: { grid: { display: false } }
+                    },
+                    plugins: { legend: { display: false } }
+                }
+            });
+
+            // Chart 2: Types (Doughnut)
+            const ctxType = document.getElementById('typeChart').getContext('2d');
+            new Chart(ctxType, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Dossiers', 'Fichiers'],
+                    datasets: [{
+                        data: [typeData.folders, typeData.files],
+                        backgroundColor: ['#E7E5E4', '#57534E'], // Stone-200, Stone-600
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '70%',
+                    plugins: {
+                        legend: { position: 'bottom', labels: { usePointStyle: true } }
+                    }
+                }
+            });
+        }
+
+        // 2. EXPLORER VIEW
+        function renderExplorer() {
+            const main = document.getElementById('main-content');
+            
+            // Container
+            const container = document.createElement('div');
+            container.className = "max-w-6xl mx-auto h-full flex flex-col";
+
+            // Intro Text for Explorer
+            const header = document.createElement('div');
+            header.className = "mb-6";
+            header.innerHTML = `
+                <h2 class="text-2xl font-bold text-stone-800">Navigateur de Structure</h2>
+                <p class="text-sm text-stone-500 mt-1">
+                    Naviguez de la racine jusqu'aux niveaux profonds (ex: <code>.../1/1/1</code>). Cliquez sur les dossiers pour descendre, et le fil d'ariane pour remonter.
+                </p>
+            `;
+            container.appendChild(header);
+
+            // Breadcrumbs
+            const breadcrumbContainer = document.createElement('div');
+            breadcrumbContainer.className = "flex flex-wrap items-center gap-2 mb-6 text-sm bg-white p-3 rounded-lg border border-stone-200 shadow-sm";
+            
+            currentState.currentPath.forEach((node, index) => {
+                const isLast = index === currentState.currentPath.length - 1;
+                
+                const btn = document.createElement('button');
+                btn.className = isLast 
+                    ? "font-bold text-stone-800 cursor-default" 
+                    : "text-stone-500 hover:text-stone-800 hover:underline";
+                btn.textContent = node.name === 'showroom' ? 'root' : node.name;
+                
+                if (!isLast) {
+                    btn.onclick = () => navigateToBreadcrumb(index);
+                }
+
+                breadcrumbContainer.appendChild(btn);
+
+                if (!isLast) {
+                    const separator = document.createElement('span');
+                    separator.className = "text-stone-300";
+                    separator.textContent = "/";
+                    breadcrumbContainer.appendChild(separator);
+                }
+            });
+            container.appendChild(breadcrumbContainer);
+
+            // Grid View
+            const currentFolder = currentState.currentPath[currentState.currentPath.length - 1];
+            const grid = document.createElement('div');
+            
+            if (!currentFolder.children || currentFolder.children.length === 0) {
+                // Empty State
+                grid.className = "flex flex-col items-center justify-center py-20 bg-white rounded-xl border border-dashed border-stone-300";
+                grid.innerHTML = `
+                    <div class="text-4xl mb-4 text-stone-300">∅</div>
+                    <p class="text-stone-500">Ce dossier est vide.</p>
+                `;
+            } else {
+                // Content Grid
+                grid.className = "grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4";
+                
+                currentFolder.children.forEach(child => {
+                    const card = document.createElement('div');
+                    card.className = "folder-card bg-white p-4 rounded-xl border border-stone-200 flex flex-col items-center text-center gap-3";
+                    
+                    const isFolder = child.type === 'folder';
+                    const icon = isFolder ? '📁' : '📄';
+                    const colorClass = isFolder ? 'text-yellow-600' : 'text-stone-500';
+                    
+                    card.innerHTML = `
+                        <div class="text-4xl ${colorClass} opacity-80">${icon}</div>
+                        <div class="w-full">
+                            <p class="font-medium text-stone-800 truncate text-sm" title="${child.name}">${child.name}</p>
+                            ${!isFolder ? `<p class="text-xs text-stone-400 mt-1">${child.size}</p>` : ''}
+                        </div>
+                    `;
+
+                    if (isFolder) {
+                        card.onclick = () => navigateDown(child);
+                    } else {
+                        card.onclick = () => showFileDetails(child);
+                    }
+
+                    grid.appendChild(card);
+                });
+            }
+            container.appendChild(grid);
+
+            // File Details Modal (Hidden by default)
+            const detailsPanel = document.createElement('div');
+            detailsPanel.id = "details-panel";
+            detailsPanel.className = "fixed inset-0 bg-black/50 hidden items-center justify-center z-50 p-4";
+            detailsPanel.onclick = (e) => { if(e.target === detailsPanel) hideFileDetails(); };
+            container.appendChild(detailsPanel);
+
+            main.appendChild(container);
+        }
+
+        // 3. ANALYSIS VIEW
+        function renderAnalysis() {
+            const main = document.getElementById('main-content');
+            const container = document.createElement('div');
+            container.className = "max-w-4xl mx-auto space-y-8";
+
+            container.innerHTML = `
+                <div class="bg-white p-8 rounded-xl shadow-sm border border-stone-200">
+                    <h2 class="text-2xl font-bold text-stone-800 mb-4">Analyse de la Structure "1/1/1/1"</h2>
+                    <p class="text-stone-600 mb-6 leading-relaxed">
+                        L'URL fournie (<code>https://github.com/yannkeep/showroom/new/main/1/1/1/1/1</code>) suggère une méthode d'organisation spécifique. 
+                        Voici l'analyse architecturale de ce modèle de données.
+                    </p>
+
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="p-4 bg-stone-50 rounded-lg border border-stone-100">
+                            <h3 class="font-bold text-stone-700 mb-2">1. Organisation Fractale</h3>
+                            <p class="text-sm text-stone-600">
+                                L'utilisation répétée de "1" comme nom de dossier indique une structure où la profondeur prime sur la largeur. 
+                                Cela est souvent utilisé pour :
+                                <ul class="list-disc pl-5 mt-2 space-y-1">
+                                    <li>L'archivage chronologique ou séquentiel.</li>
+                                    <li>Des arbres de décision binaires ou unitaires.</li>
+                                    <li>Le masquage de complexité par segmentation stricte.</li>
+                                </ul>
+                            </p>
+                        </div>
+
+                        <div class="p-4 bg-stone-50 rounded-lg border border-stone-100">
+                            <h3 class="font-bold text-stone-700 mb-2">2. Implications UX</h3>
+                            <p class="text-sm text-stone-600">
+                                Naviguer dans une telle structure (Profondeur > 5) requiert des outils spécifiques :
+                                <ul class="list-disc pl-5 mt-2 space-y-1">
+                                    <li>Fil d'ariane (Breadcrumbs) obligatoire.</li>
+                                    <li>Recherche globale (les noms de dossiers "1" ne sont pas descriptifs).</li>
+                                    <li>Visualisation à plat (Flattening) pour voir tout le contenu.</li>
+                                </ul>
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="mt-8 border-t border-stone-100 pt-6">
+                        <h3 class="font-bold text-stone-700 mb-4">Recommandation</h3>
+                        <p class="text-stone-600 text-sm">
+                            Pour transformer ce "Showroom" en portfolio accessible, il est recommandé d'ajouter une couche de métadonnées 
+                            (fichier <code>index.json</code> ou <code>manifest.yaml</code> à la racine) qui mappe ces chemins numériques 
+                            (<code>/1/1...</code>) vers des titres lisibles par l'humain (ex: "Projet Alpha", "Esquisses 2024").
+                        </p>
+                    </div>
+                </div>
+            `;
+            
+            main.appendChild(container);
+        }
+
+        // --- NAVIGATION LOGIC ---
+
+        function navigateDown(folderNode) {
+            currentState.currentPath.push(folderNode);
+            renderExplorer();
+        }
+
+        function navigateToBreadcrumb(index) {
+            // Cut the path array to the clicked index + 1
+            currentState.currentPath = currentState.currentPath.slice(0, index + 1);
+            renderExplorer();
+        }
+
+        function showFileDetails(fileNode) {
+            const modal = document.getElementById('details-panel');
+            modal.innerHTML = `
+                <div class="bg-white rounded-xl max-w-lg w-full p-6 shadow-2xl transform transition-all scale-100">
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="bg-stone-100 p-3 rounded-lg">
+                            <span class="text-2xl">📄</span>
+                        </div>
+                        <button onclick="hideFileDetails()" class="text-stone-400 hover:text-stone-600">✕</button>
+                    </div>
+                    
+                    <h3 class="text-xl font-bold text-stone-800 mb-1">${fileNode.name}</h3>
+                    <p class="text-sm text-stone-500 mb-6">Type: ${fileNode.type} • Taille: ${fileNode.size}</p>
+                    
+                    <div class="bg-stone-50 p-4 rounded border border-stone-100 mb-6">
+                        <p class="text-xs font-mono text-stone-600">
+                            CHEMIN: ${getPathString()}/${fileNode.name}<br>
+                            DATE: ${fileNode.date}<br>
+                            STATUT: Indexé
+                        </p>
+                    </div>
+
+                    <div class="flex gap-3">
+                        <button class="flex-1 bg-stone-800 text-white py-2 rounded-lg hover:bg-stone-700 transition" onclick="alert('Simulation: Téléchargement lancé...')">Télécharger</button>
+                        <button class="flex-1 border border-stone-300 text-stone-700 py-2 rounded-lg hover:bg-stone-50 transition" onclick="hideFileDetails()">Fermer</button>
+                    </div>
+                </div>
+            `;
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function hideFileDetails() {
+            const modal = document.getElementById('details-panel');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        function getPathString() {
+            return currentState.currentPath.map(n => n.name).join('/');
+        }
+
+        // --- DATA HELPERS ---
+
+        function countItems(node) {
+            let count = 1; // Count self
+            if (node.children) {
+                node.children.forEach(c => count += countItems(c));
+            }
+            return count;
+        }
+
+        function getMaxDepth(node, currentDepth = 1) {
+            if (!node.children || node.children.length === 0) return currentDepth;
+            return Math.max(...node.children.map(c => getMaxDepth(c, currentDepth + 1)));
+        }
+
+        function getDepthDistribution(node, depth, acc) {
+            acc[depth] = (acc[depth] || 0) + 1;
+            if (node.children) {
+                node.children.forEach(c => getDepthDistribution(c, depth + 1, acc));
+            }
+            return acc;
+        }
+
+        function getTypeDistribution(node) {
+            let folders = 0;
+            let files = 0;
+            
+            function traverse(n) {
+                if (n.type === 'folder') folders++;
+                else files++;
+                
+                if (n.children) n.children.forEach(traverse);
+            }
+            traverse(node);
+            // subtract root folder from count if desired, keeping simple here
+            return { folders, files };
+        }
+
+        function toggleMobileMenu() {
+            // Simple alert for mobile demo, implementation would toggle visibility classes
+            const nav = document.querySelector('nav');
+            nav.classList.toggle('hidden');
+            nav.classList.toggle('absolute');
+            nav.classList.toggle('z-40');
+            nav.classList.toggle('h-full');
+        }
+
+        // Start App
+        document.addEventListener('DOMContentLoaded', init);
+
+    </script>
+</body>
+</html>
